@@ -56,6 +56,19 @@ describe('the machine', () => {
     expect(j.reason).toBe(f.reason);
   });
 
+  test('a machine with another operating system does not judge fixed limits, however close its speed', () => {
+    const mac = { ...ref, platform: 'darwin' };
+    // GitHub's 4-core Linux runner on a good day: within the speed bound, with enough cores.
+    const f = fitness({ calibrateMs: 33, cores: 4, platform: 'linux' }, mac);
+    expect(f.fit).toBe(false);
+    expect(f.reason).toContain('linux');
+    expect(f.reason).toContain('darwin');
+    expect(judgeLimit('first paint held back', 22.9, 16.7, f).verdict).toBe('not judged');
+    // The same system is judged as before, and so is a reference stored before the system was.
+    expect(fitness({ calibrateMs: 33, cores: 4, platform: 'darwin' }, mac).fit).toBe(true);
+    expect(fitness({ calibrateMs: 33, cores: 4, platform: 'linux' }, ref).fit).toBe(true);
+  });
+
   test('a 2-core machine does not judge fixed limits, however fast its core', () => {
     const f = fitness({ calibrateMs: 30, cores: 2 }, ref);
     expect(f.fit).toBe(false);
@@ -216,5 +229,15 @@ describe('how often a long task occurs, with the extension against without', () 
     expect(judgeOften(real, real)).toBe('fail');
     expect(judgeOften(real, none)).toBe('not repeated');
     expect(judgeOften(real, null)).toBe('not repeated');
+  });
+
+  test('how often is a count over a fixed time: a machine not fit to judge reports it only', () => {
+    // GitHub's 4-core Linux runner: the page alone ran its first update in 37 to 47 ms, and ink
+    // drawn in the same frame put 4 of 6 loads over 50 ms, twice.
+    const runner = { ext: c(4, 6), plain: c(0, 6), control: c(0, 6) };
+    expect(moreOften(runner)).toBe(true);
+    expect(judgeOften(runner, runner)).toBe('fail');
+    expect(judgeOften(runner, runner, false)).toBe('not judged');
+    expect(judgeOften(runner, null, false)).toBe('not judged');
   });
 });

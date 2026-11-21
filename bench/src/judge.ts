@@ -9,13 +9,17 @@
 // - any other machine does not judge fixed limits at all. Each such rule is reported as not judged,
 //   with the measured value, the limit and the reason, and it does not fail the run.
 // Rules that do not depend on the machine's speed are judged everywhere: structural rules, and
-// comparisons with the control extension inside the same run.
+// first and largest paint against the control extension, which is judged against the run's own
+// noise. How often a load has a long task counts loads over a fixed time, so it is a fixed limit
+// like the others, though it is counted beside the control extension.
 
 export interface MachineMeasure {
   /** Median time of the calibration work, ms. */
   calibrateMs: number;
   /** Logical cores the browser can use. */
   cores: number;
+  /** The operating system, as Node names it (darwin, linux, win32). Older results hold none. */
+  platform?: string;
 }
 
 export interface Fitness {
@@ -39,6 +43,15 @@ export const BOUNDS = {
   maxRatio: 1.25,
   /** At least this many cores: with fewer, the browser's own processes take the page's core. */
   minCores: 4,
+  /**
+   * The same operating system as the reference. The calibration work is layout and script. It
+   * measures no painting, and another system paints with other code: GitHub's 4-core Linux runner
+   * ran the calibration work 1.29 times slower than the reference Mac, held the first paint back
+   * 17 to 23 ms where the Mac measured 4 to 14, and ran the stress page's first update as one task
+   * of 37 to 50 ms where the Mac ran it in 47 to 73. No ratio of the calibration work carries a
+   * fixed time from one to the other.
+   */
+  samePlatform: true,
 };
 
 export function fitness(m: MachineMeasure, ref: MachineMeasure | null, b = BOUNDS): Fitness {
@@ -50,6 +63,13 @@ export function fitness(m: MachineMeasure, ref: MachineMeasure | null, b = BOUND
       reason: 'the published results hold no machine measurement to compare with',
     };
   const ratio = Math.round((m.calibrateMs / ref.calibrateMs) * 100) / 100;
+  if (b.samePlatform && m.platform && ref.platform && m.platform !== ref.platform)
+    return {
+      fit: false,
+      scale: 1,
+      ratio,
+      reason: `it runs ${m.platform} and the reference machine runs ${ref.platform}, which paints with other code`,
+    };
   if (m.cores < b.minCores)
     return { fit: false, scale: 1, ratio, reason: `${m.cores} cores, fewer than ${b.minCores}` };
   if (ratio > b.maxRatio)
@@ -331,8 +351,15 @@ export const moreOften = (o: Often, alpha = OFTEN_ALPHA): boolean => moreOftenP(
  * in a few loads with the extension says nothing. What counts is whether loads with the extension
  * have one more often than loads with a do-nothing extension, beyond chance, in a first measure and
  * again in a second one, taken from scratch.
+ *
+ * A long task is one over a fixed time, so the count means something only on a machine fit to
+ * judge fixed limits. Where the page's own first update runs a few ms under the limit, the ink
+ * drawn in the same frame as the content puts most loads over it; where it runs well under or
+ * well over, the same ink changes no count. `judged` false reports the counts and judges nothing.
  */
-export function judgeOften(first: Often, second: Often | null): 'pass' | 'fail' | 'not repeated' {
+export type OftenVerdict = 'pass' | 'fail' | 'not repeated' | 'not judged';
+export function judgeOften(first: Often, second: Often | null, judged = true): OftenVerdict {
+  if (!judged) return 'not judged';
   if (!moreOften(first)) return 'pass';
   return second && moreOften(second) ? 'fail' : 'not repeated';
 }

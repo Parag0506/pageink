@@ -111,16 +111,22 @@ Rules that mean the same on any machine are judged in every quick run:
 - the harness itself working.
 
 Fixed time limits (5 ms on the main thread, 50 ms to visible ink, one frame after the content's first
-paint, one frame of first paint held back, one frame of ink in a task, 50 ms for a long task caused by ink) are judged only when the machine is fit to judge them. At the start
+paint, one frame of first paint held back, one frame of ink in a task, 50 ms for a long task caused by
+ink, and how often a load has a task over 50 ms) are judged only when the machine is fit to judge them. At the start
 the bench measures the machine: the library's calibration work (the layout and script of
 `calibrate()` in `packages/core/src/testkit.ts`), median of five in a page of the same Chromium, and
 the cores the browser may use. It compares them with the measurement stored in the published
-results (`meta.calibrate` in `results/latest.json`, written by every run). A machine with at least 4
-cores that is at most 1.25 times slower at that work is fit: each fixed limit is judged at the limit
-times the measured ratio (never below 1). The bound is tight because the calibration work understates
+results (`meta.calibrate` in `results/latest.json`, written by every run). A machine with the
+reference's operating system and at least 4 cores that is at most 1.25 times slower at that work is
+fit: each fixed limit is judged at the limit times the measured ratio (never below 1). The bound is tight because the calibration work understates
 a slow machine. On GitHub's 2-core runner it ran about 1.4 to 1.7 times slower than the reference,
 while first paint ran 2.6 times slower and script injection about 7 times slower. So scaling a limit
-by the calibration ratio is sound only on a machine close to the reference. Any other machine, or a run with no stored reference, does
+by the calibration ratio is sound only on a machine close to the reference. The operating system
+counts because the calibration work measures no painting, and another system paints with other code.
+GitHub's 4-core Linux runner ran the calibration work 1.29 times slower than the reference Mac. It
+held the first paint back 17 to 23 ms where the Mac measured 4 to 14, and it ran the stress page's
+first update as one task of 37 to 50 ms where the Mac ran it in 47 to 73. So GitHub's runners judge
+no fixed limit: they report each one. The budgets are judged by a run on the reference machine. Any other machine, or a run with no stored reference, does
 not judge them: each such rule is reported as not judged, with the measured value, the published limit
 and the reason, and it does not fail the run. `bench.md` opens with the machine, the reference, the
 scale and every fixed rule with its value, its verdict at the published limit and its judged verdict,
@@ -142,11 +148,13 @@ the report as `<out>.explain-<page>-<arm>-<n>.json.gz`, at most 18 MB in all. Th
 verdict.
 
 The stress page gets one traced load per arm in a quick run. How often a long task occurs is
-counted over 6 loads per arm, cold and warm, traced with tasks only, and judged on any machine, since it compares
-arms on the same machine: it fails only when the extension's loads have a long task more often than
-the control extension's beyond chance twice. Six loads catch an extension that makes the long task happen in
-nearly every load. On a machine so slow that the control extension's loads have a long task every
-time, the count cannot tell, and the rule passes. A long task caused by ink or a one-frame-of-ink
+counted over 6 loads per arm, cold and warm, traced with tasks only. On a fit machine it fails only
+when the extension's loads have a long task more often than the control extension's beyond chance
+twice. Six loads catch an extension that makes the long task happen in nearly every load. The count
+is of loads over a fixed time, so a machine not fit to judge reports it and judges nothing. Ink is
+drawn in the same frame as the content. Where the page's own first update runs a few ms under 50 ms,
+that puts most loads over it (4 of 6 against 0 of 6 on GitHub's 4-core Linux runner, where the page
+alone ran 37 to 47 ms). Where it runs well under or well over, the same ink changes no count. A long task caused by ink or a one-frame-of-ink
 finding on a fit machine fails only when it repeats: the extension's side is loaded again, cold and
 warm, and the same rule must flag a task there too.
 

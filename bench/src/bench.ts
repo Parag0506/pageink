@@ -274,7 +274,7 @@ async function measureMachine(headed: boolean): Promise<MachineMeasure> {
     );
   await ctx.close();
   rmSync(dir, { recursive: true, force: true });
-  return { calibrateMs: r1(median(runs)), cores: availableParallelism() };
+  return { calibrateMs: r1(median(runs)), cores: availableParallelism(), platform: platform() };
 }
 
 /** The machine measurement stored with the published results, the reference for quick runs. */
@@ -282,7 +282,9 @@ function referenceMachine(): (MachineMeasure & { cpu?: string }) | null {
   try {
     const m = JSON.parse(readFileSync(join(RESULTS, 'latest.json'), 'utf8')).meta;
     const c = m?.calibrate as MachineMeasure | undefined;
-    return c && c.calibrateMs > 0 ? { ...c, cpu: m.machine?.cpu } : null;
+    // Results written before the platform was stored name it in the machine's system line.
+    const platform = c?.platform ?? String(m.machine?.os ?? '').split(' ')[0] ?? '';
+    return c && c.calibrateMs > 0 ? { ...c, ...(platform ? { platform } : {}), cpu: m.machine?.cpu } : null;
   } catch {
     return null;
   }
@@ -1673,7 +1675,7 @@ async function main(): Promise<number> {
     // The limits the gate judges with. Both are fixed times: 50 ms for a long task and one frame
     // for the ink part of a task. A machine three times slower turns a 20 ms task into a long one,
     // so a quick run judges both scaled on a fit machine and not at all elsewhere. How often a
-    // long task occurs against the control extension, below, is judged on every machine.
+    // load has a long task, below, counts loads over the same fixed time and follows the same rule.
     const scaled = (ms: number) => (!quick ? ms : fit.fit ? r2(ms * fit.scale) : Number.POSITIVE_INFINITY);
     const frameJ = scaled(LIMITS.frameMs);
     const longJ = scaled(LIMITS.longMs);
@@ -1814,6 +1816,10 @@ async function main(): Promise<number> {
       await page.close();
       return [longest];
     };
+    // What counts as long: the published limit, scaled in a quick run on a fit machine. A machine
+    // not fit to judge counts at the published limit and reports the counts without a verdict.
+    const oftenJudged = !quick || fit.fit;
+    const oftenLongMs = Number.isFinite(longJ) ? longJ : LIMITS.longMs;
     const measureOften = async (tag: string) => {
       const loads: Record<string, { cold: number[][]; warm: number[][] }> = {};
       for (const [name] of oftenArms) loads[name] = { cold: [], warm: [] };
@@ -1847,7 +1853,7 @@ async function main(): Promise<number> {
           loads[name]!.warm.push(await longOf(ctx));
       for (const [, ctx] of warm) await ctx.close();
       const count = (xs: number[][]): Count => ({
-        long: xs.filter((l) => l.some((ms) => ms > LIMITS.longMs)).length,
+        long: xs.filter((l) => l.some((ms) => ms > oftenLongMs)).length,
         loads: xs.length,
       });
       const side = (k: 'cold' | 'warm'): Often => ({
@@ -1875,13 +1881,14 @@ async function main(): Promise<number> {
     const often = await measureOften('first');
     const flagged = moreOften(often.cold) || moreOften(often.warm);
     // A difference beyond chance counts only when a second measure from scratch shows it too.
-    const oftenAgain = flagged ? await measureOften('again') : null;
+    const oftenAgain = flagged && oftenJudged ? await measureOften('again') : null;
     const oftenVerdict = {
-      cold: judgeOften(often.cold, oftenAgain?.cold ?? null),
-      warm: judgeOften(often.warm, oftenAgain?.warm ?? null),
+      cold: judgeOften(often.cold, oftenAgain?.cold ?? null, oftenJudged),
+      warm: judgeOften(often.warm, oftenAgain?.warm ?? null, oftenJudged),
     };
     (report.stress as Record<string, unknown>).often = {
       loads: nOften,
+      longMs: oftenLongMs,
       alpha: OFTEN_ALPHA,
       cold: often.cold,
       warm: often.warm,
@@ -1909,13 +1916,15 @@ async function main(): Promise<number> {
       oftenVerdict.warm !== 'fail';
     for (const k of ['cold', 'warm'] as const) {
       const o = often[k];
-      const line = `stress: loads with a task over ${LIMITS.longMs} ms, ${k}: ${o.ext.long} of ${o.ext.loads} with the extension, ${o.plain.long} of ${o.plain.loads} for the page alone, ${o.control.long} of ${o.control.loads} with the control extension`;
+      const line = `stress: loads with a task over ${oftenLongMs} ms, ${k}: ${o.ext.long} of ${o.ext.loads} with the extension, ${o.plain.long} of ${o.plain.loads} for the page alone, ${o.control.long} of ${o.control.loads} with the control extension`;
       if (oftenVerdict[k] === 'fail')
         fails.push(
           `${line}: more often beyond chance, and again when measured a second time (${oftenAgain![k].ext.long}, ${oftenAgain![k].plain.long}, ${oftenAgain![k].control.long} of ${nOften})`,
         );
       else if (oftenVerdict[k] === 'not repeated')
         notes.push(`${line}: more often beyond chance once, not when measured a second time`);
+      else if (oftenVerdict[k] === 'not judged' && moreOften(o))
+        notes.push(`not judged on this machine: ${line} (${fit.reason})`);
     }
     if (stressScroll.inkEvents > 0)
       fails.push(`stress: ${stressScroll.inkEvents} ink script events during scroll`);
@@ -2086,6 +2095,8 @@ async function main(): Promise<number> {
 
 interface OftenReport {
   loads: number;
+  /** What counted as a long task, ms. Results written before it was stored used the limit. */
+  longMs?: number;
   cold: Often;
   warm: Often;
   compare?: { cold: Count; warm: Count };
@@ -2099,7 +2110,7 @@ function oftenLines(o: OftenReport | undefined): string[] {
   if (!o) return [];
   const p = (x: number) => (x < 0.001 ? '<0.001' : x.toFixed(3));
   return [
-    `How often a load had a task over ${LIMITS.longMs} ms, ${o.loads} loads per arm traced with tasks only, interleaved. The page runs its first update as one long task in some loads and as two shorter ones in others, so the rule asks whether loads with the extension have a long task more often than loads with a do-nothing extension, beyond chance (one-sided Fisher test, under 0.05), in a first measure and again in a second one. The page alone is counted beside them.`,
+    `How often a load had a task over ${o.longMs ?? LIMITS.longMs} ms, ${o.loads} loads per arm traced with tasks only, interleaved. The page runs its first update as one long task in some loads and as two shorter ones in others, so the rule asks whether loads with the extension have a long task more often than loads with a do-nothing extension, beyond chance (one-sided Fisher test, under 0.05), in a first measure and again in a second one. The page alone is counted beside them.`,
     '',
     '| arm | with the extension | page alone | control extension | chance, against alone / control | verdict |',
     '| --- | ---: | ---: | ---: | --- | --- |',
