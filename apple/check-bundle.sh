@@ -12,7 +12,9 @@
 #   first read (boot.js) in content/, which the background registers or injects (scripting permission);
 # - LICENSE, NOTICE, the PDF viewer page and its assets are there;
 # - the files match the current Safari build exactly, so no file from an earlier build is left,
-#   and every chunk is used by something.
+#   and every chunk is used by something;
+# - the app and the extension carry the privacy manifest, and the app's Info.plist gives the
+#   export compliance answer, which the App Store asks for.
 # build.sh runs it after each build. It exits with 1 when a check fails.
 set -euo pipefail
 
@@ -57,6 +59,20 @@ for app in "${apps[@]}"; do
   plist="$app/Info.plist"
   [ -f "$plist" ] || plist="$app/Contents/Info.plist"
   appName="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' "$plist" 2>/dev/null || true)"
+  # What the App Store asks of the bundle: the privacy manifest in the app and in the extension,
+  # and the export compliance answer in the app's Info.plist.
+  for b in "$app" "${appex:-}"; do
+    [ -n "$b" ] || continue
+    if [ ! -f "$b/PrivacyInfo.xcprivacy" ] && [ ! -f "$b/Contents/Resources/PrivacyInfo.xcprivacy" ]; then
+      echo "FAIL $b: PrivacyInfo.xcprivacy is missing (apple/Shared/PrivacyInfo.xcprivacy)." >&2
+      status=1
+    fi
+  done
+  exempt="$(/usr/libexec/PlistBuddy -c 'Print :ITSAppUsesNonExemptEncryption' "$plist" 2>/dev/null || true)"
+  if [ "$exempt" != "false" ]; then
+    echo "FAIL $app: ITSAppUsesNonExemptEncryption is not NO in Info.plist (Config/PageInk.xcconfig)." >&2
+    status=1
+  fi
   if ! node - "$ext" "$src" "$app" "$appName" "$exe" <<'EOF'
 const fs = require('node:fs');
 const path = require('node:path');
@@ -65,11 +81,13 @@ const fails = [];
 const warns = [];
 const fail = (m) => fails.push(m);
 
-// Files of the appex itself, next to the extension on iOS. exe is set only there.
+// Files of the appex itself, next to the extension. The privacy manifest is there on both
+// platforms. The others are next to the extension on iOS only; exe is set only there.
 const bundleOwn = (f) =>
-  !!exe &&
-  (f === exe || f === 'Info.plist' || f === 'PkgInfo' || f === 'embedded.mobileprovision' ||
-    f.startsWith('_CodeSignature/') || /^[^/]+\.dylib$/.test(f));
+  f === 'PrivacyInfo.xcprivacy' ||
+  (!!exe &&
+    (f === exe || f === 'Info.plist' || f === 'PkgInfo' || f === 'embedded.mobileprovision' ||
+      f.startsWith('_CodeSignature/') || /^[^/]+\.dylib$/.test(f)));
 
 function walk(dir, base = '') {
   const out = [];

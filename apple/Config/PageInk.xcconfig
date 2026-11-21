@@ -20,5 +20,9 @@ CODE_SIGN_STYLE = Automatic
 MARKETING_VERSION = 0.1.0
 CURRENT_PROJECT_VERSION = 1
 
+// Export compliance. The app uses HTTPS and the system's own AES-GCM and PBKDF2 for the optional
+// lock, and has no encryption of its own, so it is exempt. The App Store reads this key.
+INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO
+
 // Optional local overrides that stay out of version control (team, bundle id base).
 #include? "Local.xcconfig"

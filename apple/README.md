@@ -28,6 +28,12 @@ inside the stub), when a file that the manifest, a page or a script names is mis
 `LICENSE`, `NOTICE`, the PDF viewer page or its PDF.js files are missing, or when a file is left
 from an earlier build. `test` and `check` also run `check-names.sh` (see "Change the name").
 
+The check also looks for two things the App Store asks for. The app and the extension must carry
+the privacy manifest, `Shared/PrivacyInfo.xcprivacy`. It says that nothing is collected or tracked,
+and why the code reads its own settings and file dates. The app's `Info.plist` must also say that
+the app has no encryption of its own (`ITSAppUsesNonExemptEncryption`, set in
+`Config/PageInk.xcconfig`).
+
 The command builds the extension with `corepack pnpm --filter pageink-extension build:safari` and then
 runs `xcodebuild`. Products go to `apple/build`, which git ignores.
 
