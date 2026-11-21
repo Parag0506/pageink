@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="300" viewBox="0 0 640 300" role="img">
+  <title>Rows of trees on a hill at dusk</title>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6c48b"/>
+      <stop offset="1" stop-color="#e98a6b"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="300" fill="url(#sky)"/>
+  <circle cx="470" cy="120" r="34" fill="#fde7b0"/>
+  <path d="M0 210 Q160 150 320 190 T640 170 V300 H0Z" fill="#6a7d4f"/>
+  <path d="M0 250 Q200 200 400 235 T640 220 V300 H0Z" fill="#4e6139"/>
+  <g fill="#2f3d24">
+    <circle cx="60" cy="214" r="14"/><circle cx="120" cy="204" r="14"/><circle cx="180" cy="196" r="14"/>
+    <circle cx="240" cy="194" r="14"/><circle cx="300" cy="196" r="14"/><circle cx="360" cy="196" r="14"/>
+    <circle cx="420" cy="190" r="14"/><circle cx="480" cy="184" r="14"/><circle cx="540" cy="178" r="14"/>
+    <circle cx="90" cy="248" r="16"/><circle cx="160" cy="238" r="16"/><circle cx="230" cy="232" r="16"/>
+    <circle cx="300" cy="230" r="16"/><circle cx="370" cy="232" r="16"/><circle cx="440" cy="232" r="16"/>
+    <circle cx="510" cy="228" r="16"/><circle cx="580" cy="222" r="16"/>
+  </g>
+</svg>

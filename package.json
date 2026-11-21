@@ -1,0 +1,39 @@
+{
+  "name": "pageink-workspace",
+  "private": true,
+  "description": "PageInk: handwriting on web pages. The workspace root.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Parag0506/pageink.git"
+  },
+  "type": "module",
+  "packageManager": "pnpm@12.21.0+sha512.66fd8278ee28935ce951792d34367ff3af5c432a2756445823029533835b8da529bbe0be5130afd56ed0713fb8789e47bad82d93bd5ae2fe54b15562d6276ef0",
+  "engines": {
+    "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
+  },
+  "scripts": {
+    "test": "corepack pnpm -r --if-present test",
+    "test:core": "corepack pnpm --filter pageink-core test",
+    "typecheck": "corepack pnpm -r --if-present typecheck",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "build": "corepack pnpm --filter pageink-extension build",
+    "apple": "bash apple/build.sh",
+    "tc": "bash scripts/tc.sh",
+    "results": "node scripts/results.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.8",
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^26.6.6",
+    "@vitest/browser-playwright": "^5.1.0",
+    "acorn": "^8.19.0",
+    "acorn-walk": "^8.3.5",
+    "playwright": "^1.65.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

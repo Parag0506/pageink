@@ -1,0 +1,21 @@
+{
+  "id": "py-functions-312-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "a3f4575ccc382081.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.12/library/functions.html",
+    "sha256": "bfc60bec51a65c1b69035ddcf3b808f8d8634a827c2e284967d6cd5db36853ac",
+    "bytes": 305382
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/library/functions.html",
+    "sha256": "a0a9a46f26fd63b4f390993b09833b1fe9b036ab0a3abe20523f24c31ad0c94a",
+    "bytes": 321341
+  }
+}

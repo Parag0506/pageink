@@ -1,0 +1,6 @@
+build/
+Config/Local.xcconfig
+xcuserdata/
+*.xcuserstate
+# Cloud client ids stay on the machine that made them (docs/CLOUD_SETUP.md).
+Shared/cloud-ids.local.json

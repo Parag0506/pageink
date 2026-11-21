@@ -1,0 +1,28 @@
+{
+  "name": "pageink-testset",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The anchoring test set for PageInk: saved pages and their scores.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Parag0506/pageink.git",
+    "directory": "testset"
+  },
+  "type": "module",
+  "scripts": {
+    "fetch": "tsx src/fetch.ts",
+    "score": "tsx src/score.ts",
+    "synthetic": "tsx src/synthetic.ts",
+    "add": "tsx src/add.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "probe": "tsx src/probe.ts",
+    "test": "tsx src/freeze-test.ts && tsx src/scorer-test.ts"
+  },
+  "dependencies": {
+    "pageink-core": "workspace:*"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

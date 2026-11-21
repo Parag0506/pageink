@@ -1,0 +1,24 @@
+{
+  "id": "wiki-printing-press-year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "7969469c0be2c864.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "5c81bea9dbf1cba1.css",
+    "76fce7e4c5bada5d.css",
+    "e2a813263dbc286d.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Printing_press&oldid=1300121085",
+    "sha256": "95ed58ad1c69d87126b290cac77f2fb2b3241d6af183de91ee5b0338ed259b6e",
+    "bytes": 413073
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Printing_press&oldid=1370708412",
+    "sha256": "79247d7b0937c578392934af211c8f88d9165da574b79d014e98238b108ba87c",
+    "bytes": 502503
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "pageink-embed",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Parag0506/pageink.git",
+    "directory": "packages/embed"
+  },
+  "homepage": "https://github.com/Parag0506/pageink/tree/main/packages/embed#readme",
+  "bugs": "https://github.com/Parag0506/pageink/issues",
+  "description": "PageInk as one script any site can add to its own pages, with a pluggable store.",
+  "type": "module",
+  "main": "./dist/pageink.mjs",
+  "module": "./dist/pageink.mjs",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/pageink.mjs"
+    },
+    "./pageink.js": "./dist/pageink.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "MIGRATING.md"
+  ],
+  "scripts": {
+    "build": "vite build && vite build -c vite.iife.config.ts && node scripts/types.mjs && node scripts/sizes.mjs",
+    "test": "vite build && vite build -c vite.iife.config.ts && node scripts/types.mjs && node ../../scripts/run-all.mjs \"vitest run --project unit\" \"vitest run --project browser --browser.name=chromium\" \"vitest run --project browser --browser.name=webkit\" \"vitest run --project browser --browser.name=firefox\"",
+    "test:only": "vitest run",
+    "typecheck": "tsc -p tsconfig.json",
+    "sizes": "node scripts/sizes.mjs",
+    "example": "node scripts/serve.mjs",
+    "shots": "node scripts/shots.mjs"
+  },
+  "dependencies": {
+    "pageink-core": "workspace:*"
+  }
+}

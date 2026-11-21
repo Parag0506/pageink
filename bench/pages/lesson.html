@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 4: Reading a tide table</title>
+<style>
+  :root { --fg: #222; --bg: #fffdf8; --accent: #2a6f97; --rule: #ddd; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 19px/1.65 Georgia, serif; }
+  header { padding: 14px 24px; border-bottom: 1px solid var(--rule); font: 14px system-ui, sans-serif; color: #555; }
+  main { max-width: 700px; margin: 0 auto; padding: 24px 24px 160px; }
+  h1 { font-size: 2rem; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin-top: 2em; color: var(--accent); }
+  .box { border: 1px solid var(--rule); border-radius: 6px; padding: 12px 18px; margin: 1.2em 0; background: #fff; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+  td, th { border: 1px solid var(--rule); padding: 4px 8px; text-align: left; }
+  figure { margin: 1.4em 0; }
+  figure svg { width: 100%; height: auto; display: block; }
+  figcaption { font-size: 0.85rem; color: #666; }
+  ol.exercise li { margin-bottom: 0.6em; }
+</style>
+</head>
+<body>
+<header>Coastal Skills, Book 1 &middot; Lesson 4 of 12</header>
+<main>
+<h1>Lesson 4: Reading a tide table</h1>
+<p>A tide table lists the times and heights of high and low water for one place on each day of the year. Sailors, anglers and walkers on tidal flats all rely on it, and learning to read one takes only a few minutes. This lesson walks through a single day and then asks you to plan a short trip.</p>
+<div class="box"><strong>Before you start.</strong> You need the sample table below and a pencil. Write your answers in the margin or straight onto the page.</div>
+<h2>1. What the columns mean</h2>
+<p>Each row is one turn of the tide. The first column gives the time, the second the height of the water above a fixed level called chart datum, and the third says whether the turn is a high or a low. Times are local unless the heading says otherwise.</p>
+<table>
+  <caption>Sample tide table for a small harbour, one day</caption>
+  <thead><tr><th>Time</th><th>Height (m)</th><th>Turn</th></tr></thead>
+  <tbody>
+    <tr><td>02:14</td><td>0.6</td><td>Low</td></tr>
+    <tr><td>08:31</td><td>4.8</td><td>High</td></tr>
+    <tr><td>14:40</td><td>0.8</td><td>Low</td></tr>
+    <tr><td>20:55</td><td>4.6</td><td>High</td></tr>
+  </tbody>
+</table>
+<p>Notice that the two highs are not the same height, and that the gap between a low and the next high is a little over six hours. Both patterns repeat with small changes through the month.</p>
+<h2>2. The rule of twelfths</h2>
+<p>The water does not rise at a steady rate. In the first hour after low water it rises by one twelfth of the range, in the second hour by two twelfths, in the third and fourth by three twelfths each, then two and one again. The middle hours are when the current runs fastest.</p>
+<figure>
+  <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A tide curve">
+    <rect width="600" height="200" fill="#eef5f9"/>
+    <path d="M0 170 C 100 170, 150 30, 300 30 S 500 170, 600 170" fill="none" stroke="#2a6f97" stroke-width="4"/>
+    <line x1="0" y1="185" x2="600" y2="185" stroke="#999"/>
+  </svg>
+  <figcaption>Figure 4.1. Water height over one rise and fall. The curve is steepest in the middle.</figcaption>
+</figure>
+<p>With a range of 4.2 metres, one twelfth is 0.35 metres. After two hours the water has risen three twelfths, or about 1.05 metres, above the low.</p>
+<h2>3. Exercise</h2>
+<ol class="exercise">
+  <li>At what time is the first high water, and how high is it?</li>
+  <li>What is the range between the first low and the first high?</li>
+  <li>Using the rule of twelfths, how high is the water at 10:30?</li>
+  <li>You need at least 2 metres of water to leave the harbour. Between which times can you go out in the morning?</li>
+  <li>Mark on the figure where the current is strongest.</li>
+</ol>
+<h2>4. Summary</h2>
+<p>A tide table gives the turns of the tide. The rule of twelfths fills in the hours between them. With both you can plan when to leave, when to come back, and when to keep off the flats.</p>
+</main>
+</body>
+</html>

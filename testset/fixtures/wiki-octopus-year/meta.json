@@ -1,0 +1,27 @@
+{
+  "id": "wiki-octopus-year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "2694ab8a7fb22673.css",
+    "6576318ee595573c.css",
+    "182813dd81c13a23.css",
+    "14fa8559badd650d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css",
+    "77da0e8067d2eda0.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Octopus&oldid=1306871757",
+    "sha256": "bb8d7a8efdb890efd8f6aa5f716c31ed157eec71a4df98bd005e8ef3c67dad6f",
+    "bytes": 816051,
+    "file": "../wiki-octopus-month/a.html"
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Octopus&oldid=1372346691",
+    "sha256": "80ff16377e2a84cd6bff6bf30b58510443e95695934e1d3389fa0e4031f5b18b",
+    "bytes": 815523
+  }
+}

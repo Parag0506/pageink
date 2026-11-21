@@ -1,0 +1,28 @@
+{
+  "id": "wiki-unix-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1c2ef233b771baa8.css",
+    "6576318ee595573c.css",
+    "182813dd81c13a23.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "14fa8559badd650d.css",
+    "c028698ab4096c20.css",
+    "e63315aa90ac2bc1.css",
+    "705f73c6a7b1ae8c.css",
+    "d01de94747fb60eb.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Unix&oldid=1308201136",
+    "sha256": "a089b198c968e15a79d324090eb8188fc4cc52876613c8a6495edd10903278fe",
+    "bytes": 432192
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Unix&oldid=1313653897",
+    "sha256": "f269a7b2e52ac70d562119c37ad6a287f398a2fd0135657ea53f4a244fa10557",
+    "bytes": 498764
+  }
+}

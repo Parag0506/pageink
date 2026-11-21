@@ -1,0 +1,30 @@
+{
+  "id": "wiki-seven-wonders-of-the-ancient-world-year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "3dc20ee2712c7062.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "705f73c6a7b1ae8c.css",
+    "d01de94747fb60eb.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "d822f0d3dfe49f54.css",
+    "14fa8559badd650d.css",
+    "5b8b3b9ff936479a.css",
+    "e63315aa90ac2bc1.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Seven_Wonders_of_the_Ancient_World&oldid=1294385957",
+    "sha256": "6344460ea5189fdfba4405aa1a6f7e7b98c44aa232063f2d391491155643981b",
+    "bytes": 317134,
+    "file": "../wiki-seven-wonders-of-the-ancient-world-month/a.html"
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Seven_Wonders_of_the_Ancient_World&oldid=1371306180",
+    "sha256": "cb62e8cf327f1f28f1703d05d2b53ee5482aa7e5183c67a5af00bb5ec056c5d8",
+    "bytes": 363821
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "py-classes-312-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "a3f4575ccc382081.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.12/tutorial/classes.html",
+    "sha256": "0eb26623626f9e9106c26e893cf2be0abbcbb9b9de7bb1c89fd8e78bea729d3e",
+    "bytes": 110317
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/tutorial/classes.html",
+    "sha256": "919e36e0c9e44e42dd70a882d26c7a503f5453389300fdb709e38ba5ea30464c",
+    "bytes": 109922
+  }
+}

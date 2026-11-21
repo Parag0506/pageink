@@ -1,0 +1,26 @@
+{
+  "id": "wiki-jazz-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "7c6fd3cff0e1cfb6.css",
+    "6576318ee595573c.css",
+    "e9e79ff14e438c3b.css",
+    "14fa8559badd650d.css",
+    "34916120fc01afb3.css",
+    "e63315aa90ac2bc1.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Jazz&oldid=1308149128",
+    "sha256": "3e608dba6d9c2133e302caae04da8107499f3c33e39c1fb82039034fe837cdb4",
+    "bytes": 985787
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Jazz&oldid=1310841644",
+    "sha256": "709af2fd38b3ee9c26437411e9dc5e4211f492d38d54945f693217d01f644592",
+    "bytes": 985332
+  }
+}

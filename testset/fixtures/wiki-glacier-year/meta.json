@@ -1,0 +1,27 @@
+{
+  "id": "wiki-glacier-year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "d0f8a751bfa2a3a9.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "8e02c666b7a119bd.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "14fa8559badd650d.css",
+    "5b8b3b9ff936479a.css",
+    "e63315aa90ac2bc1.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Glacier&oldid=1305565099",
+    "sha256": "d21aa5406f002c3a73de8a7e0d35358e7b0689946658155e56d705484429cbcb",
+    "bytes": 614965
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Glacier&oldid=1371666943",
+    "sha256": "b0287ce1b5a714ff800c6e24459d3bfa319b6ba9130af64dfe2e61119ac82f70",
+    "bytes": 635188
+  }
+}

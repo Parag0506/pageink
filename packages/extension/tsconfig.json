@@ -1,0 +1,15 @@
+{
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
+    "types": ["chrome", "node"],
+    "allowImportingTsExtensions": true
+  },
+  "include": ["entrypoints", "src", "build", "e2e", "test", "*.ts", ".wxt/wxt.d.ts"]
+}

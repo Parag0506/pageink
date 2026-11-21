@@ -1,0 +1,18 @@
+{
+  "id": "mdn-html-table",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "e3b0c44298fc1c14.css",
+    "9dd6fe531e332c6c.css"
+  ],
+  "a": {
+    "url": "https://web.archive.org/web/20230304040212/https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table",
+    "sha256": "37825a5d431818b1b5eb9679b190371a2dc9280aabb9e602987d8edd06e98cd6",
+    "bytes": 251565
+  },
+  "b": {
+    "url": "https://web.archive.org/web/20240901105414/https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table",
+    "sha256": "cdbdcde065ad458837676ea8ecc41baff02ed98d15b43986959d25e075a567c6",
+    "bytes": 349253
+  }
+}

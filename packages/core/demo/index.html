@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PageInk demo: The orchard notes</title>
+    <style>
+      :root { color-scheme: light dark; --bg: #fbfaf7; --fg: #23211d; --mut: #6d685f; --pane: #f1eee7; --line: #ddd8cc; }
+      @media (prefers-color-scheme: dark) {
+        :root { --bg: #17181b; --fg: #e7e4dc; --mut: #9b978d; --pane: #222327; --line: #34353a; }
+      }
+      html { background: var(--bg); }
+      body { margin: 0; color: var(--fg); background: var(--bg); font: 19px/1.65 Georgia, "Times New Roman", serif; }
+      main { max-width: 640px; margin: 0 auto; padding: 48px 24px 160px; }
+      h1 { font-size: 34px; line-height: 1.2; margin: 0 0 8px; }
+      .by { color: var(--mut); font: 14px/1.4 system-ui, sans-serif; margin: 0 0 32px; }
+      h2 { font-size: 23px; margin: 36px 0 8px; }
+      p { margin: 0 0 18px; }
+      figure { margin: 28px 0; }
+      figure img { display: block; width: 100%; height: auto; border-radius: 6px; }
+      figcaption { color: var(--mut); font: 14px/1.4 system-ui, sans-serif; margin-top: 8px; }
+      .pane { height: 220px; overflow: auto; background: var(--pane); border: 1px solid var(--line); border-radius: 6px;
+        font: 14px/1.6 ui-monospace, Menlo, monospace; padding: 10px 14px; }
+      .pane div { white-space: pre; }
+      .hint { color: var(--mut); font: 14px/1.4 system-ui, sans-serif; border-top: 1px solid var(--line); padding-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>The orchard notes</h1>
+      <p class="by">A short field guide, written to be written on.</p>
+
+      <p id="p-intro">
+        Every orchard keeps a quiet ledger of its seasons. The bark remembers the frost, the soil remembers the
+        rain, and the fruit remembers the long afternoons. A careful reader of trees learns to see that ledger in
+        the shape of a branch and the colour of a leaf.
+      </p>
+      <p id="p-pom">
+        The <b>pomegranate</b> grows in warm valleys where the summers are long and dry. Its leathery skin hides
+        hundreds of seeds, each wrapped in a bright, sour jewel. Growers prune it in late winter, before the first
+        buds break, so the light can reach the middle of the bush.
+      </p>
+
+      <h2>Light and shade</h2>
+      <p id="p-light">
+        Fruit trees are patient engines that turn light into sugar. A crowded canopy makes pale, small fruit; an
+        open one makes fruit that colours evenly. Thin the inner branches and keep the strong ones that point
+        outward and up.
+      </p>
+
+      <figure>
+        <img src="./orchard.svg" alt="Rows of trees on a hill at dusk" width="640" height="300" />
+        <figcaption>Rows planted along the contour keep the water where the roots are.</figcaption>
+      </figure>
+
+      <h2>The watering log</h2>
+      <p>The log below scrolls on its own. Notes written inside it move with it.</p>
+      <div class="pane" id="pane"></div>
+
+      <h2>Harvest</h2>
+      <p id="p-harvest">
+        Pick in the cool of the morning, when the fruit is firm and the stems snap cleanly. Handle each one as if it
+        were an egg; a bruise today is rot next week. Store apples and pears apart, since one ripens the other.
+      </p>
+      <p id="p-rest">
+        After the harvest the orchard rests. Rake the fallen leaves, mend the fences, and write down what went well.
+        Next year will ask the same questions, and a good ledger will have the answers.
+      </p>
+      <p class="hint">
+        Write with a pen, or switch on Draw in the bar and use the mouse. Hold Alt to draw with the mouse at any
+        time. Ink is kept in this browser's local storage.
+      </p>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

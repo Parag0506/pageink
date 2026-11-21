@@ -1,0 +1,107 @@
+{
+  "about": "Findings the no-network test accepts. Each entry names the file (a glob relative to a build folder), the rule and the exact finding, how many times it must appear (exactly), the build targets it applies to (all when absent), and why. CONTRACT section 6 allows one network read outside the cloud: the PDF chunk re-reads the PDF address. The cloud code is cloud.js alone, built from src/cloud, and its addresses are pinned to the hosts in PRIVACY.md. Any other address or network call fails the build.",
+  "entries": [
+    {
+      "file": "content/pdf.js",
+      "rule": "api",
+      "detail": "fetch",
+      "count": 1,
+      "pin": "own-address",
+      "reason": "CONTRACT 6: on a PDF address the PDF chunk reads that same address once more, from the cache, to hand the bytes to the bundled viewer. The scan checks the argument is location.href."
+    },
+    {
+      "file": "chunks/app-*.js",
+      "rule": "import",
+      "detail": "this.workerSrc",
+      "count": 1,
+      "reason": "PDF.js imports its worker script on the main thread when it cannot start a worker. workerSrc is set to the bundled /pdf/worker.js, and the page CSP allows only 'self'."
+    },
+    {
+      "file": "pdf/worker.js",
+      "rule": "import",
+      "detail": "`${e.#i}${this._noWasmFilename}`",
+      "count": 1,
+      "reason": "The PDF.js worker imports its JavaScript fallback for the image decoder from wasmUrl, which is set to the bundled /pdf/wasm/ folder. The page CSP allows only 'self'."
+    },
+    {
+      "file": "background.js",
+      "rule": "api",
+      "detail": "importScripts",
+      "count": 2,
+      "targets": ["chrome", "edge"],
+      "reason": "The service worker reads the bundled /cloud.js at start (a check that importScripts exists, then the call). Service workers may not use import() or a late importScripts. The file only defines functions."
+    },
+    {
+      "file": "cloud.js",
+      "rule": "api",
+      "detail": "fetch",
+      "count": 1,
+      "targets": ["chrome", "edge", "firefox"],
+      "reason": "The one request function of the cloud code (src/cloud/http.ts). It refuses any address outside the connected provider's list before sending, and connect-src allows only the cloud hosts."
+    },
+    {
+      "file": "cloud.js",
+      "rule": "remote-string",
+      "detail": "https://accounts.google.com/o/oauth2/v2/auth",
+      "count": 1,
+      "targets": ["chrome", "edge", "firefox"],
+      "reason": "Google's sign-in page, opened in the browser's sign-in window when the reader connects Google Drive."
+    },
+    {
+      "file": "cloud.js",
+      "rule": "remote-string",
+      "detail": "https://oauth2.googleapis.com/revoke",
+      "count": 1,
+      "targets": ["chrome", "edge", "firefox"],
+      "reason": "Gives the Google sign-in back on Disconnect."
+    },
+    {
+      "file": "cloud.js",
+      "rule": "remote-string",
+      "detail": "https://www.googleapis.com/drive/v3",
+      "count": 1,
+      "targets": ["chrome", "edge", "firefox"],
+      "reason": "Google Drive's file address: list, read, make folders, remove."
+    },
+    {
+      "file": "cloud.js",
+      "rule": "remote-string",
+      "detail": "https://www.googleapis.com/upload/drive/v3",
+      "count": 1,
+      "targets": ["chrome", "edge", "firefox"],
+      "reason": "Google Drive's upload address: write files."
+    },
+    {
+      "file": "cloud.js",
+      "rule": "remote-string",
+      "detail": "https://www.googleapis.com/auth/drive.file",
+      "count": 2,
+      "targets": ["chrome", "edge", "firefox"],
+      "reason": "The name of the one Google scope asked for. It is a name, never requested."
+    },
+    {
+      "file": "cloud.js",
+      "rule": "remote-string",
+      "detail": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+      "count": 1,
+      "targets": ["chrome", "edge", "firefox"],
+      "reason": "Microsoft's sign-in page, opened in the browser's sign-in window when the reader connects OneDrive."
+    },
+    {
+      "file": "cloud.js",
+      "rule": "remote-string",
+      "detail": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
+      "count": 1,
+      "targets": ["chrome", "edge", "firefox"],
+      "reason": "Microsoft's token address: turns the sign-in code into tokens and renews them."
+    },
+    {
+      "file": "cloud.js",
+      "rule": "remote-string",
+      "detail": "https://graph.microsoft.com/v1.0",
+      "count": 1,
+      "targets": ["chrome", "edge", "firefox"],
+      "reason": "Microsoft Graph, OneDrive's file address, for the app folder only."
+    }
+  ]
+}

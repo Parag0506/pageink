@@ -1,0 +1,1689 @@
+
+/* css variables */
+.frb {
+    color-scheme: normal;
+    color-scheme: light;
+    --wmui-base100: #fff;
+    --wmui-base90: #f8f9fa;
+    --wmui-base80: #eaecf0;
+    --wmui-base70: #c8ccd1;
+    --wmui-base50: #a2a9b1;
+    --wmui-base30: #72777d;
+    --wmui-base20: #54595d;
+    --wmui-base10: #202122;
+    --wmui-base0: #000;
+    --wmui-accent: #36c;
+    --wmui-accent-light: #eaf3ff;
+    --wmui-accent-dark: #2a4b8d;
+    --wmui-red: #d73333;
+    --wmui-red-light: #fee7e6;
+    --wmui-red-dark: #b32424;
+    --wmui-green: #00af89;
+    --wmui-green-light: #d5fdf4;
+    --wmui-green-dark: #14866d;
+    --wmui-yellow: #fc3;
+    --wmui-yellow-light: #fef6e7;
+    --wmui-yellow-dark: #ac6600;
+    --frb-primary: #f7d9c9;
+    --frb-primary-light: #fee7e6;
+    --frb-primary-dark: var(--frb-primary);
+    --frb-body: var(--wmui-base0);
+    --frb-link: var(--wmui-accent-dark);
+    --frb-link-hover: #1F3D7A;
+    --frb-main-background: var(--frb-primary);
+    --frb-message-background: #308557;
+    --frb-message-border: #266a46;
+    --frb-fieldset-background: var(--wmui-base100);
+    --frb-message: var(--wmui-base0);
+    --frb-muted: var(--wmui-base10);
+    --frb-muted-hover: var(--wmui-base0);
+    --frb-checkbox: var(--wmui-accent);
+    --frb-radio: var(--wmui-accent);
+    --frb-button: var(--wmui-base90);
+    --frb-button-border: var(--wmui-base50);
+    --frb-button-hover: var(--wmui-base100);
+    --frb-button-border-hover: var(--wmui-base50);
+    --frb-button-active: #d9d9d9;
+    --frb-button-focus: var(--wmui-base90);
+    --frb-button-border-focus: var(--wmui-base50);
+    --frb-button-selected: var(--wmui-accent-dark);
+    --frb-button-border-selected: #7d8389;
+    --frb-button-text: var(--wmui-base0);
+    --frb-button-selected-text: var(--wmui-base100);
+    --frb-submit: var(--wmui-accent);
+    --frb-submit-border: var(--wmui-accent);
+    --frb-submit-hover: #447ff5;
+    --frb-submit-border-hover: #447ff5;
+    --frb-error: #9E1F1F;
+    --frb-mini-banner-background: var(--frb-primary-light);
+    --frb-mini-banner-border: #4e6cc0;
+    --frb-cta-background: #f9dde9;
+    --frb-dialog-backdrop: #ffffffa6;
+    --frb-dialog-button: #f8f9fa;
+    --frb-dialog-button-border: #a2a9b1;
+    --frb-dialog-button-text: #007de2;
+    --frb-dialog-button-hover: #eaf3ff;
+    --frb-dialog-button-border-hover: #a2a9b1;
+    --frb-dialog-button-text-hover: #007de2;
+    --frb-optin-no: var(--wmui-red-dark);
+    --frb-optin-yes: var(--wmui-green-dark);
+    --frb-smallprint: var(--wmui-base20);
+    --frb-smallprint-link: var(--wmui-accent);
+    --frb-smallprint-hover: var(--wmui-base0);
+}
+
+/* darkmode */
+html.skin-theme-clientpref-night .frb {
+    color-scheme: dark;
+    --frb-primary: #900;
+    --frb-primary-light: #fee7e6;
+    --frb-primary-dark: var(--frb-primary);
+    --frb-body: var(--wmui-base100);
+    --frb-link: #95a0d8;
+    --frb-link-hover: #aab2e0;
+    --frb-main-background: transparent;
+    --frb-message-background: #292b39;
+    --frb-message-border: #40424e;
+    --frb-fieldset-background: #0c0e17;
+    --frb-message: var(--wmui-base100);
+    --frb-muted: var(--wmui-base50);
+    --frb-muted-hover: var(--wmui-base80);
+    --frb-radio: var(--wmui-base0);
+    --frb-button: #202122;
+    --frb-button-border: #72777d;
+    --frb-button-hover: #101418;
+    --frb-button-border-hover: #677dc8;
+    --frb-button-active: #333;
+    --frb-button-focus: #677dc8;
+    --frb-button-border-focus: #677dc8;
+    --frb-button-selected: #677dc8;
+    --frb-button-border-selected: #677dc8;
+    --frb-button-text: #fff;
+    --frb-button-selected-text: #fff;
+    --frb-submit: #677dc8;
+    --frb-submit-border: #677dc8;
+    --frb-submit-hover: #aab2e0;
+    --frb-submit-border-hover: #aab2e0;
+    --frb-error: var(--wmui-red);
+    --frb-mini-banner-background: #223461;
+    --frb-mini-banner-border: #4e6cc0;
+    --frb-cta-background: #e38c8c;
+    --frb-dialog-backdrop: #000000a6;
+    --frb-dialog-button: #9a9eb6;
+    --frb-dialog-button-border: var(--frb-dialog-button);
+    --frb-dialog-button-text: var(--wmui-base0);
+    --frb-dialog-button-hover: #677dc8;
+    --frb-dialog-button-border-hover: var(--frb-dialog-button-hover);
+    --frb-dialog-button-text-hover: var(--wmui-base100);
+    --frb-optin-no: var(--wmui-red-dark);
+    --frb-optin-yes: var(--wmui-green-dark);
+    --frb-smallprint: var(--frb-muted);
+    --frb-smallprint-link: var(--frb-link);
+    --frb-smallprint-hover: var(--frb-muted-hover);
+}
+
+@media (prefers-color-scheme: dark) {
+    /* automatic mode */
+    html.skin-theme-clientpref-os .frb {
+        color-scheme: dark;
+        --frb-primary: #900;
+        --frb-primary-light: #fee7e6;
+        --frb-primary-dark: var(--frb-primary);
+        --frb-body: var(--wmui-base100);
+        --frb-link: #95a0d8;
+        --frb-link-hover: #aab2e0;
+        --frb-main-background: transparent;
+        --frb-message-background: #292b39;
+        --frb-message-border: #40424e;
+        --frb-fieldset-background: #0c0e17;
+        --frb-message: var(--wmui-base100);
+        --frb-muted: var(--wmui-base50);
+        --frb-muted-hover: var(--wmui-base80);
+        --frb-radio: var(--wmui-base0);
+        --frb-button: #202122;
+        --frb-button-border: #72777d;
+        --frb-button-hover: #101418;
+        --frb-button-border-hover: #677dc8;
+        --frb-button-active: #333;
+        --frb-button-focus: #677dc8;
+        --frb-button-border-focus: #677dc8;
+        --frb-button-selected: #677dc8;
+        --frb-button-border-selected: #677dc8;
+        --frb-button-text: #fff;
+        --frb-button-selected-text: #fff;
+        --frb-submit: #677dc8;
+        --frb-submit-border: #677dc8;
+        --frb-submit-hover: #aab2e0;
+        --frb-submit-border-hover: #aab2e0;
+        --frb-error: var(--wmui-red);
+        --frb-mini-banner-background: #223461;
+        --frb-mini-banner-border: #4e6cc0;
+        --frb-cta-background: #e38c8c;
+        --frb-dialog-backdrop: #000000a6;
+        --frb-dialog-button: #9a9eb6;
+        --frb-dialog-button-border: var(--frb-dialog-button);
+        --frb-dialog-button-text: var(--wmui-base0);
+        --frb-dialog-button-hover: #677dc8;
+        --frb-dialog-button-border-hover: var(--frb-dialog-button-hover);
+        --frb-dialog-button-text-hover: var(--wmui-base100);
+        --frb-optin-no: var(--wmui-red-dark);
+        --frb-optin-yes: var(--wmui-green-dark);
+        --frb-smallprint: var(--frb-muted);
+        --frb-smallprint-link: var(--frb-link);
+        --frb-smallprint-hover: var(--frb-muted-hover);
+        --frb-smallprint-hover: var(--frb-muted-hover);
+    }
+}
+
+/* Hide when editing */
+.action-edit .frb,
+.ve-activated .frb {
+    display: none !important;
+}
+
+/* Hide when printed */
+@media print {
+    .frb {
+        display: none !important;
+    }
+}
+
+.frb {
+    font-family: system-ui, -apple-system,BlinkMacSystemFont, "Segoe UI", Roboto, "Oxygen-Sans", Ubuntu, Cantarell, Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#centralNotice.collapsed .frb {
+    display: none;
+}
+
+/* z-index override for German Wikipedia */
+.mw-body {
+    z-index: auto;
+}
+
+#toc,
+.toc {
+    clear: left;
+}
+
+/* Box-sizing */
+.frb,
+.frb *,
+.frb *:before,
+.frb *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Resets */
+.frb * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: none;
+}
+
+.frb button {
+    cursor: pointer;
+}
+
+.frb frb-amt,
+.frb-replaced {
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .frb,
+    .frb * {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Inline banner styles
+---------------------------- */
+#frb-inline {
+    margin: 12px auto 0;
+    transition: all .2s ease-in-out;
+    max-width: 1200px;
+    text-align: left;
+}
+
+body.rtl #frb-inline {
+    text-align: right;
+}
+
+/* --- Top bar --- */
+
+.frb-inline-header {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.125;
+    flex: 0 0 100%;
+}
+
+/* --- Main content --- */
+
+.frb-inline-main {
+    background: var(--frb-main-background);
+    color: var(--frb-body);
+    font-size: 14px;
+    border: 5px solid var(--frb-primary);
+    box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.15);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    container-type: inline-size;
+    min-height: 240px;
+    position: relative;
+}
+
+.frb-inline-message {
+    font-weight: 600;
+    line-height: 1.5;
+    z-index: 2;
+}
+
+.frb-icon-info {
+    margin-bottom: -5px;
+    margin-right: 2px;
+    width: 25px;
+    height: 25px;
+}
+
+.frb-icon-info circle {
+    fill: var(--frb-checkbox);
+}
+
+.frb-icon-info path {
+    fill: var(--wmui-base100);
+}
+
+.frb-legend {
+    margin: 0;
+    padding: 6px 0 8px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+    color: var(--frb-muted);
+    font-weight: normal;
+    text-transform: none;
+}
+
+.frb-form fieldset.frb-haserror .error-highlight {
+    color: var(--frb-error);
+    font-weight: 600;
+}
+
+#frb-inline ul {
+    margin: 0;
+}
+
+.frb-form fieldset {
+    width: 100%;
+    margin: 0 auto 12px;
+    padding: 0;
+    border: none;
+}
+
+/*less padding to use less vertical height*/
+.frb-form .frb-methods {
+    margin-top: 6px;
+}
+
+/* 
+Hack to stop <form> taking up space in banner layout.
+Could move it outside banner element, but that makes a really messy diff     
+*/
+#frb-form {
+    position: absolute;
+}
+
+/* --- Common Button Styles --- */
+
+.frb .frb-btn,
+.frb .frb-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 48px;
+    margin: 0 auto;
+    padding: 2px 4px;
+    background-color: var(--frb-button);
+    color: var(--frb-button-text);
+    font-size: 16px;
+    border: 1px solid var(--frb-button-border);
+    border-radius: 2px;
+    outline: 0;
+    line-height: 1; /* 16px @16px */
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 100ms, color 100ms, border-color 100ms, box-shadow 100ms;
+}
+
+.frb .frb-btn:hover,
+.frb .frb-label:hover {
+    background-color: var(--frb-button-hover);
+    color: var(--frb-message);
+    border-color: var(--frb-button-border-hover);
+}
+
+.frb .frb-btn:active,
+.frb .frb-label:active {
+    background-color: #d9d9d9;
+    color: var(--frb-body);
+    border-color: #7d8389;
+}
+
+.frb input:disabled + .frb-label:hover,
+.frb input:disabled + .frb-label:active,
+.frb input:disabled + .frb-btn:hover,
+.frb input:disabled + .frb-btn:active {
+    background-color: var(--frb-button);
+    color: #222;
+    border-color: var(--frb-button-border);
+}
+
+.frb-btn svg,
+.frb-label svg {
+    max-width: 100%;
+}
+
+.frb input:checked + .frb-btn,
+.frb input:checked + .frb-label {
+    background-color: var(--frb-button-selected);
+    color: var(--wmui-base100);
+    border-color: var(--frb-button-border-selected);
+}
+
+.frb-form input[type="radio"]:checked + .frb-label svg.white-on-select {
+    filter: brightness(0) invert(1);
+}
+
+.frb-form input[type="radio"]:checked + #frb-amt-other-label #frb-amt-other-input {
+    color: var(--wmui-base100);
+    box-shadow: 0 1px 0 0 var(--wmui-base100);
+}
+
+.frb-btn:focus,
+.frb-label:focus,
+.frb-submit:focus,
+.frb-input:focus {
+    outline: 0;
+    border-color: var(--frb-button-border-focus);
+    box-shadow: inset 0 0 0 1px var(--frb-button-border-focus);
+}
+
+.frb-form input[type=radio]:focus + .frb-btn,
+.frb-form input[type=radio]:focus + .frb-label,
+.frb-form input[type=radio]:checked + .frb-btn:focus,
+.frb-form input[type=radio]:checked + .frb-label:focus,
+.frb-submit:focus {
+    box-shadow: inset 0 0 0 2px var(--frb-button-border-focus), inset 0 0 0 3px var(--wmui-base100);
+    border-color: var(--frb-button-border-focus) !important;
+}
+
+/* Submit/Continue buttons (blue background when active) */
+.frb .frb-submit {
+    width: 100%;
+    display: block;
+    margin-top: 8px;
+    padding: 16px 2px;
+    color: rgba(84,89,93,0.2);
+    background-color: var(--wmui-base100);
+    border: 1px solid var(--frb-button-border-hover);
+    cursor: default;
+    border-radius: 2px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    transition: background-color 0.5s ease;
+    opacity: .5;
+}
+
+.frb-submit.active {
+    color: var(--wmui-base100);
+    background-color: var(--frb-submit);
+    border-color: var(--frb-submit);
+    cursor: pointer;
+    opacity: 1;
+}
+.frb-submit.active:hover {
+    background-color: var(--frb-submit-hover);
+    border-color: var(--frb-submit-hover);
+}
+
+.frb-submit-txt-donate,
+.frb-submit-txt-onetime,
+.frb-submit-txt-monthly,
+.frb-submit-txt-annual {
+    display: none;
+}
+
+#frb-form[data-frequency="onetime"] .frb-submit-txt-onetime,
+#frb-form[data-frequency="monthly"] .frb-submit-txt-monthly,
+#frb-form[data-frequency="annual"] .frb-submit-txt-annual {
+    display: inline;
+}
+
+/* Hide radio buttons. Based on http://jqueryui.com/button/#radio */
+.frb-frequency input[type="radio"],
+.frb-methods input[type="radio"],
+.frb-amounts input[type="radio"],
+.frb-optin input[type="radio"],
+.frb-form input[type="checkbox"] {
+    position: absolute;
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+    clip: rect(0 0 0 0);
+    border: 0;
+    margin: -1px;
+    padding: 0;
+}
+
+/* --- Buttons layout --- */
+
+/* TODO - fix to remove !important */
+.frb-btn-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-left: -6px !important;
+    width: calc(100% + 12px) !important;
+}
+
+body.rtl .frb-btn-wrapper {
+    margin-left: 0 !important;
+    margin-right: -6px !important;
+}
+
+.frb-optin ul.frb-btn-wrapper,
+#frb-inline ul.frb-btn-second-wrapper {
+    margin-top: 12px;
+}
+
+.frb-btn-wrapper li,
+.frb-btn-wrapper > div {
+    flex: 1 0 0;
+    display: inline-block;
+    padding: 0 6px;
+}
+
+.frb-payment-options .frb-button {
+    min-width: 33%;
+    margin-bottom: 12px;
+}
+
+/* For 4 payment options, 2+2 */
+.frb-payment-options .frb-button:first-child:nth-last-child(4),
+.frb-payment-options .frb-button:first-child:nth-last-child(4) ~ .frb-button {
+    min-width: 50%;
+}
+
+/* For 5 payment options, 2+3 */
+.frb-payment-options .frb-button:first-child:nth-last-child(5) {
+    min-width: 50%;
+}
+
+.frb-amounts .frb-btn-wrapper li {
+    flex: 1 1 25%;
+    max-width: 25%;
+}
+
+/* -- set correct spacing between rows --*/
+.frb-amounts .frb-btn-wrapper li:first-child {
+    margin-bottom: 12px;
+}
+
+/* Disabled states */
+.frb-form input:disabled + label {
+    opacity: 0.4 !important;
+    cursor: default !important;
+}
+
+/* --- Other amount --- */
+
+#frb-amt-other-label {
+    position: relative;
+    padding: 18px 8px 8px;
+}
+
+#frb-amt-other-input {
+    margin: 0;
+    background: transparent;
+    border: none;
+    width: 100%;
+    font-size: 16px;
+    text-align: center;
+    direction: ltr;
+    -moz-appearance: textfield; /* remove number spinner in Firefox */
+    box-shadow: 0 1px 0 0 #444;
+}
+
+#frb-amt-other-input:focus {
+    outline: none;
+}
+
+.frb-amt-other-span {
+    position: absolute;
+    top: 5px;
+    font-size: 12px;
+    width: 100%;
+    line-height: 1;
+    left: 0;
+    text-align: center;
+}
+
+/* Remove number spinner Safari and Chrome */
+#frb-amt-other-input::-webkit-inner-spin-button,
+#frb-amt-other-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* --- Transaction fees options --- */
+
+/* Checkbox styles */
+
+.frb-checkbox-label {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    padding-left: 26px;
+    padding-top: 1px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.3571428571; /* 19px @14px */
+    font-weight: 600;
+    color: var(--frb-body);
+}
+body.rtl .frb-checkbox-label {
+    padding-left: 0;
+    padding-right: 26px;
+}
+
+/* Outer-box */
+.frb-checkbox-label::before {
+    position: absolute;
+    content: "";
+    top: 3px;
+    left: 0;
+    display: inline-block;
+    height: 17px;
+    width: 17px;
+    border-radius: 2px;
+    border: 1px solid var(--wmui-base50);
+    background-color: var(--wmui-base90);
+}
+body.rtl .frb-checkbox-label::before {
+    left: auto;
+    right: 0;
+}
+
+/* Checkmark */
+.frb-checkbox-label::after {
+    position: absolute;
+    content: "";
+    top: 8px;
+    left: 4px;
+    display: inline-block;
+    height: 5px;
+    width: 9px;
+    border-left: 2px solid;
+    border-bottom: 2px solid;
+    transform: rotate(-45deg);
+    border-color: var(--wmui-base100);
+}
+body.rtl .frb-checkbox-label::after {
+    left: auto;
+    right: 4px;
+}
+
+.frb-ptf-total {
+    font-weight: bold;
+}
+.frb-ptf-fee {
+    white-space: nowrap;
+}
+
+/* Hide the checkmark by default */
+.frb-checkbox + .frb-checkbox-label::after {
+    content: none;
+}
+/* Unhide the checkmark on the checked state */
+.frb-checkbox:checked + .frb-checkbox-label::after {
+    content: "";
+}
+
+.frb-checkbox:checked + .frb-checkbox-label:before {
+    background-color: var(--frb-checkbox);
+    border-color: var(--frb-checkbox);
+}
+
+/* Focus style - unchecked */
+.frb-checkbox:focus + .frb-checkbox-label::before {
+    border-color: var(--frb-checkbox);
+    box-shadow: inset 0 0 0 1px var(--frb-checkbox);
+}
+
+/* Focus style - checked */
+.frb-checkbox:focus:checked + .frb-checkbox-label::before {
+    box-shadow: inset 0 0 0 1px var(--frb-checkbox), inset 0 0 0 2px var(--wmui-base100);
+}
+
+/* Hover */
+.frb-checkbox:hover + .frb-checkbox-label::before {
+    background-color: var(--wmui-base80);
+}
+
+.frb-checkbox:checked:hover + .frb-checkbox-label:before {
+    background-color: #447ff5;
+    border-color: #447ff5;
+}
+
+
+/* Mostly so bank transfer methods don't overspill */
+.frb-methods .frb-label {
+    font-size: 13px;
+}
+
+/* --- Adjustments for SVGs with extra white space -- */
+.frb-logo-payments--paypal-usd {
+    margin-bottom: -6px;
+}
+
+/* --- Credit card logos --- */
+
+.frb-pm-cc svg {
+    display: none;
+    width: auto;
+    max-height: 22px;
+    flex: 1 0 0;
+}
+
+.frb-cc-logo-wrapper {
+    display: none;
+}
+
+.frb-cctypes-vmad .frb-pm-cc-label,
+.frb-cctypes-vmaj .frb-pm-cc-label,
+.frb-cctypes-vma  .frb-pm-cc-label,
+.frb-cctypes-vm   .frb-pm-cc-label {
+    display: none;
+}
+
+.frb-cctypes-vmad .frb-cc-logo-wrapper,
+.frb-cctypes-vmaj .frb-cc-logo-wrapper,
+.frb-cctypes-vma .frb-cc-logo-wrapper,
+.frb-cctypes-vm .frb-cc-logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 0; /* Remove spacing between icons */
+}
+
+.frb-cctypes-vmad .frb-cc-logo-visa,
+.frb-cctypes-vmad .frb-cc-logo-mastercard,
+.frb-cctypes-vmad .frb-cc-logo-amex,
+.frb-cctypes-vmad .frb-cc-logo-discover,
+
+.frb-cctypes-vmaj .frb-cc-logo-visa,
+.frb-cctypes-vmaj .frb-cc-logo-mastercard,
+.frb-cctypes-vmaj .frb-cc-logo-amex,
+.frb-cctypes-vmaj .frb-cc-logo-jcb,
+
+.frb-cctypes-vma .frb-cc-logo-visa,
+.frb-cctypes-vma .frb-cc-logo-mastercard,
+.frb-cctypes-vma .frb-cc-logo-amex,
+
+.frb-cctypes-vm .frb-cc-logo-visa,
+.frb-cctypes-vm .frb-cc-logo-mastercard {
+    display: inline-block;
+}
+
+/* --- Footer / Small Print --- */
+
+.frb-smallprint {
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 1.5; /* 18px @12px */
+    color: var(--frb-muted);
+    font-weight: normal;
+}
+
+.frb-smallprint a {
+    color: var(--frb-muted);
+    text-decoration: underline;
+}
+
+.frb-smallprint a:hover,
+.frb-smallprint a:focus {
+    color: var(--frb-muted-hover);
+}
+
+.frb-dialog .frb-smallprint {
+    color: var(--frb-smallprint);
+}
+
+.frb-dialog .frb-smallprint a {
+    color: var(--frb-smallprint);
+    text-decoration: underline;
+}
+
+.frb-dialog .frb-smallprint a:hover,
+.frb-dialog .frb-smallprint a:focus {
+    color: var(--frb-smallprint-hover);
+}
+
+.frb-optin .frb-smallprint {
+    font-size: 12px;
+    margin-top: 8px !important;
+}
+
+/* additional styles for streamlined footer */
+
+.frb-footer-streamlined {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 14px;
+}
+
+.frb-footer-streamlined a {
+    color: var(--frb-link);
+    font-weight: bold;
+    display: inline-block;
+    padding: 2px 0;
+}
+
+/* --- Close and RML Options --- */
+
+.frb-inline-bottombar {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.frb-footer-button {
+    font-size: 12px;
+    line-height: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+    color: var(--frb-smallprint);
+    height: 45px;
+    padding: 0 6px;
+    margin: 0 10px -10px 10px;
+}
+
+.frb-footer-button:hover,
+.frb-footer-button:focus {
+    color: var(--frb-smallprint-hover);
+}
+
+/* Close button icon */
+.frb-inline-close-icon {
+    margin-bottom: -2px;
+    width: 10px;
+}
+.frb-inline-close-icon g {
+    stroke: currentColor;
+}
+
+/* RML text color */
+.frb-rml-link {
+    color: var(--frb-smallprint-link);
+    font-weight: bold;
+}
+.frb-rml-link:hover,
+.frb-rml-link:focus {
+    color: var(--frb-smallprint-link);
+}
+
+/* RML clock icon */
+.frb-inline-rml-icon {
+    margin-bottom: -3px;
+    width: 13px;
+}
+.frb-inline-rml-icon path {
+    fill: currentColor;
+}
+.frb-inline-rml-icon circle {
+    stroke: currentColor;
+}
+
+.frb-input {
+    background: var(--wmui-base100);
+    width: 100%;
+    display: block;
+    padding: 7px 12px;
+    margin: 0;
+    font-size: inherit;
+    color: #000;
+    border: 1px solid var(--frb-button-border);
+    border-radius: 2px;
+    height: 45px;
+}
+.frb-input.frb-haserror {
+    border-color: var(--frb-error);
+    box-shadow: inset 0 0 0 1px var(--frb-error);
+}
+
+/* "mini-banner" banner styles
+---------------------------- */
+
+/* make space at bottom of page for fixed mini-banner */
+.mw-page-container {
+    padding-bottom: 100px;
+}
+
+div#frb-mini-banner {
+    display: none;
+    position: fixed;
+    width: 90%;
+    bottom: 0;
+    left: 5%;
+    z-index: 110;
+    background-color: var(--frb-mini-banner-background);
+    box-shadow: 0 0 15px 0 rgba(0,0,0,.7);
+    border-radius: 10px 10px 0 0;
+    transform: translateX(0);
+    color: var(--frb-body);
+    font-size: 15px;
+    font-style: normal; /* needed for uk.wikipedia */
+    transition: margin 1s ease-in-out;
+}
+
+@media all and (min-width: 960px) {
+    div#frb-mini-banner {
+        left: 50%;
+        width: 100%;
+        max-width: 910px;
+        transform: translateX(-50%);
+    }
+}
+
+/* Extra specificity for https://phabricator.wikimedia.org/T247126 */
+#frb-mini-banner.frb {
+    margin-bottom: -100%;
+}
+
+#frb-mini-banner.reveal {
+    margin-bottom: 0;
+}
+
+#frb-mini-banner .frb-mini-banner-link {
+    position: relative;
+    width: 100%;
+    padding: 20px 20px 20px 25px;
+    margin: auto;
+    cursor: pointer;
+    color: var(--frb-body) !important;
+    transition: color 0.5s ease, background-color 0.5s ease;
+    display: flex;
+    align-items: center;
+}
+
+#frb-mini-banner:hover .frb-mini-banner-link {
+    text-decoration: none !important;
+}
+
+/* --- mini-banner Close button --- */
+
+#frb-mini-banner .frb-mini-banner-close {
+    display: inline-block;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    z-index: 999;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+}
+body.rtl #frb-mini-banner .frb-mini-banner-close {
+    right: auto;
+    left: 10px;
+}
+
+#frb-mini-banner .frb-mini-banner-close:hover .frb-icon g {
+    stroke: var(--frb-body);
+    transition: all 0.5s ease;
+}
+
+#frb-mini-banner .frb-icon-close {
+    width: 16px;
+    height: 16px;
+}
+
+/* -------------- Flex items -------------- */
+
+#frb-mini-banner .frb-mini-banner-message {
+    flex: 1 0 0;
+    text-align: left;
+    line-height: 1.4;
+    padding: 0 20px 0 0;
+    font-weight: 500;
+}
+
+#frb-mini-banner .frb-mini-banner-buttons {
+    min-width: 180px;
+}
+
+.frb-mini-banner-heading {
+    display: block;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+/* --- mini-banner buttons --- */
+
+#frb-mini-banner .frb-donate-button {
+    display: inline-block;
+    background-color: #990000;
+    color: var(--wmui-base100);
+    font-size: 18px;
+    white-space: nowrap;
+    line-height: 1;
+    text-transform: uppercase;
+    padding: 14px;
+    border-radius: 5px;
+    outline: 0;
+    text-align: center;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    vertical-align: middle;
+    position: relative;
+    transition: all .25s ease-in-out;
+}
+#frb-mini-banner .frb-donate-button:hover {
+    background-color: var(--wmui-base100);
+    color: #444;
+}
+#frb-mini-banner .frb-donate-button:active {
+    background-color: var(--wmui-base0);
+    color: var(--wmui-base100);
+}
+
+#frb-mini-banner .frb-rml-link {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 0 15px;
+    background-color: transparent;
+    color: var(--frb-link);
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 11px 0;
+    font-weight: 700;
+}
+#frb-mini-banner .frb-rml-link:hover,
+#frb-mini-banner .frb-rml-link:active {
+    color: var(--frb-link-hover);
+}
+
+.frb-inline-message {
+    flex: 1 0 0;
+    font-size: 13.5px;
+}
+
+.frb-cta-first {
+    flex: 1 0 100%;
+    position: relative;
+    z-index: 2;
+}
+
+@container (min-width: 640px) {
+    .frb-cta-first {
+        flex: 1 0 300px;
+        max-width: 300px;
+    }
+
+    .frb-wmf-identity-message {
+        display: none;
+    }
+}
+
+@container (min-width: 720px) {
+    .frb-inline-message {
+        font-size: 15px;
+    }
+}
+
+@container (min-width: 800px) {
+    .frb-inline-message {
+        font-size: 16px;
+    }
+}
+
+@container (min-width: 1000px) {
+    .frb-inline-message {
+        font-size: 16.5px;
+    }
+}
+
+/* Error messages */
+.frb .frb-error {
+    display: none;
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--frb-error);
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+}
+
+/* --- opt-in and email --- */
+
+#frb-form fieldset.frb-optin {
+    margin: 12px auto;
+}
+
+.frb-form .frb-optin {
+    margin-bottom: 1px;
+}
+
+.frb-optin-no-prompt {
+    display: none;
+    clear: both;
+    margin-top: 8px;
+    padding: 6px 6px 5px 6px;
+    border: 1px solid var(--wmui-red-dark);
+    background-color: var(--frb-optin-no);
+    color: var(--wmui-base100);
+    border-radius: 2px;
+    font-size: 14px;
+    line-height: 1.2857142857; /*18px @14px*/
+    font-weight: normal;
+}
+
+.frb-optin-no-prompt.is-positive {
+    border-color: var(--wmui-green-dark);
+    background-color: var(--frb-optin-yes);
+    font-weight: bold;
+}
+
+.frb-optin-no-prompt__yes {
+    display: none;
+}
+
+.frb-optin-no-prompt__no {
+    display: block;
+}
+
+.frb-optin-no-prompt.is-positive .frb-optin-no-prompt__yes {
+    display: block;
+}
+
+.frb-optin-no-prompt.is-positive .frb-optin-no-prompt__no {
+    display: none;
+}
+
+/* --- Back buttons --- */
+.frb .frb-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 16'%3E%3Cg fill='none' fill-rule='evenodd' transform='translate(1 1)'%3E%3Cpath stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.778' d='M7.181 13.285L.753 7 7.181.715'%3E%3C/path%3E%3Crect fill='%23000' width='18.182' height='1.778' x='.818' y='6.111' rx='.889'%3E%3C/rect%3E%3C/g%3E%3C/svg%3E");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5;
+}
+
+.frb .frb-back:hover {
+    opacity: 1;
+}
+
+.frb-dialog .frb-back {
+    top: 5px;
+    left: 5px;
+}
+
+/* --- Disable I already donated --- */
+.frb.frb-iad-disabled .frb-iad-link {
+    display: none;
+}
+
+/* CTA first */
+/* TODO: have these re-use other button styles */
+
+.frb-cta-first {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.frb-cta-first .frb-btn {
+    margin: 0;
+}
+
+.frb .frb-cta-first .frb-btn-cta .frb-btn-cta-label {
+    position: relative;
+    padding-right: 15px;
+    font-weight: 600;
+}
+
+.frb .frb-cta-first .frb-btn-cta .frb-btn-cta-label::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6.7 12'%3E%3Cpath d='M.9 0L0 .9 5.1 6 0 11.1l.9.9 5.5-5.5c.3-.3.3-.7 0-.9L.9 0z' fill='%23fff'/%3E%3C/svg%3E");
+    content: ' ';
+    position: absolute;
+    top: 52.5%;
+    right: 0;
+    width: 7px;
+    height: 12px;
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.frb .frb-cta-first .frb-submit.frb-btn-cta {
+    width: auto;
+    text-align: center;
+    padding: 10px 15px;
+    margin-top: 0;
+    height: 45px;
+    background-color: #36c;
+    border-color: #36c;
+    color: #fff;
+    font-size: 16px;
+    opacity: 1;
+}
+
+.frb .frb-cta-first .frb-submit.frb-btn-cta:hover {
+    background-color: #447ff5;
+    border-color: #447ff5;
+}
+
+.frb .frb-cta-first .frb-btn.frb-btn-simple {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--frb-link);
+    font-weight: normal;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.frb .frb-cta-first .frb-btn.frb-btn-simple:hover {
+    text-decoration: underline;
+    color: var(--frb-link);
+}
+
+.frb .frb-cta-first .frb-btn.frb-btn-simple:focus {
+    box-shadow: none;
+    color: #447ff5;
+    text-decoration: underline;
+}
+
+/* wmf identity */
+
+.frb-wmf-identity {
+    flex: 0 0 100%;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.frb-wmf-identity-logo {
+    max-width: 85px;
+    height: 20px;
+}
+
+.frb-wmf-identity-message {
+    font-size: 13px;
+    color: var(--frb-message);
+}
+
+/* -- Dialogs -- */
+
+.frb-dialog {
+    display: none; /* needed for unsupported browsers */
+    background: var(--frb-fieldset-background);
+    border: 1px solid var(--frb-button-border);
+    border-radius: 2px;
+    box-shadow: 0 2px 2px #0003;
+    width: 90%;
+    max-width: 600px;
+    padding: 40px 20px;
+    text-align: left;
+}
+
+.frb-dialog[open] {
+    display: block;
+    margin: auto; /* needed for dialogs inside other containers */
+}
+
+.frb-dialog::backdrop {
+    background: var(--frb-dialog-backdrop);
+}
+
+.frb-dialog-title {
+    font-size: 17px;
+    color: var(--frb-body);
+    font-weight: bold;
+    border: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.frb-dialog-text {
+    font-size: 15px;
+    line-height: 1.44;
+    margin-bottom: 20px;
+    max-width: 530px;
+}
+
+.frb-dialog-text p {
+    margin: 0 0 1em;
+}
+
+.frb-dialog-text strong {
+    font-weight: bold;
+}
+
+@media (min-width: 720px) {
+    .frb-dialog {
+        padding: 40px;
+    }
+}
+
+/* -- I already donated -- */
+
+#frb-dialog-iad .frb-dialog-title svg {
+    width: 23px;
+    position: relative;
+    top: 5px;
+}
+
+.frb-iad-text {
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.frb-iad-store span.frb-dialog-img {
+    float: left;
+    margin-right: 20px;
+}
+
+/* invert image and hue shift for night mode */
+
+html.skin-theme-clientpref-night .frb-iad-store span.frb-dialog-img {
+    filter: hue-rotate(145deg) invert(1);
+}
+
+@media (prefers-color-scheme: dark) {
+    html.skin-theme-clientpref-os .frb-iad-store span.frb-dialog-img {
+        filter: hue-rotate(145deg) invert(1);
+    }
+}
+
+.frb-iad-store strong {
+    font-weight: bold;
+    display: block;
+    font-size: 17px;
+}
+
+.frb-iad-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.frb-iad-buttons button {
+    width: 100%;
+    padding: 10px 15px;
+    display: block;
+    border-radius: 2px;
+    border: solid 1px var(--frb-dialog-button-border);
+    background-color: var(--frb-dialog-button);
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2;
+    color: var(--frb-dialog-button-text);
+    cursor: pointer;
+}
+
+.frb-iad-buttons button.frb-dialog-close {
+    border: none;
+    padding: 0;
+    background: 0;
+    color: var(--frb-body);
+}
+
+.frb-iad-buttons button.frb-dialog-action {
+    margin: 0 0 20px;
+    width: auto;
+    border: solid 1px #E679A6;
+    background-color: #E679A6;
+    color: var(--wmui-base0);
+}
+
+.frb-iad-buttons button.frb-dialog-action:hover{
+    border: solid 1px #F9DDE9;
+    background-color: #F9DDE9;
+    color: var(--wmui-base0);
+}
+
+.frb-iad-buttons button.frb-dialog-close:hover,
+.frb-iad-buttons button.frb-dialog-close:focus {
+    text-decoration: underline;
+}
+
+/* --- Maybe later --- */
+
+.frb-rml-disabled .frb-rml,
+.frb-rml-disabled .frb-rml-link,
+.frb-rml-disabled #mini-banner-rml-btn {
+    display: none !important;
+}
+
+.frb-rml-form-legend {
+    display: block;
+    margin: 0 0 4px;
+    padding: 0;
+    font-weight: normal;
+    text-align: inherit;
+    font-size: 14px;
+    line-height: 1.2142857143;
+    color: var(--frb-muted);
+}
+
+.frb-rml-form input {
+    width: 100%;
+    padding: 4px 8px;
+    border: 1px solid var(--wmui-base50);
+    border-radius: 2px;
+    color: var(--frb-body);
+    font-size: 16px;
+    height: 45px;
+    margin-bottom: 20px;
+}
+
+#frb-rml-phone.frb-haserror,
+#frb-rml-email.frb-haserror {
+    border-color: var(--frb-error) !important;
+    box-shadow: inset 0 0 0 1px var(--frb-error) !important;
+}
+
+#frb-dialog-rml .frb-error {
+    text-align: left;
+    margin: 2px 0 0 !important;
+}
+
+.frb-dialog .frb-submit {
+    margin: 0;
+    width: 100%;
+}
+
+.frb-dialog .frb-rml-form-phone .frb-submit {
+    margin-top: 20px;
+}
+
+.frb-dialog .frb-smallprint {
+    margin-top: 20px;
+}
+
+.frb-rml-ty {
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.44;
+}
+
+/* --- Recurring Pitch --- */
+
+/* latin-ext */
+@font-face {
+    font-family: 'Caveat Brush';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url("data:,") format('woff2');
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+    font-family: 'Caveat Brush';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url("data:,") format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* greek (Mynerve) */
+@font-face {
+    font-family: 'Mynerve';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url("data:,") format('woff2');
+    unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+.frb-recurring-pitch {
+    width: 66%;
+    margin-left: auto;
+    margin-right: 0;
+    margin-top: 8px;
+    padding: 0 16px;
+}
+
+.frb-recurring-pitch-message,
+.frb-recurring-pitch-thanks {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--frb-link);
+    font-family: 'Caveat Brush', sans-serif;
+    text-align: center;
+}
+
+html[lang="el"] .frb-recurring-pitch-message,
+html[lang="el"] .frb-recurring-pitch-thanks {
+    font-family: 'Mynerve', sans-serif;
+    font-size: 16px;
+}
+
+.frb-recurring-pitch-thanks {
+    display: none;
+}
+
+.frb-recurring-pitch-thanks-heart {
+    width: 25px;
+    height: 25px;
+    flex: 0 0 25px;
+    margin-top: -4px;
+}
+
+.frb-monthly-pitch-arrow-left,
+.frb-monthly-pitch-arrow-right {
+    flex: 0 0 18px;
+    margin-top: -4px;
+}
+
+.frb-monthly-pitch-arrow-left {
+    transform: scale(-1,1);
+}
+
+#frb-form:not([data-frequency="onetime"]) .frb-recurring-pitch-message { display: none; }
+#frb-form:not([data-frequency="onetime"]) .frb-recurring-pitch-thanks { display: flex; }
+
+.form-recurring-disabled .frb-recurring-pitch {
+    opacity: 0.4;
+}
+
+/* --- Frequency --- */
+
+.frb-annual-disabled .frb-frequency ul li:nth-of-type(3) {
+    display: none;
+}
+
+.frb-annual-disabled .frb-recurring-pitch {
+    width: 50%;
+}
+
+/* --- Night Mode Adjustments --- */
+
+html.skin-theme-clientpref-night .frb-label svg.white-on-select {
+    filter: brightness(0) invert(1);
+}
+
+@media (prefers-color-scheme: dark) {
+    html.skin-theme-clientpref-os .frb-label svg.white-on-select {
+        filter: brightness(0) invert(1);
+    }
+}
+
+
+.frb-fireworks {
+    margin: 0 auto;
+    max-width: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -200px);
+    z-index: 100;
+}
+
+.frb-fireworks > .boom1, .frb-fireworks > .boom2 {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;
+    animation: 1s bang ease-out 1 backwards, 1s gravity ease-in 1 backwards, 5s position linear 1 backwards;
+}
+
+.frb-fireworks > .boom2 {
+    animation-delay: 0.3s, 1s, 1s;
+    animation-duration: 1.25s, 1.25s, 8.25s;
+}
+
+@keyframes bang {
+    to {
+        box-shadow: -169px -95.6666666667px #009dff, -230px -59.6666666667px #00ff1e, -155px -248.6666666667px #a600ff, -39px -301.6666666667px #ffea00, -172px -343.6666666667px #00ff04, -195px -98.6666666667px #d0ff00, -40px -23.6666666667px #ff00b3, -197px 67.3333333333px #e100ff, 250px -38.6666666667px #6600ff, 217px -118.6666666667px deepskyblue, -242px -48.6666666667px #40ff00, 228px -390.6666666667px #ff6600, 246px -8.6666666667px #4800ff, 193px -305.6666666667px #00ff51, 120px -294.6666666667px #3cff00, -24px -386.6666666667px #ff001e, 71px 65.3333333333px #00ffb3, 197px -257.6666666667px #0044ff, 197px 19.3333333333px #ff4800, -72px -43.6666666667px #ff0080, 163px -108.6666666667px #99ff00, -207px -65.6666666667px #00ffbf, -89px 2.3333333333px #6200ff, -167px -361.6666666667px #00ff55, 219px 38.3333333333px #00ff55, -177px -247.6666666667px #00ff6a, 176px 43.3333333333px #bbff00, -60px -131.6666666667px #ff00a6, -236px -296.6666666667px #00ffd0, 223px -410.6666666667px #ff0088, 92px -377.6666666667px #00ff1e, 91px -383.6666666667px #ff0040, 88px -281.6666666667px #001aff, 41px 49.3333333333px #00ffd0, -112px -96.6666666667px #6a00ff, 230px -121.6666666667px #c8ff00, -203px -48.6666666667px #00ff4d, -8px -373.6666666667px #5e00ff, 154px -366.6666666667px #ff0048, -224px 71.3333333333px #e600ff, 55px 73.3333333333px #ffbb00, 248px 60.3333333333px #88ff00, -191px -394.6666666667px #005eff, -10px -244.6666666667px #00ffe6, 40px -128.6666666667px yellow, 45px -205.6666666667px #00ff04, -55px -18.6666666667px #0080ff, 79px -200.6666666667px #04ff00, 172px -124.6666666667px #00e6ff, -177px 31.3333333333px #c4ff00, -63px -36.6666666667px #09ff00;
+    }
+}
+
+@keyframes gravity {
+    to {
+        transform: translateY(200px);
+        opacity: 0;
+    }
+}
+
+
+.frb-submit.frb-rml-btn {
+    margin-bottom: 10px;
+}
+
+.frb-rml-form input#frb-rml-phone {
+    width: 150px;
+    display: block;
+}
+
+#frb-rml-form-phone .frb-smallprint {
+    margin: 20px 0;
+}
+
+/* temporary? fix to stop sidebar overlapping mini-banner buttons on small screens */
+.vector-body {
+    z-index: 1;
+}
+
+
+/* Charity Rating Logos */
+
+/* hide for non-English languages */
+html:not([lang="en"]) .frb-ratings {
+    display: none;
+}
+
+.frb-ratings {
+    margin: 25px 0 15px;
+    text-align: center;
+    color: var(--frb-muted);
+}
+
+.frb-ratings-title {
+    margin-bottom: 10px;
+}
+
+.frb-rating-logos {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.frb-rating-logo {
+    flex: 0 1 100px;
+    padding: 0 5px;
+}
+
+/* -- upsell / monthly convert dialog -- */
+#frb-dialog-upsell {
+    margin: auto;
+    text-align: center;
+}
+#frb-dialog-upsell .frb-submit,
+#frb-dialog-upsell .frb-monthly-diff-amt-link {
+    margin: 8px 0 0 0;
+}
+
+.frb-icon-heart path {
+    fill: #900;
+}
+
+.frb .frb-monthly-diff-amt-link {
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--frb-link);
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    height: 52px;
+}
+
+.frb .frb-monthly-diff-amt-link:hover {
+    color: var(--frb-link-hover);
+}
+
+.frb-step-monthly-diff-amt label {
+    display: block;
+    margin-bottom: .5em;
+}
+
+#frb-amt-monthly-other-input {
+    text-align: center;
+    font-size: 18px;
+    height: 45px;
+    width: 80px;
+    border: 1px solid var(--frb-button-border);
+    border-radius: 2px;
+}
+

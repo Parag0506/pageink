@@ -1,0 +1,18 @@
+{
+  "id": "mdn-http-cache-control",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "e3b0c44298fc1c14.css",
+    "9dd6fe531e332c6c.css"
+  ],
+  "a": {
+    "url": "https://web.archive.org/web/20230302020345/https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control",
+    "sha256": "279e8cdfd2653d82a9f1cfb695d7a14b35f1619cf6eec8a3bdb926f5c845cb5e",
+    "bytes": 167471
+  },
+  "b": {
+    "url": "https://web.archive.org/web/20240902021116/https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control",
+    "sha256": "34085b185358d50e91618b02b375e9a7a68b914194ae6c73697b738f04515a0a",
+    "bytes": 187961
+  }
+}

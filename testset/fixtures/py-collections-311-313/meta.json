@@ -1,0 +1,23 @@
+{
+  "id": "py-collections-311-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "7272fce305915a5f.css",
+    "a3f4575ccc382081.css",
+    "349de5d323219ff8.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.11/library/collections.html",
+    "sha256": "cccd758ecbcf15dc6fbe019cab68b21d279aee556c2d2b81615b806ad3a71e50",
+    "bytes": 202920
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/library/collections.html",
+    "sha256": "5e3a5bffdb1f51bb0d6257777ce7ab89113a0b0311c37a56f2c3a27a2148437d",
+    "bytes": 214673
+  }
+}

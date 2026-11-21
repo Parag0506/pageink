@@ -1,0 +1,29 @@
+{
+  "id": "wiki-rainbow-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "30de332117acba75.css",
+    "6576318ee595573c.css",
+    "182813dd81c13a23.css",
+    "14fa8559badd650d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css",
+    "8e02c666b7a119bd.css",
+    "705f73c6a7b1ae8c.css",
+    "d01de94747fb60eb.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "5b8b3b9ff936479a.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Rainbow&oldid=1305570070",
+    "sha256": "342fefa5e645d72abfc389f58ac87416a6366916e3485867d83acc2dd89b23e9",
+    "bytes": 590950
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Rainbow&oldid=1314145515",
+    "sha256": "2495b8c2189e37abbe317b5da9a5ba072b86dfe57a8eea779dfbca952c800ff4",
+    "bytes": 591625
+  }
+}

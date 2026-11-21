@@ -1,0 +1,21 @@
+{
+  "id": "py-re-312-314",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "a3f4575ccc382081.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.12/library/re.html",
+    "sha256": "f463dd857a0d96c1d84ca969a1e851a34dadc78fa726070ae236e626e00ebb03",
+    "bytes": 247260
+  },
+  "b": {
+    "url": "https://docs.python.org/3.14/library/re.html",
+    "sha256": "20fe45e74ab44183c78dad88f3224c175d8d645549e9e7eb84668b41d6203ed8",
+    "bytes": 257501
+  }
+}

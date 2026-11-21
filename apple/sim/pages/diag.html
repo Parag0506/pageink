@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnostics channel</title>
+<style>
+  body { font: 20px/1.7 Georgia, serif; margin: 0; padding: 48px 40px; color: #8a8a8a; background: #fff; }
+  #out { font: 14px ui-monospace, monospace; }
+</style>
+</head>
+<body>
+<h1>Diagnostics channel</h1>
+<p>A diagnostics build of the extension says hello to this page, as it does to the device check page.</p>
+<p id="out">diag waiting end</p>
+<script>
+  // Test only. Shows what the diagnostics build reports, in one line the UI test reads.
+  const out = document.getElementById('out');
+  const seen = { hello: 0, all: 'none', viewer: 'no', pdf: 0 };
+  const show = () => {
+    out.textContent = `diag hello=${seen.hello} all=${seen.all} viewer=${seen.viewer} pdf=${seen.pdf} end`;
+  };
+  addEventListener('message', (e) => {
+    if (e.origin !== location.origin || !e.data || typeof e.data !== 'object') return;
+    const kind = e.data['ink-diag'];
+    if (kind === 'hello') {
+      seen.hello++;
+      seen.all = String(e.data.all);
+      seen.viewer = typeof e.data.viewer === 'string' && e.data.viewer.endsWith('/pdf.html') ? 'yes' : 'no';
+    } else if (kind === 'log' && Array.isArray(e.data.records)) {
+      seen.pdf = e.data.records.filter((r) => r && r.where === 'pdf').length;
+    }
+    show();
+  });
+  const ask = () => {
+    postMessage({ 'ink-check': 'hello' }, location.origin);
+    postMessage({ 'ink-check': 'log' }, location.origin);
+  };
+  setInterval(ask, 1000);
+  ask();
+</script>
+</body>
+</html>

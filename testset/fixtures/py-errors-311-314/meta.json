@@ -1,0 +1,23 @@
+{
+  "id": "py-errors-311-314",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "7272fce305915a5f.css",
+    "a3f4575ccc382081.css",
+    "349de5d323219ff8.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.11/tutorial/errors.html",
+    "sha256": "20b8a20357534b9c25410455180ef80b89c2d7c577614c680a5a3b254a6a3bbf",
+    "bytes": 84662
+  },
+  "b": {
+    "url": "https://docs.python.org/3.14/tutorial/errors.html",
+    "sha256": "d670d498f6a78af5817dae2669be3141f3b086f879177c257c1396ebc3c1268a",
+    "bytes": 90457
+  }
+}

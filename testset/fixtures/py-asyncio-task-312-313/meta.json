@@ -1,0 +1,21 @@
+{
+  "id": "py-asyncio-task-312-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "a3f4575ccc382081.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.12/library/asyncio-task.html",
+    "sha256": "abb778970e4d4e16ef090b4f4e373067c188cce69fbaa7f70262879f4ff83227",
+    "bytes": 162629
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/library/asyncio-task.html",
+    "sha256": "8a8d5958e817800b8094c8714bbcb52db9918bedda3e85b775bbd17054a32ae4",
+    "bytes": 174164
+  }
+}

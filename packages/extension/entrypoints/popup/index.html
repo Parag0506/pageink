@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>%NAME%</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <img src="/icons/mark-small.svg" alt="" width="20" height="20" />
+      <span id="host">%NAME%</span>
+    </header>
+    <div id="access" class="access" role="alert" hidden>
+      <button id="access-go" type="button"></button>
+    </div>
+    <button id="draw" type="button" aria-pressed="false">Draw on this page</button>
+    <label class="row"><input id="site" type="checkbox" /> %NAME% on this site</label>
+    <p id="count" class="muted">No notes on this page</p>
+    <p id="note" class="muted" hidden></p>
+    <div id="attention" class="attention" role="status" hidden>
+      <p id="attention-text"></p>
+      <div class="row">
+        <button id="attention-go" type="button"></button>
+        <button id="attention-later" type="button" hidden>Not now</button>
+      </div>
+    </div>
+    <nav>
+      <a id="library" href="/options.html#library">Notes library</a>
+      <a id="settings" href="/options.html#settings">Settings</a>
+    </nav>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

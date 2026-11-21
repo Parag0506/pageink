@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Page with frames</title>
+<style>body { font: 16px/1.5 sans-serif; margin: 20px; } iframe { border: 1px solid #888; display: block; margin: 12px 0; }</style>
+</head>
+<body>
+<h1>Top page</h1>
+<p>The frames below come from this origin and from another one.</p>
+<script>
+  const q = new URLSearchParams(location.search);
+  for (const [id, src] of [['same', '/child.html'], ['cross', q.get('cross')]]) {
+    if (!src) continue;
+    const f = document.createElement('iframe');
+    f.id = id;
+    f.width = 520;
+    f.height = 220;
+    f.src = src;
+    document.body.append(f);
+  }
+</script>
+</body>
+</html>

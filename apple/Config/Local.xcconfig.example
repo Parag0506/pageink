@@ -1,0 +1,5 @@
+// Copy to Local.xcconfig and fill in. Local.xcconfig is ignored by git.
+// Your team id is in Xcode, Settings, Accounts, or on the Membership page of your developer account.
+DEVELOPMENT_TEAM =
+// Bundle ids are unique per account. Use something you own.
+INK_BUNDLE_ID_BASE = org.example.pageink

@@ -1,0 +1,75 @@
+{
+  "about": "Known answers for the password lock in docs/FORMAT.md. Key: PBKDF2-HMAC-SHA-256 over the NFC UTF-8 password, 32 bytes. Check: HMAC-SHA-256(key, \"lock-check-v1\"). Sub keys: HKDF-SHA-256(key, empty salt, info \"pageink lock v2 seal\" | \"pageink lock v2 lock file\" | \"pageink lock v2 names\"), 32 bytes each. Name: the first 10 bytes of HMAC-SHA-256(names key, page key) in lower case base32. Seal (version 2): AES-256-GCM under the seal key, 12 byte nonce, 16 byte tag, additional data \"pageink-lock-v2\\n\" followed by the name. Lock file MAC: HMAC-SHA-256(lock file key, lockMacText). The envelopes are the exact file text. v1Envelope is version 1, read only to move a place to version 2: AES-256-GCM under the key itself, additional data \"lock-v1\". plainNames: the names used while the lock is off.",
+  "vectors": [
+    {
+      "password": "correct horse battery staple",
+      "passwordNfcUtf8Hex": "636f727265637420686f727365206261747465727920737461706c65",
+      "saltB64": "AAECAwQFBgcICQoLDA0ODw==",
+      "iterations": 600000,
+      "keyHex": "ef177144eec9420cbc1093d2a8b344a92bc506d0d4ec9c028dd19f8324d8c1e6",
+      "checkB64": "A5nVlOkBOHKokGldnhQbgYPMROraDeAGor3sK7nGpo4=",
+      "recoveryCode": "54LX-CRHO-ZFBA-ZPAQ-SPJK-RM2E-VEV4-KBWQ-2TWJ-YAUN-2GPY-GJGY-YHTA",
+      "sealKeyHex": "ff8bfd4b18d540ad1b735e1934a1bd2473fdabb334664c93fd882d1b1a6216b1",
+      "fileKeyHex": "82e02980db34872f8fbe623ef9900c5ec1ce6a29e0685fe6fefbbaa8f52f9736",
+      "namesKeyHex": "331d8717a5439deed9f3337ed44c3bff86f5d6acaa8f97bb10e3400f684a4bfa",
+      "pageKey": "https://example.com/a",
+      "name": "pages/t4yl2cfevbhz6hwi.ink.json",
+      "nonceB64": "ZGVmZ2hpamtsbW5v",
+      "plaintext": "{\n  \"v\": 1,\n  \"key\": \"https://example.com/a\",\n  \"urls\": [\n    \"https://example.com/a\"\n  ],\n  \"title\": \"A\",\n  \"updatedAt\": 1,\n  \"notes\": [],\n  \"deleted\": []\n}\n",
+      "envelope": "{\"lock\":2,\"alg\":\"A256GCM\",\"f\":\"pages/t4yl2cfevbhz6hwi.ink.json\",\"n\":\"ZGVmZ2hpamtsbW5v\",\"c\":\"kvrvt+osyJqKwvJUj8dzIAmFlmUhck4OYVES+IwWYnosz3nfXhqRKBV+Oz6EHxkFo/+swy5dSKYSQ59oh2kWa+xanBnwBtct0qXYpAoXitLXwdYZmq208LhyCCTwCR9SQ2O8CwUdOqmKdbn6MZRcFyYTRRLZw3YdEBPnDGDoShqm1QhGgCtgCErf7T6hKmrucXrbmWwfoJX/C579v1qKsd0LfKzbe2aXOiDMWugb\"}\n",
+      "cipherAndTagHex": "92faefb7ea2cc89a8ac2f2548fc773200985966521724e0e615112f88c16627a2ccf79df5e1a9128157e3b3e841f1905a3ffacc32e5d48a612439f688769166bec5a9c19f006d72dd2a5d8a40a178ad2d7c1d6199aadb4f0b8720824f0091f524363bc0b051d3aa98a75b9fa31945c1726134512d9c3761d1013e70c60e84a1aa6d50846802b60084adfed3ea12a6aee717adb996c1fa095ff0b9efdbf5a8ab1dd0b7cacdb7b66973a20cc5ae81b",
+      "lockState": "on",
+      "lockMacText": "pageink-lock-file-v2\nkdf=PBKDF2,SHA-256,600000,AAECAwQFBgcICQoLDA0ODw==\ncheck=A5nVlOkBOHKokGldnhQbgYPMROraDeAGor3sK7nGpo4=\nstate=on\n",
+      "lockMacB64": "1vlBFXEv1otgjtJ/6fPCCxvfJZu3e7GspEBKk44G3Z0=",
+      "v1Envelope": "{\"lock\":1,\"alg\":\"A256GCM\",\"n\":\"ZGVmZ2hpamtsbW5v\",\"c\":\"8eqvop592l+h6DHvUzOes6Hvl78tHlw+hMQi015ohvQ40X03IHRAm9Fm08iz4Q+yBiecUaMwH5LdA4KP8EaRTWYCJo6SkrusLXMYiVLk0/75tlBTlasfNHHWqUSTG4HNKx7sYKGXhuFi5eScUNU0iFD2n7qqpOk/CfsQdOc6kTSGDSmK66TI4/qSl/OhCaZr61+SHdd8Twj3YkGCilp2mSHKuFX4B8pEa/InKOzy\"}\n"
+    },
+    {
+      "password": "pässwörd ✍",
+      "passwordNfcUtf8Hex": "70c3a4737377c3b6726420e29c8d",
+      "saltB64": "yMnKy8zNzs/Q0dLT1NXW1w==",
+      "iterations": 100000,
+      "keyHex": "148ee9f23a76160cf03195a2fb7a316621fd56fbe95e0c30a0e8ca25f9768555",
+      "checkB64": "z7pbMfGjVFSLhYKMofOHR6LpiCimQ5268rCi6FSYPrc=",
+      "recoveryCode": "CSHO-T4R2-OYLA-Z4BR-SWRP-W6RR-MYQ7-2VX3-5FPA-YMFA-5DFC-L6LW-QVKQ",
+      "sealKeyHex": "5009c04a63206a06c4a48de9eb7085233b652e0109d6e975ae997920771e249d",
+      "fileKeyHex": "630e92e92c0dde95c14a01167d5ac78da3e6253acf133da677eb4548ab3bdf59",
+      "namesKeyHex": "6f2266610b36c8e3ada769dbf29ec8f3f52c194e99217ae1f21f50a4c25cad88",
+      "pageKey": "https://example.com/a",
+      "name": "pages/njildtjmpn7kxgnz.ink.json",
+      "nonceB64": "MjM0NTY3ODk6Ozw9",
+      "plaintext": "{\n  \"v\": 1,\n  \"key\": \"https://example.com/a\",\n  \"urls\": [\n    \"https://example.com/a\"\n  ],\n  \"title\": \"A\",\n  \"updatedAt\": 1,\n  \"notes\": [],\n  \"deleted\": []\n}\n",
+      "envelope": "{\"lock\":2,\"alg\":\"A256GCM\",\"f\":\"pages/njildtjmpn7kxgnz.ink.json\",\"n\":\"MjM0NTY3ODk6Ozw9\",\"c\":\"sADrlEUqVQLCFAsPD8qkswp7EKz37PUmpmSV/MkwBHVXj8r4oc/UQO+3aJPssmcsuD98S7h1fypG67XTmPcZR6Q5FaPjJ70zD85mxVrtbrVifDPPfLQcIGp40+dBj6nMB1OzmB7TuseXQYG6l9Q+oickjOqChwP5FVdE6U+EhmNJIjocEcOCsTwTE16J5r5SahL9apQb1XGjHPLVh3GUGOWj0fXu96ymrqmWKIvU\"}\n",
+      "cipherAndTagHex": "b000eb94452a5502c2140b0f0fcaa4b30a7b10acf7ecf526a66495fcc9300475578fcaf8a1cfd440efb76893ecb2672cb83f7c4bb8757f2a46ebb5d398f71947a43915a3e327bd330fce66c55aed6eb5627c33cf7cb41c206a78d3e7418fa9cc0753b3981ed3bac7974181ba97d43ea227248cea828703f9155744e94f84866349223a1c11c382b13c13135e89e6be526a12fd6a941bd571a31cf2d587719418e5a3d1f5eef7aca6aea996288bd4",
+      "lockState": "on",
+      "lockMacText": "pageink-lock-file-v2\nkdf=PBKDF2,SHA-256,100000,yMnKy8zNzs/Q0dLT1NXW1w==\ncheck=z7pbMfGjVFSLhYKMofOHR6LpiCimQ5268rCi6FSYPrc=\nstate=on\n",
+      "lockMacB64": "0coTz3AJSCFth57nbnhyDpS9LkPkar1mDnD9a8yPr5A=",
+      "v1Envelope": "{\"lock\":1,\"alg\":\"A256GCM\",\"n\":\"MjM0NTY3ODk6Ozw9\",\"c\":\"fl2wLIP6gyOEUqNNDLChnq+rDaP12VmkBiCJ7d1A1wnRuXOYKeN4lgv1Z3EYy4hKKwJAwBLIlkWgqRRfTiVAEhwtreuDposkWx2KUTpKtRvPj+tP5mGvf8GQoBOUGHUKqzS3kXokRFiUgSSqjb7PPj7SzHJMLQM6HyW3kSsQamux4z50MbRL6wh4Oz3w4qdCHFYfkc59ueyaLkLeh9kOl6GC65+jGqckmvEEgACM\"}\n"
+    }
+  ],
+  "plainNames": [
+    {
+      "key": "",
+      "hash": "wvjl67o803"
+    },
+    {
+      "key": "a",
+      "hash": "262p94epp1d"
+    },
+    {
+      "key": "https://example.com/a",
+      "hash": "1qijvf2i75k"
+    },
+    {
+      "key": "https://example.com/ü?x=1#/r",
+      "hash": "25qo4cm8uu3"
+    },
+    {
+      "key": "https://例え.jp/ページ",
+      "hash": "1rdaism83sy"
+    },
+    {
+      "key": "😀",
+      "hash": "1aj4jtz2pim"
+    }
+  ]
+}

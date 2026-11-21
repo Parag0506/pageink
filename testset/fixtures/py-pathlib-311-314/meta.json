@@ -1,0 +1,23 @@
+{
+  "id": "py-pathlib-311-314",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "7272fce305915a5f.css",
+    "a3f4575ccc382081.css",
+    "349de5d323219ff8.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.11/library/pathlib.html",
+    "sha256": "57dc0a81332844166097c39cc0a6d0eac92085103bb313f0f90968d8f053b1e5",
+    "bytes": 191102
+  },
+  "b": {
+    "url": "https://docs.python.org/3.14/library/pathlib.html",
+    "sha256": "39c973afb2787f4f05b3b47d12aa2f2c5f641c87fd193a71ed55390a2c2fde47",
+    "bytes": 283167
+  }
+}

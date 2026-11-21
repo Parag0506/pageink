@@ -1,0 +1,5 @@
+{
+  "about": "OAuth client ids for the app's cloud choices. Empty means the choice shows as not set up. A release commits its ids here. For development, put ids in cloud-ids.local.json next to this file, which git ignores. See docs/CLOUD_SETUP.md.",
+  "google": "",
+  "microsoft": ""
+}

@@ -1,0 +1,18 @@
+{
+  "id": "mdn-array-map",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "e3b0c44298fc1c14.css",
+    "ec1e200de641ec4d.css"
+  ],
+  "a": {
+    "url": "https://web.archive.org/web/20230301224756/https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+    "sha256": "6c809c3e48d851cdf6305621c2f05b97670aa8e1c9d1e09d2472fd3897ac2807",
+    "bytes": 100946
+  },
+  "b": {
+    "url": "https://web.archive.org/web/20230712150826/https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+    "sha256": "6d800bae3f1ef91ec7f4fced68d0158fb960384e9d134dba200bbf048ddf2d36",
+    "bytes": 92712
+  }
+}

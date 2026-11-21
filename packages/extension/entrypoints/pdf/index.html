@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>%NAME% PDF</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header id="bar" popover="manual">
+      <img class="mark" src="/icons/mark-small.svg" alt="" width="20" height="20" />
+      <div class="title-box">
+        <span id="title" class="title">%NAME% PDF</span>
+        <a id="html-version" class="html-link" href="/pdf.html" target="_top" rel="noreferrer" hidden>Read the HTML version</a>
+      </div>
+      <fieldset class="group doc-only" aria-label="Pages">
+        <button type="button" id="prev" aria-label="Previous page" title="Previous page">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg>
+        </button>
+        <input id="page" type="number" min="1" value="1" inputmode="numeric" aria-label="Page number" />
+        <span id="count" class="muted">of 0</span>
+        <button type="button" id="next" aria-label="Next page" title="Next page">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg>
+        </button>
+      </fieldset>
+      <fieldset class="group doc-only" aria-label="Zoom">
+        <button type="button" id="zoom-out" aria-label="Zoom out" title="Zoom out">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10" /></svg>
+        </button>
+        <span id="zoom" class="zoom">100%</span>
+        <button type="button" id="zoom-in" aria-label="Zoom in" title="Zoom in">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10" /></svg>
+        </button>
+        <button type="button" id="fit" aria-label="Fit width" title="Fit width">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4v8M14 4v8M5 8h6M5 8l2-2M5 8l2 2M11 8 9 6M11 8l-2 2" /></svg>
+        </button>
+      </fieldset>
+      <button type="button" class="open doc-only" data-open>Open file</button>
+    </header>
+    <main id="pages" aria-label="Document"></main>
+    <section id="empty" class="empty">
+      <h1>Open a PDF to write on it</h1>
+      <p>Pick a file or drop one here. It stays on this device. Notes come back when you open the same file again, under any name.</p>
+      <button type="button" class="primary" data-open>Open file</button>
+    </section>
+    <p id="status" class="status" role="status" hidden></p>
+    <div class="drop-hint" aria-hidden="true">Drop the PDF to open it</div>
+    <input id="file" type="file" accept="application/pdf,.pdf" hidden />
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

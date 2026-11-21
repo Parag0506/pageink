@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Shadow page</title>
+<style>body { font: 18px/1.6 sans-serif; margin: 24px; }</style>
+</head>
+<body>
+<h1>Shadow roots</h1>
+<p>Plain text before the components.</p>
+<div id="open-host"></div>
+<div id="closed-host"></div>
+<p>Plain text after the components.</p>
+<div style="height: 800px"></div>
+<script>
+  const add = (id, mode, text) => {
+    const root = document.getElementById(id).attachShadow({ mode });
+    root.innerHTML = `<style>p { margin: 16px 0; }</style><p>${text}</p>`;
+    // For the test only, so it can measure text in the closed root.
+    if (mode === 'closed') window.__closed = root;
+  };
+  add('open-host', 'open', 'Open shadow text about lighthouses and the keepers who trimmed their wicks.');
+  add('closed-host', 'closed', 'Closed shadow text about glaciers that carve valleys over many thousands of years.');
+</script>
+</body>
+</html>

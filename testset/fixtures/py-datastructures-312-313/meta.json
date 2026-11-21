@@ -1,0 +1,21 @@
+{
+  "id": "py-datastructures-312-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "a3f4575ccc382081.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.12/tutorial/datastructures.html",
+    "sha256": "c845c3c9b38e5e351db548a20c13b8e3705d815cf8be83e788288320db9837f8",
+    "bytes": 103282
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/tutorial/datastructures.html",
+    "sha256": "7ba060273e8deae2916d6eeae79fa8be5231e8d3fdff2646ec13eb043748aac5",
+    "bytes": 106584
+  }
+}

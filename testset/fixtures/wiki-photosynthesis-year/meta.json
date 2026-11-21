@@ -1,0 +1,24 @@
+{
+  "id": "wiki-photosynthesis-year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "3dc20ee2712c7062.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Photosynthesis&oldid=1303996610",
+    "sha256": "03d9c66f2c04b14cd1badfed8e480791b644782a2d5e9185a2bc93d026e85c45",
+    "bytes": 869173,
+    "file": "../wiki-photosynthesis-month/a.html"
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Photosynthesis&oldid=1371284103",
+    "sha256": "cc75498d820e37a23182f93e3b92c49ac9aa2e2cf3fdb8a9674d56ce8388dc0a",
+    "bytes": 875794
+  }
+}

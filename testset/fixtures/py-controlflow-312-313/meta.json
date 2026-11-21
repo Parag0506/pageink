@@ -1,0 +1,21 @@
+{
+  "id": "py-controlflow-312-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "a3f4575ccc382081.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.12/tutorial/controlflow.html",
+    "sha256": "2049afebb4c075782c5cfa05794b8fbd7fa77358797ad9d9b5512d54c3db1340",
+    "bytes": 146586
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/tutorial/controlflow.html",
+    "sha256": "5c4382e6cd8c014b8fd6a7a1bef3ec65631bf42ee6e06c842332f246233f8527",
+    "bytes": 147288
+  }
+}

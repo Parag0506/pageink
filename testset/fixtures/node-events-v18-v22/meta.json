@@ -1,0 +1,20 @@
+{
+  "id": "node-events-v18-v22",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "45b9c9b9ccb9c365.css",
+    "2863f53e2c122129.css",
+    "1b5a46382dd51789.css",
+    "9f3f37cf6f3eb2ad.css"
+  ],
+  "a": {
+    "url": "https://nodejs.org/docs/v18.20.0/api/events.html",
+    "sha256": "3c73501259e5a449aea58ff54bf209ecad8c0690d9b03b349c906b1132afab86",
+    "bytes": 236163
+  },
+  "b": {
+    "url": "https://nodejs.org/docs/v22.12.0/api/events.html",
+    "sha256": "5c0d33a44cb17e5b842d58fa912aba3763a4e51ee876cf77e07914cef4686039",
+    "bytes": 240112
+  }
+}

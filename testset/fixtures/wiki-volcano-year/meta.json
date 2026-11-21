@@ -1,0 +1,25 @@
+{
+  "id": "wiki-volcano-year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "859ee9fc6a8d3ad3.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "705f73c6a7b1ae8c.css",
+    "d01de94747fb60eb.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Volcano&oldid=1308439143",
+    "sha256": "53461ce39a02f8928fc88376ac25d8dcb14978d561ec253a009d90b7532ac368",
+    "bytes": 761306
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Volcano&oldid=1371862239",
+    "sha256": "66d3e9da4bff797bf16eac165c0a6bd0f3ffb73e3beb67d0f0ea0fda6f893bf4",
+    "bytes": 697463
+  }
+}

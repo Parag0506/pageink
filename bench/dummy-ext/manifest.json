@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "PageInk bench dummy",
+  "version": "0.1.0",
+  "description": "Stand-in for the PageInk extension. One storage read at document start, a pen listener, and a timing mark.",
+  "permissions": ["storage", "unlimitedStorage"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "bg.js" },
+  "content_scripts": [
+    { "matches": ["<all_urls>"], "js": ["stub.js"], "run_at": "document_start", "all_frames": false }
+  ]
+}

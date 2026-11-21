@@ -1,0 +1,23 @@
+{
+  "id": "py-stdtypes-311-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "7272fce305915a5f.css",
+    "a3f4575ccc382081.css",
+    "349de5d323219ff8.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.11/library/stdtypes.html",
+    "sha256": "2f26460a179050a0d36d70f71418416c8fe58ad2072b80e8bbc2944d65c2bfa9",
+    "bytes": 659542
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/library/stdtypes.html",
+    "sha256": "a55facb883447ea60f1764b3e0f8767ebf63c8d9c87494ed3891ceafb74da01c",
+    "bytes": 751181
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "py-itertools-312-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "a3f4575ccc382081.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.12/library/itertools.html",
+    "sha256": "6dd498c8dd7008535c3153d0f9abd64a8d93f085334018553015513db96cc9d6",
+    "bytes": 167583
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/library/itertools.html",
+    "sha256": "2c857214a7e31b865e77a216cedffb45990dd78dd1de093e336b2b60c036b1dc",
+    "bytes": 170445
+  }
+}

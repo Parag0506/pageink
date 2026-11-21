@@ -1,0 +1,25 @@
+{
+  "id": "wiki-origami-2year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "6808c0024b43bca9.css",
+    "6576318ee595573c.css",
+    "182813dd81c13a23.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "705f73c6a7b1ae8c.css",
+    "d01de94747fb60eb.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Origami&oldid=1239507753",
+    "sha256": "dc5e947ca093b817008033dc0d2a6d620303d39f2e74493ec0cd4f39eebc851f",
+    "bytes": 444234
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Origami&oldid=1364622448",
+    "sha256": "bceaf924a4dc1c9f2d672b9cab92bd23c1b2886d9e659b09b51612229d8ff63c",
+    "bytes": 398395
+  }
+}

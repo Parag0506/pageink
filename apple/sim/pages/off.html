@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plain page</title>
+<style>
+  /* Grey text, so any dark blue pixel in a screenshot is ink. */
+  body { font: 20px/1.7 Georgia, serif; margin: 0; padding: 48px 40px; color: #8a8a8a; background: #fff; }
+  /* No max width: the text reflows when the iPad turns, so the marker words move. */
+  #w { white-space: nowrap; }
+  .controls { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin: 24px 0; }
+  .controls > * { font-size: 18px; }
+  a { color: #8a8a8a; }
+</style>
+</head>
+<body>
+<main>
+<h1>Notes on paper</h1>
+<p>Paper was made from rags for a long time. The pulp was beaten in water, lifted on a mould and pressed flat.</p>
+<p>Paper and ink share a long history across many lands and ages, and the marker words <span id="w">stoneware quokka teapot</span>
+  sit late in this sentence, so a stroke over them has a clear place to stay when the page moves, reloads or turns.</p>
+<p>Iron gall ink was the standard writing ink in Europe for over a thousand years. It bites into the paper.</p>
+<div class="controls">
+  <a id="link" href="#jump">Jump to the notes</a>
+  <button id="btn" type="button">A button</button>
+  <input id="txt" type="text" placeholder="A text field">
+</div>
+<p>Pens changed the shape of letters. A broad nib held at a steady angle makes thick and thin strokes.</p>
+<p>Pencils came later. Graphite from Borrowdale was so pure that it could be sawn into sticks.</p>
+<p>Parchment is animal skin, scraped thin and dried under tension. It takes ink well and lasts.</p>
+<p>Vellum is the finest parchment, made from calfskin. Medieval books used it for their best pages.</p>
+<p>Blotting paper soaks up wet ink. Before it, writers dusted the page with fine sand.</p>
+<p>Fountain pens hold their own ink. The feed lets air in as ink flows out, so the line stays even.</p>
+<p>Ballpoint pens roll a tiny ball through thick, oily ink. They write on almost anything.</p>
+<p>Typewriters arrived in the 1870s. The keyboard layout of that time is still in use today.</p>
+<p>Copying presses made a duplicate of a letter by pressing damp tissue against fresh ink.</p>
+<p>Carbon paper replaced the press. A sheet between two pages copied every keystroke.</p>
+<p id="jump">The notes start here, far down the page, after a long run of plain paragraphs.</p>
+<div style="height: 1400px"></div>
+</main>
+<script src="report.js"></script>
+</body>
+</html>

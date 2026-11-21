@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "wikipedia",
+      "type": "Wikipedia article",
+      "url": "https://en.wikipedia.org/wiki/Photosynthesis"
+    },
+    {
+      "id": "arxiv-html",
+      "type": "arXiv HTML paper",
+      "url": "https://arxiv.org/html/2404.19756v2"
+    },
+    {
+      "id": "mdn",
+      "type": "MDN reference",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis"
+    },
+    {
+      "id": "github-readme",
+      "type": "GitHub README",
+      "url": "https://github.com/microsoft/playwright"
+    },
+    {
+      "id": "news",
+      "type": "News article",
+      "url": "https://www.npr.org/sections/science/"
+    },
+    {
+      "id": "docs",
+      "type": "Docs site",
+      "url": "https://docs.python.org/3/library/pathlib.html"
+    },
+    {
+      "id": "blog",
+      "type": "Long blog post",
+      "url": "https://paulgraham.com/greatwork.html"
+    },
+    {
+      "id": "search",
+      "type": "Search results",
+      "url": "https://www.bing.com/search?q=handwriting+on+web+pages"
+    },
+    {
+      "id": "video",
+      "type": "Video page",
+      "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ"
+    },
+    {
+      "id": "mail",
+      "type": "Web mail (public inbox)",
+      "url": "https://www.mailinator.com/v4/public/inboxes.jsp?to=inkbench"
+    },
+    {
+      "id": "chat",
+      "type": "Chat app (web-public)",
+      "url": "https://chat.zulip.org/#narrow/channel/9-issues",
+      "note": "The bare address stays on the loading screen for many seconds in headless Chromium. A public channel view of the same app, no sign-in."
+    },
+    {
+      "id": "shopping",
+      "type": "Shopping page",
+      "url": "https://www.ikea.com/us/en/p/billy-bookcase-white-00263850/"
+    },
+    {
+      "id": "map",
+      "type": "Map",
+      "url": "https://www.openstreetmap.org/#map=12/51.5/-0.1"
+    },
+    {
+      "id": "spreadsheet",
+      "type": "Spreadsheet app (public sheet)",
+      "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit"
+    },
+    {
+      "id": "forum",
+      "type": "Forum thread",
+      "url": "https://news.ycombinator.com/item?id=38309611"
+    },
+    {
+      "id": "social",
+      "type": "Social feed",
+      "url": "https://mastodon.social/explore"
+    },
+    {
+      "id": "qa",
+      "type": "Q&A page",
+      "url": "https://unix.stackexchange.com/questions/4126/what-is-the-exact-difference-between-a-terminal-a-shell-a-tty-and-a-con"
+    },
+    {
+      "id": "dashboard",
+      "type": "Dashboard (public demo)",
+      "url": "https://play.grafana.org/"
+    },
+    {
+      "id": "pdf",
+      "type": "PDF",
+      "url": "https://arxiv.org/pdf/2404.19756v2"
+    },
+    {
+      "id": "lesson",
+      "type": "Book lesson (local stand-in)",
+      "url": "local:lesson.html"
+    }
+  ],
+  "offline": [
+    {
+      "id": "fixture-article",
+      "type": "Article (offline fixture)",
+      "url": "fixture:synthetic/syn-same/a.html"
+    },
+    {
+      "id": "fixture-wikipedia",
+      "type": "Wikipedia article (offline fixture)",
+      "url": "fixture:wiki-photosynthesis-month/a.html"
+    }
+  ],
+  "quick": ["lesson", "fixture-article", "fixture-wikipedia"],
+  "pointer": ["lesson", "wikipedia"],
+  "seeded": [
+    {
+      "id": "seed-lesson",
+      "url": "local:lesson.html",
+      "notes": 20
+    },
+    {
+      "id": "seed-article",
+      "url": "fixture:synthetic/syn-same/a.html",
+      "notes": 20
+    },
+    {
+      "id": "seed-wikipedia",
+      "url": "fixture:wiki-photosynthesis-month/a.html",
+      "notes": 20
+    },
+    {
+      "id": "seed-lazy",
+      "url": "fixture:dynamic/dyn-lazy-article/b.html",
+      "write": "fixture:dynamic/dyn-lazy-article/a.html",
+      "notes": 20
+    }
+  ],
+  "stress": {
+    "id": "stress-wikipedia",
+    "url": "fixture:wiki-mars-month/a.html",
+    "notes": 200
+  }
+}

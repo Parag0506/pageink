@@ -1,0 +1,21 @@
+{
+  "id": "py-json-312-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "a3f4575ccc382081.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.12/library/json.html",
+    "sha256": "b5b9c2c253dffa3f55d92b8b317fe4d0e6125824cecc03f91904b13f3add01e6",
+    "bytes": 112417
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/library/json.html",
+    "sha256": "cd702e59144603c6071f50da6d1b72c96d2f314d41a8f51948444584fa9c843b",
+    "bytes": 115237
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "wiki-pythagorean-theorem-year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "17049826cce17143.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "14fa8559badd650d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css",
+    "8e02c666b7a119bd.css",
+    "5c81bea9dbf1cba1.css",
+    "76fce7e4c5bada5d.css",
+    "e2a813263dbc286d.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Pythagorean_theorem&oldid=1304243321",
+    "sha256": "4bdde6e6925d661f2400e650ca7b044d0619ffe69cf832227b2a8acf1c16b167",
+    "bytes": 1486362
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Pythagorean_theorem&oldid=1371224846",
+    "sha256": "75f48c842dbb21e1bced6340b8d744ea3bae4b453583b7c7c11cc2cb786acedb",
+    "bytes": 1429080
+  }
+}

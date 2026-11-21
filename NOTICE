@@ -1,0 +1,127 @@
+PageInk
+Copyright (c) 2026 The PageInk authors
+Licensed under the MIT licence. See LICENSE.
+
+This file lists the third-party software that is, or will be, part of what PageInk ships:
+the browser extension builds, the Safari app, and the embed script. Each entry gives the
+licence and the copyright line as read from the package's own licence file.
+`node scripts/check-notice.mjs` checks this list against the code the builds bundle.
+
+======================================================================
+Third-party software in the shipped bundles
+======================================================================
+
+Package: perfect-freehand
+Version: 1.2.3
+Licence: MIT
+Copyright (c) 2021 Stephen Ruiz Ltd
+Used for: pen stroke outlines (packages/core/src/strokes).
+
+Package: approx-string-match
+Version: 2.0.3
+Licence: MIT
+Copyright (c) 2020 Robert Knight
+Used for: the approximate quote search (packages/core/src/anchor).
+
+Package: fflate
+Version: 0.8.3
+Licence: MIT
+Copyright (c) 2026 Arjun Barrett
+Used for: archive export and import (packages/core/src/store).
+
+Package: wxt
+Version: 0.21.5
+Licence: MIT
+Copyright: the npm package carries no licence file. Its package.json declares MIT.
+The copyright holder is named in the LICENSE file of the WXT source repository.
+Used for: the small defineBackground helper in the extension's background script.
+The rest of WXT is a build tool and is not shipped.
+
+======================================================================
+The PDF viewer
+======================================================================
+
+The extension's PDF viewer page ships PDF.js and the files below. Each one is
+copied into the built pdf/ folder with its licence file next to it. The
+Liberation fonts, the ICC profiles and the qcms and QuickJS decoders in
+pdfjs-dist are not copied, so they are not part of any build.
+
+Package: pdfjs-dist
+Version: 6.5.438
+Licence: Apache-2.0
+Copyright 2024 Mozilla Foundation (from the header of build/pdf.mjs)
+Ships as: the viewer page's PDF.js chunk and pdf/worker.js, with their network
+code removed. Full licence text: pdf/LICENSE-pdfjs.txt.
+
+Part of pdfjs-dist: core-js, in the legacy build
+Licence: MIT
+Copyright (c) 2013-2025 Denis Pushkarev (zloirock.ru), 2025-2026 CoreJS Company (core-js.io)
+Ships as: polyfills inside the viewer page's PDF.js chunk and pdf/worker.js.
+Licence text: pdf/LICENSE-core-js.txt.
+
+Part of pdfjs-dist: the Adobe character maps
+Licence: BSD-3-Clause
+Copyright 1990-2009 Adobe Systems Incorporated
+Ships as: pdf/cmaps/*.bcmap.js. Licence text: pdf/LICENSE-cmaps.txt.
+
+Part of pdfjs-dist: the Foxit standard fonts
+Licence: BSD-3-Clause
+Copyright 2014 PDFium Authors
+Ships as: pdf/fonts/Foxit*.pfb.js. Licence text: pdf/LICENSE-foxit.txt.
+
+Part of pdfjs-dist: the OpenJPEG image decoder
+Licence: BSD-2-Clause
+Copyright (c) 2002-2014, Universite catholique de Louvain (UCL), Belgium, and
+the other authors named in its licence file
+Copyright (c) 2024, Mozilla Foundation (the PDF.js build of it, BSD-2-Clause)
+Ships as: pdf/wasm/openjpeg_nowasm_fallback.js. Licence texts:
+pdf/wasm/LICENSE_OPENJPEG and pdf/wasm/LICENSE_PDFJS_OPENJPEG.
+
+Part of pdfjs-dist: the JBIG2 image decoder
+Licence: BSD-3-Clause
+Copyright 2014 The PDFium Authors
+Copyright 2026 Mozilla Foundation (the PDF.js build of it, Apache-2.0)
+Ships as: pdf/wasm/jbig2_nowasm_fallback.js. Licence texts:
+pdf/wasm/LICENSE_JBIG2 and pdf/wasm/LICENSE_PDFJS_JBIG2.
+
+======================================================================
+Test fixtures
+======================================================================
+
+testset/fixtures/ holds frozen copies of public web pages. They are not
+covered by the MIT licence of this repository. Each pair keeps its own
+licence: Wikipedia text under CC BY-SA 4.0, MDN prose under CC BY-SA 2.5,
+Python documentation under the PSF License Version 2, the Rust book under
+MIT or Apache-2.0, Django documentation under BSD 3-Clause, Node.js
+documentation under MIT, and arXiv papers under CC BY or CC BY-SA.
+testset/SOURCES.md lists every pair with its source address, licence and
+attribution. Pages whose licence does not allow redistribution are not in
+the repository; the test set fetches them on demand into testset/cache/,
+which is never committed.
+
+None of the fixtures ship in the extension, the app or the embed script.
+
+======================================================================
+The MIT licence
+======================================================================
+
+The packages marked MIT above are distributed under these terms, with the
+copyright line given in their entry:
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

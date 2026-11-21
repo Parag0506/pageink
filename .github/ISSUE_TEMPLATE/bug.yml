@@ -1,0 +1,77 @@
+name: Bug
+description: Something does not work as described.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for the report. Security problems go through SECURITY.md, not here.
+        Please do not paste private page content or notes you would not want to be public.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to see it again
+      placeholder: |
+        1. Open a page
+        2. Write a note with the pen
+        3. Narrow the window
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Chrome
+        - Edge
+        - Firefox
+        - Safari on Mac
+        - Safari on iPad
+        - Another Chromium browser
+        - The embed script on a site
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Browser version and PageInk version
+      placeholder: Chrome 159, PageInk 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and system
+      placeholder: iPad Air with iPadOS 26, or a Windows touch laptop
+    validations:
+      required: true
+  - type: dropdown
+    id: input
+    attributes:
+      label: Input
+      multiple: true
+      options:
+        - Pen or stylus
+        - Finger
+        - Mouse
+        - Trackpad
+        - Keyboard
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page address (optional)
+      description: Only if the page is public and you are happy to share it.
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: Screenshots, console errors, or a small record file with private content removed.

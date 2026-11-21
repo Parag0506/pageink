@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  # By hand, for a tag, when a release must go out before the cloud ids exist.
+  workflow_dispatch:
+    inputs:
+      cloud:
+        description: "Cloud buttons: 'ids' needs the public client ids in packages/extension/cloud-ids.json; 'not-set-up' builds with both buttons marked not set up"
+        required: true
+        default: ids
+        type: choice
+        options: [ids, not-set-up]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  zips:
+    name: Build the zips and draft a release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: The tag matches the extension version
+        run: |
+          version="$(node -p "require('./packages/extension/package.json').version")"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match packages/extension version $version" >&2
+            exit 1
+          fi
+
+      # Release builds take their client ids from the committed packages/extension/cloud-ids.json.
+      # Client ids are public, not secrets (docs/CLOUD_SETUP.md). Empty ids stop the release, unless
+      # it was started by hand with cloud: not-set-up, which ships both buttons as "not set up".
+      - name: The cloud client ids are set, or are left out on purpose
+        env:
+          CLOUD: ${{ github.event.inputs.cloud || 'ids' }}
+        run: |
+          missing="$(node -e "const c=require('./packages/extension/cloud-ids.json');console.log(['google','microsoft'].filter(k=>!String(c[k]||'').trim()).join(' '))")"
+          if [ -n "$missing" ] && [ "$CLOUD" != "not-set-up" ]; then
+            echo "::error::No client id for: $missing. Put the public ids in packages/extension/cloud-ids.json (docs/CLOUD_SETUP.md), or run this workflow by hand with cloud: not-set-up." >&2
+            exit 1
+          fi
+          if [ -n "$missing" ]; then echo "Building with these cloud buttons marked not set up: $missing"; fi
+
+      # Chrome, Edge and Firefox zips, plus the Firefox sources zip that Firefox Add-ons asks for.
+      - name: Build the zips
+        run: corepack pnpm --filter pageink-extension zip
+
+      - name: Draft a release with the zips
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --draft \
+            --title "$GITHUB_REF_NAME" \
+            --notes "See CHANGELOG.md for the changes in this version." \
+            packages/extension/.output/*.zip

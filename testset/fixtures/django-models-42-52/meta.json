@@ -1,0 +1,17 @@
+{
+  "id": "django-models-42-52",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "7c9c215c6965ff30.css"
+  ],
+  "a": {
+    "url": "https://docs.djangoproject.com/en/4.2/topics/db/models/",
+    "sha256": "4ff970147cbbaef3389d2c19107832ada00134a18d2f98a39f106a4373969537",
+    "bytes": 200650
+  },
+  "b": {
+    "url": "https://docs.djangoproject.com/en/5.2/topics/db/models/",
+    "sha256": "bca1856ba7fd1ebf253604a4fe1785f93148bb4940c2eb15e0156eb81be9535e",
+    "bytes": 204896
+  }
+}

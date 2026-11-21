@@ -1,0 +1,23 @@
+{
+  "id": "wiki-honey-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "3dc20ee2712c7062.css",
+    "6576318ee595573c.css",
+    "182813dd81c13a23.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Honey&oldid=1307363622",
+    "sha256": "d14b8e625782c8866f196f784d4cf5932a3088064e5b4c7957ce37f7b56fc1ad",
+    "bytes": 841796
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Honey&oldid=1314310135",
+    "sha256": "6248903698570a3b79f645974f60fa06578b769414593931bf6c9a6a5469cb9b",
+    "bytes": 840378
+  }
+}

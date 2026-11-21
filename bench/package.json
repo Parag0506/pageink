@@ -1,0 +1,21 @@
+{
+  "name": "pageink-bench",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The speed bench for the PageInk extension.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Parag0506/pageink.git",
+    "directory": "bench"
+  },
+  "type": "module",
+  "scripts": {
+    "bench": "tsx src/bench.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "pageink-core": "workspace:*"
+  }
+}

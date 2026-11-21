@@ -1,0 +1,57 @@
+/*
+ * The colours of the extension pages, from the brand (brand/colours.md). Each page imports
+ * this file and keeps only its own layout values. Contrast, light then dark:
+ * text on surface 15:1 and 13:1, muted text 5.2:1 and 6.9:1, accent 5.2:1 and 7.7:1,
+ * primary button text 15:1 and 13:1, text on the accent 5.6:1 and 7.2:1.
+ */
+:root {
+  color-scheme: light dark;
+  /* Ink, page, fold and quill: the four brand colours. */
+  --brand-ink: #2f241c;
+  --brand-page: #f8efdc;
+  --brand-fold: #e4cfa9;
+  --brand-quill: #c98c5e;
+
+  --fg: #2f241c;
+  --muted: #6e6155;
+  /* The page behind cards, and the cards, the popup and the bars on it. */
+  --canvas: #faf6ee;
+  --surface: #fffdf9;
+  --line: #e6dccb;
+  --hover: rgb(47 36 28 / 0.07);
+  /* Primary actions: the deep ink. */
+  --primary: #2f241c;
+  --on-primary: #fffdf9;
+  /* The one accent, for active and selected states, links and focus rings. */
+  --accent: #9a5530;
+  --on-accent: #ffffff;
+  --focus: #9a5530;
+  --danger: #b3261e;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #f3ebdd;
+    --muted: #b5a898;
+    --canvas: #1b1714;
+    --surface: #25201c;
+    --line: #3d342c;
+    --hover: rgb(248 239 220 / 0.08);
+    --primary: #f8efdc;
+    --on-primary: #2f241c;
+    --accent: #e0a77b;
+    --on-accent: #2f241c;
+    --focus: #e0a77b;
+    --danger: #ff8a80;
+  }
+}
+:root {
+  /* Checkboxes and other native controls take the accent too. */
+  accent-color: var(--accent);
+}
+a {
+  color: var(--accent);
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}

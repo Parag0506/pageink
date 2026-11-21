@@ -1,0 +1,77 @@
+@import "../../src/ui/tokens.css";
+
+:root {
+  --bg: var(--surface);
+  font:
+    14px / 1.4 system-ui,
+    sans-serif;
+}
+body {
+  margin: 0;
+  padding: 12px;
+  width: 240px;
+  color: var(--fg);
+  background: var(--bg);
+  display: grid;
+  gap: 10px;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+button {
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.muted {
+  margin: 0;
+  color: var(--muted);
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+a {
+  color: var(--accent);
+}
+.attention {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.attention p {
+  margin: 0 0 8px;
+}
+.access button {
+  width: 100%;
+  text-align: left;
+  border-color: var(--accent);
+  border-width: 2px;
+  font-weight: 600;
+}

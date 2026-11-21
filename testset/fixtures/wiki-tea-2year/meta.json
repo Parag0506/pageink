@@ -1,0 +1,26 @@
+{
+  "id": "wiki-tea-2year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "f40997e5499503bb.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "14fa8559badd650d.css",
+    "c028698ab4096c20.css",
+    "e63315aa90ac2bc1.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Tea&oldid=1242139858",
+    "sha256": "aa24b99b0a4500265690b3b10237f790e3f511d55e5066c134ff9f6a96bcc625",
+    "bytes": 660337
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Tea&oldid=1371046608",
+    "sha256": "3a6840dd228032b23d8101e471ed121a076da272d095569a8bd730c747c4e620",
+    "bytes": 694874
+  }
+}

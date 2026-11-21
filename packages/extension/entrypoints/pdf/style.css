@@ -1,0 +1,411 @@
+@import "../../src/ui/tokens.css";
+
+:root {
+  --desk: #ebe5da;
+  --bar: rgb(255 253 249 / 0.92);
+  --shadow: 0 1px 3px rgb(47 36 28 / 0.18), 0 0 0 1px rgb(47 36 28 / 0.04);
+  --bar-h: 48px;
+  --scale-round-x: 1px;
+  --scale-round-y: 1px;
+  font:
+    14px / 1.4 system-ui,
+    sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --desk: #221d19;
+    --bar: rgb(37 32 28 / 0.94);
+    --shadow: 0 1px 4px rgb(0 0 0 / 0.6);
+  }
+}
+
+html {
+  background: var(--desk);
+}
+body {
+  margin: 0;
+  color: var(--fg);
+  background: var(--desk);
+  min-height: 100vh;
+}
+
+/* ---- bar ---- */
+
+#bar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  width: auto;
+  height: var(--bar-h);
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bar);
+  color: var(--fg);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+#bar::backdrop {
+  display: none;
+}
+/* The browser is too old for PDF.js, so the controls would do nothing. */
+.too-old #bar {
+  display: none;
+}
+.mark {
+  flex: none;
+  display: block;
+}
+.title-box {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.title {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.html-link {
+  flex: none;
+  color: var(--accent);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.html-link[hidden] {
+  display: none;
+}
+.group {
+  flex: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.muted {
+  color: var(--muted);
+}
+.zoom {
+  min-width: 44px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+#bar button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+#bar button:hover {
+  background: var(--hover);
+}
+#bar button:focus-visible,
+#page:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+#bar svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#bar .open {
+  flex: none;
+  border: 1px solid var(--line);
+}
+#page {
+  width: 44px;
+  height: 28px;
+  box-sizing: border-box;
+  padding: 0 4px;
+  text-align: center;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+#page::-webkit-inner-spin-button,
+#page::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+html:not(.has-doc) .doc-only {
+  display: none;
+}
+@media (pointer: coarse) {
+  :root {
+    --bar-h: 56px;
+  }
+  #bar button {
+    min-width: 44px;
+    height: 44px;
+  }
+}
+@media (max-width: 640px) {
+  .zoom,
+  #fit,
+  #count {
+    display: none;
+  }
+}
+
+/* ---- pages ---- */
+
+#pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: max-content;
+  min-width: 100%;
+  box-sizing: border-box;
+  margin-top: var(--bar-h);
+  padding: 16px;
+}
+html:not(.has-doc) #pages {
+  display: none;
+}
+.page {
+  position: relative;
+  flex: none;
+  background: #fff;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.page > canvas.pc {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.print-page {
+  display: none;
+}
+
+/* Links from the PDF, above the text layer. Only the link areas take pointer events. */
+.linkLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.linkLayer > a {
+  position: absolute;
+  pointer-events: auto;
+  border-radius: 2px;
+}
+.linkLayer > a:hover {
+  background: rgb(255 210 0 / 0.18);
+}
+.linkLayer > a:focus-visible {
+  outline: 2px solid var(--focus);
+}
+
+/* Text layer, after the PDF.js viewer styles (Apache 2.0). */
+.textLayer {
+  color-scheme: only light;
+  position: absolute;
+  text-align: initial;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  z-index: 0;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+.textLayer :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+.textLayer > :not(.markedContent) {
+  z-index: 1;
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+.textLayer ::selection {
+  background: color-mix(in srgb, AccentColor, transparent 60%);
+  color: transparent;
+}
+.textLayer br::selection {
+  background: transparent;
+}
+.textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+[data-main-rotation="90"] {
+  transform: rotate(90deg) translateY(-100%);
+}
+[data-main-rotation="180"] {
+  transform: rotate(180deg) translate(-100%, -100%);
+}
+[data-main-rotation="270"] {
+  transform: rotate(270deg) translateX(-100%);
+}
+
+/* ---- empty state, status, drop ---- */
+
+.empty {
+  max-width: 440px;
+  margin: calc(var(--bar-h) + 15vh) auto 0;
+  padding: 0 24px;
+  text-align: center;
+}
+.empty[hidden] {
+  display: none;
+}
+.empty h1 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+.empty p {
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+.empty .primary {
+  font: inherit;
+  padding: 10px 18px;
+  min-height: 44px;
+  border-radius: 10px;
+  border: 0;
+  background: var(--primary);
+  color: var(--on-primary);
+  cursor: pointer;
+}
+.status {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--bar);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  max-width: calc(100vw - 48px);
+}
+.status[hidden] {
+  display: none;
+}
+.drop-hint {
+  display: none;
+}
+html.dropping .drop-hint {
+  display: flex;
+  position: fixed;
+  inset: 12px;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--accent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--desk), transparent 15%);
+  font-size: 18px;
+  pointer-events: none;
+}
+html.loading body {
+  cursor: progress;
+}
+
+/* ---- print ---- */
+
+/* Laid out for print on screen too, so the ink is placed where it prints. */
+html.printing #pages {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  align-items: flex-start;
+}
+html.printing .page {
+  box-shadow: none;
+}
+html.printing .print-page {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+@media print {
+  html,
+  body {
+    background: #fff;
+  }
+  #bar,
+  #bar:popover-open,
+  .empty,
+  .status,
+  .drop-hint {
+    display: none;
+  }
+  .page {
+    break-after: page;
+    break-inside: avoid;
+  }
+  .page:last-child {
+    break-after: auto;
+  }
+  .page > canvas.pc,
+  .textLayer,
+  .linkLayer {
+    display: none;
+  }
+  /* Print from the browser's menu has no time to draw pages that were off screen. */
+  html.printing .page:not(:has(> .print-page))::after {
+    content: "This page was not drawn yet. Use Print in the ink bar to include every page.";
+    position: absolute;
+    inset: 40% 10% auto;
+    text-align: center;
+    color: #555;
+    font:
+      14px / 1.4 system-ui,
+      sans-serif;
+  }
+}

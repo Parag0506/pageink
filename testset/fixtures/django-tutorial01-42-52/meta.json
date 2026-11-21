@@ -1,0 +1,17 @@
+{
+  "id": "django-tutorial01-42-52",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "7c9c215c6965ff30.css"
+  ],
+  "a": {
+    "url": "https://docs.djangoproject.com/en/4.2/intro/tutorial01/",
+    "sha256": "38f4b65f2dc1a87083f9b48ac021dcdb1b03d7830f957a5580304f363f406298",
+    "bytes": 60315
+  },
+  "b": {
+    "url": "https://docs.djangoproject.com/en/5.2/intro/tutorial01/",
+    "sha256": "1130d306ca7804ff5252d181e34b9f48ce7526796d917ffd6eaf66b662577327",
+    "bytes": 53137
+  }
+}

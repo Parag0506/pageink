@@ -1,0 +1,27 @@
+{
+  "id": "wiki-leonardo-da-vinci-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "4aab907c2b6b42e6.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "14fa8559badd650d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "705f73c6a7b1ae8c.css",
+    "d01de94747fb60eb.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Leonardo_da_Vinci&oldid=1308631575",
+    "sha256": "1eb92c8e81d879b555581c88d766eba5e27c5157be48662a0bc37a8212925a6f",
+    "bytes": 1202551
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Leonardo_da_Vinci&oldid=1313645990",
+    "sha256": "775ab521281c11a86bda179e7feb2b7e76216c67d9f178dee5831823cf265f1e",
+    "bytes": 1268533
+  }
+}

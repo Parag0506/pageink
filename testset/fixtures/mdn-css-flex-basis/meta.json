@@ -1,0 +1,18 @@
+{
+  "id": "mdn-css-flex-basis",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "e3b0c44298fc1c14.css",
+    "9dd6fe531e332c6c.css"
+  ],
+  "a": {
+    "url": "https://web.archive.org/web/20230306015919/https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis",
+    "sha256": "fcb3129ddd948525163f233a4693b510585277484d98204378611b971c83b06b",
+    "bytes": 234031
+  },
+  "b": {
+    "url": "https://web.archive.org/web/20240902200918/https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis",
+    "sha256": "a0d5791a2d629ac05e3d8c82e0d28d7096d9de0145de483cd7463c04e5a0da54",
+    "bytes": 273840
+  }
+}

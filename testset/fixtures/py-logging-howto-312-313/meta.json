@@ -1,0 +1,21 @@
+{
+  "id": "py-logging-howto-312-313",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "1391123c90891f96.css",
+    "dc205d4435bc3372.css",
+    "e66810324ef270a9.css",
+    "a3f4575ccc382081.css",
+    "93845fdda186e878.css"
+  ],
+  "a": {
+    "url": "https://docs.python.org/3.12/howto/logging.html",
+    "sha256": "030febc0ec5e34ceb79de009f14ec53e72689642f1dcf8a4dfc72d5d78d43b2d",
+    "bytes": 145616
+  },
+  "b": {
+    "url": "https://docs.python.org/3.13/howto/logging.html",
+    "sha256": "cb2fe49f9dcc9429cdf21042abc6f21416eb7333fd9cd9578b89b1e3683af1c1",
+    "bytes": 144153
+  }
+}

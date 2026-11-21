@@ -1,0 +1,36 @@
+{
+  "id": "rust-book-closures-170-185",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "f3524e63d4a3a9e6.css",
+    "c45ff0bdf4bb45a7.css",
+    "c02fc8dd27f3a710.css",
+    "a4278dff9af38765.css",
+    "e25907df7860f18e.css",
+    "f2cda50b03ff3bb2.css",
+    "2371a33638d229e1.css",
+    "1b14fba454be34c9.css",
+    "56612340a6f36525.css",
+    "7c050c7afebc70ec.css",
+    "ac5bde6f24c4c5d8.css",
+    "2a854345610b5ea3.css",
+    "08a8fe6d9995bb6a.css",
+    "24cc36c098eac640.css",
+    "ad67d3508c83110e.css",
+    "493f70e1527d8956.css",
+    "4c0ae647a06ef169.css",
+    "4e126c6215d53926.css",
+    "9b5766c0108f849f.css",
+    "cab262219fedef92.css"
+  ],
+  "a": {
+    "url": "https://doc.rust-lang.org/1.70.0/book/ch13-01-closures.html",
+    "sha256": "55e98be90f6ea488e6a2ef00dd5a3ae8963b2037a4e6f58b237c4163103f230f",
+    "bytes": 70021
+  },
+  "b": {
+    "url": "https://doc.rust-lang.org/1.85.0/book/ch13-01-closures.html",
+    "sha256": "42fa3ab30ad738d7bcace0d67db5ce9392c1192fe32d471f722af9b0649b84c4",
+    "bytes": 72634
+  }
+}

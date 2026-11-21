@@ -1,0 +1,29 @@
+{
+  "id": "wiki-solar-system-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "225ff91ea53637e6.css",
+    "6576318ee595573c.css",
+    "d7ea4ad060a2e2cf.css",
+    "a2b31b5226b07bbe.css",
+    "935dee1e8660535b.css",
+    "8e02c666b7a119bd.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "d3c19b536b6ab667.css",
+    "14fa8559badd650d.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Solar_System&oldid=1307406316",
+    "sha256": "6005dc7a72f91d32704a5ae7bdb4454185453530014be53aa83382a3b9579eef",
+    "bytes": 1572489,
+    "file": "../wiki-solar-system-year/a.html"
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Solar_System&oldid=1313976208",
+    "sha256": "6656b41eee257ff89c1db6ce918abb9051bd7e0b4fe8ec75342e29d6b90fd6d7",
+    "bytes": 1590625
+  }
+}

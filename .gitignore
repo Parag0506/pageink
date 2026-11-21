@@ -1,0 +1,27 @@
+node_modules/
+dist/
+.output/
+.wxt/
+*.tsbuildinfo
+.DS_Store
+coverage/
+test-results/
+playwright-report/
+__screenshots__/
+.vitest-attachments/
+/testset/cache/
+/bench/cache/
+/apple/**/xcuserdata/
+/apple/**/DerivedData/
+/apple/build/
+*.log
+.env*
+
+# Cloud client ids and the development key stay on the machine that made them.
+packages/extension/cloud-ids.local.json
+packages/extension/dev-key.pem
+# Signing keys and profiles of any kind.
+*.pem
+*.p8
+*.p12
+*.mobileprovision

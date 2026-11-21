@@ -1,0 +1,1927 @@
+{
+  "version": 1,
+  "base": "w1280",
+  "conditions": {
+    "w1280": {
+      "w": 1280
+    },
+    "w820": {
+      "w": 820
+    },
+    "w390": {
+      "w": 390
+    },
+    "w1280z150": {
+      "w": 1280,
+      "zoom": 1.5
+    },
+    "w390z150": {
+      "w": 390,
+      "zoom": 1.5
+    },
+    "dark": {
+      "w": 1280,
+      "scheme": "dark"
+    },
+    "darkcss": {
+      "w": 1280,
+      "scheme": "dark",
+      "darkCss": true
+    }
+  },
+  "pairs": [
+    {
+      "id": "wiki-photosynthesis-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Photosynthesis\", English Wikipedia, revisions 1303996610 and 1314329953",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Photosynthesis&oldid=1303996610",
+        "label": "rev 1303996610 2025-08-03"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Photosynthesis&oldid=1314329953",
+        "label": "rev 1314329953 2025-09-30"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-photosynthesis-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Photosynthesis\", English Wikipedia, revisions 1303996610 and 1371284103",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Photosynthesis&oldid=1303996610",
+        "label": "rev 1303996610 2025-08-03"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Photosynthesis&oldid=1371284103",
+        "label": "rev 1371284103 2026-08-25"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-coffee-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Coffee\", English Wikipedia, revisions 1307336660 and 1314059806",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Coffee&oldid=1307336660",
+        "label": "rev 1307336660 2025-08-23"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Coffee&oldid=1314059806",
+        "label": "rev 1314059806 2025-09-29"
+      }
+    },
+    {
+      "id": "wiki-coffee-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Coffee\", English Wikipedia, revisions 1307336660 and 1371799424",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Coffee&oldid=1307336660",
+        "label": "rev 1307336660 2025-08-23"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Coffee&oldid=1371799424",
+        "label": "rev 1371799424 2026-08-28"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-jazz-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Jazz\", English Wikipedia, revisions 1308149128 and 1310841644",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Jazz&oldid=1308149128",
+        "label": "rev 1308149128 2025-08-27"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Jazz&oldid=1310841644",
+        "label": "rev 1310841644 2025-09-11"
+      }
+    },
+    {
+      "id": "wiki-mars-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "figures",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Mars\", English Wikipedia, revisions 1307709724 and 1314250519",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Mars&oldid=1307709724",
+        "label": "rev 1307709724 2025-08-25"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Mars&oldid=1314250519",
+        "label": "rev 1314250519 2025-09-30"
+      }
+    },
+    {
+      "id": "wiki-mars-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "figures",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Mars\", English Wikipedia, revisions 1307709724 and 1371852320",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Mars&oldid=1307709724",
+        "label": "rev 1307709724 2025-08-25"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Mars&oldid=1371852320",
+        "label": "rev 1371852320 2026-08-28"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-octopus-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "figures",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Octopus\", English Wikipedia, revisions 1306871757 and 1311494678",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Octopus&oldid=1306871757",
+        "label": "rev 1306871757 2025-08-20"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Octopus&oldid=1311494678",
+        "label": "rev 1311494678 2025-09-15"
+      }
+    },
+    {
+      "id": "wiki-octopus-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "figures",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Octopus\", English Wikipedia, revisions 1306871757 and 1372346691",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Octopus&oldid=1306871757",
+        "label": "rev 1306871757 2025-08-20"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Octopus&oldid=1372346691",
+        "label": "rev 1372346691 2026-08-31"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-leonardo-da-vinci-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "figures",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Leonardo da Vinci\", English Wikipedia, revisions 1308631575 and 1313645990",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Leonardo_da_Vinci&oldid=1308631575",
+        "label": "rev 1308631575 2025-08-30"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Leonardo_da_Vinci&oldid=1313645990",
+        "label": "rev 1313645990 2025-09-27"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-solar-system-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "tables",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Solar System\", English Wikipedia, revisions 1307406316 and 1372329011",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Solar_System&oldid=1307406316",
+        "label": "rev 1307406316 2025-08-23"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Solar_System&oldid=1372329011",
+        "label": "rev 1372329011 2026-08-31"
+      }
+    },
+    {
+      "id": "wiki-python-programming-language-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "tables",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Python (programming language)\", English Wikipedia, revisions 1308850912 and 1314208378",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Python_(programming_language)&oldid=1308850912",
+        "label": "rev 1308850912 2025-08-31"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Python_(programming_language)&oldid=1314208378",
+        "label": "rev 1314208378 2025-09-30"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-python-programming-language-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "tables",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Python (programming language)\", English Wikipedia, revisions 1308850912 and 1372324602",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Python_(programming_language)&oldid=1308850912",
+        "label": "rev 1308850912 2025-08-31"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Python_(programming_language)&oldid=1372324602",
+        "label": "rev 1372324602 2026-08-31"
+      }
+    },
+    {
+      "id": "wiki-unix-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "lists",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Unix\", English Wikipedia, revisions 1308201136 and 1313653897",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Unix&oldid=1308201136",
+        "label": "rev 1308201136 2025-08-28"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Unix&oldid=1313653897",
+        "label": "rev 1313653897 2025-09-27"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-unix-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "lists",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Unix\", English Wikipedia, revisions 1308201136 and 1371318965",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Unix&oldid=1308201136",
+        "label": "rev 1308201136 2025-08-28"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Unix&oldid=1371318965",
+        "label": "rev 1371318965 2026-08-25"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-seven-wonders-of-the-ancient-world-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "lists",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Seven Wonders of the Ancient World\", English Wikipedia, revisions 1294385957 and 1314207268",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Seven_Wonders_of_the_Ancient_World&oldid=1294385957",
+        "label": "rev 1294385957 2025-06-07"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Seven_Wonders_of_the_Ancient_World&oldid=1314207268",
+        "label": "rev 1314207268 2025-09-30"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-seven-wonders-of-the-ancient-world-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "lists",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Seven Wonders of the Ancient World\", English Wikipedia, revisions 1294385957 and 1371306180",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Seven_Wonders_of_the_Ancient_World&oldid=1294385957",
+        "label": "rev 1294385957 2025-06-07"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Seven_Wonders_of_the_Ancient_World&oldid=1371306180",
+        "label": "rev 1371306180 2026-08-25"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-list-of-tallest-buildings-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "tables",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"List of tallest buildings\", English Wikipedia, revisions 1308286655 and 1313393258",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=List_of_tallest_buildings&oldid=1308286655",
+        "label": "rev 1308286655 2025-08-28"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=List_of_tallest_buildings&oldid=1313393258",
+        "label": "rev 1313393258 2025-09-26"
+      }
+    },
+    {
+      "id": "wiki-list-of-tallest-buildings-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "tables",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"List of tallest buildings\", English Wikipedia, revisions 1308286655 and 1372388393",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=List_of_tallest_buildings&oldid=1308286655",
+        "label": "rev 1308286655 2025-08-28"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=List_of_tallest_buildings&oldid=1372388393",
+        "label": "rev 1372388393 2026-08-31"
+      }
+    },
+    {
+      "id": "wiki-jazz-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Jazz\", English Wikipedia, revisions 1308149128 and 1372282947",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Jazz&oldid=1308149128",
+        "label": "rev 1308149128 2025-08-27"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Jazz&oldid=1372282947",
+        "label": "rev 1372282947 2026-08-31"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-solar-system-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "tables",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Solar System\", English Wikipedia, revisions 1307406316 and 1313976208",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Solar_System&oldid=1307406316",
+        "label": "rev 1307406316 2025-08-23"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Solar_System&oldid=1313976208",
+        "label": "rev 1313976208 2025-09-29"
+      }
+    },
+    {
+      "id": "wiki-pasta-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "lists",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Pasta\", English Wikipedia, revisions 1306627772 and 1313906364",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Pasta&oldid=1306627772",
+        "label": "rev 1306627772 2025-08-18"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Pasta&oldid=1313906364",
+        "label": "rev 1313906364 2025-09-28"
+      }
+    },
+    {
+      "id": "wiki-pasta-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "lists",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Pasta\", English Wikipedia, revisions 1306627772 and 1372370584",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Pasta&oldid=1306627772",
+        "label": "rev 1306627772 2025-08-18"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Pasta&oldid=1372370584",
+        "label": "rev 1372370584 2026-08-31"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-leonardo-da-vinci-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "figures",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Leonardo da Vinci\", English Wikipedia, revisions 1308631575 and 1371427684",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Leonardo_da_Vinci&oldid=1308631575",
+        "label": "rev 1308631575 2025-08-30"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Leonardo_da_Vinci&oldid=1371427684",
+        "label": "rev 1371427684 2026-08-26"
+      }
+    },
+    {
+      "id": "py-controlflow-312-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.12 and 3.13 documentation, tutorial/controlflow.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.12/tutorial/controlflow.html",
+        "label": "https://docs.python.org/3.12/tutorial/controlflow.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/tutorial/controlflow.html",
+        "label": "https://docs.python.org/3.13/tutorial/controlflow.html"
+      }
+    },
+    {
+      "id": "py-datastructures-312-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "lists",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.12 and 3.13 documentation, tutorial/datastructures.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.12/tutorial/datastructures.html",
+        "label": "https://docs.python.org/3.12/tutorial/datastructures.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/tutorial/datastructures.html",
+        "label": "https://docs.python.org/3.13/tutorial/datastructures.html"
+      }
+    },
+    {
+      "id": "py-functions-312-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.12 and 3.13 documentation, library/functions.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.12/library/functions.html",
+        "label": "https://docs.python.org/3.12/library/functions.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/library/functions.html",
+        "label": "https://docs.python.org/3.13/library/functions.html"
+      }
+    },
+    {
+      "id": "py-pathlib-311-314",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "tables",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.11 and 3.14 documentation, library/pathlib.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.11/library/pathlib.html",
+        "label": "https://docs.python.org/3.11/library/pathlib.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.14/library/pathlib.html",
+        "label": "https://docs.python.org/3.14/library/pathlib.html"
+      },
+      "heldout": true
+    },
+    {
+      "id": "py-asyncio-task-312-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.12 and 3.13 documentation, library/asyncio-task.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.12/library/asyncio-task.html",
+        "label": "https://docs.python.org/3.12/library/asyncio-task.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/library/asyncio-task.html",
+        "label": "https://docs.python.org/3.13/library/asyncio-task.html"
+      },
+      "heldout": true
+    },
+    {
+      "id": "py-stdtypes-311-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "tables",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.11 and 3.13 documentation, library/stdtypes.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.11/library/stdtypes.html",
+        "label": "https://docs.python.org/3.11/library/stdtypes.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/library/stdtypes.html",
+        "label": "https://docs.python.org/3.13/library/stdtypes.html"
+      }
+    },
+    {
+      "id": "rust-book-ownership-170-185",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "MIT OR Apache-2.0",
+      "attribution": "The Rust Programming Language, by Steve Klabnik, Carol Nichols and the Rust community, editions shipped with Rust 1.70.0 and 1.85.0, ch04-01-what-is-ownership.html",
+      "commit": true,
+      "a": {
+        "url": "https://doc.rust-lang.org/1.70.0/book/ch04-01-what-is-ownership.html",
+        "label": "https://doc.rust-lang.org/1.70.0/book/ch04-01-what-is-ownership.html"
+      },
+      "b": {
+        "url": "https://doc.rust-lang.org/1.85.0/book/ch04-01-what-is-ownership.html",
+        "label": "https://doc.rust-lang.org/1.85.0/book/ch04-01-what-is-ownership.html"
+      },
+      "heldout": true
+    },
+    {
+      "id": "rust-book-strings-170-185",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "MIT OR Apache-2.0",
+      "attribution": "The Rust Programming Language, by Steve Klabnik, Carol Nichols and the Rust community, editions shipped with Rust 1.70.0 and 1.85.0, ch08-02-strings.html",
+      "commit": true,
+      "a": {
+        "url": "https://doc.rust-lang.org/1.70.0/book/ch08-02-strings.html",
+        "label": "https://doc.rust-lang.org/1.70.0/book/ch08-02-strings.html"
+      },
+      "b": {
+        "url": "https://doc.rust-lang.org/1.85.0/book/ch08-02-strings.html",
+        "label": "https://doc.rust-lang.org/1.85.0/book/ch08-02-strings.html"
+      }
+    },
+    {
+      "id": "django-tutorial01-42-52",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "BSD-3-Clause (Django documentation)",
+      "attribution": "Django Software Foundation and contributors, Django 4.2 and 5.2 documentation, Writing your first Django app, part 1",
+      "commit": true,
+      "a": {
+        "url": "https://docs.djangoproject.com/en/4.2/intro/tutorial01/",
+        "label": "https://docs.djangoproject.com/en/4.2/intro/tutorial01/"
+      },
+      "b": {
+        "url": "https://docs.djangoproject.com/en/5.2/intro/tutorial01/",
+        "label": "https://docs.djangoproject.com/en/5.2/intro/tutorial01/"
+      }
+    },
+    {
+      "id": "node-path-v18-v22",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "MIT (Node.js documentation)",
+      "attribution": "Node.js contributors, Node.js v18.20.0 and v22.12.0 documentation, path",
+      "commit": true,
+      "a": {
+        "url": "https://nodejs.org/docs/v18.20.0/api/path.html",
+        "label": "https://nodejs.org/docs/v18.20.0/api/path.html"
+      },
+      "b": {
+        "url": "https://nodejs.org/docs/v22.12.0/api/path.html",
+        "label": "https://nodejs.org/docs/v22.12.0/api/path.html"
+      },
+      "heldout": true
+    },
+    {
+      "id": "mdn-css-flex-basis",
+      "kind": "docs",
+      "change": "docs-archive-time",
+      "shape": "reference",
+      "license": "CC BY-SA 2.5 (MDN prose), CC0 (code samples)",
+      "attribution": "Mozilla Contributors, MDN Web Docs, Web/CSS/flex-basis",
+      "commit": true,
+      "a": {
+        "url": "https://web.archive.org/web/20230306015919/https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis",
+        "label": "snapshot 2023-03-06"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20240902200918/https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis",
+        "label": "snapshot 2024-09-02"
+      }
+    },
+    {
+      "id": "mdn-array-map",
+      "kind": "docs",
+      "change": "docs-archive-time",
+      "shape": "reference",
+      "license": "CC BY-SA 2.5 (MDN prose), CC0 (code samples)",
+      "attribution": "Mozilla Contributors, MDN Web Docs, Web/JavaScript/Reference/Global_Objects/Array/map",
+      "commit": true,
+      "a": {
+        "url": "https://web.archive.org/web/20230301224756/https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "label": "snapshot 2023-03-01"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20230712150826/https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "label": "snapshot 2023-07-12"
+      },
+      "heldout": true
+    },
+    {
+      "id": "mdn-html-table",
+      "kind": "docs",
+      "change": "docs-archive-time",
+      "shape": "tables",
+      "license": "CC BY-SA 2.5 (MDN prose), CC0 (code samples)",
+      "attribution": "Mozilla Contributors, MDN Web Docs, Web/HTML/Element/table",
+      "commit": true,
+      "a": {
+        "url": "https://web.archive.org/web/20230304040212/https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table",
+        "label": "snapshot 2023-03-04"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20240901105414/https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table",
+        "label": "snapshot 2024-09-01"
+      },
+      "heldout": true
+    },
+    {
+      "id": "mdn-http-cache-control",
+      "kind": "docs",
+      "change": "docs-archive-time",
+      "shape": "tables",
+      "license": "CC BY-SA 2.5 (MDN prose), CC0 (code samples)",
+      "attribution": "Mozilla Contributors, MDN Web Docs, Web/HTTP/Headers/Cache-Control",
+      "commit": true,
+      "a": {
+        "url": "https://web.archive.org/web/20230302020345/https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control",
+        "label": "snapshot 2023-03-02"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20240902021116/https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control",
+        "label": "snapshot 2024-09-02"
+      }
+    },
+    {
+      "id": "blog-pg-greatwork",
+      "kind": "wayback",
+      "change": "blog-time",
+      "shape": "article",
+      "license": "all rights reserved, fetch on demand only",
+      "attribution": "http://paulgraham.com/greatwork.html",
+      "commit": false,
+      "a": {
+        "url": "https://web.archive.org/web/20230715035029/http://paulgraham.com/greatwork.html",
+        "label": "snapshot 2023-07-15"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20250102010850/http://paulgraham.com/greatwork.html",
+        "label": "snapshot 2025-01-02"
+      },
+      "heldout": true
+    },
+    {
+      "id": "blog-fowler-microservices",
+      "kind": "wayback",
+      "change": "blog-time",
+      "shape": "article",
+      "license": "all rights reserved, fetch on demand only",
+      "attribution": "https://martinfowler.com/articles/microservices.html",
+      "commit": false,
+      "a": {
+        "url": "https://web.archive.org/web/20190521095850/https://martinfowler.com/articles/microservices.html",
+        "label": "snapshot 2019-05-21"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20240120042245/https://martinfowler.com/articles/microservices.html",
+        "label": "snapshot 2024-01-20"
+      }
+    },
+    {
+      "id": "blog-joel-test",
+      "kind": "wayback",
+      "change": "blog-time",
+      "shape": "article",
+      "license": "all rights reserved, fetch on demand only",
+      "attribution": "https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/",
+      "commit": false,
+      "a": {
+        "url": "https://web.archive.org/web/20180129060852/https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/",
+        "label": "snapshot 2018-01-29"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20230829123028/https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/",
+        "label": "snapshot 2023-08-29"
+      }
+    },
+    {
+      "id": "blog-overreacted-useeffect",
+      "kind": "wayback",
+      "change": "blog-time",
+      "shape": "article",
+      "license": "all rights reserved, fetch on demand only",
+      "attribution": "https://overreacted.io/a-complete-guide-to-useeffect/",
+      "commit": false,
+      "a": {
+        "url": "https://web.archive.org/web/20190530101910/https://overreacted.io/a-complete-guide-to-useeffect/",
+        "label": "snapshot 2019-05-30"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20240505062809/https://overreacted.io/a-complete-guide-to-useeffect/",
+        "label": "snapshot 2024-05-05"
+      },
+      "heldout": true
+    },
+    {
+      "id": "news-bbc-altman",
+      "kind": "wayback",
+      "change": "news-edit",
+      "shape": "article",
+      "license": "all rights reserved, fetch on demand only",
+      "attribution": "https://www.bbc.com/news/technology-67484455",
+      "commit": false,
+      "a": {
+        "url": "https://web.archive.org/web/20231121114606/https://www.bbc.com/news/technology-67484455",
+        "label": "snapshot 2023-11-21"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20231219005629/https://www.bbc.com/news/technology-67484455",
+        "label": "snapshot 2023-12-19"
+      },
+      "heldout": true
+    },
+    {
+      "id": "news-npr-home",
+      "kind": "wayback",
+      "change": "news-front",
+      "shape": "article",
+      "license": "all rights reserved, fetch on demand only",
+      "attribution": "https://text.npr.org/",
+      "commit": false,
+      "a": {
+        "url": "https://web.archive.org/web/20240105201653/https://text.npr.org/",
+        "label": "snapshot 2024-01-05"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20240108211803/https://text.npr.org/",
+        "label": "snapshot 2024-01-08"
+      }
+    },
+    {
+      "id": "blog-jvns-git",
+      "kind": "wayback",
+      "change": "blog-time",
+      "shape": "article",
+      "license": "all rights reserved, fetch on demand only",
+      "attribution": "https://jvns.ca/blog/2023/11/01/confusing-git-terminology/",
+      "commit": false,
+      "a": {
+        "url": "https://web.archive.org/web/20231102130608/https://jvns.ca/blog/2023/11/01/confusing-git-terminology/",
+        "label": "snapshot 2023-11-02"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20240603002601/https://jvns.ca/blog/2023/11/01/confusing-git-terminology/",
+        "label": "snapshot 2024-06-03"
+      }
+    },
+    {
+      "id": "blog-simonw-llm",
+      "kind": "wayback",
+      "change": "blog-time",
+      "shape": "article",
+      "license": "all rights reserved, fetch on demand only",
+      "attribution": "https://simonwillison.net/2023/Aug/3/weird-world-of-llms/",
+      "commit": false,
+      "a": {
+        "url": "https://web.archive.org/web/20230804020104/https://simonwillison.net/2023/Aug/3/weird-world-of-llms/",
+        "label": "snapshot 2023-08-04"
+      },
+      "b": {
+        "url": "https://web.archive.org/web/20240805061151/https://simonwillison.net/2023/Aug/3/weird-world-of-llms/",
+        "label": "snapshot 2024-08-05"
+      }
+    },
+    {
+      "id": "arxiv-2404-19756",
+      "kind": "arxiv",
+      "change": "arxiv-version",
+      "shape": "article",
+      "license": "CC BY 4.0",
+      "attribution": "Ziming Liu, Yixuan Wang, Sachin Vaidya, Fabian Ruehle, James Halverson, Marin Soljačić, Thomas Y. Hou, Max Tegmark, \"KAN: Kolmogorov-Arnold Networks\", arXiv:2404.19756 v1 and v2",
+      "commit": true,
+      "a": {
+        "url": "https://arxiv.org/html/2404.19756v1",
+        "label": "v1"
+      },
+      "b": {
+        "url": "https://arxiv.org/html/2404.19756v2",
+        "label": "v2"
+      }
+    },
+    {
+      "id": "arxiv-2402-03300",
+      "kind": "arxiv",
+      "change": "arxiv-version",
+      "shape": "article",
+      "license": "http://arxiv.org/licenses/nonexclusive-distrib/1.0/",
+      "attribution": "arXiv:2402.03300, authors of the paper",
+      "commit": false,
+      "a": {
+        "url": "https://arxiv.org/html/2402.03300v1",
+        "label": "v1"
+      },
+      "b": {
+        "url": "https://arxiv.org/html/2402.03300v2",
+        "label": "v2"
+      }
+    },
+    {
+      "id": "arxiv-2405-04434",
+      "kind": "arxiv",
+      "change": "arxiv-version",
+      "shape": "article",
+      "license": "http://arxiv.org/licenses/nonexclusive-distrib/1.0/",
+      "attribution": "arXiv:2405.04434, authors of the paper",
+      "commit": false,
+      "a": {
+        "url": "https://arxiv.org/html/2405.04434v1",
+        "label": "v1"
+      },
+      "b": {
+        "url": "https://arxiv.org/html/2405.04434v2",
+        "label": "v2"
+      }
+    },
+    {
+      "id": "arxiv-2407-21783",
+      "kind": "arxiv",
+      "change": "arxiv-version",
+      "shape": "article",
+      "license": "http://arxiv.org/licenses/nonexclusive-distrib/1.0/",
+      "attribution": "arXiv:2407.21783, authors of the paper",
+      "commit": false,
+      "a": {
+        "url": "https://arxiv.org/html/2407.21783v1",
+        "label": "v1"
+      },
+      "b": {
+        "url": "https://arxiv.org/html/2407.21783v2",
+        "label": "v2"
+      }
+    },
+    {
+      "id": "wiki-bicycle-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Bicycle\", English Wikipedia, revisions 1308053057 and 1313299123",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Bicycle&oldid=1308053057",
+        "label": "rev 1308053057 2025-08-27"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Bicycle&oldid=1313299123",
+        "label": "rev 1313299123 2025-09-25"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-penguin-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Penguin\", English Wikipedia, revisions 1305461912 and 1371936752",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Penguin&oldid=1305461912",
+        "label": "rev 1305461912 2025-08-12"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Penguin&oldid=1371936752",
+        "label": "rev 1371936752 2026-08-29"
+      }
+    },
+    {
+      "id": "wiki-rainbow-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Rainbow\", English Wikipedia, revisions 1305570070 and 1314145515",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Rainbow&oldid=1305570070",
+        "label": "rev 1305570070 2025-08-12"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Rainbow&oldid=1314145515",
+        "label": "rev 1314145515 2025-09-29"
+      }
+    },
+    {
+      "id": "wiki-printing-press-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Printing press\", English Wikipedia, revisions 1300121085 and 1370708412",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Printing_press&oldid=1300121085",
+        "label": "rev 1300121085 2025-07-12"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Printing_press&oldid=1370708412",
+        "label": "rev 1370708412 2026-08-22"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-tea-2year",
+      "kind": "wikipedia",
+      "change": "wiki-2year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Tea\", English Wikipedia, revisions 1242139858 and 1371046608",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Tea&oldid=1242139858",
+        "label": "rev 1242139858 2024-08-25"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Tea&oldid=1371046608",
+        "label": "rev 1371046608 2026-08-24"
+      }
+    },
+    {
+      "id": "wiki-chess-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Chess\", English Wikipedia, revisions 1306775032 and 1314267440",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Chess&oldid=1306775032",
+        "label": "rev 1306775032 2025-08-19"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Chess&oldid=1314267440",
+        "label": "rev 1314267440 2025-09-30"
+      }
+    },
+    {
+      "id": "wiki-volcano-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Volcano\", English Wikipedia, revisions 1308439143 and 1371862239",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Volcano&oldid=1308439143",
+        "label": "rev 1308439143 2025-08-29"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Volcano&oldid=1371862239",
+        "label": "rev 1371862239 2026-08-28"
+      }
+    },
+    {
+      "id": "wiki-honey-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Honey\", English Wikipedia, revisions 1307363622 and 1314310135",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Honey&oldid=1307363622",
+        "label": "rev 1307363622 2025-08-23"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Honey&oldid=1314310135",
+        "label": "rev 1314310135 2025-09-30"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-lighthouse-2year",
+      "kind": "wikipedia",
+      "change": "wiki-2year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Lighthouse\", English Wikipedia, revisions 1242730561 and 1368127341",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Lighthouse&oldid=1242730561",
+        "label": "rev 1242730561 2024-08-28"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Lighthouse&oldid=1368127341",
+        "label": "rev 1368127341 2026-08-07"
+      }
+    },
+    {
+      "id": "wiki-glacier-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Glacier\", English Wikipedia, revisions 1305565099 and 1371666943",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Glacier&oldid=1305565099",
+        "label": "rev 1305565099 2025-08-12"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Glacier&oldid=1371666943",
+        "label": "rev 1371666943 2026-08-27"
+      }
+    },
+    {
+      "id": "wiki-origami-2year",
+      "kind": "wikipedia",
+      "change": "wiki-2year",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Origami\", English Wikipedia, revisions 1239507753 and 1364622448",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Origami&oldid=1239507753",
+        "label": "rev 1239507753 2024-08-09"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Origami&oldid=1364622448",
+        "label": "rev 1364622448 2026-07-17"
+      }
+    },
+    {
+      "id": "wiki-pythagorean-theorem-year",
+      "kind": "wikipedia",
+      "change": "wiki-year",
+      "shape": "figures",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Pythagorean theorem\", English Wikipedia, revisions 1304243321 and 1371224846",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Pythagorean_theorem&oldid=1304243321",
+        "label": "rev 1304243321 2025-08-04"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Pythagorean_theorem&oldid=1371224846",
+        "label": "rev 1371224846 2026-08-25"
+      }
+    },
+    {
+      "id": "wiki-bread-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Bread\", English Wikipedia, revisions 1306997648 and 1313791487",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Bread&oldid=1306997648",
+        "label": "rev 1306997648 2025-08-20"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Bread&oldid=1313791487",
+        "label": "rev 1313791487 2025-09-28"
+      },
+      "heldout": true
+    },
+    {
+      "id": "wiki-eiffel-tower-month",
+      "kind": "wikipedia",
+      "change": "wiki-month",
+      "shape": "prose",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Wikipedia contributors, \"Eiffel Tower\", English Wikipedia, revisions 1307817740 and 1311433871",
+      "commit": true,
+      "a": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Eiffel_Tower&oldid=1307817740",
+        "label": "rev 1307817740 2025-08-25"
+      },
+      "b": {
+        "url": "https://en.wikipedia.org/w/index.php?title=Eiffel_Tower&oldid=1311433871",
+        "label": "rev 1311433871 2025-09-15"
+      }
+    },
+    {
+      "id": "py-json-312-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.12 and 3.13 documentation, library/json.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.12/library/json.html",
+        "label": "https://docs.python.org/3.12/library/json.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/library/json.html",
+        "label": "https://docs.python.org/3.13/library/json.html"
+      },
+      "heldout": true
+    },
+    {
+      "id": "py-collections-311-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.11 and 3.13 documentation, library/collections.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.11/library/collections.html",
+        "label": "https://docs.python.org/3.11/library/collections.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/library/collections.html",
+        "label": "https://docs.python.org/3.13/library/collections.html"
+      },
+      "heldout": true
+    },
+    {
+      "id": "py-re-312-314",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.12 and 3.14 documentation, library/re.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.12/library/re.html",
+        "label": "https://docs.python.org/3.12/library/re.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.14/library/re.html",
+        "label": "https://docs.python.org/3.14/library/re.html"
+      }
+    },
+    {
+      "id": "py-classes-312-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.12 and 3.13 documentation, tutorial/classes.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.12/tutorial/classes.html",
+        "label": "https://docs.python.org/3.12/tutorial/classes.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/tutorial/classes.html",
+        "label": "https://docs.python.org/3.13/tutorial/classes.html"
+      },
+      "heldout": true
+    },
+    {
+      "id": "py-errors-311-314",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.11 and 3.14 documentation, tutorial/errors.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.11/tutorial/errors.html",
+        "label": "https://docs.python.org/3.11/tutorial/errors.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.14/tutorial/errors.html",
+        "label": "https://docs.python.org/3.14/tutorial/errors.html"
+      }
+    },
+    {
+      "id": "py-itertools-312-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.12 and 3.13 documentation, library/itertools.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.12/library/itertools.html",
+        "label": "https://docs.python.org/3.12/library/itertools.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/library/itertools.html",
+        "label": "https://docs.python.org/3.13/library/itertools.html"
+      }
+    },
+    {
+      "id": "py-logging-howto-312-313",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "PSF License Version 2 (Python documentation)",
+      "attribution": "Python Software Foundation, Python 3.12 and 3.13 documentation, howto/logging.html",
+      "commit": true,
+      "a": {
+        "url": "https://docs.python.org/3.12/howto/logging.html",
+        "label": "https://docs.python.org/3.12/howto/logging.html"
+      },
+      "b": {
+        "url": "https://docs.python.org/3.13/howto/logging.html",
+        "label": "https://docs.python.org/3.13/howto/logging.html"
+      }
+    },
+    {
+      "id": "rust-book-enums-170-185",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "MIT OR Apache-2.0",
+      "attribution": "The Rust Programming Language, by Steve Klabnik, Carol Nichols and the Rust community, editions shipped with Rust 1.70.0 and 1.85.0, ch06-01-defining-an-enum.html",
+      "commit": true,
+      "a": {
+        "url": "https://doc.rust-lang.org/1.70.0/book/ch06-01-defining-an-enum.html",
+        "label": "https://doc.rust-lang.org/1.70.0/book/ch06-01-defining-an-enum.html"
+      },
+      "b": {
+        "url": "https://doc.rust-lang.org/1.85.0/book/ch06-01-defining-an-enum.html",
+        "label": "https://doc.rust-lang.org/1.85.0/book/ch06-01-defining-an-enum.html"
+      }
+    },
+    {
+      "id": "rust-book-result-170-185",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "MIT OR Apache-2.0",
+      "attribution": "The Rust Programming Language, by Steve Klabnik, Carol Nichols and the Rust community, editions shipped with Rust 1.70.0 and 1.85.0, ch09-02-recoverable-errors-with-result.html",
+      "commit": true,
+      "a": {
+        "url": "https://doc.rust-lang.org/1.70.0/book/ch09-02-recoverable-errors-with-result.html",
+        "label": "https://doc.rust-lang.org/1.70.0/book/ch09-02-recoverable-errors-with-result.html"
+      },
+      "b": {
+        "url": "https://doc.rust-lang.org/1.85.0/book/ch09-02-recoverable-errors-with-result.html",
+        "label": "https://doc.rust-lang.org/1.85.0/book/ch09-02-recoverable-errors-with-result.html"
+      },
+      "heldout": true
+    },
+    {
+      "id": "rust-book-closures-170-185",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "MIT OR Apache-2.0",
+      "attribution": "The Rust Programming Language, by Steve Klabnik, Carol Nichols and the Rust community, editions shipped with Rust 1.70.0 and 1.85.0, ch13-01-closures.html",
+      "commit": true,
+      "a": {
+        "url": "https://doc.rust-lang.org/1.70.0/book/ch13-01-closures.html",
+        "label": "https://doc.rust-lang.org/1.70.0/book/ch13-01-closures.html"
+      },
+      "b": {
+        "url": "https://doc.rust-lang.org/1.85.0/book/ch13-01-closures.html",
+        "label": "https://doc.rust-lang.org/1.85.0/book/ch13-01-closures.html"
+      },
+      "heldout": true
+    },
+    {
+      "id": "django-tutorial02-42-52",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "prose",
+      "license": "BSD-3-Clause (Django documentation)",
+      "attribution": "Django Software Foundation and contributors, Django 4.2 and 5.2 documentation, Writing your first Django app, part 2",
+      "commit": true,
+      "a": {
+        "url": "https://docs.djangoproject.com/en/4.2/intro/tutorial02/",
+        "label": "https://docs.djangoproject.com/en/4.2/intro/tutorial02/"
+      },
+      "b": {
+        "url": "https://docs.djangoproject.com/en/5.2/intro/tutorial02/",
+        "label": "https://docs.djangoproject.com/en/5.2/intro/tutorial02/"
+      },
+      "heldout": true
+    },
+    {
+      "id": "django-models-42-52",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "BSD-3-Clause (Django documentation)",
+      "attribution": "Django Software Foundation and contributors, Django 4.2 and 5.2 documentation, Models",
+      "commit": true,
+      "a": {
+        "url": "https://docs.djangoproject.com/en/4.2/topics/db/models/",
+        "label": "https://docs.djangoproject.com/en/4.2/topics/db/models/"
+      },
+      "b": {
+        "url": "https://docs.djangoproject.com/en/5.2/topics/db/models/",
+        "label": "https://docs.djangoproject.com/en/5.2/topics/db/models/"
+      },
+      "heldout": true
+    },
+    {
+      "id": "node-events-v18-v22",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "MIT (Node.js documentation)",
+      "attribution": "Node.js contributors, Node.js v18.20.0 and v22.12.0 documentation, events",
+      "commit": true,
+      "a": {
+        "url": "https://nodejs.org/docs/v18.20.0/api/events.html",
+        "label": "https://nodejs.org/docs/v18.20.0/api/events.html"
+      },
+      "b": {
+        "url": "https://nodejs.org/docs/v22.12.0/api/events.html",
+        "label": "https://nodejs.org/docs/v22.12.0/api/events.html"
+      }
+    },
+    {
+      "id": "node-url-v18-v22",
+      "kind": "docs",
+      "change": "docs-release",
+      "shape": "reference",
+      "license": "MIT (Node.js documentation)",
+      "attribution": "Node.js contributors, Node.js v18.20.0 and v22.12.0 documentation, url",
+      "commit": true,
+      "a": {
+        "url": "https://nodejs.org/docs/v18.20.0/api/url.html",
+        "label": "https://nodejs.org/docs/v18.20.0/api/url.html"
+      },
+      "b": {
+        "url": "https://nodejs.org/docs/v22.12.0/api/url.html",
+        "label": "https://nodejs.org/docs/v22.12.0/api/url.html"
+      }
+    },
+    {
+      "id": "syn-same",
+      "kind": "synthetic",
+      "change": "syn-same",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-same/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-same/b.html",
+        "label": "same"
+      },
+      "note": "B is identical to A. Control: everything must land."
+    },
+    {
+      "id": "syn-para-inserted",
+      "kind": "synthetic",
+      "change": "syn-para-inserted",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-para-inserted/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-para-inserted/b.html",
+        "label": "para-inserted"
+      },
+      "note": "A new paragraph is inserted at the top of the first section, pushing everything down."
+    },
+    {
+      "id": "syn-sentence-edited",
+      "kind": "synthetic",
+      "change": "syn-sentence-edited",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-sentence-edited/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-sentence-edited/b.html",
+        "label": "sentence-edited"
+      },
+      "note": "One sentence in each of four paragraphs is reworded. The rest of each paragraph is unchanged."
+    },
+    {
+      "id": "syn-quote-repeated",
+      "kind": "synthetic",
+      "change": "syn-quote-repeated",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-quote-repeated/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-quote-repeated/b.html",
+        "label": "quote-repeated"
+      },
+      "note": "A summary box near the top repeats three sentences that appear later, so each quote now occurs twice."
+    },
+    {
+      "id": "syn-section-moved",
+      "kind": "synthetic",
+      "change": "syn-section-moved",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-section-moved/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-section-moved/b.html",
+        "label": "section-moved"
+      },
+      "note": "The section on keepers moves from third to first place."
+    },
+    {
+      "id": "syn-section-deleted",
+      "kind": "synthetic",
+      "change": "syn-section-deleted",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-section-deleted/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-section-deleted/b.html",
+        "label": "section-deleted"
+      },
+      "note": "The section on lenses and reflectors is removed. Notes on it are truly gone."
+    },
+    {
+      "id": "syn-ids-classes-renamed",
+      "kind": "synthetic",
+      "change": "syn-ids-classes-renamed",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-ids-classes-renamed/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-ids-classes-renamed/b.html",
+        "label": "ids-classes-renamed"
+      },
+      "note": "Same text. Every id and class is renamed and extra wrapper elements are added, so structural paths break."
+    },
+    {
+      "id": "syn-list-reordered",
+      "kind": "synthetic",
+      "change": "syn-list-reordered",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-list-reordered/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-list-reordered/b.html",
+        "label": "list-reordered"
+      },
+      "note": "The duty list is reversed and the table rows are reordered."
+    },
+    {
+      "id": "syn-sticky-sidebar",
+      "kind": "synthetic",
+      "change": "syn-sticky-sidebar",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-sticky-sidebar/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-sticky-sidebar/b.html",
+        "label": "sticky-sidebar"
+      },
+      "note": "A sticky sidebar with a table of contents and a tall collapse button sits left of the article on both versions. B adds one entry to the contents and one paragraph to the article. Margin notes must follow the paragraphs, never the sidebar."
+    },
+    {
+      "id": "syn-twin-notes",
+      "kind": "synthetic",
+      "change": "syn-twin-notes",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-twin-notes/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-twin-notes/b.html",
+        "label": "twin-notes"
+      },
+      "note": "Every section ends with the same note, word for word. B inserts a paragraph at the top, so every positional path shifts by one. A note on one twin must not move to another."
+    },
+    {
+      "id": "syn-heading-renamed",
+      "kind": "synthetic",
+      "change": "syn-heading-renamed",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-heading-renamed/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-heading-renamed/b.html",
+        "label": "heading-renamed"
+      },
+      "note": "Two section titles are lengthened and a new paragraph opens the first section. The old words of each title are still at its start."
+    },
+    {
+      "id": "syn-footnotes-renumbered",
+      "kind": "synthetic",
+      "change": "syn-footnotes-renumbered",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-footnotes-renumbered/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-footnotes-renumbered/b.html",
+        "label": "footnotes-renumbered"
+      },
+      "note": "Every paragraph ends with a footnote marker. B adds a reference near the top, so every later marker number goes up by one."
+    },
+    {
+      "id": "syn-table-column-removed",
+      "kind": "synthetic",
+      "change": "syn-table-column-removed",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-table-column-removed/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-table-column-removed/b.html",
+        "label": "table-column-removed"
+      },
+      "note": "The middle column of the table is removed. The caption and the text around the table stay."
+    },
+    {
+      "id": "syn-opening-rewritten",
+      "kind": "synthetic",
+      "change": "syn-opening-rewritten",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-opening-rewritten/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-opening-rewritten/b.html",
+        "label": "opening-rewritten"
+      },
+      "note": "The opening sentences of three paragraphs are rewritten. Their last sentences stay, and so do the gaps after them."
+    },
+    {
+      "id": "syn-image-replaced",
+      "kind": "synthetic",
+      "change": "syn-image-replaced",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-image-replaced/a.html",
+        "label": "base article"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-image-replaced/b.html",
+        "label": "image-replaced"
+      },
+      "note": "The figure in the first section gets a different image file. The caption stays."
+    },
+    {
+      "id": "syn-collapse-details",
+      "kind": "synthetic",
+      "change": "syn-collapse-details",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-collapse-details/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-collapse-details/b.html",
+        "label": "collapse-details"
+      },
+      "note": "Part of the page sits in a <details> section. A has it open, B has it closed: notes on it must hide with it, and the rest stay in place."
+    },
+    {
+      "id": "syn-reopen-details",
+      "kind": "synthetic",
+      "change": "syn-reopen-details",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-reopen-details/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-reopen-details/b.html",
+        "label": "reopen-details"
+      },
+      "note": "Part of the page sits in a <details> section. B is served with it closed and opens it at load: every note must be back in place."
+    },
+    {
+      "id": "syn-collapse-accordion",
+      "kind": "synthetic",
+      "change": "syn-collapse-accordion",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-collapse-accordion/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-collapse-accordion/b.html",
+        "label": "collapse-accordion"
+      },
+      "note": "Part of the page sits in an accordion that closes by animating its height to zero with overflow hidden. A has it open, B has it closed: notes on it must hide with it, and the rest stay in place."
+    },
+    {
+      "id": "syn-reopen-accordion",
+      "kind": "synthetic",
+      "change": "syn-reopen-accordion",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-reopen-accordion/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-reopen-accordion/b.html",
+        "label": "reopen-accordion"
+      },
+      "note": "Part of the page sits in an accordion that closes by animating its height to zero with overflow hidden. B is served with it closed and opens it at load: every note must be back in place."
+    },
+    {
+      "id": "syn-collapse-tabs",
+      "kind": "synthetic",
+      "change": "syn-collapse-tabs",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-collapse-tabs/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-collapse-tabs/b.html",
+        "label": "collapse-tabs"
+      },
+      "note": "Part of the page sits in a tab panel, hidden when the other tab is chosen. A has it open, B has it closed: notes on it must hide with it, and the rest stay in place."
+    },
+    {
+      "id": "syn-reopen-tabs",
+      "kind": "synthetic",
+      "change": "syn-reopen-tabs",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-reopen-tabs/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-reopen-tabs/b.html",
+        "label": "reopen-tabs"
+      },
+      "note": "Part of the page sits in a tab panel, hidden when the other tab is chosen. B is served with it closed and opens it at load: every note must be back in place."
+    },
+    {
+      "id": "syn-collapse-menu",
+      "kind": "synthetic",
+      "change": "syn-collapse-menu",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-collapse-menu/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-collapse-menu/b.html",
+        "label": "collapse-menu"
+      },
+      "note": "Part of the page sits in a menu list, closed by a class. A has it open, B has it closed: notes on it must hide with it, and the rest stay in place."
+    },
+    {
+      "id": "syn-reopen-menu",
+      "kind": "synthetic",
+      "change": "syn-reopen-menu",
+      "shape": "article",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/synthetic/syn-reopen-menu/a.html",
+        "label": "base article, variant"
+      },
+      "b": {
+        "url": "fixtures/synthetic/syn-reopen-menu/b.html",
+        "label": "reopen-menu"
+      },
+      "note": "Part of the page sits in a menu list, closed by a class. B is served with it closed and opens it at load: every note must be back in place."
+    },
+    {
+      "id": "dyn-lazy-article",
+      "kind": "dynamic",
+      "change": "dyn-lazy-article",
+      "shape": "app",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/dynamic/dyn-lazy-article/a.html",
+        "label": "settled"
+      },
+      "b": {
+        "url": "fixtures/dynamic/dyn-lazy-article/b.html",
+        "label": "live"
+      },
+      "note": "B starts with two sections and appends the rest after delays. Scored before and after it settles."
+    },
+    {
+      "id": "dyn-infinite-list",
+      "kind": "dynamic",
+      "change": "dyn-infinite-list",
+      "shape": "app",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/dynamic/dyn-infinite-list/a.html",
+        "label": "settled"
+      },
+      "b": {
+        "url": "fixtures/dynamic/dyn-infinite-list/b.html",
+        "label": "live"
+      },
+      "note": "B shows 20 of 60 items and loads more when the end of the list scrolls into view."
+    },
+    {
+      "id": "dyn-spa-route",
+      "kind": "dynamic",
+      "change": "dyn-spa-route",
+      "shape": "app",
+      "license": "MIT (original text written for this test set)",
+      "attribution": "Ink test set authors",
+      "commit": true,
+      "a": {
+        "url": "fixtures/dynamic/dyn-spa-route/a.html",
+        "label": "settled"
+      },
+      "b": {
+        "url": "fixtures/dynamic/dyn-spa-route/b.html",
+        "label": "live"
+      },
+      "note": "B opens on another route, then changes route. Nodes are recycled in a different order."
+    }
+  ],
+  "layouts": [
+    {
+      "fixture": "syn-same",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "wiki-photosynthesis-month",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "wiki-solar-system-month",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "py-controlflow-312-313",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "mdn-css-flex-basis",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "rust-book-ownership-170-185",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "arxiv-2404-19756",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "wiki-coffee-month",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "wiki-unix-year",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "django-tutorial01-42-52",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "node-path-v18-v22",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "mdn-array-map",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "py-datastructures-312-313",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "syn-sticky-sidebar",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "wiki-bread-month",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    },
+    {
+      "fixture": "rust-book-enums-170-185",
+      "conditions": ["w820", "w390", "w1280z150", "w390z150", "dark", "darkcss"]
+    }
+  ]
+}

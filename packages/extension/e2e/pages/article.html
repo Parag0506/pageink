@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Article page</title>
+<style>
+  body { font: 18px/1.6 Georgia, serif; margin: 0; padding: 24px 40px; color: #222; background: #fff; }
+  main { max-width: 720px; }
+  #blank { height: 320px; }
+  .controls { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin: 24px 0; }
+  .controls > * { font-size: 16px; }
+  #ce { border: 1px solid #999; padding: 6px; min-width: 140px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Notes on paper and ink</h1>
+<p id="p1">Paper was made from rags for a long time. The pulp was beaten in water, lifted on a mould and pressed flat. Good rag paper keeps for centuries.</p>
+<p id="p2">Iron gall ink was the standard writing ink in Europe for over a thousand years. It bites into the paper, so a pomegranate seed of ink can last as long as the sheet itself.</p>
+<p id="p3">Pens changed the shape of letters. A broad nib held at a steady angle makes thick and thin strokes without any effort from the writer.</p>
+<p id="p4">Pencils came later. Graphite from Borrowdale was so pure that it could be sawn into sticks and wrapped in wood, which is still how pencils are made.</p>
+<div class="controls">
+  <a id="link" href="#linked">Jump to the notes</a>
+  <button id="btn" type="button">A button</button>
+  <input id="txt" type="text" placeholder="A text field">
+  <select id="sel"><option>One</option><option>Two</option></select>
+  <div id="ce" contenteditable="true">Editable text</div>
+</div>
+<div id="blank"></div>
+<p id="p5">The last paragraph is far down the page, below a blank area where nothing is written.</p>
+<div style="height: 600px"></div>
+</main>
+<script>
+  window.hits = { btn: 0, link: 0 };
+  document.getElementById('btn').addEventListener('click', () => window.hits.btn++);
+  document.getElementById('link').addEventListener('click', () => window.hits.link++);
+</script>
+</body>
+</html>

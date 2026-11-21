@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Late page</title>
+<style>body { font: 18px/1.6 sans-serif; margin: 24px; }</style>
+</head>
+<body>
+<h1>Late content</h1>
+<p id="p0">This paragraph is there from the start.</p>
+<div id="slot"></div>
+<p id="p9">A closing paragraph that is always there, for placing notes again.</p>
+<div style="height: 900px"></div>
+<script>
+  // Options sit in the fragment, written with no = or /, so it is not a route and not part of the page key.
+  const h = location.hash.slice(1);
+  const ms = Number(/delay-(\d+)/.exec(h)?.[1] ?? 0);
+  const fill = () => {
+    if (h.includes('gone')) return;
+    const p = document.createElement('p');
+    p.id = 'late';
+    p.textContent = 'Comets have tails that point away from the sun, whichever way they travel.';
+    document.getElementById('slot').append(p);
+  };
+  // With hold in the fragment, an image the test serves when it likes holds the load event back.
+  if (h.includes('hold')) document.body.append(Object.assign(new Image(), { src: 'held.png' }));
+  // With manual in the fragment, the test calls fill() itself.
+  if (h.includes('manual')) window.fill = fill;
+  else if (ms) setTimeout(fill, ms);
+  else fill();
+</script>
+</body>
+</html>

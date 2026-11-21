@@ -1,0 +1,29 @@
+{
+  "id": "wiki-lighthouse-2year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "cdf8a461ef932120.css",
+    "6576318ee595573c.css",
+    "182813dd81c13a23.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css",
+    "8e02c666b7a119bd.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "17049826cce17143.css",
+    "14fa8559badd650d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Lighthouse&oldid=1242730561",
+    "sha256": "837a5d8aaf68705b94262bfd0c61a46dc4e350511a424a53ecda22a8fb4bc06c",
+    "bytes": 317288
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Lighthouse&oldid=1368127341",
+    "sha256": "12e9604212db16cab2ef47d895bb0c49b2ce1b015cc42ceb3c2485524b8b3d3a",
+    "bytes": 334258
+  }
+}

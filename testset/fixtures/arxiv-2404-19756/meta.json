@@ -1,0 +1,20 @@
+{
+  "id": "arxiv-2404-19756",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "30132385c213708f.css",
+    "1a16527f82c1b749.css",
+    "5be701b73e83742d.css",
+    "b6c82d4d3987c193.css"
+  ],
+  "a": {
+    "url": "https://arxiv.org/html/2404.19756v1",
+    "sha256": "dd6fe59fdba1e68493396b785ce4b5b6e7a497a47535c1a61f33bf30e9702823",
+    "bytes": 714444
+  },
+  "b": {
+    "url": "https://arxiv.org/html/2404.19756v2",
+    "sha256": "297174d39e4a979097f520a6a5f5b3fc65f0e17d46ce51f8ac717638b85dcc22",
+    "bytes": 714837
+  }
+}

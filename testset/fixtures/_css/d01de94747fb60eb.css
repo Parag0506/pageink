@@ -1,0 +1,111 @@
+
+        /* -- Where your donation goes -- */
+        #frb-dialog-wydg {
+            max-width: 948px;
+        }
+        #frb-dialog-wydg .frb-dialog-text {
+            max-width: 100%;
+        }
+        #frb-dialog-wydg .wydg-columns {
+            display: block;
+        }
+
+        @media (min-width: 960px) {
+            #frb-dialog-wydg .wydg-columns {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+            }
+        }
+
+        .wydg-pie-chart {
+            flex: 0 0 360px;
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+        .wydg-columns > div {
+            flex: 1 1 auto;
+        }
+
+        .wydg-section {
+            border: 1px solid var(--frb-button-border);
+            border-left: 8px solid var(--wydg-color, #000);
+            border-radius: 2px;
+            padding: 15px 15px;
+            margin-top: 15px;
+        }
+
+        .wydg-section summary {
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .wydg-section summary:hover {
+            text-decoration: underline;
+        }
+
+        .wydg-section p {
+            margin-top: 10px;
+        }
+
+        .wydg-section summary span {
+            float: right;
+            margin-left: 0.5em;
+        }
+
+        .wydg-technology  { --wydg-color: #71d1b3; }
+        .wydg-volunteers  { --wydg-color: #049dff; }
+        .wydg-general     { --wydg-color: #e679a6; }
+        .wydg-fundraising { --wydg-color: #f9dde9; }
+
+        .wydg-pie-chart text {
+            text-anchor: middle;
+            fill: var(--frb-body, #000);
+            font-family: sans-serif;
+        }
+        .wydg-pie-chart .arc,
+        .wydg-pie-chart .arc-expanded {
+            translate: 200px 200px;
+            fill: var(--wydg-color, #000);
+        }
+        .wydg-pie-chart .pct-label {
+            pointer-events: none;
+            font-size: 20px;
+            font-weight: 700;
+            fill: #000;
+        }
+        .wydg-pie-chart .center-number {
+            transform: translate(200px, 195px);
+            font-size: 24px;
+            font-weight: 700;
+            pointer-events: none;
+        }
+        .wydg-pie-chart .center-description {
+            transform: translate(200px, 217px);
+            font-size: 16px;
+            font-weight: 400;
+            pointer-events: none;
+        }
+
+        .wydg-pie-chart .arc {
+            display: block !important;
+        }
+
+        .wydg-pie-chart .pie-slice * {
+            opacity: 0;
+        }
+        .wydg-pie-chart .pie-slice .arc {
+            opacity: 1;
+        }
+
+        .wydg-pie-chart .pie-slice:hover * {
+            opacity: 1;
+        }
+
+        .wydg-pie-chart .pie-slice:hover ~ .wydg-total {
+            opacity: 0;
+        }
+    

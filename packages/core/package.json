@@ -1,0 +1,91 @@
+{
+  "name": "pageink-core",
+  "version": "0.1.0",
+  "description": "Handwriting on any web page: capture, anchoring, placement, rendering and storage.",
+  "keywords": [
+    "handwriting",
+    "ink",
+    "annotation",
+    "pen",
+    "stylus",
+    "notes",
+    "web-annotation",
+    "anchoring"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Parag0506/pageink.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/Parag0506/pageink/tree/main/packages/core#readme",
+  "bugs": "https://github.com/Parag0506/pageink/issues",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts",
+    "./hash": "./src/hash.ts",
+    "./brand": "./src/brand.ts",
+    "./view": "./src/app/view.ts",
+    "./tools": "./src/app/tools.ts",
+    "./*": "./src/*/index.ts"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js",
+        "default": "./dist/index.js"
+      },
+      "./types": {
+        "types": "./dist/types.d.ts",
+        "import": "./dist/types.js",
+        "default": "./dist/types.js"
+      },
+      "./hash": {
+        "types": "./dist/hash.d.ts",
+        "import": "./dist/hash.js",
+        "default": "./dist/hash.js"
+      },
+      "./brand": {
+        "types": "./dist/brand.d.ts",
+        "import": "./dist/brand.js",
+        "default": "./dist/brand.js"
+      },
+      "./view": {
+        "types": "./dist/app/view.d.ts",
+        "import": "./dist/app/view.js",
+        "default": "./dist/app/view.js"
+      },
+      "./tools": {
+        "types": "./dist/app/tools.d.ts",
+        "import": "./dist/app/tools.js",
+        "default": "./dist/app/tools.js"
+      },
+      "./*": {
+        "types": "./dist/*/index.d.ts",
+        "import": "./dist/*/index.js",
+        "default": "./dist/*/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "test": "node ../../scripts/run-all.mjs \"vitest run --project unit\" \"corepack pnpm run test:browser\"",
+    "test:unit": "vitest run --project unit",
+    "test:browser": "node ../../scripts/run-all.mjs \"vitest run --project browser --browser.name=chromium -t '^(?!.*budget: )'\" \"INK_BUDGET_RUN=1 vitest run --project browser --browser.name=chromium -t 'budget: '\" \"vitest run --project browser --browser.name=webkit -t '^(?!.*budget: )'\" \"INK_BUDGET_RUN=1 vitest run --project browser --browser.name=webkit -t 'budget: '\" \"vitest run --project browser --browser.name=firefox -t '^(?!.*budget: )'\" \"INK_BUDGET_RUN=1 vitest run --project browser --browser.name=firefox -t 'budget: '\"",
+    "typecheck": "tsc -p tsconfig.json",
+    "demo": "vite demo",
+    "build": "vite build -c vite.lib.config.ts && tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "approx-string-match": "^2.0.3",
+    "fflate": "^0.8.3",
+    "perfect-freehand": "^1.2.3"
+  }
+}

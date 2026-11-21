@@ -1,0 +1,30 @@
+{
+  "id": "wiki-pasta-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "3bc9bce83de1399b.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "14fa8559badd650d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css",
+    "9b61cc98f6fd13d1.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "06143a343878dbac.css",
+    "862ee54af5b04f5d.css",
+    "705f73c6a7b1ae8c.css",
+    "d01de94747fb60eb.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Pasta&oldid=1306627772",
+    "sha256": "cb6ab8ca38e32e3cabd5e9683c1f4aa1dfefe01eb5fef4cfd46b9f0d60310347",
+    "bytes": 530089
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Pasta&oldid=1313906364",
+    "sha256": "70cc024dd6bd5f11849755e6b63bc740638ea0ea4a777b90f04e2c362701d4fb",
+    "bytes": 602521
+  }
+}

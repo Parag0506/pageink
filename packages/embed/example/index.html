@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why the tide comes twice a day</title>
+  <style>
+    :root {
+      --paper: #fbf8f2;
+      --ink: #23201b;
+      --muted: #6d665b;
+      --rule: #e4ddcf;
+      --card: #f3eee4;
+      --accent: #2f6f6a;
+      --code-bg: #1f2428;
+      --code-ink: #e6e1d6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #17191b;
+        --ink: #e7e3da;
+        --muted: #a39d92;
+        --rule: #2d3033;
+        --card: #202326;
+        --accent: #7cc3bb;
+        --code-bg: #0f1113;
+        --code-ink: #e6e1d6;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 19px/1.65 Charter, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      -webkit-text-size-adjust: 100%;
+    }
+    .wrap { max-width: 680px; margin: 0 auto; padding: 56px 24px 120px; }
+    .kicker {
+      font: 600 13px/1.2 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 10px;
+    }
+    h1 { font-size: 40px; line-height: 1.15; margin: 0 0 14px; letter-spacing: -.01em; }
+    .lede { font-size: 21px; color: var(--muted); margin: 0 0 32px; }
+    h2 { font-size: 25px; margin: 44px 0 10px; }
+    p { margin: 0 0 18px; }
+    .how {
+      font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin: 0 0 36px;
+    }
+    .how strong { color: var(--accent); }
+    .how ul { margin: 8px 0 0; padding-left: 20px; }
+    .how li { margin: 4px 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .actions button {
+      font: 600 14px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--accent);
+      background: transparent;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      padding: 9px 14px;
+      min-height: 36px;
+      cursor: pointer;
+    }
+    .actions button:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+    .status { font-size: 13px; color: var(--muted); min-height: 1.4em; margin: 8px 0 0; }
+    .status:empty { display: none; }
+    figure { margin: 28px 0 30px; }
+    figure svg { display: block; width: 100%; height: auto; border-radius: 12px; background: var(--card); }
+    figure svg text { fill: var(--muted); }
+    figcaption {
+      font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .code {
+      position: relative;
+      margin: 24px 0 28px;
+      border-radius: 12px;
+      background: var(--code-bg);
+      color: var(--code-ink);
+    }
+    .code .label {
+      position: absolute; top: 10px; right: 14px;
+      font: 600 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: .08em; text-transform: uppercase; color: #8b949e;
+    }
+    .code pre {
+      margin: 0;
+      padding: 18px 20px;
+      max-height: 220px;
+      overflow: auto;
+      font: 14px/1.6 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    .code .c { color: #8b949e; }
+    .code .k { color: #ff9f7a; }
+    .code .n { color: #9fd3c7; }
+    .off-note { font-size: 15px; color: var(--muted); }
+    code { font: 0.86em ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+    footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 15px; color: var(--muted); }
+    @media (max-width: 520px) {
+      body { font-size: 18px; }
+      .wrap { padding: 32px 16px 96px; }
+      h1 { font-size: 31px; }
+      .lede { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <p class="kicker">A short lesson</p>
+    <h1>Why the tide comes twice a day</h1>
+    <p class="lede">The Moon pulls on the whole Earth, but not evenly. That small difference is enough to lift the oceans on two sides at once.</p>
+
+    <aside class="how" aria-label="How to write on this page">
+      <strong>Write on this page.</strong> Your notes stay here, on this device, the next time you open it.
+      <ul>
+        <li><b>Pen:</b> an Apple Pencil or any stylus writes at once. Your finger still scrolls.</li>
+        <li><b>Draw toggle:</b> with a finger, mouse or trackpad, switch on <i>Draw</i> in the small bar. Hold Alt to write with a mouse for a moment.</li>
+        <li><b>Tray:</b> if the lesson text changes and a note loses its place, it waits in the tray with the words it was written beside. Tap it, then tap where it belongs.</li>
+      </ul>
+      <div class="actions">
+        <button type="button" id="b-draw">Start drawing</button>
+        <button type="button" id="b-md">Save notes as Markdown</button>
+        <button type="button" id="b-folder">Back up to a folder</button>
+      </div>
+      <p class="status" id="status" role="status"></p>
+    </aside>
+
+    <h2>Two bulges, not one</h2>
+    <p>Gravity weakens with distance. The ocean on the side of the Earth facing the Moon is pulled a little harder than the Earth's centre, so it bulges toward the Moon.</p>
+    <p>The ocean on the far side is pulled a little less than the centre. The Earth is drawn away from that water, and it is left behind as a second bulge. What matters is the difference in pull across the planet, not the pull itself.</p>
+
+    <figure>
+      <svg viewBox="0 0 640 260" role="img" aria-label="The Earth with two ocean bulges, one toward the Moon and one away from it">
+        <defs>
+          <radialGradient id="sea" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#7fb9c9"/>
+            <stop offset="100%" stop-color="#3f7f93"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="220" cy="130" rx="128" ry="96" fill="url(#sea)" opacity=".55"/>
+        <circle cx="220" cy="130" r="80" fill="#5f8f5a"/>
+        <path d="M180 92c22-14 52-10 64 6s-4 30-20 30-22 18-40 10-26-34-4-46z" fill="#7fa96e"/>
+        <circle cx="560" cy="130" r="26" fill="#d9d4c7"/>
+        <circle cx="552" cy="122" r="5" fill="#c4bead"/>
+        <circle cx="566" cy="140" r="3.5" fill="#c4bead"/>
+        <g stroke="#a39d92" stroke-width="2" fill="none" stroke-dasharray="5 6">
+          <path d="M352 130 H526"/>
+        </g>
+        <g font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#6d665b">
+          <text x="560" y="180" text-anchor="middle">Moon</text>
+          <text x="368" y="122">near bulge</text>
+          <text x="20" y="122">far bulge</text>
+        </g>
+      </svg>
+      <figcaption>Not to scale. The bulges are drawn hundreds of times taller than they are.</figcaption>
+    </figure>
+
+    <h2>Why twice a day</h2>
+    <p>The Earth turns under both bulges once a day. A harbour passes through the near bulge, then the far one, so it sees two high tides and two low tides.</p>
+    <p>The Moon also moves along its orbit while the Earth turns, so the harbour needs about 50 more minutes to catch up with it. That is why high tide is a little later each day.</p>
+
+    <h2>Work it out</h2>
+    <p>The tidal pull falls with the cube of the distance. A few lines of code show how much stronger the Moon's effect is than the Sun's, even though the Sun pulls harder overall.</p>
+    <div class="code" data-ink-off>
+      <span class="label">JavaScript</span>
+<pre><span class="c">// Tidal effect is mass over distance cubed.</span>
+<span class="k">const</span> <span class="n">moon</span> = { mass: 7.35e22, dist: 3.84e8 };
+<span class="k">const</span> <span class="n">sun</span>  = { mass: 1.99e30, dist: 1.50e11 };
+
+<span class="k">const</span> <span class="n">tidal</span> = (b) =&gt; b.mass / b.dist ** 3;
+
+<span class="k">const</span> <span class="n">ratio</span> = tidal(moon) / tidal(sun);
+console.log(ratio.toFixed(2)); <span class="c">// about 2.2</span>
+
+<span class="c">// Spring tides: Sun and Moon in line, effects add.</span>
+<span class="k">const</span> <span class="n">spring</span> = tidal(moon) + tidal(sun);
+<span class="c">// Neap tides: at right angles, they partly cancel.</span>
+<span class="k">const</span> <span class="n">neap</span> = tidal(moon) - tidal(sun);
+console.log((spring / neap).toFixed(2)); <span class="c">// about 2.7</span>
+</pre>
+    </div>
+    <p class="off-note">The code box is marked <code>data-ink-off</code>, so a pen there selects text instead of writing.</p>
+
+    <h2>Spring and neap tides</h2>
+    <p>Twice a month the Sun, Earth and Moon line up, and the Sun's smaller pull adds to the Moon's. These are spring tides, with the highest highs and the lowest lows. A week later the two pulls are at right angles and the range is smallest. These are neap tides.</p>
+
+    <footer>Your notes never leave this device unless you back them up to a folder you choose.</footer>
+  </main>
+
+  <script src="../dist/pageink.js" data-ink data-store="indexeddb"></script>
+  <script>
+    (() => {
+      const ink = window.PageInk?.auto;
+      const status = document.getElementById('status');
+      const drawB = document.getElementById('b-draw');
+      if (!ink) {
+        status.textContent = 'Build the script first: corepack pnpm --filter pageink-embed build';
+        return;
+      }
+      const say = (t) => { status.textContent = t; };
+      ink.on('state', (s) => {
+        drawB.textContent = s.draw ? 'Stop drawing' : 'Start drawing';
+        drawB.setAttribute('aria-pressed', String(s.draw));
+      });
+      drawB.addEventListener('click', () => { ink.draw(!ink.state().draw); });
+      document.getElementById('b-md').addEventListener('click', () => {
+        ink.export.markdown().then((md) => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(new Blob([md], { type: 'text/markdown' }));
+          a.download = 'tides-notes.md';
+          a.click();
+          setTimeout(() => { URL.revokeObjectURL(a.href); }, 30000);
+        });
+      });
+      document.getElementById('b-folder').addEventListener('click', () => {
+        if (!window.showDirectoryPicker) {
+          say('This browser cannot open a folder. Use the archive export instead.');
+          return;
+        }
+        window.showDirectoryPicker({ mode: 'readwrite' })
+          .then((dir) => ink.sync(window.PageInk.fsFolder(dir)))
+          .then((r) => { say(`Backed up: ${r.pushed} sent, ${r.pulled} received.`); })
+          .catch((e) => { if (e && e.name !== 'AbortError') say(`Backup failed: ${e.message}`); });
+      });
+    })();
+  </script>
+</body>
+</html>

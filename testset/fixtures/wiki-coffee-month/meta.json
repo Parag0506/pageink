@@ -1,0 +1,27 @@
+{
+  "id": "wiki-coffee-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "f40997e5499503bb.css",
+    "6576318ee595573c.css",
+    "d3c19b536b6ab667.css",
+    "14fa8559badd650d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Coffee&oldid=1307336660",
+    "sha256": "969ce3becfed7f664fd55541ab19ede3a9fc2d4d8d283dc48afe2eef259651a5",
+    "bytes": 886006
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Coffee&oldid=1314059806",
+    "sha256": "f9f18241936eec7b48c56c55cfc1d3e1ce294c0f5b25a29c7475cd817c3cf351",
+    "bytes": 887245
+  }
+}

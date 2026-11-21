@@ -1,0 +1,20 @@
+{
+  "id": "node-path-v18-v22",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "45b9c9b9ccb9c365.css",
+    "2863f53e2c122129.css",
+    "1b5a46382dd51789.css",
+    "9f3f37cf6f3eb2ad.css"
+  ],
+  "a": {
+    "url": "https://nodejs.org/docs/v18.20.0/api/path.html",
+    "sha256": "d0d67ccc565d4f2d10926d783d2488256a752eae4ec263b07f293bdb75059ae3",
+    "bytes": 53679
+  },
+  "b": {
+    "url": "https://nodejs.org/docs/v22.12.0/api/path.html",
+    "sha256": "6ae002d19b1627b0e79377bf2c59ba05248df6ef1741ce6af9d9f127111c1418",
+    "bytes": 57727
+  }
+}

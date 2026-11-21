@@ -1,0 +1,27 @@
+{
+  "id": "wiki-bread-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "f40997e5499503bb.css",
+    "6576318ee595573c.css",
+    "182813dd81c13a23.css",
+    "14fa8559badd650d.css",
+    "2df6b151127603bc.css",
+    "61827063cb2b172f.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Bread&oldid=1306997648",
+    "sha256": "267f429b0a199b90cc5639eddd1a82fc96f7243836826b2615224ce593a044f8",
+    "bytes": 561234
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Bread&oldid=1313791487",
+    "sha256": "1ed8ee6c5a388d78e1c475b935cbafeeb18fb483ccc69cd96319792c3bae28dc",
+    "bytes": 561018
+  }
+}

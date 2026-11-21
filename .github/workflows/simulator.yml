@@ -1,0 +1,51 @@
+name: iPad simulator
+
+# The Safari extension end to end in Mobile Safari on an iPad simulator. It takes a while and
+# needs a macOS runner with an iOS simulator runtime, so it runs only when started by hand.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  simulator:
+    name: Mobile Safari on an iPad simulator
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Show the Xcode and the simulator runtimes
+        run: |
+          xcodebuild -version
+          xcrun simctl list runtimes available
+
+      # Makes an iPad simulator, turns the extension on in Settings, drives Safari, reboots the
+      # simulator once and deletes it at the end. The summary is printed and kept.
+      - name: Simulator tests
+        run: corepack pnpm apple sim-test
+
+      - name: Keep the logs and the summary
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: simulator
+          path: |
+            apple/build/sim/*.txt
+            apple/build/sim/*.log
+            apple/build/sim/*.xcresult
+          if-no-files-found: ignore
+          retention-days: 14

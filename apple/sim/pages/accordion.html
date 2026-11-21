@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accordion page</title>
+<style>
+  /* Grey text, so any dark blue pixel in a screenshot is ink. */
+  body { font: 20px/1.7 Georgia, serif; margin: 0; padding: 48px 40px; color: #8a8a8a; background: #fff; }
+  main { max-width: 640px; }
+  #w { white-space: nowrap; }
+  .controls { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin: 24px 0; }
+  .controls > * { font-size: 18px; }
+  a { color: #8a8a8a; }
+  summary { cursor: pointer; padding: 12px 0; font-weight: bold; }
+</style>
+</head>
+<body>
+<main>
+<h1>Accordion</h1>
+<p>The second section starts open. Its marker words get ink, then the section closes and opens.</p>
+<details id="sec2" open><summary id="s2">Second section</summary>
+<p>The marker words <span id="w">stoneware quokka teapot</span> are inside this open section, with more words after them.</p>
+<p>Another line keeps the section tall enough to see.</p>
+</details>
+<p>After the sections, the page goes on with plain text that never folds.</p>
+<div style="height: 1400px"></div>
+</main>
+<script src="report.js"></script>
+</body>
+</html>

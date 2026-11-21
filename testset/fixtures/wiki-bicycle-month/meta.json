@@ -1,0 +1,30 @@
+{
+  "id": "wiki-bicycle-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "53209579cfb7204b.css",
+    "6576318ee595573c.css",
+    "d7ea4ad060a2e2cf.css",
+    "a2b31b5226b07bbe.css",
+    "2a53692ce17ab2c0.css",
+    "5c81bea9dbf1cba1.css",
+    "76fce7e4c5bada5d.css",
+    "e2a813263dbc286d.css",
+    "d3c19b536b6ab667.css",
+    "14fa8559badd650d.css",
+    "5b8b3b9ff936479a.css",
+    "e63315aa90ac2bc1.css",
+    "602ade4f774af334.css",
+    "d01de94747fb60eb.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Bicycle&oldid=1308053057",
+    "sha256": "898b5bd1d7c542fb68ae2af8648ec4837e620ec04b905e136bdaa8cf7a8fcffa",
+    "bytes": 813927
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Bicycle&oldid=1313299123",
+    "sha256": "a80188bf612d5c0b2627acc445c6770a4bd6c0efacb1955b8648d50a7b11c181",
+    "bytes": 881439
+  }
+}

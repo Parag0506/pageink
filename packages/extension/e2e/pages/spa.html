@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Single page app</title>
+<style>body { font: 18px/1.6 sans-serif; margin: 24px; } nav a { margin-right: 12px; }</style>
+</head>
+<body>
+<nav><a href="/app/one" data-route>One</a><a href="/app/two" data-route>Two</a><a id="hash" href="#section">Jump</a></nav>
+<h1 id="title">Loading</h1>
+<p id="a"></p>
+<p id="b"></p>
+<div style="height: 900px"></div>
+<script>
+  // The same two paragraphs are reused for every route.
+  const routes = {
+    '/app/one': ['Route one', 'Owls hunt at night and hear mice under the snow.', 'Their feathers are soft at the edges, so they fly without a sound.'],
+    '/app/two': ['Route two', 'Bees dance to tell the hive where flowers are.', 'The angle of the dance points to the sun and the field.'],
+  };
+  const render = () => {
+    const r = routes[location.pathname] ?? routes['/app/one'];
+    document.getElementById('title').textContent = r[0];
+    document.getElementById('a').textContent = r[1];
+    document.getElementById('b').textContent = r[2];
+  };
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[data-route]');
+    if (!a) return;
+    e.preventDefault();
+    history.pushState({}, '', a.getAttribute('href'));
+    render();
+  });
+  addEventListener('popstate', render);
+  render();
+</script>
+</body>
+</html>

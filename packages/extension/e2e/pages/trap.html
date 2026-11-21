@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A page that keeps every event to itself</title>
+<style>
+  body { font: 18px/1.6 Georgia, serif; margin: 0; padding: 24px 40px; color: #222; background: #fff; }
+  main { max-width: 640px; }
+</style>
+<script>
+  // Like a modal app: anything outside #app is stopped at the window, before
+  // any later listener, and focus is pulled back into #app.
+  const outside = (e) => !(e.target instanceof Node && document.getElementById('app')?.contains(e.target));
+  for (const t of ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'mousedown', 'mouseup', 'click', 'keydown'])
+    window.addEventListener(t, (e) => {
+      if (!outside(e)) return;
+      window.__stopped = (window.__stopped || 0) + 1;
+      e.stopImmediatePropagation();
+    }, true);
+  document.addEventListener('focusin', (e) => {
+    if (outside(e)) document.getElementById('field')?.focus();
+  });
+</script>
+</head>
+<body>
+<main id="app">
+<h1>Trapped page</h1>
+<p id="p1">Iron gall ink was the standard writing ink in Europe for over a thousand years. It bites into the paper, so a pomegranate seed of ink can last as long as the sheet itself.</p>
+<p id="p2">Pencils came later. Graphite from Borrowdale was so pure that it could be sawn into sticks and wrapped in wood.</p>
+<input id="field" type="text" placeholder="Focus stays here">
+</main>
+</body>
+</html>

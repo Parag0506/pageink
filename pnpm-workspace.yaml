@@ -1,0 +1,9 @@
+packages:
+  - packages/*
+  - testset
+  - bench
+allowBuilds:
+  esbuild: true
+  spawn-sync: false
+  "@parcel/watcher": true
+  dtrace-provider: false

@@ -1,0 +1,24 @@
+// Names and identifiers for the app and its Safari extension.
+// Every name the reader sees, and the bundle id base, is set here. A rename is one line.
+
+// The app name on the Home Screen, in the Dock, in Safari's extension list and in the app's own text.
+INK_DISPLAY_NAME = PageInk
+
+// Bundle id base. The app uses it as is and the extension adds ".extension".
+// Bundle ids are unique per developer account, so change it before signing with your team.
+INK_BUNDLE_ID_BASE = org.example.pageink
+
+// The App Group that the app and the extension share. Notes live in its container.
+// macOS uses the team-prefixed form, which needs no provisioning profile.
+INK_APP_GROUP = group.$(INK_BUNDLE_ID_BASE)
+INK_APP_GROUP[sdk=macosx*] = $(TeamIdentifierPrefix)$(INK_BUNDLE_ID_BASE)
+
+// Signing. Leave the team empty here and pick it in Xcode, or set it in Local.xcconfig.
+DEVELOPMENT_TEAM =
+CODE_SIGN_STYLE = Automatic
+
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 1
+
+// Optional local overrides that stay out of version control (team, bundle id base).
+#include? "Local.xcconfig"

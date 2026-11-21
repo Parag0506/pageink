@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(INK_BUNDLE_ID_BASE).sync</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>$(INK_BUNDLE_ID_BASE).connect</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(INK_BUNDLE_ID_BASE)</string>
+			</array>
+		</dict>
+	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+		<key>UIImageName</key>
+		<string>Mark</string>
+		<key>UIImageRespectsSafeAreaInsets</key>
+		<true/>
+	</dict>
+	<key>InkAppGroup</key>
+	<string>$(INK_APP_GROUP)</string>
+	<key>InkAppId</key>
+	<string>$(INK_BUNDLE_ID_BASE)</string>
+	<key>InkExtensionID</key>
+	<string>$(INK_BUNDLE_ID_BASE).extension</string>
+	<key>InkStoreName</key>
+	<string>$(INK_DISPLAY_NAME)</string>
+</dict>
+</plist>

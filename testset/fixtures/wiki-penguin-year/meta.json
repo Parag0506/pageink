@@ -1,0 +1,26 @@
+{
+  "id": "wiki-penguin-year",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "e7286fb7c2008fe7.css",
+    "6576318ee595573c.css",
+    "182813dd81c13a23.css",
+    "14fa8559badd650d.css",
+    "5b8b3b9ff936479a.css",
+    "e63315aa90ac2bc1.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css",
+    "4e7dd7e91ed5542b.css",
+    "106536a842415b2e.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Penguin&oldid=1305461912",
+    "sha256": "bb01b00ba77068de8402fdf288720bd43dc455ea1e2ca5e1cf2e0c6e40fe6b40",
+    "bytes": 612023
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=Penguin&oldid=1371936752",
+    "sha256": "82c1e181c96b412d63ed17deb959a15cf893f1274a6582f25b97f549f61fc255",
+    "bytes": 598934
+  }
+}

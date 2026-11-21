@@ -1,0 +1,36 @@
+{
+  "id": "rust-book-result-170-185",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "f3524e63d4a3a9e6.css",
+    "c45ff0bdf4bb45a7.css",
+    "c02fc8dd27f3a710.css",
+    "a4278dff9af38765.css",
+    "e25907df7860f18e.css",
+    "f2cda50b03ff3bb2.css",
+    "2371a33638d229e1.css",
+    "1b14fba454be34c9.css",
+    "56612340a6f36525.css",
+    "7c050c7afebc70ec.css",
+    "ac5bde6f24c4c5d8.css",
+    "2a854345610b5ea3.css",
+    "08a8fe6d9995bb6a.css",
+    "24cc36c098eac640.css",
+    "ad67d3508c83110e.css",
+    "493f70e1527d8956.css",
+    "4c0ae647a06ef169.css",
+    "4e126c6215d53926.css",
+    "9b5766c0108f849f.css",
+    "cab262219fedef92.css"
+  ],
+  "a": {
+    "url": "https://doc.rust-lang.org/1.70.0/book/ch09-02-recoverable-errors-with-result.html",
+    "sha256": "81997228c6c3c948f290b4d54d4ab69b79bcd5fe12b85bfd5e3510dd3a5563e2",
+    "bytes": 75734
+  },
+  "b": {
+    "url": "https://doc.rust-lang.org/1.85.0/book/ch09-02-recoverable-errors-with-result.html",
+    "sha256": "7a6fc4011ae68ae8923fc0f6931ffa42e8e7371cf9e0a7be2d67dd6df032c73a",
+    "bytes": 77851
+  }
+}

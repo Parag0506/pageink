@@ -1,0 +1,27 @@
+{
+  "id": "wiki-list-of-tallest-buildings-month",
+  "frozenAt": "2026-11-17",
+  "css": [
+    "4a7d53c5920ed26f.css",
+    "6576318ee595573c.css",
+    "182813dd81c13a23.css",
+    "14fa8559badd650d.css",
+    "935dee1e8660535b.css",
+    "a14570d8e18c8827.css",
+    "e63315aa90ac2bc1.css",
+    "c51ba4fd1856605e.css",
+    "b541e3d4ce426507.css",
+    "5c81bea9dbf1cba1.css",
+    "e2a813263dbc286d.css"
+  ],
+  "a": {
+    "url": "https://en.wikipedia.org/w/index.php?title=List_of_tallest_buildings&oldid=1308286655",
+    "sha256": "9df0d4add237cba17e6ce9828427bc6ab80100fdc7e637f47c9fae6191b1e251",
+    "bytes": 1175674
+  },
+  "b": {
+    "url": "https://en.wikipedia.org/w/index.php?title=List_of_tallest_buildings&oldid=1313393258",
+    "sha256": "a764fe43b80fda70a4d1e363cd4d3afd681803069e71fa0ea89d487ae0090837",
+    "bytes": 1181366
+  }
+}

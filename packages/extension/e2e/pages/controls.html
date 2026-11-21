@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Controls</title>
+<style>
+body { margin: 0; font: 18px/1.6 Georgia, serif; }
+main { width: 600px; margin: 30px 60px; }
+#sc { height: 120px; width: 400px; overflow-y: scroll; border: 1px solid #ccc; }
+#dlg { margin: 0; left: 60px; top: 300px; width: 420px; border: 0; padding: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <p id="intro">An opening line with the word tamarind to write around.</p>
+  <input id="rng" type="range" min="0" max="100" value="10" style="width:400px;display:block">
+  <div id="sc">
+    <p>Row one of a box that scrolls.</p><p>Row two of a box that scrolls.</p><p>Row three of a box that scrolls.</p>
+    <p>Row four of a box that scrolls.</p><p>Row five of a box that scrolls.</p><p>Row six of a box that scrolls.</p>
+    <p>Row seven of a box that scrolls.</p><p>Row eight of a box that scrolls.</p>
+  </div>
+  <p><a id="go" href="#went">A link that must still work</a></p>
+  <button type="button" id="open">Open the dialog</button>
+  <dialog id="dlg"><p id="dp">A dialog with the word persimmon on it.</p><button type="button" id="close">Close</button></dialog>
+</main>
+<script>
+document.getElementById('open').addEventListener('click', () => document.getElementById('dlg').showModal());
+document.getElementById('close').addEventListener('click', () => document.getElementById('dlg').close());
+</script>
+</body>
+</html>

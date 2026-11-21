@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sections that close</title>
+<style>
+  body { font: 18px/1.6 Georgia, serif; margin: 0; padding: 24px 40px; color: #222; background: #fff; }
+  main { max-width: 720px; }
+  #tall { height: 1400px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Field notes on hedgerows</h1>
+<p id="p1">Hedgerows mark old field edges. Some are older than the villages beside them, and a count of the shrubs in a stretch gives a rough guess at their age.</p>
+<details id="d" open>
+<summary>Plants of the hedge bank</summary>
+<p id="in">The bank under a hedge holds primroses in spring and marigold seedlings in damp corners, sheltered from the wind by the stems above.</p>
+</details>
+<p id="p2">Birds use the hedge as a road between woods. Blackbirds and wrens nest low, while finches feed on the seed heads in winter.</p>
+<div id="tall"></div>
+</main>
+<script>
+  // The fragment is not part of the page's identity, so #closed is the same page with the section
+  // shut, and #closed-gone the same page with the section shut and the last paragraph deleted.
+  if (location.hash.includes('closed')) document.getElementById('d').open = false;
+  if (location.hash.includes('gone')) document.getElementById('p2').remove();
+</script>
+</body>
+</html>

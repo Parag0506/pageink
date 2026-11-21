@@ -1,0 +1,199 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Lint, tests, test set and bench
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Find the pnpm store
+        id: pnpm
+        run: echo "store=$(corepack pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache the pnpm store
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.pnpm.outputs.store }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-store-${{ runner.os }}-
+
+      - name: Install
+        id: install
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Find the Playwright version
+        id: playwright
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: browsers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}-chromium-firefox-webkit
+
+      - name: Install Playwright browsers
+        if: steps.browsers.outputs.cache-hit != 'true'
+        run: corepack pnpm exec playwright install --with-deps chromium firefox webkit
+
+      - name: Install Playwright system packages
+        if: steps.browsers.outputs.cache-hit == 'true'
+        run: corepack pnpm exec playwright install-deps chromium firefox webkit
+
+      # What the machine is: the fonts the browsers get for the generic families, and the CPU.
+      # Layout and timing in the tests depend on both.
+      - name: Show the fonts and the CPU
+        run: |
+          for f in serif sans-serif monospace system-ui; do echo "$f: $(fc-match "$f")"; done
+          echo "CPU: $(lscpu | sed -n 's/^Model name: *//p'), $(nproc) cores"
+
+      # From here on each step runs even when an earlier one failed, as long as the install
+      # worked, so one run shows every failure. The job still fails when any step failed.
+      - name: Lint and format check
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: corepack pnpm exec biome check .
+
+      - name: Typecheck
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: corepack pnpm -r --if-present typecheck
+
+      # The DOM tests run in Chromium, WebKit and Firefox, one engine after the other, so three
+      # browsers never share the runner. With CI set, each Vitest run takes two test files at a
+      # time (packages/core/vitest.ci.ts) and writes a JSON report to INK_TEST_REPORTS.
+      # Every engine runs even when an earlier one failed (scripts/run-all.mjs).
+      # Nothing is retried: a test that fails here fails the job.
+      - name: Library tests in Chromium, WebKit and Firefox
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        timeout-minutes: 15
+        env:
+          INK_TEST_REPORTS: ${{ runner.temp }}/test-reports
+        run: corepack pnpm --filter pageink-core test
+
+      # The embed and extension builds are both checked by the parser-based scan in scripts/netscan.ts.
+      - name: Embed build and tests in three engines, including the no-network scan
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        timeout-minutes: 10
+        env:
+          INK_TEST_REPORTS: ${{ runner.temp }}/test-reports
+        run: corepack pnpm --filter pageink-embed test
+
+      # Builds every browser target, the bench build (wxt build --mode bench) and the build that
+      # talks to the local cloud fakes, then runs the unit tests, the no-network scan of every
+      # build, the bundle and stub size tests, and the Pencil path through the real stub in
+      # Chromium, WebKit and Firefox. The end-to-end tests below use the same builds.
+      - name: Extension builds and tests
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        timeout-minutes: 15
+        env:
+          INK_TEST_REPORTS: ${{ runner.temp }}/test-reports
+        run: corepack pnpm --filter pageink-extension test
+
+      # One worker, since every test starts its own Chromium. A failed test runs once more
+      # (playwright.config.ts); the summary below names every test that needed that. It uses the
+      # builds of the step above, which come before its tests, so it runs when only tests failed
+      # there. Without the builds every test fails and says which build to make.
+      - name: Extension end-to-end tests
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        timeout-minutes: 30
+        env:
+          INK_E2E_JSON: ${{ runner.temp }}/test-reports/extension-e2e.json
+        run: corepack pnpm --filter pageink-extension exec playwright test --output "$RUNNER_TEMP/e2e"
+
+      - name: List failed and retried tests
+        if: always()
+        run: node scripts/test-summary.mjs "$RUNNER_TEMP/test-reports" --out "$RUNNER_TEMP/test-reports/failed.md"
+
+      - name: Anchor test set, quick gate
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: corepack pnpm --filter pageink-testset run score --anchor core --quick --gate --out "$RUNNER_TEMP/testset"
+
+      # Quick mode loads only local pages and offline fixtures, so it needs no network. --ext real
+      # builds the bench variant of the extension (wxt build --mode bench) and measures a copy.
+      # It compares the extension with a do-nothing control extension on this machine, and judges
+      # the fixed time budgets only when the machine is fit to: at least 4 cores and at most 1.25
+      # times slower than the reference at the calibration work (bench/README.md, the quick gate).
+      - name: Speed bench, quick gate, real extension
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: corepack pnpm --filter pageink-bench run bench --ext real --anchor core --quick --gate --out "$RUNNER_TEMP/bench"
+
+      - name: NOTICE lists every bundled dependency
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: node scripts/check-notice.mjs
+
+      - name: Results pages match the committed results
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: node scripts/results.mjs --check
+
+      - name: Keep reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: reports
+          path: |
+            ${{ runner.temp }}/testset.*
+            ${{ runner.temp }}/bench.*
+            ${{ runner.temp }}/test-reports/
+            ${{ runner.temp }}/e2e/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  apple:
+    name: Safari app
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Find the pnpm store
+        id: pnpm
+        run: echo "store=$(corepack pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache the pnpm store
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.pnpm.outputs.store }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-store-${{ runner.os }}-
+
+      - name: Install
+        run: corepack pnpm install --frozen-lockfile
+
+      # Builds the Safari extension, then the macOS app and the iOS Simulator app, with signing off.
+      - name: Build the app
+        run: bash apple/build.sh
+
+      # Names are checked first. A temporary iPad simulator is made for the iOS run and deleted afterwards.
+      - name: Unit tests
+        run: bash apple/build.sh test

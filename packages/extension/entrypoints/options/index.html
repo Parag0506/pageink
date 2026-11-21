@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="manifest.open_in_tab" content="true" />
+    <title>%NAME% notes</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="top">
+      <h1>
+        <picture>
+          <source srcset="/icons/logo-dark.svg" media="(prefers-color-scheme: dark)" />
+          <img src="/icons/logo.svg" alt="%NAME%" width="91" height="28" />
+        </picture>
+      </h1>
+      <div role="tablist">
+        <a role="tab" id="tab-library" href="#library">Library</a>
+        <a role="tab" id="tab-settings" href="#settings">Settings</a>
+      </div>
+      <a id="open-pdf" class="guide" href="/pdf.html" target="_blank">Open a PDF</a>
+      <a id="guide" class="guide" href="#welcome">Guide</a>
+    </header>
+    <main>
+      <section id="welcome" aria-label="Getting started" hidden></section>
+      <section id="library" role="tabpanel" aria-labelledby="tab-library"></section>
+      <section id="settings" role="tabpanel" aria-labelledby="tab-settings" hidden></section>
+    </main>
+    <p id="status" role="status" class="status"></p>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
