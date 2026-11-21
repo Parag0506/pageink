@@ -176,6 +176,13 @@ already loaded, and nothing is sent anywhere else. It is listed in
 `packages/extension/network-allow.json`, and the no-network test checks that it is one call whose
 address is the page's own.
 
+## Store rules
+
+PageInk's use of your data follows the Chrome Web Store User Data Policy, including its Limited
+Use requirements. Your data is used only to show, keep and sync your own notes. It is not sold. It
+is not used for advertising. It is not used to decide on credit or loans. Nobody but you reads it:
+it goes to nobody else, and we receive none of it.
+
 ## Contact
 
 Questions about privacy: open an issue. Security problems: see [SECURITY.md](SECURITY.md).
