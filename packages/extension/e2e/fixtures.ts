@@ -18,7 +18,7 @@ import {
   type Page,
   type Worker,
 } from '@playwright/test';
-import { freeCores, judge, TRIES, type Try } from '../../core/src/budget-rule';
+import { freeCores, isBusy, judge, TRIES, type Try } from '../../core/src/budget-rule';
 import { forbidden, record, unpackedId } from './netlog';
 
 export { extensionRequests } from './netlog';
@@ -859,6 +859,8 @@ export async function withinBudget<K extends string>(
     const after = await calibrateMs(probe());
     tries.push({ values, before, after, free: { before: freeBefore, after: await free(), cores } });
     verdict = judge(tries, budgets, ref);
+    // Other work has the machine: another measure right away would meet the same.
+    if (isBusy(tries.at(-1)!)) break;
   }
   console.log(`budget: ${verdict.note}`);
   if (verdict.verdict === 'fail') throw new Error(`budget: ${verdict.note}`);

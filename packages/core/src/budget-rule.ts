@@ -16,8 +16,8 @@
 //    once, takes much longer. So where the test can ask the system, it also reads how many
 //    cores sat idle right before and right after the measure. With fewer free than a browser
 //    needs (minFreeCores), other work was running and the measure is not judged.
-// 4. The measure is taken up to TRIES times. A measure that may be judged and is within its
-//    limits passes. When every such measure is over a limit, the budget is missed: the code was
+// 4. The measure is taken up to TRIES times, and no more once one found the machine busy: the
+//    next would meet the same. A measure that may be judged and is within its limits passes. When every such measure is over a limit, the budget is missed: the code was
 //    too slow each time the machine was steady and free. When no measure may be judged, nothing
 //    is judged. The test passes and says that it judged nothing.
 //

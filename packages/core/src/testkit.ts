@@ -6,7 +6,7 @@
 
 import { beforeAll, expect, TestRunner } from 'vitest';
 import { commands } from 'vitest/browser';
-import { judge, TRIES, type Try } from './budget-rule';
+import { isBusy, judge, TRIES, type Try } from './budget-rule';
 
 /** Timers up to this long count as pending work. Longer ones are timeouts a test waits on itself. */
 export const SHORT_TIMER_MS = 300;
@@ -277,6 +277,8 @@ export async function withinBudget<K extends string>(
         : {}),
     });
     verdict = judge(tries, budgets, ref);
+    // Other work has the machine: another measure right away would meet the same.
+    if (isBusy(tries.at(-1)!)) break;
   }
   const line = `${name.slice(name.indexOf(BUDGET_TEST))}: ${verdict.note}`;
   if (verdict.verdict === 'fail') throw new Error(line);
