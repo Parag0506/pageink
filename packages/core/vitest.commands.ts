@@ -49,6 +49,39 @@ const realMouse: BrowserCommand<[type: MouseStep, x: number, y: number, modifier
   }
 };
 
+type TouchStep = {
+  type: 'touchStart' | 'touchMove' | 'touchEnd';
+  touchPoints: { x: number; y: number; id: number }[];
+  timestamp: number;
+};
+
+/**
+ * A whole touch gesture at client points of the test frame, through CDP. Chromium only. Every
+ * event is written to the browser in the same turn, each with its own time, so the browser
+ * reads the gesture from those times and not from how fast this machine sends events
+ * (touchGesture in src/capture/testkit.ts). It ends when the page has handled the last one.
+ */
+const touches: BrowserCommand<[steps: TouchStep[]]> = async (ctx, steps) => {
+  const frame = await ctx.frame();
+  const box = await (await frame.frameElement()).boundingBox();
+  const dx = box?.x ?? 0;
+  const dy = box?.y ?? 0;
+  const cdp = await ctx.page.context().newCDPSession(ctx.page);
+  try {
+    await Promise.all(
+      steps.map((s) =>
+        cdp.send('Input.dispatchTouchEvent', {
+          type: s.type,
+          touchPoints: s.touchPoints.map((p) => ({ ...p, x: p.x + dx, y: p.y + dy })),
+          timestamp: s.timestamp,
+        }),
+      ),
+    );
+  } finally {
+    await cdp.detach().catch(() => {});
+  }
+};
+
 /**
  * Slow the page's CPU by `rate` through CDP, as a slow machine would. Chromium only: elsewhere
  * it does nothing and returns false. Set VITE_INK_CPU_THROTTLE to run a suite this way.
@@ -125,4 +158,4 @@ const shown: BrowserCommand<[]> = async (ctx) => {
   };
 };
 
-export const commands = { reducedMotion, realMouse, throttle, shown };
+export const commands = { reducedMotion, realMouse, touches, throttle, shown };

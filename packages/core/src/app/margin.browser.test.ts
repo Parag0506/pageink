@@ -335,7 +335,8 @@ describe('a note beside a formula centred in its column', () => {
     const { rig, at } = await open();
     startClock();
     const strokes = SUM.map((g) => sumStroke(g, at, 20));
-    for (const pts of strokes) await stroke(pts);
+    // One after the other on the input clock, however slowly the machine delivers them.
+    for (const [i, pts] of strokes.entries()) await stroke(pts, 'pen', 0, i ? { after: 200 } : {});
     await until(() => rig.notes().length > 0, 'note');
     // Long enough for the page to change and the notes to be placed from their anchors.
     await wait(500);

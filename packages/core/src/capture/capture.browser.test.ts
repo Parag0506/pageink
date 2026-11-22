@@ -8,23 +8,29 @@ import {
   fromTest,
   isChromium,
   mouseInput,
+  REST_MS,
+  STEP_MS,
   session,
   synthMouse,
   type TouchPoint,
+  type TouchStep,
   touchEmulation,
   touchEventOf,
+  touchGesture,
   touchInput,
 } from './testkit';
 
 // Real input through CDP in Chromium, and the same events built by hand in the other
 // engines (see testkit). The test page is the top frame of the runner, so the
 // coordinates are client coordinates here.
-const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 /** Runs in Chromium only, for the reason in NEEDS_CDP. */
 const chromiumTest = test.runIf(isChromium);
 const frame = () => new Promise((r) => requestAnimationFrame(() => r(null)));
 
-/** Wait until the page stops scrolling, so a fling does not leak into the next test. */
+/**
+ * Wait until the page has taken a scroll the compositor made. No gesture here ends with a
+ * fling (the fingers rest before they lift), so nothing coasts into the next test.
+ */
 async function settle(): Promise<void> {
   let last = -1;
   let still = 0;
@@ -39,12 +45,12 @@ async function pointer(
   type: 'mousePressed' | 'mouseMoved' | 'mouseReleased',
   x: number,
   y: number,
-  o: { pen?: boolean; down?: boolean; force?: number; modifiers?: number } = {},
+  o: { pen?: boolean; down?: boolean; force?: number; modifiers?: number; gap?: number } = {},
 ): Promise<void> {
   await mouseInput(type, x, y, o.pen ? 'pen' : 'mouse', o);
 }
 
-/** A pen or mouse stroke along a straight line in steps. */
+/** A pen or mouse stroke along a straight line in steps, its events STEP_MS apart on the input clock. */
 async function drag(
   from: [number, number],
   to: [number, number],
@@ -52,35 +58,40 @@ async function drag(
 ): Promise<void> {
   const steps = o.steps ?? 8;
   if (!o.noHover) await pointer('mouseMoved', from[0], from[1], o);
-  await pointer('mousePressed', from[0], from[1], { ...o, force: 0.5 });
+  await pointer('mousePressed', from[0], from[1], {
+    ...o,
+    force: 0.5,
+    ...(o.noHover ? {} : { gap: STEP_MS }),
+  });
   for (let i = 1; i <= steps; i++) {
     const f = i / steps;
     await pointer('mouseMoved', from[0] + (to[0] - from[0]) * f, from[1] + (to[1] - from[1]) * f, {
       ...o,
       down: true,
       force: 0.4 + 0.4 * f,
+      gap: STEP_MS,
     });
   }
-  await pointer('mouseReleased', to[0], to[1], o);
+  await pointer('mouseReleased', to[0], to[1], { ...o, gap: STEP_MS });
 }
 
 type TP = TouchPoint;
 const touch = touchInput;
 
-/** One or two fingers moving up the screen by dy in steps. */
+/**
+ * One or two fingers moving up the screen by dy in steps, as one gesture on the input clock:
+ * the second finger 30 ms after the first, which is within TWO_FINGER_MS, moves 16 ms apart,
+ * and a rest before the lift, so the page does not coast.
+ */
 async function swipe(fingers: number, dy: number, at = { x: 200, y: 700 }): Promise<void> {
   const pts = (d: number): TP[] =>
     Array.from({ length: fingers }, (_, i) => ({ x: at.x + i * 60, y: at.y - d, id: i + 1 }));
-  await touch('touchStart', pts(0).slice(0, 1));
-  if (fingers > 1) {
-    // Within TWO_FINGER_MS of the first finger, read from event times. A machine that stalls
-    // for 300 ms between two input events would still split them.
-    await wait(30);
-    await touch('touchStart', pts(0));
-  }
-  const steps = 12;
-  for (let i = 1; i <= steps; i++) await touch('touchMove', pts((dy * i) / steps));
-  await touch('touchEnd', []);
+  const steps: TouchStep[] = [{ type: 'touchStart', points: pts(0).slice(0, 1) }];
+  if (fingers > 1) steps.push({ type: 'touchStart', points: pts(0), gap: 30 });
+  const n = 12;
+  for (let i = 1; i <= n; i++) steps.push({ type: 'touchMove', points: pts((dy * i) / n), gap: 16 });
+  steps.push({ type: 'touchEnd', points: [], gap: REST_MS });
+  await touchGesture(steps);
   await settle();
 }
 
@@ -509,20 +520,30 @@ describe('touch', () => {
 
   test('a second finger long after the first is a palm and the stroke goes on', async () => {
     rig.state.draw = true;
-    await touch('touchStart', [{ x: 100, y: 600, id: 1 }]);
-    for (let i = 1; i <= 4; i++) await touch('touchMove', [{ x: 100 + i * 10, y: 600, id: 1 }]);
-    await wait(TWO_FINGER_WAIT);
-    await touch('touchStart', [
-      { x: 140, y: 600, id: 1 },
-      { x: 300, y: 700, id: 2 },
-    ]);
+    // One gesture on the input clock: the second finger lands TWO_FINGER_WAIT after the first.
+    const steps: TouchStep[] = [{ type: 'touchStart', points: [{ x: 100, y: 600, id: 1 }] }];
+    for (let i = 1; i <= 4; i++)
+      steps.push({ type: 'touchMove', points: [{ x: 100 + i * 10, y: 600, id: 1 }], gap: 16 });
+    steps.push({
+      type: 'touchStart',
+      points: [
+        { x: 140, y: 600, id: 1 },
+        { x: 300, y: 700, id: 2 },
+      ],
+      gap: TWO_FINGER_WAIT,
+    });
     for (let i = 1; i <= 4; i++) {
-      await touch('touchMove', [
-        { x: 140 + i * 10, y: 600, id: 1 },
-        { x: 300, y: 700 - i * 20, id: 2 },
-      ]);
+      steps.push({
+        type: 'touchMove',
+        points: [
+          { x: 140 + i * 10, y: 600, id: 1 },
+          { x: 300, y: 700 - i * 20, id: 2 },
+        ],
+        gap: 16,
+      });
     }
-    await touch('touchEnd', []);
+    steps.push({ type: 'touchEnd', points: [], gap: REST_MS });
+    await touchGesture(steps);
     await quiet();
     expect(rig.ends).toHaveLength(1);
     expect(rig.cancels).toBe(0);

@@ -11,6 +11,7 @@ declare module 'vitest/browser' {
   interface BrowserCommands {
     realMouse(type: MouseType, x: number, y: number, modifiers: number): Promise<void>;
     reducedMotion(on: boolean): Promise<void>;
+    touches(steps: { type: TouchType; touchPoints: TouchPoint[]; timestamp: number }[]): Promise<void>;
   }
 }
 
@@ -31,12 +32,56 @@ const CTRL = 2;
 const META = 4;
 const SHIFT = 8;
 
+// ---- the input clock -------------------------------------------------------------
+//
+// Capture reads the timing of a gesture from the times of its events: a pen that lifts within
+// TAP_MS without moving is a tap, a second finger within TWO_FINGER_MS makes two fingers, strokes
+// within 1.5 s of each other are one note. Left alone, an event's time is the moment the browser
+// got it, so on a busy machine the gaps between events grow and a test sees another gesture.
+// So every event made here carries a time of its own:
+// - with no `gap` it is the real time, as before;
+// - with a `gap` it is that many ms after the last event made here, or the real time if that
+//   is sooner. The helpers that make one gesture (a stroke, a tap) pass STEP_MS for every event
+//   after the first;
+// - no event is ever stamped ahead of the real clock, so real input that comes later (the
+//   mouse through Playwright) still comes after it.
+// A pause between gestures is a real wait: the real clock only makes it longer.
+
+/** The gap between two events of one gesture on the input clock, in ms. */
+export const STEP_MS = 4;
+/** How long fingers rest before they lift. Chromium takes a finger still for 80 ms as stopped. */
+export const REST_MS = 120;
+let lastInput = 0;
+
+/** The time of the next event, in ms since 1970: `gap` ms after the last one, or now if that is sooner. */
+export function stamp(gap = Number.POSITIVE_INFINITY): number {
+  const now = Date.now();
+  lastInput = lastInput ? Math.min(now, lastInput + gap) : now;
+  return lastInput;
+}
+
+/** The time synthetic events get while one input event is being dispatched. */
+let eventTime: number | undefined;
+
+/** Run a synthetic dispatch with its events stamped `at`, in ms since 1970. */
+function stamped(at: number, dispatch: () => void): void {
+  eventTime = at;
+  try {
+    dispatch();
+  } finally {
+    eventTime = undefined;
+  }
+}
+
 /** Events this file built and dispatched. */
 const made = new WeakSet<Event>();
 
 /** Dispatch an event built here and remember it, so `fromTest` accepts it. */
 function send<E extends Event>(el: EventTarget, e: E): E {
   made.add(e);
+  // The same clock as trusted events: ms since the page's time origin.
+  if (eventTime !== undefined)
+    Object.defineProperty(e, 'timeStamp', { value: eventTime - performance.timeOrigin });
   el.dispatchEvent(e);
   return e;
 }
@@ -142,31 +187,45 @@ export function synthMouse(
  */
 export function penBurst(pts: [number, number][]): void {
   const [x0, y0] = pts[0]!;
-  synthMouse('mouseMoved', x0, y0, 'pen', {});
-  synthMouse('mousePressed', x0, y0, 'pen', { force: 0.5 });
-  for (const [x, y] of pts.slice(1)) synthMouse('mouseMoved', x, y, 'pen', { down: true, force: 0.6 });
+  stamped(stamp(), () => synthMouse('mouseMoved', x0, y0, 'pen', {}));
+  stamped(stamp(STEP_MS), () => synthMouse('mousePressed', x0, y0, 'pen', { force: 0.5 }));
+  for (const [x, y] of pts.slice(1))
+    stamped(stamp(STEP_MS), () => synthMouse('mouseMoved', x, y, 'pen', { down: true, force: 0.6 }));
   const [x1, y1] = pts[pts.length - 1]!;
-  synthMouse('mouseReleased', x1, y1, 'pen', {});
+  stamped(stamp(STEP_MS), () => synthMouse('mouseReleased', x1, y1, 'pen', {}));
 }
 
-/** One mouse or pen event at a client point: real in Chromium, synthetic elsewhere. */
+/**
+ * One mouse or pen event at a client point: real in Chromium, synthetic elsewhere. `gap` puts
+ * it that many ms after the last event on the input clock (see above). Without it the event
+ * has the real time. A mouse outside Chromium goes through Playwright and always has the real time.
+ */
 export async function mouseInput(
   type: MouseType,
   x: number,
   y: number,
   kind: Kind,
-  o: { down?: boolean; force?: number; modifiers?: number } = {},
+  o: { down?: boolean; force?: number; modifiers?: number; gap?: number } = {},
 ): Promise<void> {
   if (!isChromium && kind === 'mouse') {
     await commands.realMouse(type, x, y, o.modifiers ?? 0);
+    stamp();
     return;
   }
+  const at = stamp(o.gap);
   if (!isChromium) {
-    synthMouse(type, x, y, kind, o);
+    stamped(at, () => synthMouse(type, x, y, kind, o));
     await tick();
     return;
   }
-  const p: Record<string, unknown> = { type, x, y, pointerType: kind, modifiers: o.modifiers ?? 0 };
+  const p: Record<string, unknown> = {
+    type,
+    x,
+    y,
+    pointerType: kind,
+    modifiers: o.modifiers ?? 0,
+    timestamp: at / 1000,
+  };
   if (type !== 'mouseMoved') {
     p.button = 'left';
     p.clickCount = 1;
@@ -179,6 +238,7 @@ export async function mouseInput(
 }
 
 export type TouchPoint = { x: number; y: number; id: number };
+export type TouchType = 'touchStart' | 'touchMove' | 'touchEnd';
 const fingers = new Map<number, { target: Element; x: number; y: number }>();
 
 function touchEvent(type: string, el: Element, changed: TouchPoint[]): void {
@@ -257,17 +317,70 @@ function synthTouch(type: 'touchStart' | 'touchMove' | 'touchEnd', points: Touch
   }
 }
 
-/** One touch event, CDP style: real in Chromium, synthetic pointer and touch events elsewhere. */
-export async function touchInput(
-  type: 'touchStart' | 'touchMove' | 'touchEnd',
-  touchPoints: TouchPoint[],
-): Promise<void> {
+/**
+ * One touch event, CDP style: real in Chromium, synthetic pointer and touch events elsewhere.
+ * `gap` is as for mouseInput. A gesture the browser itself must read (a scroll, two fingers)
+ * goes through touchGesture, which the load of the machine cannot stretch.
+ */
+export async function touchInput(type: TouchType, touchPoints: TouchPoint[], gap?: number): Promise<void> {
+  const at = stamp(gap);
   if (!isChromium) {
-    synthTouch(type, touchPoints);
+    stamped(at, () => synthTouch(type, touchPoints));
     await tick();
     return;
   }
-  await session().send('Input.dispatchTouchEvent', { type, touchPoints });
+  await session().send('Input.dispatchTouchEvent', { type, touchPoints, timestamp: at / 1000 });
+}
+
+/** One step of a touch gesture: the fingers on the screen, `gap` ms after the step before (STEP_MS when left out). */
+export interface TouchStep {
+  type: TouchType;
+  points: TouchPoint[];
+  gap?: number;
+}
+
+/**
+ * A whole touch gesture in one piece. The browser reads a gesture from real time too: a finger
+ * that lands and waits is a long press, and the speed of the last moves decides how far the
+ * page coasts. Sent event by event, each with a round trip, a busy machine turns a swipe into a
+ * long press that scrolls nothing. Here Chromium gets every event at once, each with its time
+ * on the input clock, the last one now. Other engines get the synthetic events touchInput
+ * makes, with the same times.
+ */
+export async function touchGesture(steps: TouchStep[]): Promise<void> {
+  const gaps = steps.map((s, i) => (i ? (s.gap ?? STEP_MS) : 0));
+  const total = gaps.reduce((a, b) => a + b, 0);
+  // The gesture ends now, so it starts in the past. It still starts after the last event made.
+  const short = lastInput + 1 - (Date.now() - total);
+  if (short > 0) await new Promise((r) => setTimeout(r, short));
+  let at = Date.now() - total;
+  const timed = steps.map((s, i) => {
+    at += gaps[i]!;
+    return { type: s.type, touchPoints: s.points, at };
+  });
+  lastInput = at;
+  if (!isChromium) {
+    for (const s of timed) {
+      stamped(s.at, () => synthTouch(s.type, s.touchPoints));
+      await tick();
+    }
+    return;
+  }
+  await commands.touches(
+    timed.map((s) => ({ type: s.type, touchPoints: s.touchPoints, timestamp: s.at / 1000 })),
+  );
+}
+
+/**
+ * Fingers moving together along paths of the same length, as one gesture: moves 16 ms apart,
+ * then a rest before the lift, so the page does not coast after it. Finger ids count from 1.
+ */
+export function swipeAlong(paths: [number, number][][]): Promise<void> {
+  const at = (i: number): TouchPoint[] => paths.map((p, f) => ({ x: p[i]![0], y: p[i]![1], id: f + 1 }));
+  const steps: TouchStep[] = [{ type: 'touchStart', points: at(0) }];
+  for (let i = 1; i < paths[0]!.length; i++) steps.push({ type: 'touchMove', points: at(i), gap: 16 });
+  steps.push({ type: 'touchEnd', points: [], gap: REST_MS });
+  return touchGesture(steps);
 }
 
 export interface FakeTouch {

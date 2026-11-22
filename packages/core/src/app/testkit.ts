@@ -2,7 +2,7 @@
 // Chromium, built by hand elsewhere), and a viewer whose internals the test can read.
 
 import { LAYER_TAG } from '../brand';
-import { fromTest, type Kind, mouseInput } from '../capture/testkit';
+import { fromTest, type Kind, mouseInput, STEP_MS } from '../capture/testkit';
 import { memoryKV } from '../store/memory';
 import { frame, quiet, until } from '../testkit';
 import type { InkCommands, KV, Note, Placed, Rect, Viewer, ViewerInternals, ViewerOptions } from '../types';
@@ -21,15 +21,27 @@ export const settle = (): Promise<void> => quiet('settle');
 
 const mouse = mouseInput;
 
-/** One stroke through client points, with a hover first for a pen. */
-export async function stroke(pts: [number, number][], kind: Kind = 'pen', modifiers = 0): Promise<void> {
+/**
+ * One stroke through client points, with a hover first for a pen. Its events are STEP_MS apart
+ * on the input clock (capture/testkit.ts), however slowly the machine delivers them. `after`
+ * starts it that many ms after the last input event on that clock, for strokes that must count
+ * as written close together. Without it the stroke starts at the real time.
+ */
+export async function stroke(
+  pts: [number, number][],
+  kind: Kind = 'pen',
+  modifiers = 0,
+  o: { after?: number } = {},
+): Promise<void> {
   const [x0, y0] = pts[0]!;
-  if (kind === 'pen') await mouse('mouseMoved', x0, y0, kind);
-  await mouse('mousePressed', x0, y0, kind, { force: 0.5, modifiers });
+  const first = o.after === undefined ? {} : { gap: o.after };
+  const next = { gap: STEP_MS };
+  if (kind === 'pen') await mouse('mouseMoved', x0, y0, kind, first);
+  await mouse('mousePressed', x0, y0, kind, { force: 0.5, modifiers, ...(kind === 'pen' ? next : first) });
   for (const [x, y] of pts.slice(1))
-    await mouse('mouseMoved', x, y, kind, { down: true, force: 0.6, modifiers });
+    await mouse('mouseMoved', x, y, kind, { down: true, force: 0.6, modifiers, ...next });
   const [x1, y1] = pts[pts.length - 1]!;
-  await mouse('mouseReleased', x1, y1, kind, { modifiers });
+  await mouse('mouseReleased', x1, y1, kind, { modifiers, ...next });
 }
 
 /** Straight line from a to b in steps. */
@@ -79,10 +91,10 @@ export async function tapUntil(
   }
 }
 
-/** A pen or mouse tap with no movement. */
+/** A pen or mouse tap with no movement: the lift STEP_MS after the press on the input clock. */
 export async function tap(x: number, y: number, kind: Kind = 'mouse'): Promise<void> {
   await mouse('mousePressed', x, y, kind, { force: 0.5 });
-  await mouse('mouseReleased', x, y, kind);
+  await mouse('mouseReleased', x, y, kind, { gap: STEP_MS });
 }
 
 // ---- pages ---------------------------------------------------------------------

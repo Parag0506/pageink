@@ -2,7 +2,15 @@
 // and Firefox, see pageink-core's capture/testkit.ts), the built script in the page, and a KV
 // that records keys.
 import { GLOBAL, LAYER_TAG } from 'pageink-core/brand';
-import { ALT, isChromium, mouseInput, type TouchPoint, touchInput } from '../../core/src/capture/testkit';
+import {
+  ALT,
+  isChromium,
+  mouseInput,
+  STEP_MS,
+  swipeAlong,
+  type TouchPoint,
+  touchInput,
+} from '../../core/src/capture/testkit';
 import inkSource from '../dist/pageink.js?raw';
 import type * as Api from './iife';
 
@@ -12,15 +20,16 @@ export const wait = (ms: number): Promise<void> => new Promise((r) => setTimeout
 
 type Kind = 'pen' | 'mouse';
 
-/** One stroke through client points, with a hover first for a pen. */
+/** One stroke through client points, with a hover first for a pen. Its events are STEP_MS apart on the input clock. */
 export async function stroke(pts: [number, number][], kind: Kind = 'pen', modifiers = 0): Promise<void> {
   const [x0, y0] = pts[0]!;
+  const next = { gap: STEP_MS };
   if (kind === 'pen') await mouseInput('mouseMoved', x0, y0, kind);
-  await mouseInput('mousePressed', x0, y0, kind, { force: 0.5, modifiers });
+  await mouseInput('mousePressed', x0, y0, kind, { force: 0.5, modifiers, ...(kind === 'pen' ? next : {}) });
   for (const [x, y] of pts.slice(1))
-    await mouseInput('mouseMoved', x, y, kind, { down: true, force: 0.6, modifiers });
+    await mouseInput('mouseMoved', x, y, kind, { down: true, force: 0.6, modifiers, ...next });
   const [x1, y1] = pts[pts.length - 1]!;
-  await mouseInput('mouseReleased', x1, y1, kind, { modifiers });
+  await mouseInput('mouseReleased', x1, y1, kind, { modifiers, ...next });
 }
 
 /**
@@ -49,13 +58,8 @@ export const touch = (
   touchPoints: TouchPoint[],
 ): Promise<void> => touchInput(type, touchPoints);
 
-/** One finger along a path. */
-export async function finger(pts: [number, number][]): Promise<void> {
-  const [x0, y0] = pts[0]!;
-  await touch('touchStart', [{ x: x0, y: y0, id: 1 }]);
-  for (const [x, y] of pts.slice(1)) await touch('touchMove', [{ x, y, id: 1 }]);
-  await touch('touchEnd', []);
-}
+/** One finger along a path, as one gesture on the input clock (pageink-core's capture/testkit.ts). */
+export const finger = (pts: [number, number][]): Promise<void> => swipeAlong([pts]);
 
 export type InkGlobal = typeof Api;
 

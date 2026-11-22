@@ -2,7 +2,7 @@
 // any pointer, and at the end of a page the last line comes clear of it and takes ink.
 import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 import { page } from 'vitest/browser';
-import { touchEmulation, touchInput } from '../capture/testkit';
+import { swipeAlong, touchEmulation } from '../capture/testkit';
 import {
   ARTICLE_STYLE,
   articleHtml,
@@ -43,9 +43,7 @@ const onScreen = (r: DOMRect) =>
 
 async function drag(kind: Pointer, pts: [number, number][]): Promise<void> {
   if (kind !== 'touch') return stroke(pts, kind);
-  await touchInput('touchStart', [{ x: pts[0]![0], y: pts[0]![1], id: 0 }]);
-  for (const [x, y] of pts.slice(1)) await touchInput('touchMove', [{ x, y, id: 0 }]);
-  await touchInput('touchEnd', []);
+  await swipeAlong([pts]);
 }
 
 /** Drag the bar by its grip to the middle of an edge. */

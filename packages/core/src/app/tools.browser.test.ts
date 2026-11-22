@@ -72,7 +72,8 @@ describe('writing', () => {
     const r = textRect(el('p1'), 'Paragraph 1');
     await stroke(loop(r));
     await until(() => rig.notes().length === 1, 'first');
-    await stroke(line([r.right + 4, r.top], [r.right + 30, r.bottom + 6]));
+    // Close to the first on the input clock, however long the wait above took on this machine.
+    await stroke(line([r.right + 4, r.top], [r.right + 30, r.bottom + 6]), 'pen', 0, { after: 200 });
     await until(() => rig.notes()[0]?.strokes.length === 2, 'joined');
     expect(rig.notes()).toHaveLength(1);
     await wait(1600);
@@ -318,7 +319,7 @@ describe('lasso drag', () => {
     const r = textRect(el('p1'), 'Paragraph 1');
     await stroke(loop(r));
     await until(() => rig.notes().length === 1, 'first');
-    await stroke(line([r.right + 12, r.top], [r.right + 34, r.bottom + 6]));
+    await stroke(line([r.right + 12, r.top], [r.right + 34, r.bottom + 6]), 'pen', 0, { after: 200 });
     await until(() => rig.notes()[0]?.strokes.length === 2, 'joined');
     const note = rig.notes()[0]!;
     const ring = note.strokes[0]!;

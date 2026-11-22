@@ -2,7 +2,7 @@
 // a marker when there is none, and never cover a word. DESIGN 7.4, the paragraph on docking.
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
-import { isChromium, mouseInput, touchEmulation, touchInput } from '../capture/testkit';
+import { isChromium, mouseInput, STEP_MS, touchEmulation, touchGesture } from '../capture/testkit';
 import type { InkLayer } from '../render/layer';
 import { createLayer } from '../render/layer';
 import { budget } from '../testkit';
@@ -282,13 +282,16 @@ describe('a folded note', () => {
   /** A press at a client point by pen, touch or mouse. Pen and touch reach the closed root by hand outside Chromium. */
   async function press(r: Rig, x: number, y: number, kind: 'pen' | 'touch' | 'mouse'): Promise<void> {
     if (isChromium || kind === 'mouse') {
+      // A press and a lift a few ms apart on the input clock, so the browser reads a tap.
       if (kind === 'touch') {
-        await touchInput('touchStart', [{ x, y, id: 1 }]);
-        await touchInput('touchEnd', []);
+        await touchGesture([
+          { type: 'touchStart', points: [{ x, y, id: 1 }] },
+          { type: 'touchEnd', points: [] },
+        ]);
       } else {
         await mouseInput('mouseMoved', x, y, kind);
-        await mouseInput('mousePressed', x, y, kind);
-        await mouseInput('mouseReleased', x, y, kind);
+        await mouseInput('mousePressed', x, y, kind, { gap: STEP_MS });
+        await mouseInput('mouseReleased', x, y, kind, { gap: STEP_MS });
       }
       await frame();
       return;
