@@ -66,7 +66,9 @@ test('margin ink on a phone-width window docks off the words, folds when there i
   const x0 = 800;
   const y0 = p2.y + 4;
   await stroke(page, line({ x: x0, y: y0 }, { x: x0 + 50, y: y0 + 16 }));
-  await stroke(page, line({ x: x0 + 50, y: y0 + 16 }, { x: x0 + 70, y: y0 }));
+  // The second stroke of the same note: close to the first on the input clock, however busy the machine.
+  await stroke(page, line({ x: x0 + 50, y: y0 + 16 }, { x: x0 + 70, y: y0 }), { after: 200 });
+  // Past the grouping gap of 1.5 s, so the star starts a note of its own.
   await page.waitForTimeout(1700);
   await stroke(page, [
     ...star({ x: x0 + 20, y: y0 + 70 }, 14),

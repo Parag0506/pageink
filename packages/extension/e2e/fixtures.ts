@@ -315,6 +315,28 @@ async function session(page: Page): Promise<CDPSession> {
   return page.context().newCDPSession(page);
 }
 
+/**
+ * The input clock. The page reads the timing of a gesture from the times of its events: a pen
+ * that lifts within 300 ms without moving is a tap, a second finger within 300 ms makes two
+ * fingers, strokes within 1.5 s of each other are one note. Left alone, an event's time is the
+ * moment the browser got it, so on a busy machine the gaps between events grow and a tap turns
+ * into a stroke. So every event made here carries its time:
+ * - events of one gesture are at most STEP_MS apart;
+ * - a gesture starts at the real time, or `after` ms after the last event when the test says so;
+ * - no event is ever stamped ahead of the real clock, so input that Playwright makes itself
+ *   (page.mouse) still comes after it.
+ * A pause between gestures is a real wait: the real clock only makes it longer.
+ */
+const STEP_MS = 4;
+let lastInput = 0;
+
+/** The time of the next event, in seconds since 1970 as CDP takes it: `gap` ms after the last one, or now if that is sooner. */
+function stamp(gap = Number.POSITIVE_INFINITY): number {
+  const now = Date.now();
+  lastInput = lastInput ? Math.min(now, lastInput + gap) : now;
+  return lastInput / 1000;
+}
+
 /** Points on a line from a to b, every `step` px. */
 export function line(a: Pt, b: Pt, step = 4): Pt[] {
   const n = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / step));
@@ -332,25 +354,26 @@ export function ring(c: Pt, rx: number, ry: number, n = 28): Pt[] {
   });
 }
 
-/** One stroke with a pen (default) or mouse, pressed along the points. */
+/**
+ * One stroke with a pen (default) or mouse, pressed along the points. `after` starts it that
+ * many ms after the last input event on the input clock, for strokes that must count as written
+ * close together. Without it the stroke starts at the real time.
+ */
 export async function stroke(
   page: Page,
   pts: Pt[],
-  o: { kind?: Kind; modifiers?: number; gapMs?: number } = {},
+  o: { kind?: Kind; modifiers?: number; after?: number } = {},
 ): Promise<void> {
   const cdp = await session(page);
   const pointerType = o.kind ?? 'pen';
   const base = { button: 'left', clickCount: 1, pointerType, force: 0.5, modifiers: o.modifiers ?? 0 };
-  const send = (type: string, p: Pt, buttons: number) =>
-    cdp.send('Input.dispatchMouseEvent', { ...base, type, x: p.x, y: p.y, buttons } as never);
+  const send = (type: string, p: Pt, buttons: number, timestamp: number) =>
+    cdp.send('Input.dispatchMouseEvent', { ...base, type, x: p.x, y: p.y, buttons, timestamp } as never);
   const first = pts[0]!;
-  await send('mouseMoved', first, 0);
-  await send('mousePressed', first, 1);
-  for (const p of pts.slice(1)) {
-    await send('mouseMoved', p, 1);
-    if (o.gapMs) await new Promise((r) => setTimeout(r, o.gapMs));
-  }
-  await send('mouseReleased', pts[pts.length - 1]!, 0);
+  await send('mouseMoved', first, 0, stamp(o.after));
+  await send('mousePressed', first, 1, stamp(STEP_MS));
+  for (const p of pts.slice(1)) await send('mouseMoved', p, 1, stamp(STEP_MS));
+  await send('mouseReleased', pts[pts.length - 1]!, 0, stamp(STEP_MS));
   await cdp.detach();
 }
 
@@ -358,23 +381,46 @@ export async function stroke(
 export async function tap(page: Page, p: Pt, kind: Kind = 'pen'): Promise<void> {
   const cdp = await session(page);
   const base = { button: 'left', clickCount: 1, pointerType: kind, force: 0.5, x: p.x, y: p.y };
-  await cdp.send('Input.dispatchMouseEvent', { ...base, type: 'mouseMoved', buttons: 0 } as never);
-  await cdp.send('Input.dispatchMouseEvent', { ...base, type: 'mousePressed', buttons: 1 } as never);
-  await cdp.send('Input.dispatchMouseEvent', { ...base, type: 'mouseReleased', buttons: 0 } as never);
+  const send = (type: string, buttons: number, timestamp: number) =>
+    cdp.send('Input.dispatchMouseEvent', { ...base, type, buttons, timestamp } as never);
+  await send('mouseMoved', 0, stamp());
+  await send('mousePressed', 1, stamp(STEP_MS));
+  await send('mouseReleased', 0, stamp(STEP_MS));
   await cdp.detach();
 }
 
-/** Fingers moving together. Each path is one finger; all paths have the same length. */
+/** How long fingers rest before they lift. The browser takes a finger still for 80 ms as stopped. */
+const REST_MS = 120;
+
+/**
+ * Fingers moving together, as one gesture. Each path is one finger; all paths have the same
+ * length. The browser reads a touch gesture from real time too: a finger that lands and waits
+ * is a long press, and the speed of the last moves decides how far the page coasts. So the
+ * browser gets every event at once, each with its time on the input clock: moves `stepMs`
+ * apart, then a rest before the lift, the lift now. A busy machine cannot stretch the gesture,
+ * and the page does not coast on: a page that scrolled is where it stays when this returns.
+ */
 export async function touch(page: Page, paths: Pt[][], stepMs = 16): Promise<void> {
   const cdp = await session(page);
   const at = (i: number) =>
     paths.map((p, id) => ({ x: p[i]!.x, y: p[i]!.y, id, radiusX: 4, radiusY: 4, force: 1 }));
-  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: at(0) });
-  for (let i = 1; i < paths[0]!.length; i++) {
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: at(i) });
-    await new Promise((r) => setTimeout(r, stepMs));
+  const n = paths[0]!.length;
+  const total = (n - 1) * stepMs + REST_MS;
+  // The gesture ends now, so it starts in the past. It still starts after the last event made.
+  const short = lastInput + 1 - (Date.now() - total);
+  if (short > 0) await new Promise((r) => setTimeout(r, short));
+  let t = Date.now() - total;
+  const send = (type: string, touchPoints: object[]) =>
+    cdp.send('Input.dispatchTouchEvent', { type, touchPoints, timestamp: t / 1000 } as never);
+  const sent = [send('touchStart', at(0))];
+  for (let i = 1; i < n; i++) {
+    t += stepMs;
+    sent.push(send('touchMove', at(i)));
   }
-  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  t += REST_MS;
+  sent.push(send('touchEnd', []));
+  lastInput = t;
+  await Promise.all(sent);
   await cdp.detach();
 }
 
