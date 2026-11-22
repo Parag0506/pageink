@@ -6,7 +6,7 @@
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { createServer, type Server, type ServerResponse } from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { tmpdir } from 'node:os';
+import { availableParallelism, cpus, tmpdir } from 'node:os';
 import { extname, join, normalize, resolve } from 'node:path';
 import {
   type BrowserContext,
@@ -17,6 +17,7 @@ import {
   type Page,
   type Worker,
 } from '@playwright/test';
+import { freeCores, judge, TRIES, type Try } from '../../core/src/budget-rule';
 import { forbidden, record, unpackedId } from './netlog';
 
 export { extensionRequests } from './netlog';
@@ -743,13 +744,9 @@ export async function storedNotes(context: BrowserContext): Promise<number> {
 /** calibrate() of pageink-core's testkit in this Chromium on a laptop, in ms. */
 const CALIBRATE_REF_MS = 30;
 
-/**
- * How much slower than a laptop this browser runs a fixed piece of script and layout work right
- * now: the median of five runs over CALIBRATE_REF_MS, never below 1. Budget gates are scaled by
- * it, so a busy or slow machine does not fail them, while code that got slower still does.
- */
-export async function slowdown(page: Page): Promise<number> {
-  const ms = await page.evaluate(() => {
+/** The time this browser takes for a fixed piece of script and layout work right now: the median of five runs, in ms. */
+export function calibrateMs(page: Page): Promise<number> {
+  return page.evaluate(() => {
     const times: number[] = [];
     for (let i = 0; i < 5; i++) {
       const box = document.createElement('div');
@@ -770,7 +767,63 @@ export async function slowdown(page: Page): Promise<number> {
     times.sort((a, b) => a - b);
     return times[2]!;
   });
-  return Math.max(1, ms / CALIBRATE_REF_MS);
+}
+
+/**
+ * How much slower than a laptop this browser runs the calibration work right now, never below
+ * 1. For a measure that must be set against the browser it was taken in, such as one from a
+ * browser that just started.
+ */
+export const slowdown = async (page: Page): Promise<number> =>
+  Math.max(1, (await calibrateMs(page)) / CALIBRATE_REF_MS);
+
+/**
+ * Judge times measured with the wall clock against budgets, by the rule the library's budget
+ * tests use (packages/core/src/budget-rule.ts). `budgets` are the limits by name, in ms on a
+ * quiet laptop. `measure` takes the measure from scratch and returns the times under the same
+ * names. `probe` gives the page the calibration work runs in, asked for before and after each
+ * measure, since a measure may reload or replace its pages.
+ *
+ * The calibration is timed right before and right after each measure, and the cores that sit
+ * idle are read from the system at the same moments. A limit grows with how much slower than a
+ * laptop the slower calibration ran. A measure taken while the machine changed pace, or while
+ * other work had its cores, is not judged: a busy machine runs the calibration nearly as fast
+ * as a quiet one, but a page load in a browser that just started takes several times as long.
+ * A measure over its limit is taken again, up to three times in all. Slower code is over the
+ * limit every time and fails. Other work on the machine does not fail the test. A run that
+ * judged nothing says so in the report.
+ */
+export async function withinBudget<K extends string>(
+  probe: () => Page,
+  budgets: Record<K, number>,
+  measure: () => Promise<Record<K, number>>,
+  o: { scaled?: boolean } = {},
+): Promise<void> {
+  // A measure that comes scaled already (each time set against the slowdown of the browser it
+  // was taken in) is judged against the limits as they are. The calibration still tells whether
+  // the machine kept its pace.
+  const ref = o.scaled ? Number.POSITIVE_INFINITY : CALIBRATE_REF_MS;
+  const cores = availableParallelism();
+  /** Cores idle over the next 300 ms, while this test's own browsers do nothing. */
+  const free = async (): Promise<number> => {
+    const at = cpus();
+    await new Promise((r) => setTimeout(r, 300));
+    return freeCores(at, cpus());
+  };
+  const tries: Try[] = [];
+  let verdict = judge(tries, budgets, ref);
+  for (let i = 0; i < TRIES && verdict.verdict !== 'pass'; i++) {
+    const freeBefore = await free();
+    const before = await calibrateMs(probe());
+    const values = await measure();
+    const after = await calibrateMs(probe());
+    tries.push({ values, before, after, free: { before: freeBefore, after: await free(), cores } });
+    verdict = judge(tries, budgets, ref);
+  }
+  console.log(`budget: ${verdict.note}`);
+  if (verdict.verdict === 'fail') throw new Error(`budget: ${verdict.note}`);
+  if (verdict.verdict === 'not judged')
+    base.info().annotations.push({ type: 'budget not judged', description: verdict.note });
 }
 
 /** Wait until the stub has timed itself on this page. */

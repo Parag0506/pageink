@@ -20,6 +20,7 @@ import {
   stubDone,
   test,
   textBox,
+  withinBudget,
 } from './fixtures';
 
 // These tests read the performance marks, which only the bench build has.
@@ -53,8 +54,9 @@ const show = (xs: number[]) => xs.map((g) => g.toFixed(1)).join(', ');
 
 /**
  * Gates for first ink, in ms. Measured medians: about 20 warm and 25 cold on a laptop.
- * Local gates add a margin for noise; CI machines are slower and get more. Every gate is
- * also scaled by slowdown(), work measured in the same browser in the same run.
+ * Local gates add a margin; CI machines are slower and get more. Every gate is judged by
+ * withinBudget (fixtures.ts): against work timed in the same browser right before and after
+ * the measure, and again from scratch when it is over, so a busy machine does not fail it.
  */
 const WARM_MS = 30;
 const COLD_MS = 45;
@@ -83,17 +85,21 @@ test('a page without ink: no DOM change, no extension load, no worker, stub unde
   const page = await context.newPage();
   const loaded: string[] = [];
   page.on('request', (r) => loaded.push(r.url()));
-  const times: number[] = [];
-  for (let i = 0; i < 7; i++) {
-    await page.goto(`${origin.a}/article.html?run=${i}`);
-    await stubDone(page);
-    times.push(await page.evaluate(() => performance.getEntriesByName('ink:stub').at(-1)!.duration));
-  }
-  const ms = median(times);
-  console.log(
-    `stub time, page without ink: median ${ms.toFixed(3)} ms of ${times.map((t) => t.toFixed(2)).join(', ')}`,
+  await page.goto(`${origin.a}/article.html`);
+  await withinBudget(
+    () => page,
+    { stub: 5 },
+    async () => {
+      const times: number[] = [];
+      for (let i = 0; i < 7; i++) {
+        await page.goto(`${origin.a}/article.html?run=${i}`);
+        await stubDone(page);
+        times.push(await page.evaluate(() => performance.getEntriesByName('ink:stub').at(-1)!.duration));
+      }
+      console.log(`stub time, page without ink: ${times.map((t) => t.toFixed(2)).join(', ')} ms`);
+      return { stub: median(times) };
+    },
   );
-  expect(ms).toBeLessThan(5 * (await slowdown(page)));
 
   const same = await page.evaluate(async () => {
     const raw = await (await fetch(location.href)).text();
@@ -147,32 +153,25 @@ test('a page with ink: ink is visible within 50 ms of its content, and nothing r
   page.on('request', (r) => {
     if (r.url().startsWith('chrome-extension://')) loaded.push(new URL(r.url()).pathname);
   });
-  const batch = async (): Promise<number[]> => {
-    const gaps: number[] = [];
-    for (let i = 0; i < 9; i++) {
-      loaded.length = 0;
-      await page.reload();
-      gaps.push(await firstInk(page));
-      // The view code is a registered content script: the page loads nothing from the
-      // extension. The tools wait for a pen or the draw toggle.
-      expect(loaded).toEqual([]);
-    }
-    return gaps;
-  };
   // 50 ms is the budget (DESIGN 11). The gate is tighter, to catch a slower view path.
-  // A busy machine can slow one batch of loads as a whole, so a batch over the gate is
-  // measured once more. A slower view path is slower in both batches and still fails.
-  const gate = (process.env.CI ? CI_WARM_MS : WARM_MS) * (await slowdown(page));
-  let gaps = await batch();
-  let ms = median(gaps);
-  console.log(`warm first ink after DOMContentLoaded: median ${ms.toFixed(1)} ms of ${show(gaps)}`);
-  if (ms >= gate) {
-    gaps = await batch();
-    ms = median(gaps);
-    console.log(`measured again: median ${ms.toFixed(1)} ms of ${show(gaps)}`);
-  }
-  expect(ms).toBeLessThan(gate);
-  expect((await layerInfo(page))?.notes.length).toBe(3);
+  await withinBudget(
+    () => page,
+    { 'first ink': process.env.CI ? CI_WARM_MS : WARM_MS },
+    async () => {
+      const gaps: number[] = [];
+      for (let i = 0; i < 9; i++) {
+        loaded.length = 0;
+        await page.reload();
+        gaps.push(await firstInk(page));
+        // The view code is a registered content script: the page loads nothing from the
+        // extension. The tools wait for a pen or the draw toggle.
+        expect(loaded).toEqual([]);
+      }
+      console.log(`warm first ink after DOMContentLoaded: ${show(gaps)} ms`);
+      return { 'first ink': median(gaps) };
+    },
+  );
+  await expect.poll(async () => (await layerInfo(page))?.notes.length).toBe(3);
   // The overlay scrolls with the page. No scroll listener on the window.
   expect(await windowListeners(page)).not.toContain('scroll');
 });
@@ -190,35 +189,40 @@ test('a page with ink in a browser that just started: ink is visible within the 
     await writeThree(page);
     await first.close();
 
-    // A browser that just started is busy with its own start, and more so on a loaded machine,
-    // so each load is set against the slowdown measured in that same browser right after it.
-    const batch = async (): Promise<number> => {
-      const gaps: number[] = [];
-      const scaled: number[] = [];
-      for (let i = 0; i < 5; i++) {
-        const ctx = await launch(profile, [], benchDir);
-        const p = await ctx.newPage();
-        await p.goto(url);
-        const gap = await firstInk(p);
-        gaps.push(gap);
-        scaled.push(gap / (await slowdown(p)));
-        await expect.poll(async () => (await layerInfo(p))?.notes.length).toBe(3);
-        await ctx.close();
-      }
-      console.log(
-        `cold first ink after DOMContentLoaded: median ${median(gaps).toFixed(1)} ms of ${show(gaps)}, scaled ${show(scaled)}`,
+    // A browser that just started is busy with its own start, so each load is set against the
+    // slowdown measured in that same browser right after it. The machine as a whole is timed in
+    // a browser of its own that stays open, before and after each batch of starts.
+    const steady = await launch(undefined, [], benchDir);
+    try {
+      const probe = await steady.newPage();
+      await probe.goto(`${origin.a}/blank.html`);
+      await withinBudget(
+        () => probe,
+        { 'first ink': process.env.CI ? CI_COLD_MS : COLD_MS },
+        async () => {
+          const gaps: number[] = [];
+          const scaled: number[] = [];
+          for (let i = 0; i < 5; i++) {
+            const ctx = await launch(profile, [], benchDir);
+            try {
+              const p = await ctx.newPage();
+              await p.goto(url);
+              const gap = await firstInk(p);
+              gaps.push(gap);
+              scaled.push(gap / (await slowdown(p)));
+              await expect.poll(async () => (await layerInfo(p))?.notes.length).toBe(3);
+            } finally {
+              await ctx.close();
+            }
+          }
+          console.log(`cold first ink after DOMContentLoaded: ${show(gaps)} ms, scaled ${show(scaled)}`);
+          return { 'first ink': median(scaled) };
+        },
+        { scaled: true },
       );
-      return median(scaled);
-    };
-    // As for the warm loads: a batch over the gate is measured once more, and says so. A slower
-    // start is slower in both batches and still fails.
-    const gate = process.env.CI ? CI_COLD_MS : COLD_MS;
-    let ms = await batch();
-    if (ms >= gate) {
-      console.log('cold first ink over the gate: measured again');
-      ms = await batch();
+    } finally {
+      await steady.close();
     }
-    expect(ms).toBeLessThan(gate);
   } finally {
     dropProfile(profile);
   }
@@ -259,8 +263,6 @@ test('a large page that streams in: ink is drawn within 50 ms of its content', a
   const targets = ['p0-1', 'p0-4', 'p0-7', 'p3-2', 'p8-5'];
   // One browser with the probe beside Ink. Write a note on each target paragraph, once the whole page is in.
   const ctx = await launch(undefined, [probeDir], benchDir);
-  const worst: number[] = [];
-  let scale = 1;
   try {
     const w = await ctx.newPage();
     await w.goto(url, { waitUntil: 'load' });
@@ -282,7 +284,6 @@ test('a large page that streams in: ink is drawn within 50 ms of its content', a
       await w.waitForTimeout(1700);
     }
     await expect.poll(() => storedNotes(ctx)).toBe(targets.length);
-    scale = await slowdown(w);
     await w.close();
 
     await ctx.addInitScript(`(() => {
@@ -293,25 +294,34 @@ test('a large page that streams in: ink is drawn within 50 ms of its content', a
       for (const id of want) if (seen[id] === undefined && document.getElementById(id)) seen[id] = performance.now();
     }).observe(document, { childList: true, subtree: true });
   })()`);
-    for (let i = 0; i < 6; i++) {
-      const p = await ctx.newPage();
-      await p.goto(url, { waitUntil: 'load' });
-      let got = await lags(p, ids);
-      await expect
-        .poll(async () => {
-          got = await lags(p, ids);
-          return got.all;
-        })
-        .toBe(targets.length);
-      expect(got.near.length).toBeGreaterThan(0);
-      // The first load of the browser is discarded, as in the bench.
-      if (i > 0) worst.push(Math.max(...got.near));
-      await p.close();
-    }
+    // The calibration runs in a page of its own, which stays open and idle during the loads.
+    const still = await ctx.newPage();
+    await still.goto(`${origin.a}/blank.html`);
+    await withinBudget(
+      () => still,
+      { 'ink after its content': process.env.CI ? CI_WARM_MS : 50 },
+      async () => {
+        const worst: number[] = [];
+        for (let i = 0; i < 6; i++) {
+          const p = await ctx.newPage();
+          await p.goto(url, { waitUntil: 'load' });
+          let got = await lags(p, ids);
+          await expect
+            .poll(async () => {
+              got = await lags(p, ids);
+              return got.all;
+            })
+            .toBe(targets.length);
+          expect(got.near.length).toBeGreaterThan(0);
+          // The first load of the browser is discarded, as in the bench.
+          if (i > 0) worst.push(Math.max(...got.near));
+          await p.close();
+        }
+        console.log(`streamed page, ink after its content: ${show(worst)} ms`);
+        return { 'ink after its content': median(worst) };
+      },
+    );
   } finally {
     await ctx.close();
   }
-  const ms = median(worst);
-  console.log(`streamed page, ink after its content: median ${ms.toFixed(1)} ms of ${show(worst)}`);
-  expect(ms).toBeLessThan((process.env.CI ? CI_WARM_MS : 50) * scale);
 });
