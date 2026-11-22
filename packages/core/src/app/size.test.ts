@@ -43,9 +43,12 @@ export const VIEW_SPLIT_BUDGET = 115_660;
 /**
  * Measured at 79,969 B once capture gained its optional stroke probe calls. Room at the end of
  * the page for a bar at the bottom edge, a grip drag held inside the screen, and a bar that
- * wraps into a second column on short screens added 1.9 KB: 80,441 B to 82,370 B.
+ * wraps into a second column on short screens added 1.9 KB: 80,441 B to 82,370 B. Text marks
+ * that leave out a word the stroke only touches at an end, and a shape round the words of one
+ * table cell that is anchored to those words, added 2.1 KB: 84,453 B. Asking again for a
+ * refused picture of the page: 84,522 B.
  */
-export const TOOLS_BUDGET = 82_500;
+export const TOOLS_BUDGET = 84_630;
 
 async function bundle(entry: string, external: (id: string) => boolean) {
   const out = await build({

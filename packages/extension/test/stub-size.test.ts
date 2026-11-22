@@ -134,10 +134,15 @@ describe.each(lazy.map((b) => [b.name, b] as const))('%s view path', (_n, b) => 
   // 118,563 B since the layer host has no box and the top layer has a host for the highlighter.
   // The tools grew by 1,925 B, from 80,898 B to 82,823 B, for the bar: room at the end of the
   // page while the bar is shown at the bottom, a grip drag held inside the screen, and a second
-  // column on screens too short for one. Their limit rose by the same.
+  // column on screens too short for one. Their limit rose by the same. The viewer is 118,854 B
+  // since the resolver ends at the block a margin note was described on, when that block is built
+  // from smaller blocks that repeat. The tools are 84,997 B since text marks leave out a word the
+  // stroke only touches at an end, a shape round the words of one table cell is anchored to
+  // those words, and a refused picture of the page is asked for again. Both limits rose by the
+  // growth.
   test('the viewer and the tools fit their budgets', () => {
-    expect(Buffer.byteLength(loader)).toBeLessThan(118_885);
-    expect(Buffer.byteLength(tools)).toBeLessThan(82_925);
+    expect(Buffer.byteLength(loader)).toBeLessThan(118_960);
+    expect(Buffer.byteLength(tools)).toBeLessThan(85_100);
   });
 });
 
