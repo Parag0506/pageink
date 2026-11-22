@@ -14,6 +14,8 @@ it and load it into Chrome, Edge, Firefox or Safari.
 
 ![PageInk in use: handwriting on an article, a highlight that follows the words, and the ink coming back after a reload](docs/media/preview.webp)
 
+[Watch the one-minute film](https://www.youtube.com/watch?v=7c85j0Y0f2Q) of it in use.
+
 <p>
   <img src="docs/media/1-writing.webp" alt="Writing on an article with a pen" width="32%">
   <img src="docs/media/2-highlight.webp" alt="A highlight and circled words on the same article" width="32%">

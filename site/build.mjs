@@ -19,6 +19,9 @@ const repo = resolve(here, '..');
  */
 const STORES = [];
 
+/** The one-minute film of the product in use. An empty string leaves the link out. */
+const FILM = 'https://www.youtube.com/watch?v=7c85j0Y0f2Q';
+
 /** Pictures the pages use, copied into assets/ in the out folder. */
 const ASSETS = [
   'brand/pageink-logo.svg',
@@ -387,6 +390,7 @@ function home(f, meta) {
 <figcaption>The same ink is back on the page after a reload.</figcaption>
 </figure>
 </div>
+${FILM ? `<p><a href="${esc(FILM)}">Watch the one-minute film</a> of it in use. The link opens YouTube.</p>` : ''}
 <section>
 <h2>Get ${n}</h2>
 ${getIt(f)}
