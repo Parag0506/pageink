@@ -111,10 +111,10 @@ jobs:
           INK_TEST_REPORTS: ${{ runner.temp }}/test-reports
         run: corepack pnpm --filter pageink-extension test
 
-      # One worker, since every test starts its own Chromium. A failed test runs once more
-      # (playwright.config.ts); the summary below names every test that needed that. It uses the
-      # builds of the step above, which come before its tests, so it runs when only tests failed
-      # there. Without the builds every test fails and says which build to make.
+      # One worker, since every test starts its own Chromium. Nothing is retried: a test that
+      # fails here fails the job. It uses the builds of the step above, which come before its
+      # tests, so it runs when only tests failed there. Without the builds every test fails and
+      # says which build to make.
       - name: Extension end-to-end tests
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         timeout-minutes: 30
@@ -122,7 +122,7 @@ jobs:
           INK_E2E_JSON: ${{ runner.temp }}/test-reports/extension-e2e.json
         run: corepack pnpm --filter pageink-extension exec playwright test --output "$RUNNER_TEMP/e2e"
 
-      - name: List failed and retried tests
+      - name: List failed tests
         if: always()
         run: node scripts/test-summary.mjs "$RUNNER_TEMP/test-reports" --out "$RUNNER_TEMP/test-reports/failed.md"
 
