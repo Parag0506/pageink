@@ -282,9 +282,15 @@ export const attachTools: AttachTools = (v) => {
   const addThumb = async (noteId: string, box: Rect): Promise<void> => {
     if (!hooks.captureVisible) return;
     try {
-      // Wait for the live stroke to clear, so the picture shows the page.
-      await new Promise((r) => win.setTimeout(r, 120));
-      const url = await hooks.captureVisible();
+      // Wait for the live stroke to clear, so the picture shows the page. The browser can refuse a
+      // picture for a moment (Chrome gives two a second), so an empty answer is asked for again.
+      let url: string | undefined;
+      for (const wait of [120, 600, 1500]) {
+        await new Promise((r) => win.setTimeout(r, wait));
+        if (dead) return;
+        url = await hooks.captureVisible().catch(() => undefined);
+        if (url) break;
+      }
       if (!url || dead) return;
       const img = await loadImage(doc, url);
       const k = img.naturalWidth / (win.innerWidth || img.naturalWidth || 1);

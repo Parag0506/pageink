@@ -162,10 +162,12 @@ describe('pictures of blank areas', () => {
     return c.toDataURL('image/png');
   };
 
-  async function blankNote(cfg: Partial<InkConfig>) {
+  async function blankNote(cfg: Partial<InkConfig>, answers: (string | undefined)[] = []) {
     setPage(blank);
     const kv = memoryKV({ cfg: { v: 1, device: 'd', ...cfg } });
-    const captureVisible = vi.fn(async () => shot());
+    let asked = 0;
+    // Each call takes the next answer. After the listed ones, a picture.
+    const captureVisible = vi.fn(async () => (asked < answers.length ? answers[asked++] : shot()));
     const rig = await openViewer(kv, { hooks: { captureVisible } });
     await rig.cmd();
     await stroke(loop({ left: 300, top: 300, width: 80, height: 40 }));
@@ -177,6 +179,20 @@ describe('pictures of blank areas', () => {
   test('a note on a blank area gets a small picture by default', async () => {
     const { rig } = await blankNote({});
     await until(() => !!rig.notes()[0]!.thumb, 'thumb');
+  });
+
+  test('a picture the browser refuses at first is asked for again', async () => {
+    const { rig, captureVisible } = await blankNote({}, [undefined, undefined]);
+    await until(() => !!rig.notes()[0]!.thumb, 'thumb', 6000);
+    expect(captureVisible).toHaveBeenCalledTimes(3);
+  });
+
+  test('after three refusals it stops asking and the note has no picture', async () => {
+    const { rig, captureVisible } = await blankNote({}, [undefined, undefined, undefined, undefined]);
+    await until(() => captureVisible.mock.calls.length === 3, 'three asks', 6000);
+    await wait(2000);
+    expect(captureVisible).toHaveBeenCalledTimes(3);
+    expect(rig.notes()[0]!.thumb).toBeUndefined();
   });
 
   test('with pictures off none is taken or stored', async () => {
