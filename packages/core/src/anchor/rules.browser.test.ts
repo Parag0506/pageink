@@ -162,7 +162,8 @@ group('resolving', () => {
     const second = document.querySelectorAll('table')[1]!;
     const b = docRect(second);
     reveal(b);
-    const d = describe(ctx, { x: b.x + 10, y: b.y + 10, w: 60, h: 20 });
+    // Over the cells of all three rows, so the note is on the table and not on one cell's words.
+    const d = describe(ctx, { x: b.x + 10, y: b.y + 10, w: b.w - 20, h: b.h - 20 });
     expect(d.anchor.type).toBe('media');
     // A different page state: two unrelated tables. The positional path names the second one.
     const r2 = rng(15);

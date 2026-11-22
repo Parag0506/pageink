@@ -32,6 +32,11 @@ the caret and element hit tests.
 - **Media.** If at least half the samples in view land on an image, figure, table, video, canvas or an
   element marked `data-ink-media`, the anchor is `media`. The centre sample counts twice. The nearest
   ancestor with `data-ink-media` always wins; host pages and the PDF viewer use it to mark fixed surfaces.
+  One case on a table is text instead: a shape drawn round the words of one cell, such as a circle
+  round a value. It is taken as that when the words under the note, in the cell with the most samples
+  on text, fit in one quote, at least three quarters of them lie inside the note's box, and the box
+  reaches no more than two line heights past them. Such a note follows its words when rows grow or a
+  label wraps. A mark over several cells, or over part of a long cell, is on the table. So is the caption.
 - **Text.** If the centre lands on a glyph, or at least 15% of the samples in view do, the anchor is
   `text`. The quote is the text under the note, widened to whole words and capped at 200 characters.
 - **Block.** Otherwise the note sits beside text: in a margin or between paragraphs. It is tied to the

@@ -118,6 +118,7 @@ Both numbers are tuned on the test set.
 3. **Beside text** (margin, gap between paragraphs): type `block`, anchored to the nearest block by vertical
    overlap, with `place` set to the side. The quote is the first line the note is level with.
 4. **On an image, figure, table, video or canvas:** type `media`. Position is a fraction of the element box.
+   A shape drawn round the words of one table cell is on those words, as in 2.
 5. **Nothing usable** (blank page area, full-screen canvas app): type `viewport`, tied to the nearest
    element with an id or landmark role, else to the page fraction, and a small thumbnail is kept.
 6. Always store all locators that exist: quote, structural path, text position, block hash.

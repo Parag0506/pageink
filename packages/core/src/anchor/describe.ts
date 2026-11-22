@@ -512,6 +512,99 @@ export function nearestBlock(
   return { el: best.el, place };
 }
 
+/** A glyph sample that landed on a table. */
+interface CellHit {
+  table: Element;
+  /** The cell that holds the glyph. The table itself for its caption and other text in no cell. */
+  cell: Element;
+  g: number;
+  centre: boolean;
+}
+
+function cellOf(m: TextModel, g: number, table: Element): Element {
+  for (let e = m.blockAt(g); e && e !== table; e = flatParent(e)) {
+    if (e.localName === 'td' || e.localName === 'th') return e;
+  }
+  return table;
+}
+
+/** Share of the words under a note on a table that must lie inside the note's box. */
+const ENCLOSED = 0.75;
+/** The box of such a note reaches no more than this many line heights past its words. */
+const LOOSE = 2;
+
+/**
+ * True when a client box is drawn round the text of a model span: the words lie inside the
+ * box, and the box hugs them, reaching no more than LOOSE line heights past them on any side.
+ */
+function drawnRound(m: TextModel, span: Span, left: number, top: number, w: number, h: number): boolean {
+  const right = left + w;
+  const bottom = top + h;
+  let all = 0;
+  let inside = 0;
+  let reach = 0;
+  let l = right;
+  let t = bottom;
+  let r = left;
+  let b = top;
+  for (let i = Math.max(0, m.segAt(span.start)); i < m.segs.length; i++) {
+    const s = m.segs[i]!;
+    if (s.start >= span.end) break;
+    // One text node at a time, so the boxes are of text and never of a whole cell.
+    const range = m.range(Math.max(s.start, span.start), Math.min(s.start + s.len, span.end));
+    for (const q of range?.getClientRects() ?? []) {
+      all += q.width * q.height;
+      const ow = Math.min(q.right, right) - Math.max(q.left, left);
+      const oh = Math.min(q.bottom, bottom) - Math.max(q.top, top);
+      if (ow <= 0 || oh <= 0) continue;
+      inside += ow * oh;
+      reach ||= q.height * LOOSE;
+      l = Math.min(l, q.left);
+      t = Math.min(t, q.top);
+      r = Math.max(r, q.right);
+      b = Math.max(b, q.bottom);
+    }
+  }
+  return (
+    inside > 0 && inside >= all * ENCLOSED && Math.max(l - left, right - r, t - top, bottom - b) <= reach
+  );
+}
+
+/**
+ * The words of one table cell that a note is drawn round, as a model span. A table is a
+ * surface, but its cells hold words like any other text, and a shape round the words of one
+ * cell belongs to those words: it must follow them when rows grow or a label wraps. That is so
+ * when the words under the note in the cell it is mostly on are few enough for one quote, and
+ * the note's box is drawn round them. A loose shape also touches the rows above and below, so
+ * the cell is the one with the most samples on text, not the only one. Null otherwise: the note
+ * is on the table, as a mark over several cells or over part of a long cell is. So is a note
+ * on the caption, which names the table as a figure's caption names the figure.
+ */
+function cellWords(
+  m: TextModel,
+  hits: CellHit[],
+  table: Element,
+  inView: number,
+  box: Rect,
+  v: View,
+): Span | null {
+  const mine = hits.filter((h) => h.table === table);
+  if (!mine.some((h) => h.centre) && mine.length < Math.max(1, inView * 0.15)) return null;
+  // The centre sample counts twice, as it does for media.
+  const weight = new Map<Element, number>();
+  let best = table;
+  for (const h of mine) {
+    const w = (weight.get(h.cell) ?? 0) + (h.centre ? 2 : 1);
+    weight.set(h.cell, w);
+    if (w > (weight.get(best) ?? 0)) best = h.cell;
+  }
+  if (best === table) return null;
+  const gs = mine.filter((h) => h.cell === best).map((h) => h.g);
+  const span = widenToWords(m.text, Math.min(...gs), Math.max(...gs) + 1);
+  if (span.end - span.start > MAX_QUOTE) return null;
+  return drawnRound(m, span, box.x - v.sx, box.y - v.sy, box.w, box.h) ? span : null;
+}
+
 function sampleGrid(box: Rect): Point[] {
   const nx = Math.max(3, Math.min(7, Math.round(box.w / 16)));
   const ny = Math.max(3, Math.min(7, Math.round(box.h / 14)));
@@ -540,6 +633,7 @@ function describeIn(ctx: AnchorContext, box: Rect, retried: boolean): Described 
   let centerGlyph = false;
   const mediaCount = new Map<Element, number>();
   const glyphs: number[] = [];
+  const cellHits: CellHit[] = [];
   let centerEl: Element | null = null;
   for (let i = 0; i < pts.length; i++) {
     const cx = pts[i]!.x - v.sx;
@@ -551,17 +645,19 @@ function describeIn(ctx: AnchorContext, box: Rect, retried: boolean): Described 
     // A transparent element can still take the pointer. What it holds is not what was written on.
     if (el && !shownEl(el)) continue;
     const med = el ? mediaOf(el, vh) : null;
-    if (med) {
-      mediaCount.set(med, (mediaCount.get(med) ?? 0) + (i === 0 ? 2 : 1));
-      continue;
-    }
+    if (med) mediaCount.set(med, (mediaCount.get(med) ?? 0) + (i === 0 ? 2 : 1));
+    // A table holds words. Which of them the note is on decides between the table and the words.
+    const table = med && med.localName === 'table' && !med.hasAttribute('data-ink-media') ? med : null;
+    if (med && !table) continue;
     const g = glyphAt(m, cx, cy);
     if ((g === NEW_TEXT || (g >= 0 && !m.fresh(g, g + 1))) && !retried) {
       // The page changed since the model was built.
       dropModel(doc);
       return describeIn(ctx, box, true);
     }
-    if (g >= 0) {
+    if (g < 0) continue;
+    if (table) cellHits.push({ table, cell: cellOf(m, g, table), g, centre: i === 0 });
+    else {
       glyphs.push(g);
       if (i === 0) centerGlyph = true;
     }
@@ -588,8 +684,11 @@ function describeIn(ctx: AnchorContext, box: Rect, retried: boolean): Described 
   }
   const useMedia = media && (inView === 0 || mediaHits * 2 >= inView + 1);
   let out: Built | null = null;
-  if (useMedia && media) out = mediaAnchor(m, memo, media, box, v);
-  else if (glyphs.length && (centerGlyph || glyphs.length >= Math.max(1, inView * 0.15))) {
+  if (useMedia && media) {
+    const span = cellWords(m, cellHits, media, inView, box, v);
+    if (span) out = textAnchor(m, memo, span, v, box);
+    out ??= mediaAnchor(m, memo, media, box, v);
+  } else if (glyphs.length && (centerGlyph || glyphs.length >= Math.max(1, inView * 0.15))) {
     const s = Math.min(...glyphs);
     const e = Math.max(...glyphs) + 1;
     out = textAnchor(m, memo, widenToWords(m.text, s, e), v, box);
