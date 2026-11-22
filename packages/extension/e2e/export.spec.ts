@@ -74,9 +74,8 @@ test('save as image, notes as Markdown, and copy for chat', async ({ context, or
 test('a note on a blank page keeps a thumbnail of at most 8 KB', async ({ context, origin, ext }) => {
   const page = await context.newPage();
   await page.goto(`${origin.a}/blank.html`);
-  // The first-run guide opens in a tab of its own soon after the extension loads, and can take
-  // the front. Only the tab in front gets a picture of itself, as for a reader who is writing.
-  await page.bringToFront();
+  // Only the tab in front gets a picture of itself, as for a reader who is writing. This page is
+  // in front: the first-run guide's tab opened before it (launch in fixtures.ts waits for that).
   await stroke(page, ring({ x: 400, y: 300 }, 80, 50));
   await expect.poll(async () => (await allNotes(ext)).length).toBe(1);
   await expect

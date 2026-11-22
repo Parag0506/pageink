@@ -3,7 +3,7 @@
  * with the real Chrome build of the extension loaded (.output/chrome-mv3).
  * The layer lives in a closed shadow root, so tests read it through CDP.
  */
-import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { createServer, type Server, type ServerResponse } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { tmpdir } from 'node:os';
@@ -117,9 +117,35 @@ export const newProfile = (): string =>
 export const dropProfile = (profile: string): void =>
   rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
 
+/** The first-run guide's address ends with this (src/background/first-run.ts). */
+const GUIDE = '/options.html#welcome';
+
+/**
+ * A profile that never ran the extension gets the first-run guide: a tab of its own, in front,
+ * a moment after the extension loads. A page a test opened before that moment would lose the
+ * front to it, and only the tab in front gets a picture of itself. So a launch into an unused
+ * profile ends when the guide's tab is there. Every page a test opens comes after it and is in
+ * front until the test itself opens another.
+ */
+async function guideOpened(ctx: BrowserContext): Promise<void> {
+  const there = () => ctx.pages().some((p) => p.url().endsWith(GUIDE));
+  const end = Date.now() + 60_000;
+  while (!there()) {
+    if (Date.now() > end) throw new Error('the first-run guide did not open in an unused profile');
+    await new Promise<void>((done) => {
+      const t = setTimeout(done, 100);
+      ctx.once('page', () => {
+        clearTimeout(t);
+        done();
+      });
+    });
+  }
+}
+
 /**
  * Chromium with the extension loaded, in a fresh profile unless one is given. A fresh profile
- * is removed when the context closes. A given one is the caller's to remove.
+ * is removed when the context closes. A given one is the caller's to remove. On a profile that
+ * was never used the first-run guide is open when this returns.
  */
 export async function launch(given?: string, more: string[] = [], dir = extDir): Promise<BrowserContext> {
   if (!existsSync(join(dir, 'manifest.json'))) {
@@ -133,6 +159,7 @@ export async function launch(given?: string, more: string[] = [], dir = extDir):
   }
   const list = [dir, ...more].join(',');
   const profile = given ?? newProfile();
+  const unused = readdirSync(profile).length === 0;
   let ctx: BrowserContext;
   try {
     ctx = await chromium.launchPersistentContext(profile, {
@@ -147,6 +174,15 @@ export async function launch(given?: string, more: string[] = [], dir = extDir):
   }
   // Every request the extension starts is recorded. Closing fails if one breaks the rule.
   record(ctx);
+  if (unused) {
+    try {
+      await guideOpened(ctx);
+    } catch (e) {
+      await ctx.close().catch(() => {});
+      if (!given) dropProfile(profile);
+      throw e;
+    }
+  }
   // INK_CPU_THROTTLE=4 slows every page's CPU four times, as a slow machine would.
   const rate = Number(process.env.INK_CPU_THROTTLE ?? 0);
   if (rate > 1) {
