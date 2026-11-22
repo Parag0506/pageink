@@ -153,6 +153,21 @@ const LAUNCH_MS = 180_000;
 const START_MS = 60_000;
 
 /**
+ * Make a profile folder empty again, as it was before a browser that did not start touched it.
+ * The browser that was given up may still write for a moment while it goes, so the folder
+ * counts as empty only when it stayed empty for a quarter of a second.
+ */
+async function emptied(profile: string): Promise<void> {
+  for (let i = 0; i < 40; i++) {
+    rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+    mkdirSync(profile, { recursive: true });
+    await new Promise((r) => setTimeout(r, 250));
+    if (readdirSync(profile).length === 0) return;
+  }
+  throw new Error(`the profile of a browser that did not start is still written to: ${profile}`);
+}
+
+/**
  * Start Chromium on a profile. A start that hangs is given up and made once more, on the
  * profile as it was. That is a fault of the browser's start on a loaded machine, before any
  * page or extension code of a test runs, so it does not fail the test. It is never silent: the
@@ -170,10 +185,7 @@ async function start(
     const said = String(e.message).slice(0, 1500);
     console.warn(`the browser did not start in ${START_MS / 1000} s and is started again: ${said}`);
     base.info().annotations.push({ type: 'browser started again', description: said });
-    if (unused) {
-      rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
-      mkdirSync(profile, { recursive: true });
-    }
+    if (unused) await emptied(profile);
     return chromium.launchPersistentContext(profile, { ...options, timeout: START_MS });
   }
 }
