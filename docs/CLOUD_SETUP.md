@@ -194,14 +194,23 @@ While the app is in **Testing** on Google:
   has expired" and the reader signs in again with one click.
 - Google shows a "Google hasn't verified this app" screen. Testers choose **Continue**.
 
-To open it to everyone, in **Audience** choose **Publish app**. For that Google asks for:
+To open it to everyone, in **Audience** choose **Publish app**. The button stays off until
+**Branding** has:
 
-- a home page and a privacy policy on a domain you own (the repository's `PRIVACY.md`, published
-  on that site, is the policy),
-- that domain verified in Google Search Console and listed under **Branding**, **Authorized
-  domains**,
-- the app name and logo checked by Google (brand verification). `drive.file` is not a sensitive
-  scope, so no security review is needed for it.
+- a home page and a privacy policy that anyone can open, on the same host (this project's are the
+  pages in `site/`, and the policy page is made from `PRIVACY.md`),
+- that host under **Authorized domains**. For GitHub Pages it is `<user>.github.io`: the console
+  names the host it wants when it is missing.
+
+`drive.file` is not a sensitive scope. With that scope alone, no logo, and at most ten domains,
+Google asks for no verification: the confirmation says so, and the **Verification centre** then
+shows "Verification is not required". Checked in November 2026 with pages on GitHub Pages and no
+domain of our own. In production the sign-in no longer ends after 7 days and is open to any Google
+account.
+
+Until the branding is verified, Google does not show the app's name or logo on its screen. That
+check (brand verification) is optional here. Google's help says the home page must then be on a
+verified domain you own, so it may need a domain of your own.
 
 Microsoft has no such step for these permissions. You may add a publisher domain under
 **Branding & properties** so the consent screen shows a verified publisher.
