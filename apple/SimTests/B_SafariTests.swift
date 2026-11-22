@@ -83,6 +83,34 @@ final class B_SafariTests: XCTestCase {
     note("bar", "\(found.count) buttons, smallest \(Int(found.values.map { min($0.width, $0.height) }.min() ?? 0)) pt, bar at \(bar.integral)")
   }
 
+  func test03b_LastLineScrollsClearOfTheBar() throws {
+    // Draw mode is still on from test 02, so the bar is shown at the bottom edge. The page's own
+    // End button scrolls as far as the page goes.
+    let web = Sim.safari.webViews.firstMatch
+    let draw = web.descendants(matching: .any).matching(NSPredicate(format: "label == 'Draw'")).firstMatch
+    XCTAssertTrue(draw.waitForExistence(timeout: 10), "The bar is not shown")
+    let end = web.buttons["Scroll to end"].firstMatch
+    XCTAssertTrue(end.waitForExistence(timeout: 5), "No End button on the page")
+    end.tap()
+    // The last line's box in the page's viewport, and the bar's buttons on screen.
+    let r = Page.report(within: 8) { ($0.rect("end")?.minY ?? -1) > 0 && $0.int("sy") > 500 }
+    XCTAssertNotNil(r, "The page did not scroll to its end")
+    guard let rep = r, let line = rep.rect("end") else { return }
+    Thread.sleep(forTimeInterval: 1)
+    let fresh = Page.report() ?? rep
+    let lineNow = fresh.rect("end") ?? line
+    let lineBottom = fresh.screen(CGPoint(x: lineNow.minX, y: lineNow.maxY)).y
+    let barTop = draw.frame.minY
+    attach(self, "the end of the page")
+    XCTAssertLessThanOrEqual(lineBottom, barTop, "The last line of the page is under the bar (line bottom \(Int(lineBottom)), bar buttons from \(Int(barTop)))")
+    note("endroom", "scrolled to the end at scrollY \(fresh.int("sy")): the last line ends at \(Int(lineBottom)) pt, the bar's buttons start at \(Int(barTop)) pt")
+    // With draw mode off the bar goes after a while and the room with it. Checked in the
+    // library's tests. Back to the top for the tests that follow.
+    let top = web.buttons["Scroll to top"].firstMatch
+    if top.exists { top.tap() }
+    _ = Page.report(within: 5) { $0.int("sy") == 0 }
+  }
+
   func test04_TrayOpens() throws {
     // A note whose words are gone has nowhere to go, so it waits in the tray.
     let r = open("moving.html")

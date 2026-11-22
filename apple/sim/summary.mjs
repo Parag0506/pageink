@@ -9,7 +9,7 @@ const logs = readdirSync(dir)
   .sort();
 const words = (m) =>
   m
-    .replace(/^test\d+_/, '')
+    .replace(/^test\d+[a-z]?_/, '')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .toLowerCase()
     .replace(/^./, (c) => c.toUpperCase());

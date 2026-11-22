@@ -131,9 +131,12 @@ describe.each(lazy.map((b) => [b.name, b] as const))('%s view path', (_n, b) => 
   // 118,798 B when it started with V8's compile hint, read the page's colours in the first placement
   // until the page has painted, and checked a record without naming its fields unless one fails;
   // the limit rose by the same. It is 118,777 B since the compile hint was taken out again.
+  // The tools grew by 1,925 B, from 80,898 B to 82,823 B, for the bar: room at the end of the
+  // page while the bar is shown at the bottom, a grip drag held inside the screen, and a second
+  // column on screens too short for one. Their limit rose by the same.
   test('the viewer and the tools fit their budgets', () => {
     expect(Buffer.byteLength(loader)).toBeLessThan(118_885);
-    expect(Buffer.byteLength(tools)).toBeLessThan(81_000);
+    expect(Buffer.byteLength(tools)).toBeLessThan(82_925);
   });
 });
 

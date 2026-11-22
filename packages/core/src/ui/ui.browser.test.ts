@@ -276,7 +276,13 @@ describe('bar', () => {
     grip.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 1 }));
     expect(root.getAttribute('data-edge')).toBe('left');
     expect(q('.bar').getAttribute('aria-orientation')).toBe('vertical');
-    expect(getComputedStyle(q('.bar')).flexDirection).toBe('column');
+    // The buttons run down the edge.
+    expect(q('.draw').getBoundingClientRect().top).toBeLessThan(
+      q('button[aria-label=More]').getBoundingClientRect().top,
+    );
+    expect(q('.bar').getBoundingClientRect().height).toBeGreaterThan(
+      q('.bar').getBoundingClientRect().width * 3,
+    );
     cleanup.shift()?.();
     const again = setup();
     expect(again.root.getAttribute('data-edge')).toBe('left');
@@ -287,6 +293,89 @@ describe('bar', () => {
     const before = root.getAttribute('data-edge');
     q('.grip').click();
     expect(root.getAttribute('data-edge')).not.toBe(before);
+  });
+
+  const onScreen = (el: Element) => {
+    const r = el.getBoundingClientRect();
+    return r.width > 0 && r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight;
+  };
+  /** One drag of the grip, as the browser sends it for this kind of pointer. */
+  const dragGrip = (grip: Element, pointerType: string, path: [number, number][], end = 'pointerup') => {
+    const g = grip.getBoundingClientRect();
+    const o = { bubbles: true, composed: true, pointerId: 5, pointerType, button: 0, isPrimary: true };
+    const at = (x: number, y: number) => ({ ...o, clientX: x, clientY: y });
+    grip.dispatchEvent(new PointerEvent('pointerdown', at(g.left + g.width / 2, g.top + g.height / 2)));
+    const seen: boolean[] = [];
+    for (const [x, y] of path) {
+      grip.dispatchEvent(new PointerEvent('pointermove', at(x, y)));
+      seen.push(onScreen(grip.closest('.bar') as Element));
+    }
+    const [x, y] = end === 'pointercancel' ? [0, 0] : (path.at(-1) as [number, number]);
+    grip.dispatchEvent(new PointerEvent(end, at(x, y)));
+    if (end === 'pointerup')
+      grip.dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true, detail: 1 }));
+    return seen;
+  };
+
+  for (const kind of ['pen', 'touch', 'mouse']) {
+    test(`a ${kind} drags the bar to any edge, and it stays on the screen all the way`, () => {
+      const { q, root } = setup();
+      const drops: [string, number, number][] = [
+        ['left', 4, innerHeight / 2],
+        ['top', innerWidth / 2, 4],
+        ['right', innerWidth - 4, innerHeight / 2],
+        ['bottom', innerWidth / 2, innerHeight - 4],
+        ['left', 4, innerHeight / 2],
+      ];
+      for (const [edge, x, y] of drops) {
+        const g = q('.grip').getBoundingClientRect();
+        const seen = dragGrip(q('.grip'), kind, [
+          [(g.left + x) / 2, (g.top + y) / 2],
+          [x, y],
+        ]);
+        expect(seen, `on the way to the ${edge} edge`).toEqual([true, true]);
+        expect(root.getAttribute('data-edge')).toBe(edge);
+        expect(q('.bar').classList.contains('drag')).toBe(false);
+        expect(onScreen(q('.bar')), `docked at the ${edge} edge`).toBe(true);
+        for (const b of q('.bar').querySelectorAll(':scope > button:not([hidden])'))
+          expect(onScreen(b), `${b.getAttribute('aria-label')} at the ${edge} edge`).toBe(true);
+      }
+    });
+  }
+
+  test('a drag past the edge of the screen cannot take the bar off it', () => {
+    const { q, root } = setup();
+    const seen = dragGrip(q('.grip'), 'touch', [
+      [-300, -300],
+      [5000, 5000],
+      [-300, 200],
+    ]);
+    expect(seen).toEqual([true, true, true]);
+    expect(root.getAttribute('data-edge')).toBe('left');
+    expect(onScreen(q('.bar'))).toBe(true);
+  });
+
+  test('a drag the browser cancels leaves the bar where it was', () => {
+    const { q, root } = setup();
+    for (let i = 0; i < 4 && root.getAttribute('data-edge') !== 'bottom'; i++) q('.grip').click();
+    expect(root.getAttribute('data-edge')).toBe('bottom');
+    // The cancel event carries no useful point. It must not send the bar to the top left.
+    dragGrip(q('.grip'), 'touch', [[200, 300]], 'pointercancel');
+    expect(root.getAttribute('data-edge')).toBe('bottom');
+    expect(q('.bar').classList.contains('drag')).toBe(false);
+    expect(q<HTMLElement>('.bar').style.transform).toBe('');
+    expect(onScreen(q('.bar'))).toBe(true);
+  });
+
+  test('at phone width the bar at the bottom uses the whole width before it wraps', () => {
+    const { q, root } = setup();
+    for (let i = 0; i < 4 && root.getAttribute('data-edge') !== 'bottom'; i++) q('.grip').click();
+    const bar = q('.bar').getBoundingClientRect();
+    const one = q('.draw').getBoundingClientRect().height;
+    // One row of buttons fits in 414 px, so the bar is one row high and covers no more.
+    expect(innerWidth).toBe(414);
+    expect(bar.height).toBeLessThan(one * 1.5);
+    expect(Math.abs(bar.left + bar.right - innerWidth)).toBeLessThanOrEqual(1);
   });
 });
 
@@ -565,7 +654,8 @@ describe('destroy', () => {
     document.body.append(mount);
     const host = fakeHost(mount, { barHideMs: 20, state: { draw: true } });
     const ui: Ui = createUi(host);
-    expect(mount.childElementCount).toBe(1);
+    // The bar's root, and the box that keeps room at the end of the page.
+    expect(mount.childElementCount).toBe(2);
     expect(host.subs.size).toBe(1);
     ui.destroy();
     expect(mount.childNodes.length).toBe(0);

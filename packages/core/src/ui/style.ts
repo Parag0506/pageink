@@ -1,6 +1,17 @@
 // Every rule is scoped under .iu because this sheet shares a shadow root with
 // the ink layer. Every property the UI depends on is set here, since the page
-// may reset or poison anything that inherits into the root.
+// may reset or poison anything that inherits into the root. The one rule outside .iu is
+// .iu-room, the box that keeps room at the end of the page (room.ts). It sits beside the
+// mount, which is fixed to the screen.
+//
+// The bar is centred on its edge with auto margins between two insets, not with left: 50%
+// and a transform. Half the screen was all the room that gave it, so it wrapped into more
+// rows than it needed and covered more of the page.
+//
+// On the left and right edges the bar is a row in a vertical writing mode, not a flex
+// column. Where the screen is too short for one column it wraps into a second one, and the
+// bar grows wider with it. A wrapped flex column keeps the width of one column in Firefox,
+// which left buttons off the bar and off the screen.
 //
 // Colours follow the brand (brand/colours.md). --pri is the deep ink for primary actions.
 // --acc is the terracotta, the one accent, for active and selected states, links and the
@@ -48,10 +59,12 @@ transition:opacity var(--t) ease,visibility 0s linear 0s}
 .iu .wn[hidden]{display:none}
 .iu .cnt{position:absolute;top:2px;right:1px;min-width:15px;height:15px;padding:0 4px;border-radius:8px;
 background:var(--acc);color:var(--on);font-size:10px;font-weight:600;line-height:15px;text-align:center}
-.iu[data-edge=bottom] .bar,.iu[data-edge=top] .bar{left:50%;transform:translateX(-50%)}
+.iu[data-edge=bottom] .bar,.iu[data-edge=top] .bar{left:8px;right:8px;width:fit-content;margin:0 auto}
 .iu[data-edge=bottom] .bar{bottom:max(var(--g),env(safe-area-inset-bottom))}
 .iu[data-edge=top] .bar{top:max(var(--g),env(safe-area-inset-top))}
-.iu[data-edge=left] .bar,.iu[data-edge=right] .bar{top:50%;transform:translateY(-50%);flex-direction:column}
+.iu[data-edge=left] .bar,.iu[data-edge=right] .bar{top:8px;bottom:8px;height:fit-content;margin:auto 0;writing-mode:vertical-lr}
+.iu[data-edge=right] .bar{writing-mode:vertical-rl}
+.iu[data-edge=left] .bar>*,.iu[data-edge=right] .bar>*{writing-mode:horizontal-tb}
 .iu[data-edge=left] .bar{left:max(var(--g),env(safe-area-inset-left))}
 .iu[data-edge=right] .bar{right:max(var(--g),env(safe-area-inset-right))}
 .iu[data-edge=left] .sep,.iu[data-edge=right] .sep{width:18px;height:1px;margin:3px 0}
@@ -129,4 +142,7 @@ border-radius:999px;box-shadow:var(--sh);font-weight:500}
 .iu[data-edge=top] .ban{top:auto;bottom:max(var(--g),env(safe-area-inset-bottom))}
 .iu .ban button{border-radius:999px;padding:0 14px}
 @media (prefers-reduced-motion:reduce){.iu,.iu *{--t:0s;transition:none!important;animation:none!important}}
+.iu-room{all:initial;display:block;position:absolute;left:0;width:1px;visibility:hidden;pointer-events:none}
+.iu-room[hidden]{display:none}
+@media print{.iu-room{display:none}}
 `;

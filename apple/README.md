@@ -264,6 +264,7 @@ pages set their text in grey, so dark blue pixels on the words are the first pen
 - The stub runs in Mobile Safari and adds nothing to a page without ink.
 - With draw mode on, one finger writes on the words, and the ink shows.
 - The bar's buttons are at least 44 points and do not cover the page's link, button or field.
+- Scrolled to its end, the page's last line is clear of the bar at the bottom edge.
 - A note whose words are gone shows a count on the bar, and the tray opens with it.
 - Two fingers scroll in draw mode and make no ink.
 - With draw mode off a finger scrolls, makes no ink, and a link works.

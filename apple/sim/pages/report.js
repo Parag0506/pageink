@@ -17,6 +17,14 @@
   top.style.cssText = 'position:fixed;right:8px;top:24px;width:56px;height:44px;z-index:1;font:14px sans-serif';
   top.addEventListener('click', () => window.scrollTo(0, 0));
   document.documentElement.append(top);
+  // And its own way to the end, as far as the page scrolls.
+  const end = document.createElement('button');
+  end.type = 'button';
+  end.textContent = 'End';
+  end.setAttribute('aria-label', 'Scroll to end');
+  end.style.cssText = 'position:fixed;right:8px;top:76px;width:56px;height:44px;z-index:1;font:14px sans-serif';
+  end.addEventListener('click', () => window.scrollTo(0, 1e7));
+  document.documentElement.append(end);
   // Site data the page itself keeps. "new" after the test clears website data for the site.
   let ls = 'none';
   try {
@@ -67,6 +75,8 @@
       `iw=${innerWidth}`,
       `me=${rect('report')}`,
       `w=${rect('w')}`,
+      `end=${rect('end')}`,
+      `ih=${innerHeight}`,
       `ins=${Math.round(scroller())}`,
       `open=${open === undefined ? '-' : open ? 1 : 0}`,
       `link=${window.hits.link}`,

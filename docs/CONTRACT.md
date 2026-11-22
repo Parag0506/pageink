@@ -145,6 +145,12 @@ createUi: CreateUi
 Plain DOM inside `host.mount`. No framework. Works with pen, touch, mouse and keyboard.
 Touch targets are at least 44 px on coarse pointers. The bar hides after `barHideMs` and returns on
 `wake()`.
+The bar is fixed to one edge by style rules alone, so it stays on screen through rotation and
+resize. The grip moves it to another edge, and a drag is held inside the screen. The one node
+outside `host.mount` is `.iu-room` (`room.ts`), an empty box beside the mount in the same shadow
+root. While the bar is shown at the bottom edge it sits below the page's content and lets the
+page scroll on by the height the bar covers (DESIGN 8). It is fitted from resize and
+intersection observers, never on scroll, and it changes no box or style of the page.
 
 ### notes/  (imports: strokes)
 
@@ -347,7 +353,7 @@ https://github.com/mdn/browser-compat-data/blob/main/webextensions/manifest/cont
 | Stub size, minified, every browser          | at most 3,072 B (`test/stub-size.test.ts`)                                                                                        | 3,051 B in Chrome, Edge and Firefox, 3,066 B in Safari                  |
 | First read (`content/boot.js`)              | under 7,300 B (`test/stub-size.test.ts`)                                                                                          | 7,169 B, every browser                                                  |
 | Viewer (`content/loader.js`), minified      | under 118,885 B (`test/stub-size.test.ts`)                                                                                        | 118,777 B (43,707 B gzip), every browser                                |
-| Tools (`content/tools.js`), minified        | under 81,000 B (`test/stub-size.test.ts`)                                                                                         | 80,898 B (30,921 B gzip), every browser                                 |
+| Tools (`content/tools.js`), minified        | under 82,925 B (`test/stub-size.test.ts`)                                                                                         | 82,823 B (31,739 B gzip), every browser                                 |
 | Ink visible after its anchor content exists | within 50 ms, when the page's first layout allows                                                                                 | `docs/RESULTS.md`, with the page's own time to first paint it           |
 | Ink visible after its content's first paint | same frame, or within one frame (16.7 ms), in every case                                                                          | `docs/RESULTS.md`                                                       |
 | Script on scroll, normal pages              | none                                                                                                                              | `docs/RESULTS.md`                                                       |

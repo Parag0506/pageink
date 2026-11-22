@@ -184,6 +184,67 @@ describe('visual check', () => {
   }
 });
 
+describe('rotation and resize', () => {
+  // The bar is fixed to an edge by style rules, so it follows the screen with no script.
+  const SIZES: [number, number][] = [
+    [1366, 1024],
+    [1024, 1366],
+    [1194, 834],
+    [834, 1194],
+    [375, 1024],
+    [896, 414],
+    [414, 896],
+    [568, 320],
+    [320, 568],
+  ];
+  const check = async (edge: string, coarse: boolean) => {
+    cleanup.push(() => page.viewport(414, 896));
+    const { q, mount } = mountInLayer({ draw: true, tray: 1 });
+    const grip = q<HTMLButtonElement>('.grip');
+    for (let i = 0; i < 4 && q('.iu').getAttribute('data-edge') !== edge; i++) grip.click();
+    for (const [w, h] of SIZES) {
+      await page.viewport(w, h);
+      const at = `${edge} edge at ${w}x${h}`;
+      expect(q('.iu').getAttribute('data-edge')).toBe(edge);
+      const bar = q('.bar').getBoundingClientRect();
+      const btns = [...mount.querySelectorAll('.bar > button')].filter((b) => !(b as HTMLElement).hidden);
+      expect(btns.length).toBeGreaterThanOrEqual(11);
+      for (const b of btns) {
+        const r = b.getBoundingClientRect();
+        const label = `${b.getAttribute('aria-label')}, ${at}`;
+        expect(r.width, label).toBeGreaterThan(0);
+        expect(r.left, label).toBeGreaterThanOrEqual(0);
+        expect(r.top, label).toBeGreaterThanOrEqual(0);
+        expect(r.right, label).toBeLessThanOrEqual(innerWidth);
+        expect(r.bottom, label).toBeLessThanOrEqual(innerHeight);
+        // Inside the bar's own box too, so it is drawn on the bar and not loose on the page.
+        expect(r.left, label).toBeGreaterThanOrEqual(bar.left);
+        expect(r.right, label).toBeLessThanOrEqual(bar.right);
+        expect(r.top, label).toBeGreaterThanOrEqual(bar.top);
+        expect(r.bottom, label).toBeLessThanOrEqual(bar.bottom);
+        if (coarse && !b.classList.contains('grip')) {
+          expect(r.width, label).toBeGreaterThanOrEqual(44);
+          expect(r.height, label).toBeGreaterThanOrEqual(44);
+        }
+      }
+    }
+  };
+  for (const edge of ['bottom', 'left', 'top', 'right'] as const) {
+    test(`on the ${edge} edge every bar button stays on screen at every size`, () => check(edge, false));
+    // Only CDP can make the pointer coarse at run time.
+    test.runIf(isChromium)(`the same on the ${edge} edge with touch sizes`, async () => {
+      const c = session();
+      await c.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
+      await c.send('Emulation.setEmulatedMedia', { features: [{ name: 'pointer', value: 'coarse' }] });
+      cleanup.push(async () => {
+        await c.send('Emulation.setEmulatedMedia', { features: [] });
+        await c.send('Emulation.setTouchEmulationEnabled', { enabled: false });
+      });
+      await check(edge, true);
+    });
+  }
+});
+
 describe('narrow screens', () => {
   for (const edge of ['right', 'left', 'bottom', 'top'] as const) {
     test(`the selection row stays on screen with the bar on the ${edge} edge`, async () => {

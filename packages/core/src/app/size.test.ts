@@ -37,8 +37,12 @@ const here = (p: string) => fileURLToPath(new URL(p, import.meta.url));
 export const VIEW_BUDGET = 110_771;
 /** The view as the browser loads it from a split build: the entry and the shared chunks it imports. */
 export const VIEW_SPLIT_BUDGET = 115_365;
-/** Measured at 79,969 B once capture gained its optional stroke probe calls. */
-export const TOOLS_BUDGET = 80_500;
+/**
+ * Measured at 79,969 B once capture gained its optional stroke probe calls. Room at the end of
+ * the page for a bar at the bottom edge, a grip drag held inside the screen, and a bar that
+ * wraps into a second column on short screens added 1.9 KB: 80,441 B to 82,370 B.
+ */
+export const TOOLS_BUDGET = 82_500;
 
 async function bundle(entry: string, external: (id: string) => boolean) {
   const out = await build({

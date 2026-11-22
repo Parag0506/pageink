@@ -2,6 +2,7 @@ import { NAME } from '../brand';
 import { addSheet, rootOf } from '../css';
 import type { CreateUi, InkColor, InkState, Tool, TrayItem, Ui, UiHost } from '../types';
 import { iconNode } from './icons';
+import { createRoom } from './room';
 import { CSS } from './style';
 import { inkThumb } from './thumb';
 
@@ -282,6 +283,7 @@ export const createUi: CreateUi = (host: UiHost): Ui => {
     setA(root, 'data-edge', e);
     setA(bar, 'aria-orientation', e === 'left' || e === 'right' ? 'vertical' : 'horizontal');
     wake();
+    fitRoom();
   }
 
   // Roving focus inside the toolbar: one tab stop, arrows move between buttons.
@@ -300,6 +302,10 @@ export const createUi: CreateUi = (host: UiHost): Ui => {
   let hover = false;
   let dragging = false;
   let timer: ReturnType<typeof setTimeout> | undefined;
+
+  // A bar shown at the bottom edge covers the end of the page, so the page gets room to scroll on.
+  const room = createRoom(host.mount, bar);
+  const fitRoom = (): void => room.set(edge === 'bottom' && !hidden);
 
   function confirmClear(on: boolean): void {
     for (const m of main) m.hidden = on;
@@ -391,6 +397,7 @@ export const createUi: CreateUi = (host: UiHost): Ui => {
     root.classList.toggle('hid', h);
     setA(hdl, 'aria-hidden', h ? null : 'true');
     hdl.tabIndex = h ? 0 : -1;
+    fitRoom();
   }
 
   // One timer, restarted by activity. Nothing polls: if the bar cannot hide
@@ -735,14 +742,18 @@ export const createUi: CreateUi = (host: UiHost): Ui => {
     }
   };
 
-  // Drag the grip to another edge.
+  // Drag the grip to another edge. The bar follows the pointer and never leaves the screen:
+  // `lim` is how far it can go each way from where the drag began.
   let dragMoved = false;
   let start = { x: 0, y: 0 };
+  let lim = { l: 0, r: 0, t: 0, b: 0 };
   const onGripDown = (e: PointerEvent) => {
     if (e.button !== 0) return;
     dragging = true;
     dragMoved = false;
     start = { x: e.clientX, y: e.clientY };
+    const r = bar.getBoundingClientRect();
+    lim = { l: -r.left, r: win.innerWidth - r.right, t: -r.top, b: win.innerHeight - r.bottom };
     try {
       grip.setPointerCapture(e.pointerId);
     } catch {
@@ -756,14 +767,17 @@ export const createUi: CreateUi = (host: UiHost): Ui => {
     if (!dragMoved && Math.hypot(dx, dy) < 6) return;
     dragMoved = true;
     bar.classList.add('drag');
-    const base = edge === 'bottom' || edge === 'top' ? 'translateX(-50%)' : 'translateY(-50%)';
-    bar.style.transform = `${base} translate(${dx}px,${dy}px)`;
+    const x = Math.max(lim.l, Math.min(lim.r, dx));
+    const y = Math.max(lim.t, Math.min(lim.b, dy));
+    bar.style.transform = `translate(${x}px,${y}px)`;
   };
   const onGripUp = (e: PointerEvent) => {
     if (!dragging) return;
     dragging = false;
     bar.classList.remove('drag');
     bar.style.transform = '';
+    // A drag the browser took over ends where the bar was. Its last point says nothing.
+    if (e.type === 'pointercancel') return;
     if (!dragMoved) {
       // A tap on the grip with a pen or finger moves the bar to the next edge.
       if (e.pointerType !== 'mouse' && e.type === 'pointerup') {
@@ -898,6 +912,7 @@ export const createUi: CreateUi = (host: UiHost): Ui => {
       for (const f of offFront) f();
       actions.clear();
       rows.clear();
+      room.destroy();
       root.remove();
       sheet.remove();
     },

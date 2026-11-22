@@ -205,6 +205,14 @@ the re-anchoring.
   undo and redo.
 - **The floating bar** is small, hides itself after a few seconds without ink input, and comes back on
   pen hover or pen-down. It lives in the same shadow root as the overlay.
+- **The bar never hides the page for good.** It sits on one edge of the screen: the bottom on touch
+  screens, the right elsewhere. The grip moves it: a tap sends it to the next edge, a drag with pen,
+  finger or mouse to the nearest one. It cannot leave the screen, and style rules keep it on its edge
+  through rotation and resize. The edge is kept for the page session and nothing is stored. A bar
+  shown at the bottom keeps room at the end of the page, so the last line scrolls clear of it. The
+  room is one empty box in the overlay. No box or style of the page is touched, a page that locks its
+  scrolling is left alone, and a page that does not scroll gets room only where a new scrollbar
+  takes no space.
 - **Never in the way:** buttons, links and form fields on the page stay tappable with the pen unless a
   stroke is already in progress. Palm contact is ignored while a pen is down. Drags on sliders,
   scrollbars, draggable items, media controls, selection handles and parts marked `data-ink-off` go
