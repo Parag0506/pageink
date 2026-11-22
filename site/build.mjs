@@ -17,7 +17,19 @@ const repo = resolve(here, '..');
  * { name: 'Chrome Web Store', url: 'https://...' }. While the list is empty the home page shows
  * no store links and says the extension is built from source.
  */
-const STORES = [];
+const STORES = [
+  {
+    name: 'Chrome Web Store',
+    url: 'https://chromewebstore.google.com/detail/pageink/okegfngejejaddeaobgpamojcdddlmgf',
+  },
+  {
+    name: 'Microsoft Edge Add-ons',
+    url: 'https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo',
+  },
+];
+
+/** What is still on its way to a store, as one sentence. An empty string leaves it out. */
+const IN_REVIEW = 'The Firefox add-on and the Safari app for iPad and Mac are in review.';
 
 /** The one-minute film of the product in use. An empty string leaves the link out. */
 const FILM = 'https://www.youtube.com/watch?v=7c85j0Y0f2Q';
@@ -363,7 +375,8 @@ function getIt(f) {
       throw new Error('Each STORES entry needs a name and an https url');
     return `<li><a href="${esc(s.url)}">${esc(s.name)}</a></li>`;
   });
-  return `<ul>\n${items.join('\n')}\n</ul>\n<p>${source} shows how to build it yourself.</p>`;
+  const soon = IN_REVIEW ? `${esc(IN_REVIEW)} ` : '';
+  return `<ul>\n${items.join('\n')}\n</ul>\n<p>${soon}${source} shows how to build it yourself.</p>`;
 }
 
 /** Every sentence here restates README.md or PRIVACY.md. Change those first, then this. */

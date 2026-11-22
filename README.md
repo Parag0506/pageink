@@ -9,8 +9,10 @@ reading an open PDF once more for its viewer, the extension talks to nobody unle
 cloud, and then only to that cloud. [PRIVACY.md](PRIVACY.md) lists each privacy fact and the test or
 check behind it.
 
-PageInk is not in any browser store yet. [Install from source](#install-from-source) shows how to build
-it and load it into Chrome, Edge, Firefox or Safari.
+Get PageInk from the [Chrome Web Store](https://chromewebstore.google.com/detail/pageink/okegfngejejaddeaobgpamojcdddlmgf)
+or from [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo).
+The Firefox add-on and the Safari app for iPad and Mac are in review. [Install from source](#install-from-source)
+shows how to build it and load it into any of the four.
 
 ![PageInk in use: handwriting on an article, a highlight that follows the words, and the ink coming back after a reload](docs/media/preview.webp)
 
@@ -99,7 +101,7 @@ Ink visible over 50 ms on stress-wikipedia (200 notes): 63.1 ms cold and 57.1 ms
 
 ## Install from source
 
-There are no store listings yet. Build the extension, then load it into your browser.
+Build the extension, then load it into your browser.
 
 ```
 corepack enable
@@ -342,8 +344,8 @@ on an iPad simulator. Some things still need checking or doing:
   on an unsigned extension ([apple/README.md](apple/README.md)).
 - **The Safari app's cloud sign-in** has not been tried with real iOS client ids. The list is at the
   end of [docs/CLOUD_SETUP.md](docs/CLOUD_SETUP.md).
-- **Google sign-in.** In a store build, Google sign-in works only for test accounts until Google has
-  approved the app ([docs/CLOUD_SETUP.md](docs/CLOUD_SETUP.md)).
+- **Google sign-in.** Google's sign-in screen does not show the app's name or logo, because the
+  branding is not verified ([docs/CLOUD_SETUP.md](docs/CLOUD_SETUP.md)).
 - **Only real input draws.** Input a page script makes is ignored, so tools that drive a page with
   made-up events cannot write, erase or press the bar.
 - **Translated pages.** Firefox and Safari leave no sign we can read when they translate a page that
