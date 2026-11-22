@@ -209,9 +209,7 @@ test('a deleted passage puts the note in the tray, and Place re-anchors it with 
   await page.goto('about:blank');
   await page.goto(`${url}#gone`);
   // Once the page settles the badge offers the moved note.
-  await expect
-    .poll(async () => (await layerInfo(page))?.badge, { timeout: 8000 })
-    .toEqual({ hidden: false, text: '1' });
+  await expect.poll(async () => (await layerInfo(page))?.badge).toEqual({ hidden: false, text: '1' });
   await page.screenshot({ path: shotPath('tray-badge') });
   const badge = (await layerPoint(page, '.badge'))!;
   await page.mouse.click(badge.x, badge.y);

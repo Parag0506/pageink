@@ -78,9 +78,7 @@ test('a note on a blank page keeps a thumbnail of at most 8 KB', async ({ contex
   // in front: the first-run guide's tab opened before it (launch in fixtures.ts waits for that).
   await stroke(page, ring({ x: 400, y: 300 }, 80, 50));
   await expect.poll(async () => (await allNotes(ext)).length).toBe(1);
-  await expect
-    .poll(async () => (await allNotes(ext))[0]?.thumb ?? '', { timeout: 8000 })
-    .toMatch(/^data:image\//);
+  await expect.poll(async () => (await allNotes(ext))[0]?.thumb ?? '').toMatch(/^data:image\//);
   const n = (await allNotes(ext))[0]!;
   console.log(`blank page note: anchor ${n.anchor.type}, thumbnail ${n.thumb!.length} characters`);
   expect(n.anchor.type).toBe('viewport');

@@ -378,11 +378,13 @@ test('on a browser that cannot run PDF.js, the built-in viewer stays with no off
   });
   await page.goto(`${srv.url}/doc.pdf`);
   await expect.poll(() => framed).toBeGreaterThan(0);
-  // The viewer says so at once. Waiting for the 15 second fallback would fail here, with room
-  // for a slow machine below it.
+  // The viewer says it cannot run, and the frame goes with no offer. The other way a frame goes
+  // is the fallback after 15 seconds (READY_MS in src/content/pdf.ts), and that one leaves an
+  // offer in the same task. So the offer tells the two apart, not the time it took, and the
+  // wait is long enough to see the fallback if the viewer never spoke.
   await expect
-    .poll(() => page.frames().some((f) => f.url().includes('pdf.html')), { timeout: 10_000 })
+    .poll(() => page.frames().some((f) => f.url().includes('pdf.html')), { timeout: 30_000 })
     .toBe(false);
+  expect(await page.locator('ink-pdf-offer').count()).toBe(0);
   await expect(page.locator('body iframe')).toHaveCount(0);
-  await expect(page.locator('ink-pdf-offer')).toHaveCount(0);
 });

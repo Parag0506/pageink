@@ -88,7 +88,7 @@ test('folder sync: pages are pushed to the folder, another device’s strokes an
 
   // The background pushes the page by itself after a short pause.
   const file = `${hashKey(url)}.ink.json`;
-  await expect.poll(() => list(opt), { timeout: 10_000 }).toEqual([file]);
+  await expect.poll(() => list(opt)).toEqual([file]);
   const pushed = JSON.parse(await readFile(opt, file)) as Rec;
   expect(pushed.key).toBe(url);
   expect(pushed.notes[0]!.strokes).toHaveLength(1);

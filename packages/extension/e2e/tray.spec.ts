@@ -18,9 +18,7 @@ test('a moved note shows a marker at its height on the page edge that opens the 
   await page.goto(url);
   await expect.poll(async () => (await layerInfo(page))?.notes.length ?? -1).toBe(0);
   // The marker waits until the page has settled, like the badge.
-  await expect
-    .poll(() => inLayer(page, (root) => root.querySelectorAll('.mks .mk').length), { timeout: 8000 })
-    .toBe(1);
+  await expect.poll(() => inLayer(page, (root) => root.querySelectorAll('.mks .mk').length)).toBe(1);
 
   const m = (await inLayer(page, (root) => {
     const b = root.querySelector<HTMLButtonElement>('.mks .mk')!;

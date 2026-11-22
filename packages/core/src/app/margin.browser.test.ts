@@ -89,7 +89,8 @@ describe('margin notes come back where they were written', () => {
         expect(g1 - g0).toBeGreaterThan(70);
         const x0 = (g0 + g1) / 2 - 24;
         await stroke(line([x0, g.y - 8], [x0 + 48, g.y - 4]));
-        await stroke(line([x0, g.y + 4], [x0 + 44, g.y + 8]));
+        // Close to the first on the input clock, so where both are ink they are one note.
+        await stroke(line([x0, g.y + 4], [x0 + 44, g.y + 8]), 'pen', 0, { after: 200 });
         await until(() => a.notes().length === 1, 'note');
         await settle();
         const n = a.notes()[0]!;
@@ -338,8 +339,10 @@ describe('a note beside a formula centred in its column', () => {
     // One after the other on the input clock, however slowly the machine delivers them.
     for (const [i, pts] of strokes.entries()) await stroke(pts, 'pen', 0, i ? { after: 200 } : {});
     await until(() => rig.notes().length > 0, 'note');
-    // Long enough for the page to change and the notes to be placed from their anchors.
-    await wait(500);
+    // The page has changed three more times, and each change places the notes from their anchors.
+    const ticks = (): number => Number(document.getElementById('clock')!.textContent);
+    const seen = ticks();
+    await until(() => ticks() >= seen + 3, 'three changes of the page');
     window.clearInterval(clock);
     await settle();
     expect(rig.notes().length).toBe(1);

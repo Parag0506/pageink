@@ -163,8 +163,8 @@ for (const p of ['google', 'onedrive'] as const) {
     await sync(b);
     await sync(a);
     expect(notesIn(p)).toHaveLength(3);
-    await expect.poll(async () => (await layerInfo(pageA))?.notes.length, { timeout: 10_000 }).toBe(3);
-    await expect.poll(async () => (await layerInfo(pageB))?.notes.length, { timeout: 10_000 }).toBe(3);
+    await expect.poll(async () => (await layerInfo(pageA))?.notes.length).toBe(3);
+    await expect.poll(async () => (await layerInfo(pageB))?.notes.length).toBe(3);
 
     // Disconnect keeps the files and removes every token.
     await a.opt.bringToFront();
@@ -320,7 +320,7 @@ test('lock on with two devices: sealed files, a wrong password refused, the righ
     )
     .toBe(true);
   await sync(a);
-  await expect.poll(async () => (await layerInfo(pageA))?.notes.length, { timeout: 10_000 }).toBe(2);
+  await expect.poll(async () => (await layerInfo(pageA))?.notes.length).toBe(2);
 
   await close(a);
   await close(b);

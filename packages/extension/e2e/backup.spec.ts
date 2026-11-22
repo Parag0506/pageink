@@ -154,7 +154,7 @@ test('a page with ink pulls what another device wrote, and a library delete stic
   await stroke(page, ring(centre(w), w.w / 2 + 8, w.h / 2 + 6));
   await expect.poll(async () => (await layerInfo(page))?.notes.length).toBe(1);
   const file = `${hashKey(url)}.ink.json`;
-  await expect.poll(() => files(opt), { timeout: 10_000 }).toEqual([file]);
+  await expect.poll(() => files(opt)).toEqual([file]);
   await page.close();
 
   // Another device adds a stroke and writes the file. Nobody asks for a sync.
@@ -168,7 +168,7 @@ test('a page with ink pulls what another device wrote, and a library delete stic
   // Opening the page is enough: it reports in and the background pulls its file.
   const again = await context.newPage();
   await again.goto(url);
-  await expect.poll(async () => (await layerInfo(again))?.notes[0]?.strokes, { timeout: 10_000 }).toBe(2);
+  await expect.poll(async () => (await layerInfo(again))?.notes[0]?.strokes).toBe(2);
   await again.close();
 
   // Delete from the library: tombstones, so the next sync cannot bring the notes back.

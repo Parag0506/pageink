@@ -48,7 +48,7 @@ test('two tabs on one page: a stroke in one shows in the other, and none is lost
   ];
   for (const [wa, wb] of words) await Promise.all([circle(a, wa!), circle(b, wb!)]);
   const key = pageKeyOf(url);
-  await expect.poll(async () => strokes((await readStorage(ext, [key]))[key]), { timeout: 10_000 }).toBe(8);
+  await expect.poll(async () => strokes((await readStorage(ext, [key]))[key])).toBe(8);
   await expect.poll(async () => (await layerInfo(a))?.notes.reduce((k, n) => k + n.strokes, 0)).toBe(8);
   await expect.poll(async () => (await layerInfo(b))?.notes.reduce((k, n) => k + n.strokes, 0)).toBe(8);
   void tabId;

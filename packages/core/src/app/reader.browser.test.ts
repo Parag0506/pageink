@@ -183,13 +183,16 @@ describe('pictures of blank areas', () => {
 
   test('a picture the browser refuses at first is asked for again', async () => {
     const { rig, captureVisible } = await blankNote({}, [undefined, undefined]);
-    await until(() => !!rig.notes()[0]!.thumb, 'thumb', 6000);
+    // The asks are 120, 600 and 1500 ms apart on real timers (addThumb in tools.ts).
+    await until(() => !!rig.notes()[0]!.thumb, 'thumb');
     expect(captureVisible).toHaveBeenCalledTimes(3);
   });
 
   test('after three refusals it stops asking and the note has no picture', async () => {
     const { rig, captureVisible } = await blankNote({}, [undefined, undefined, undefined, undefined]);
-    await until(() => captureVisible.mock.calls.length === 3, 'three asks', 6000);
+    await until(() => captureVisible.mock.calls.length === 3, 'three asks');
+    // Longer than the longest gap between two asks. A fourth ask that came even later would pass
+    // here wrongly. A busy machine cannot make this fail.
     await wait(2000);
     expect(captureVisible).toHaveBeenCalledTimes(3);
     expect(rig.notes()[0]!.thumb).toBeUndefined();
