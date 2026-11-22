@@ -1,0 +1,293 @@
+/*
+ * One stylesheet for both pages. Colours are the brand colours in brand/README.md.
+ * No fonts, pictures or styles are loaded from another server.
+ */
+:root {
+  color-scheme: light dark;
+  --ground: #f8efdc;
+  --panel: #ffffff;
+  --text: #2f241c;
+  --line: #e4cfa9;
+  --accent: #9a5530;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #2a2420;
+    --panel: rgb(248 239 220 / 0.06);
+    --text: #f8efdc;
+    --line: rgb(228 207 169 / 0.3);
+    --accent: #e0a77b;
+  }
+}
+
+/* Plain elements. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font: 1.0625rem / 1.6 var(--sans);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 2rem 0 0.75rem;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+h1 {
+  margin: 1rem 0 1.5rem;
+  font-size: 2.5rem;
+}
+
+h2 {
+  margin: 3rem 0 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: 1.625rem;
+}
+
+p,
+ul,
+table {
+  margin: 0 0 1.1rem;
+}
+
+ul {
+  padding-left: 1.25rem;
+}
+
+li {
+  margin-bottom: 0.4rem;
+}
+
+li::marker {
+  color: var(--accent);
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 0.12em;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+code {
+  padding: 0.1em 0.3em;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.875em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+figure {
+  margin: 0;
+}
+
+figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+th,
+td {
+  padding: 0.6rem 0.75rem 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  font-weight: 600;
+}
+
+/* The parts of a page. */
+
+.top,
+main,
+.foot {
+  width: min(100% - 2.5rem, 46rem);
+  margin-inline: auto;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-block: 2rem 1rem;
+}
+
+.logo {
+  display: block;
+  margin: 0;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+main {
+  padding-block: 1rem 3rem;
+}
+
+.lead {
+  font-family: var(--serif);
+  font-size: 1.75rem;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.shots {
+  display: grid;
+  gap: 1.25rem;
+  margin-block: 2rem;
+}
+
+.shots img {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.panel {
+  margin-top: 3rem;
+  padding: 1.5rem 1.5rem 0.5rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.panel h2 {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.panel code {
+  background: none;
+}
+
+.foot {
+  padding-block: 1.5rem 3rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9375rem;
+}
+
+.foot p {
+  margin: 0.75rem 0 0;
+}
+
+@media (min-width: 44rem) {
+  .shots {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  td:first-child {
+    width: 55%;
+  }
+}
+
+/* On a narrow screen each table row becomes a short block, so nothing scrolls sideways. */
+@media (max-width: 43.99rem) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .lead {
+    font-size: 1.4rem;
+  }
+
+  .panel {
+    padding-inline: 1rem;
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+  }
+
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  tr {
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  td {
+    padding: 0;
+    border: 0;
+  }
+
+  td + td {
+    margin-top: 0.35rem;
+  }
+
+  td + td::before {
+    content: attr(data-label) ": ";
+    font-weight: 600;
+  }
+}

@@ -247,11 +247,16 @@ backup. Neither package is on npm yet.
 | `testset/`            | The anchor test set: page pairs, note generator, scorer and results.                        |
 | `bench/`              | The speed bench: load cost, time to ink, scroll and stress.                                 |
 | `docs/`               | Design, record format, architecture and module contract, results.                           |
+| `site/`               | The home page and the privacy page, as plain files made by `site/build.mjs`.                |
 | `scripts/`            | Results pages, the NOTICE check, the network scan, the CI test summary, a typecheck helper. |
 
 Start with [docs/DESIGN.md](docs/DESIGN.md) for what the product does and why,
 [docs/FORMAT.md](docs/FORMAT.md) for the record format, and [docs/CONTRACT.md](docs/CONTRACT.md) for the
 architecture and module contract.
+
+`site/` is the project's home page: a start page and the privacy policy. The privacy page is made from
+`PRIVACY.md` at build time, so the two cannot differ. Build it with `node site/build.mjs` and open
+`site/dist/index.html`. It needs no install. `.github/workflows/pages.yml` publishes it with GitHub Pages.
 
 ## Development
 
@@ -276,6 +281,7 @@ From the repository root. Commands use `corepack pnpm` so everyone runs the pinn
 | Speed bench, quick gate, real extension            | `corepack pnpm --filter pageink-bench run bench --ext real --anchor core --quick --gate --out /tmp/bench` |
 | Refresh the results pages                          | `corepack pnpm results`                                                                                   |
 | Check NOTICE against the bundles                   | `node scripts/check-notice.mjs`                                                                           |
+| Home page and privacy page                         | `node site/build.mjs`                                                                                     |
 | Safari app, unsigned build                         | `corepack pnpm apple`                                                                                     |
 | Safari app unit tests                              | `corepack pnpm apple test`                                                                                |
 

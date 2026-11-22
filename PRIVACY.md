@@ -183,6 +183,11 @@ Use requirements. Your data is used only to show, keep and sync your own notes. 
 is not used for advertising. It is not used to decide on credit or loans. Nobody but you reads it:
 it goes to nobody else, and we receive none of it.
 
+PageInk's use of information received from Google APIs follows the
+[Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy),
+including its Limited Use requirements. From Google it receives only the files it made in your Drive
+and your account's email address, and it uses them only as said under "When you connect a cloud".
+
 ## Contact
 
-Questions about privacy: open an issue. Security problems: see [SECURITY.md](SECURITY.md).
+Questions about privacy: [open an issue](https://github.com/Parag0506/pageink/issues). Security problems: see [SECURITY.md](SECURITY.md).
