@@ -292,8 +292,10 @@ Without `--out`, the test set and the bench write over the committed results in 
 
 The soak finds tests that fail now and then. It runs each suite `--runs` times with retries off, half
 of them while `--load` busy workers keep the CPU full, as on a slow shared runner, and writes
-`soak.md`: every test that failed at least once, how often, loaded or not, and what it said.
-`node scripts/soak.mjs --list` names the suites. `-- <file>` after the options soaks one test file.
+`soak.md`: every test that failed at least once, how often, loaded or not, and what it said. It also
+lists tests that passed with a note: a time budget that was not judged because other work had the
+machine, or a browser that had to be started twice. `node scripts/soak.mjs --list` names the suites.
+`-- <file>` after the options soaks one test file.
 
 Playwright needs its browsers once: `corepack pnpm exec playwright install chromium firefox webkit`. On
 Linux, add `--with-deps`. The extension's `test` and `test:e2e` scripts build first. `install` and the
