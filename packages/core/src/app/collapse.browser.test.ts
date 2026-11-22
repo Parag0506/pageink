@@ -463,16 +463,17 @@ group('the top layer: modal dialogs and popovers', () => {
     );
     const { placer } = rig();
     await settle();
-    // Pages that never open one have no second host.
+    // Pages that never open one have no top layer hosts.
     expect(hosts()).toBe(1);
     ($('dlg') as HTMLDialogElement).showModal();
     const n = noteOver(wordBox($('dp'), 'guava'));
     placer.setNotes([n]);
     await settle();
     expect(state(placer, n)).toBe('placed');
-    expect(hosts()).toBe(2);
-    const top = [...document.querySelectorAll('ink-layer')].find((h) => h.matches(':popover-open'));
-    expect(top).toBeTruthy();
+    // Two in the top layer: the highlighter's, which blends with the dialog, and the pen's above it.
+    expect(hosts()).toBe(3);
+    const top = [...document.querySelectorAll('ink-layer')].filter((h) => h.matches(':popover-open'));
+    expect(top.length).toBe(2);
     const g = wordBox($('dp'), 'guava');
     expect(isInk((await shot()).at(g.left + 3, g.top + g.height / 2))).toBe(true);
     // Input still reaches the dialog.

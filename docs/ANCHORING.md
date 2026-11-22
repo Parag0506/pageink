@@ -164,7 +164,8 @@ follows the same rules: describe never anchors to content that is transparent or
 the pen, and ink written on a menu or panel open over the page anchors to it, not to the page behind.
 One limit remains: `clip-path` is followed only as a box. A simple shape cuts to its own box, a
 circle or ellipse to the box around it, and any other shape to the element's box. Ink on an open
-popover or a modal dialog is drawn in a second host in the top layer, above it. In a browser without
+popover or a modal dialog is drawn in hosts of its own in the top layer, above it: one for the
+highlighter, which blends with the dialog under it, and one for the pen. In a browser without
 the popover top layer, ink on a modal dialog is drawn under it.
 
 **When placement runs again:** window resizes, a `ResizeObserver` on anchor elements, web fonts

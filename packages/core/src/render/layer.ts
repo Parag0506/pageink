@@ -31,10 +31,11 @@ export interface InkLayer extends Layer {
   /** Small quiet handle that opens the tools. Null removes it. */
   setHandle(onOpen: (() => void) | null): void;
   /**
-   * Notes drawn with `pose.top` sit in a second host shown in the browser's top layer, above
-   * a modal dialog or an open popover. Call after a write phase: it shows that host while such
-   * notes exist and removes it when none are left. `raise` shows it again, so it stays above
-   * something the page opened after it. False when this browser has no top layer to use.
+   * Notes drawn with `pose.top` sit in hosts of their own shown in the browser's top layer,
+   * above a modal dialog or an open popover. Call after a write phase: it shows those hosts
+   * while such notes exist and removes them when none are left. `raise` shows them again, so
+   * they stay above something the page opened after them. False when this browser has no top
+   * layer to use.
    */
   syncTop(raise?: boolean): boolean;
   /**
@@ -82,6 +83,7 @@ const hostDecls = (top: boolean): string[] =>
 const SHADOW_CSS = `
 :host{all:initial !important;display:contents !important;pointer-events:none !important;print-color-adjust:exact !important;-webkit-print-color-adjust:exact !important}
 :host([popover]){display:block !important;position:absolute !important;left:0 !important;top:0 !important;width:0 !important;height:0 !important}
+:host([data-hi]){mix-blend-mode:var(--hi-blend,multiply) !important}
 :host::before,:host::after{content:none !important;display:none !important}
 .s{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;z-index:${Z_MAX};pointer-events:none;display:block;margin:0;padding:0;border:0}
 .f{position:fixed}
@@ -115,7 +117,7 @@ function svgEl<K extends keyof SVGElementTagNameMap>(doc: Document, tag: K): SVG
   return doc.createElementNS(SVG_NS, tag);
 }
 
-/** A host with its own shadow root and surfaces: the page layer, or the top layer one. */
+/** A host with its own shadow root and surfaces: the page layer, or one in the top layer. */
 interface Plane {
   host: HTMLElement;
   root: ShadowRoot;
@@ -128,6 +130,8 @@ interface Plane {
   /** Offset of the document surfaces in document space, from measure(). */
   off: Point;
   top: boolean;
+  /** The top layer keeps its highlighter in a host of its own, shown under this one. */
+  hi?: Plane;
 }
 
 /** Where a note's groups live. Coordinates differ per kind. */
@@ -174,6 +178,8 @@ interface NoteView {
   /** Clip paths: in note-local units for the transformed stroke groups, in container units for the rest. */
   clipL?: SVGRectElement;
   clipC?: SVGRectElement;
+  /** The highlighter's clip path, when the highlighter sits in a host of its own. */
+  clipH?: SVGRectElement;
 }
 
 function transformOf(p: Point, s: number): string {
@@ -273,9 +279,12 @@ export const createLayer: CreateLayer = (doc, opts) => {
   const fixC: Container = { kind: 'fix', hi: main.hiFix.g, pen: main.penFix.g, plane: main };
 
   // ---- the top layer ---------------------------------------------------------------
-  // Notes on a modal dialog or an open popover sit in a second host, a manual popover shown
-  // after the page's own, so the browser paints it above them. It takes no input, never
-  // closes the page's popovers, and exists only while such notes do.
+  // Notes on a modal dialog or an open popover sit in hosts of their own, manual popovers shown
+  // after the page's own, so the browser paints them above it. They take no input, never
+  // close the page's popovers, and exist only while such notes do.
+  // A host in the top layer is a stacking context: a surface inside it blends only with what
+  // the host holds. So the highlighter has a host to itself, which blends as a whole with the
+  // dialog under it, and the pen ink sits in a second host above, which never blends.
   const canTop =
     typeof (win as Window & typeof globalThis).HTMLElement?.prototype?.showPopover === 'function';
   let topPlane: Plane | null = null;
@@ -285,43 +294,49 @@ export const createLayer: CreateLayer = (doc, opts) => {
   const topContainers = (): { doc: Container; fix: Container } => {
     if (!topPlane) {
       const t = makePlane(true);
+      const h = makePlane(true);
       topPlane = t;
-      t.host.setAttribute('popover', 'manual');
-      t.host.dataset.theme = current;
-      for (const [k, val] of Object.entries(themeVars(current))) t.host.style.setProperty(k, val);
-      t.view.set(viewCss);
-      topDocC = { kind: 'doc', hi: t.hiDoc.g, pen: t.penDoc.g, plane: t };
-      topFixC = { kind: 'fix', hi: t.hiFix.g, pen: t.penFix.g, plane: t };
+      t.hi = h;
+      h.host.dataset.hi = '';
+      h.host.style.setProperty('mix-blend-mode', 'var(--hi-blend,multiply)', 'important');
+      for (const pl of [h, t]) {
+        pl.host.setAttribute('popover', 'manual');
+        pl.view.set(viewCss);
+      }
+      applyTheme(current);
+      topDocC = { kind: 'doc', hi: h.hiDoc.g, pen: t.penDoc.g, plane: t };
+      topFixC = { kind: 'fix', hi: h.hiFix.g, pen: t.penFix.g, plane: t };
       viewDirty = true;
     }
     return { doc: topDocC as Container, fix: topFixC as Container };
   };
-  const showTop = (): void => {
-    const t = topPlane;
-    if (!t) return;
-    try {
-      if (topShown) t.host.hidePopover();
-    } catch {
-      // Already closed by the browser.
+  /** The hosts of the top layer, in the order they are shown: highlighter, then pen. */
+  const tops = (): Plane[] => (topPlane ? [topPlane.hi as Plane, topPlane] : []);
+  const hideTop = (): void => {
+    for (const t of tops()) {
+      try {
+        if (topShown) t.host.hidePopover();
+      } catch {
+        // Already closed by the browser.
+      }
     }
-    if (!t.host.isConnected) doc.documentElement.append(t.host);
-    try {
-      t.host.showPopover();
-      topShown = true;
-    } catch {
-      topShown = false;
+    topShown = false;
+  };
+  const showTop = (): void => {
+    hideTop();
+    for (const t of tops()) {
+      if (!t.host.isConnected) doc.documentElement.append(t.host);
+      try {
+        t.host.showPopover();
+        topShown = true;
+      } catch {
+        // Not shown. The next pass tries again.
+      }
     }
   };
   const dropTop = (): void => {
-    const t = topPlane;
-    if (!t) return;
-    try {
-      if (topShown) t.host.hidePopover();
-    } catch {
-      // Already closed.
-    }
-    topShown = false;
-    t.host.remove();
+    hideTop();
+    for (const t of tops()) t.host.remove();
   };
   const scrollers = new Map<Element, ScrollerView>();
   const views = new Map<string, NoteView>();
@@ -337,7 +352,7 @@ export const createLayer: CreateLayer = (doc, opts) => {
 
   const applyTheme = (t: Theme): void => {
     current = t;
-    for (const h of topPlane ? [host, topPlane.host] : [host]) {
+    for (const { host: h } of [main, ...tops()]) {
       h.dataset.theme = t;
       for (const [k, v] of Object.entries(themeVars(t))) h.style.setProperty(k, v);
     }
@@ -375,8 +390,8 @@ export const createLayer: CreateLayer = (doc, opts) => {
     if (hx !== hostOff.x || hy !== hostOff.y || !measured) viewDirty = true;
     hostOff.x = hx;
     hostOff.y = hy;
-    const t = topPlane;
-    if (t?.host.isConnected) {
+    for (const t of tops()) {
+      if (!t.host.isConnected) continue;
       const tr = t.host.getBoundingClientRect();
       const tx = tr.left + scroll.x;
       const ty = tr.top + scroll.y;
@@ -407,12 +422,11 @@ export const createLayer: CreateLayer = (doc, opts) => {
         (warped ? '.s{visibility:hidden !important}' : '');
       if (css !== viewCss) {
         viewCss = css;
-        main.view.set(css);
-        topPlane?.view.set(css);
+        for (const pl of [main, ...tops()]) pl.view.set(css);
       }
       // Document surfaces cancel their own offset, for pages that
       // position <html> or give it a margin.
-      for (const pl of topPlane ? [main, topPlane] : [main]) {
+      for (const pl of [main, ...tops()]) {
         const t = `translate(${n1(-pl.off.x)} ${n1(-pl.off.y)})`;
         pl.hiDoc.g.setAttribute('transform', t);
         pl.penDoc.g.setAttribute('transform', t);
@@ -553,12 +567,7 @@ export const createLayer: CreateLayer = (doc, opts) => {
   const move = (v: NoteView, c: Container): void => {
     if (v.c === c) return;
     // Clip paths are found by id inside one shadow root, so a note that changes host gets new ones.
-    if (v.c.plane !== c.plane && v.clipC) {
-      for (const g of [v.hiG, v.penG, v.deco]) g.removeAttribute('clip-path');
-      v.clipC.parentElement?.remove();
-      v.clipL?.parentElement?.remove();
-      v.clipC = v.clipL = undefined;
-    }
+    if (v.c.plane !== c.plane) unclip(v);
     c.hi.append(v.hiG);
     c.pen.append(v.penG, v.deco);
     v.c = c;
@@ -591,43 +600,51 @@ export const createLayer: CreateLayer = (doc, opts) => {
     r.setAttribute('width', n1(Math.max(0, w)));
     r.setAttribute('height', n1(Math.max(0, h)));
   };
+  /** Stop cutting the view and drop its clip paths. */
+  const unclip = (v: NoteView): void => {
+    if (!v.clipC) return;
+    for (const g of [v.hiG, v.penG, v.deco]) g.removeAttribute('clip-path');
+    for (const r of [v.clipC, v.clipL, v.clipH]) r?.parentElement?.remove();
+    v.clipC = v.clipL = v.clipH = undefined;
+  };
   /** Cut the view to its clip box, which follows the anchor's clipping ancestors. */
   const applyClip = (v: NoteView): void => {
     // A marker shows only where its note's content is shown.
     if (v.dk && v.marker) v.dk.hidden = !!v.clip && !intersects(v.clip, v.marker);
-    const groups = [v.hiG, v.penG, v.deco];
     if (!v.clip) {
-      if (!v.clipC) return;
-      for (const g of groups) g.removeAttribute('clip-path');
-      v.clipC.parentElement?.remove();
-      v.clipL?.parentElement?.remove();
-      v.clipC = v.clipL = undefined;
+      unclip(v);
       return;
     }
+    const hi = v.c.plane.hi;
     if (!v.clipC) {
       v.clipC = clipRect(v.c.plane);
       v.clipL = clipRect(v.c.plane);
+      // A clip path is found only inside its own shadow root, so the highlighter's host has a copy.
+      if (hi) v.clipH = clipRect(hi);
     }
-    const urlC = `url(#${v.clipC.parentElement!.id})`;
-    const urlL = `url(#${v.clipL!.parentElement!.id})`;
+    const url = (r: SVGRectElement): string => `url(#${r.parentElement!.id})`;
     const p = toC(v.c, v.clip);
-    setRect(v.clipC, p.x, p.y, v.clip.w, v.clip.h);
     const s = v.scale || 1;
-    setRect(v.clipL!, (p.x - v.at.x) / s, (p.y - v.at.y) / s, v.clip.w / s, v.clip.h / s);
     // Ink groups carry the note transform, so their clip is in note-local units.
-    const local = v.kind === 'ink' ? urlL : urlC;
-    if (v.hiG.getAttribute('clip-path') !== local) {
-      v.hiG.setAttribute('clip-path', local);
-      v.penG.setAttribute('clip-path', local);
+    const ink = v.kind === 'ink';
+    for (const r of [v.clipC, v.clipL!, v.clipH]) {
+      if (!r) continue;
+      if (r === v.clipC || (r === v.clipH && !ink)) setRect(r, p.x, p.y, v.clip.w, v.clip.h);
+      else setRect(r, (p.x - v.at.x) / s, (p.y - v.at.y) / s, v.clip.w / s, v.clip.h / s);
     }
-    if (v.deco.getAttribute('clip-path') !== urlC) v.deco.setAttribute('clip-path', urlC);
+    const local = url(ink ? v.clipL! : v.clipC);
+    for (const [g, u] of [
+      [v.hiG, v.clipH ? url(v.clipH) : local],
+      [v.penG, local],
+      [v.deco, url(v.clipC)],
+    ] as const)
+      if (g.getAttribute('clip-path') !== u) g.setAttribute('clip-path', u);
   };
 
   const dropView = (v: NoteView): void => {
     if (popId === v.note.id) closePop();
     v.dk?.remove();
-    v.clipC?.parentElement?.remove();
-    v.clipL?.parentElement?.remove();
+    unclip(v);
     v.hiG.remove();
     v.penG.remove();
     v.deco.remove();

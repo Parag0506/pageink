@@ -182,7 +182,7 @@ test('a pen drag on a slider goes to the page and writes nothing', async ({ cont
   expect((await layerInfo(page))?.notes ?? []).toHaveLength(2);
 });
 
-test('ink on a modal dialog shows above it, in a host that goes when the dialog closes', async ({
+test('ink on a modal dialog shows above it, in hosts that go when the dialog closes', async ({
   context,
   origin,
 }) => {
@@ -191,7 +191,8 @@ test('ink on a modal dialog shows above it, in a host that goes when the dialog 
   await page.click('#open');
   const w = (await textBox(page, 'persimmon', '#dlg'))!;
   await stroke(page, ring(centre(w), w.w / 2 + 8, w.h / 2 + 6));
-  await expect.poll(() => page.evaluate(() => document.querySelectorAll('ink-layer').length)).toBe(2);
+  // The page's host, and two in the top layer: one for the highlighter, one for the pen.
+  await expect.poll(() => page.evaluate(() => document.querySelectorAll('ink-layer').length)).toBe(3);
   expect(
     await page.evaluate(() =>
       [...document.querySelectorAll('ink-layer')].some((h) => h.matches(':popover-open')),

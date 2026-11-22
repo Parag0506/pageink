@@ -130,7 +130,8 @@ describe.each(lazy.map((b) => [b.name, b] as const))('%s view path', (_n, b) => 
   // page's whole text is read before its first-screen notes are placed. It grew by 395 B to
   // 118,798 B when it started with V8's compile hint, read the page's colours in the first placement
   // until the page has painted, and checked a record without naming its fields unless one fails;
-  // the limit rose by the same. It is 118,777 B since the compile hint was taken out again.
+  // the limit rose by the same. It is 118,777 B since the compile hint was taken out again, and
+  // 118,563 B since the layer host has no box and the top layer has a host for the highlighter.
   // The tools grew by 1,925 B, from 80,898 B to 82,823 B, for the bar: room at the end of the
   // page while the bar is shown at the bottom, a grip drag held inside the screen, and a second
   // column on screens too short for one. Their limit rose by the same.

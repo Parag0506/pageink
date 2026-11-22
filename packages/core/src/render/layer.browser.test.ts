@@ -476,6 +476,86 @@ describe('blending', () => {
       },
     );
   }
+
+  // A host in the top layer is a stacking context, so a surface inside it blends only with
+  // what that host holds. The highlighter of the top layer has a host of its own, which
+  // blends as a whole with the dialog under it. Pen ink sits in a second host and never blends.
+  test.each([
+    ['a modal dialog', ''],
+    [
+      'a modal dialog with a moving part in its corner',
+      'position:absolute;left:0;top:0;width:2px;height:2px;will-change:transform',
+    ],
+  ])('the words show through the highlighter on %s, and pen ink keeps its colour', async (_, part) => {
+    addStyle('html, body { background: #fff !important; margin: 0 !important; }');
+    const d = addEl(
+      'dialog',
+      'position:fixed;left:0;top:0;margin:0;width:300px;height:200px;max-width:none;max-height:none;border:0;padding:0;background:#fff',
+    );
+    addEl('div', 'position:absolute;left:20px;top:20px;width:60px;height:30px;background:#000', d);
+    if (part) addEl('div', part, d);
+    d.showModal();
+    cleanups.push(() => d.close());
+    const l = mkLayer();
+    l.drawMark(
+      note('m', [], { kind: 'textmark', mark: { style: 'highlight', color: 'hi-1' } }),
+      [{ x: 0, y: 10, w: 120, h: 50 }],
+      { top: true },
+    );
+    l.drawNote(note('n', [boxStroke('s1', 'pen', '#ff0000')]), {
+      origin: { x: 30, y: 40 },
+      scale: 1,
+      top: true,
+    });
+    if (!l.syncTop()) return;
+    await frame();
+    await frame();
+    const at = await shown();
+    const onText = at(50, 30);
+    const onPaper = at(100, 30);
+    const onPen = at(50, 45);
+    expect(
+      onText.every((v) => v < 60),
+      `words under the highlighter: rgb(${onText})`,
+    ).toBe(true);
+    expect(onPaper[0]).toBeGreaterThan(200);
+    expect(onPaper[2]).toBeLessThan(150);
+    expect(onPen[0], `pen ink: rgb(${onPen})`).toBeGreaterThan(200);
+    expect(onPen[1]).toBeLessThan(60);
+  });
+
+  test('the highlighter on a modal dialog is cut to its clip box, in its own host', async () => {
+    addStyle('html, body { background: #fff !important; margin: 0 !important; }');
+    const d = addEl(
+      'dialog',
+      'position:fixed;left:0;top:0;margin:0;width:300px;height:200px;max-width:none;max-height:none;border:0;padding:0;background:#fff',
+    );
+    d.showModal();
+    cleanups.push(() => d.close());
+    const l = mkLayer();
+    const yellow = (c: number[]): boolean => c[0]! > 200 && c[1]! > 170 && c[2]! < 150;
+    const m = note('m', [], { kind: 'textmark', mark: { style: 'highlight', color: 'hi-1' } });
+    const h = note('h', [boxStroke('h1', 'hi')]);
+    // A text mark, cut in container units, and a highlighter stroke, cut in the note's own units.
+    l.drawMark(m, [{ x: 0, y: 10, w: 200, h: 40 }], { top: true, clip: { x: 0, y: 0, w: 100, h: 200 } });
+    l.drawNote(h, { origin: { x: 20, y: 100 }, scale: 4, top: true, clip: { x: 0, y: 0, w: 100, h: 200 } });
+    if (!l.syncTop()) return;
+    await frame();
+    await frame();
+    let at = await shown();
+    expect(yellow(at(50, 30))).toBe(true);
+    expect(yellow(at(150, 30))).toBe(false);
+    expect(yellow(at(60, 120))).toBe(true);
+    expect(yellow(at(150, 120))).toBe(false);
+    // The cut goes when the clip does.
+    l.clipNote('m', null);
+    l.clipNote('h', null);
+    await frame();
+    await frame();
+    at = await shown();
+    expect(yellow(at(150, 30))).toBe(true);
+    expect(yellow(at(150, 120))).toBe(true);
+  });
 });
 
 /** Base64 PNG to a Blob. */
