@@ -1,5 +1,6 @@
 // A Vitest reporter for scripts/soak.mjs. It writes one JSON file with every test of the run:
-// project (which names the browser), file, full name, state and error messages. Errors of a
+// project (which names the browser), file, full name, state, error messages and the notes a
+// test added to itself (a budget that was not judged adds one). Errors of a
 // file that never ran its tests, and errors no test owns, are written too.
 // The file to write is named by INK_SOAK_REPORT.
 import { writeFileSync } from 'node:fs';
@@ -25,6 +26,7 @@ export default class SoakReporter {
           ms: Math.round(child.diagnostic()?.duration ?? 0),
           retries: child.diagnostic()?.retryCount ?? 0,
           messages: (r.errors ?? []).map(text),
+          notes: (child.annotations?.() ?? []).map((a) => String(a.message)),
         });
       }
     };

@@ -1,7 +1,9 @@
 // Browser commands for the Vitest browser tests, shared with the embed package.
 // They run on the test server and drive the page through Playwright, which works
 // in every engine, unlike CDP.
+import { availableParallelism, cpus } from 'node:os';
 import type { BrowserCommand } from 'vitest/node';
+import { freeCores } from './src/budget-rule';
 
 /** prefers-reduced-motion, set for the whole page. */
 const reducedMotion: BrowserCommand<[on: boolean]> = async (ctx, on) => {
@@ -96,6 +98,17 @@ const throttle: BrowserCommand<[rate: number]> = async (ctx, rate) => {
   }
 };
 
+/**
+ * How many of the machine's cores sat idle over the next 300 ms, from the system's CPU
+ * counters. A page cannot read them. Budget tests ask before and after a measure, to know
+ * whether other work was running beside it (src/budget-rule.ts).
+ */
+const machine: BrowserCommand<[]> = async () => {
+  const before = cpus();
+  await new Promise((r) => setTimeout(r, 300));
+  return { free: freeCores(before, cpus()), cores: availableParallelism() };
+};
+
 /** The side of the mark the shown command puts in the bottom right corner of the page, in px. */
 const SHOWN_MARK_PX = 8;
 
@@ -158,4 +171,4 @@ const shown: BrowserCommand<[]> = async (ctx) => {
   };
 };
 
-export const commands = { reducedMotion, realMouse, touches, throttle, shown };
+export const commands = { reducedMotion, realMouse, touches, throttle, shown, machine };

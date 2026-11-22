@@ -1,9 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { isSteady, judge, STEADY, scaleOf, type Try } from './budget-rule';
+import { freeCores, isBusy, isSteady, judge, minFreeCores, STEADY, scaleOf, type Try } from './budget-rule';
 
 const REF = 30;
 const BUDGET = { work: 50 };
 const tryOf = (work: number, before = REF, after = REF): Try => ({ values: { work }, before, after });
+/** A try on an 11-core machine with this many cores free before and after. */
+const withFree = (t: Try, before: number, after = before): Try => ({
+  ...t,
+  free: { before, after, cores: 11 },
+});
 
 describe('a time budget', () => {
   it('passes a measure within the budget on a machine like the reference', () => {
@@ -42,28 +47,48 @@ describe('a time budget', () => {
     // Far over the budget, but load came during the measure: it says nothing about the code.
     const j = judge([tryOf(500, 30, 200)], BUDGET, REF);
     expect(j.verdict).toBe('not judged');
-    expect(j.note).toContain('30 then 200 ms');
+    expect(j.note).toContain('calibration 30 then 200 ms');
   });
 
-  it('passes when one steady measure is within the budget, whatever the others say', () => {
-    const tries = [tryOf(500, 30, 200), tryOf(90), tryOf(40)];
+  it('does not judge a measure taken while other work had the cores', () => {
+    expect(minFreeCores(11)).toBe(4);
+    expect(minFreeCores(4)).toBe(2);
+    expect(minFreeCores(2)).toBe(1);
+    expect(isBusy(tryOf(0))).toBe(false);
+    expect(isBusy(withFree(tryOf(0), 9.5))).toBe(false);
+    expect(isBusy(withFree(tryOf(0), 4))).toBe(false);
+    expect(isBusy(withFree(tryOf(0), 9, 3.9))).toBe(true);
+    expect(isBusy(withFree(tryOf(0), 0.3, 10))).toBe(true);
+    // The calibration is steady and close to the reference, as it is on a busy machine, and the
+    // measure is far over: only the free cores tell that it was the machine.
+    const j = judge([withFree(tryOf(140, 33, 35), 0.4)], BUDGET, REF);
+    expect(j.verdict).toBe('not judged');
+    expect(j.note).toContain('other work was running: 0.4 of 11 cores free');
+    // The same measure on a free machine is the code's own and fails.
+    expect(judge([withFree(tryOf(140, 33, 35), 9)], BUDGET, REF).verdict).toBe('fail');
+  });
+
+  it('passes when one measure that may be judged is within the budget, whatever the others say', () => {
+    const tries = [tryOf(500, 30, 200), tryOf(90), withFree(tryOf(300), 1), tryOf(40)];
     expect(judge(tries, BUDGET, REF).verdict).toBe('pass');
     // The order does not matter.
     expect(judge([...tries].reverse(), BUDGET, REF).verdict).toBe('pass');
   });
 
-  it('fails slower code: over the budget every time the machine was steady', () => {
-    const j = judge([tryOf(90), tryOf(500, 30, 200), tryOf(70)], BUDGET, REF);
+  it('fails slower code: over the budget every time the machine was steady and free', () => {
+    const j = judge([tryOf(90), tryOf(500, 30, 200), withFree(tryOf(70), 9)], BUDGET, REF);
     expect(j.verdict).toBe('fail');
-    // It reports the best steady measure.
-    expect(j.note).toContain('best of 2 steady measures');
+    // It reports the best measure judged.
+    expect(j.note).toContain('best of 2 measures judged');
     expect(j.note).toContain('work 70 ms of 50');
   });
 
-  it('judges nothing when no measure was steady, and says so', () => {
-    const j = judge([tryOf(500, 30, 200), tryOf(40, 200, 30), tryOf(40, 0, 30)], BUDGET, REF);
+  it('judges nothing when no measure may be judged, and says why for each', () => {
+    const j = judge([tryOf(500, 30, 200), withFree(tryOf(40), 2), tryOf(40, 0, 30)], BUDGET, REF);
     expect(j.verdict).toBe('not judged');
-    expect(j.note).toContain('each of 3 measures');
+    expect(j.note).toContain('any of 3 measures');
+    expect(j.note).toContain('calibration 30 then 200 ms');
+    expect(j.note).toContain('2 of 11 cores free');
   });
 
   it('needs every named time within its own limit', () => {
@@ -83,5 +108,21 @@ describe('a time budget', () => {
   it('counts a time that was not measured as over its limit', () => {
     const j = judge([{ values: {}, before: REF, after: REF }], BUDGET, REF);
     expect(j.verdict).toBe('fail');
+  });
+});
+
+describe('free cores', () => {
+  const at = (user: number, idle: number) => ({ times: { user, nice: 0, sys: 0, idle, irq: 0 } });
+
+  it('are the idle share of the time the cores spent between two readings', () => {
+    // Four cores over one second: two fully busy, one half busy, one idle.
+    const before = [at(0, 0), at(0, 0), at(0, 0), at(0, 0)];
+    const after = [at(1000, 0), at(1000, 0), at(500, 500), at(0, 1000)];
+    expect(freeCores(before, after)).toBeCloseTo(1.5);
+  });
+
+  it('are all the cores when the counters did not move', () => {
+    const now = [at(5, 5), at(7, 3)];
+    expect(freeCores(now, now)).toBe(2);
   });
 });

@@ -258,12 +258,13 @@ const plain = (s) => s.replace(/\u001b\[[0-9;]*[A-Za-z]/g, '');
 const table = new Map();
 const passes = [];
 
-function note(suite, key, loaded, failed, messages = []) {
+function note(suite, key, loaded, failed, messages = [], notJudged = false) {
   const tests = table.get(suite) ?? new Map();
   table.set(suite, tests);
-  const t = tests.get(key) ?? { runs: 0, unloaded: 0, loaded: 0, messages: new Map() };
+  const t = tests.get(key) ?? { runs: 0, unloaded: 0, loaded: 0, messages: new Map(), notJudged: [0, 0] };
   tests.set(key, t);
   t.runs++;
+  if (notJudged) t.notJudged[loaded ? 1 : 0]++;
   if (!failed) return;
   t[loaded ? 'loaded' : 'unloaded']++;
   for (const m of messages.length ? messages : ['(no message)']) {
@@ -282,7 +283,8 @@ function readVitest(suite, file, loaded) {
     const key = `${t.project ? `[${t.project}] ` : ''}${t.file} > ${t.name}`;
     if (t.state !== 'passed') failures++;
     // A test that passed only on a retry failed once. Retries are off, so this guards the flag.
-    note(suite, key, loaded, t.state !== 'passed' || t.retries > 0, t.messages);
+    const notJudged = (t.notes ?? []).some((n) => n.includes('not judged'));
+    note(suite, key, loaded, t.state !== 'passed' || t.retries > 0, t.messages, notJudged);
   }
   for (const e of r.errors) {
     const at = e.file ? `${e.project ? `[${e.project}] ` : ''}${e.file}` : 'no file';
@@ -302,7 +304,10 @@ function readPlaywright(suite, file, loaded) {
         for (const res of t.results ?? []) {
           if (res.status === 'skipped') continue;
           const msgs = (res.errors ?? []).map((e) => e.message ?? String(e));
-          note(suite, [...here, spec.title].join(' > '), loaded, res.status !== 'passed', msgs);
+          const notJudged = [...(t.annotations ?? []), ...(res.annotations ?? [])].some((a) =>
+            String(a.type).includes('not judged'),
+          );
+          note(suite, [...here, spec.title].join(' > '), loaded, res.status !== 'passed', msgs, notJudged);
         }
       }
     }
@@ -401,6 +406,23 @@ function report() {
       }
     }
   }
+  // A time budget is not judged while other work has the machine. It must not pass for a pass.
+  const unjudged = [];
+  for (const name of names)
+    for (const [key, t] of table.get(name) ?? [])
+      if (t.notJudged[0] + t.notJudged[1])
+        unjudged.push(
+          `| ${name} | ${key.replaceAll('|', '\\|')} | ${t.runs} | ${t.notJudged[0]} | ${t.notJudged[1]} |`,
+        );
+  if (unjudged.length)
+    lines.push(
+      '',
+      'Time budgets that passed without being judged, because the machine was busy or changed pace:',
+      '',
+      '| suite | test | runs | not judged, unloaded | not judged, loaded |',
+      '|---|---|---|---|---|',
+      ...unjudged,
+    );
   lines.push('', '| suite | pass | loaded | minutes | load average at the start |', '|---|---|---|---|---|');
   for (const p of passes)
     lines.push(`| ${p.suite} | ${p.label} | ${p.loaded ? 'yes' : 'no'} | ${p.minutes} | ${p.loadavg} |`);

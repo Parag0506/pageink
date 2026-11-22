@@ -4,7 +4,7 @@
 // track() wraps the window's frame, idle and short timer calls, so quiet() can tell when the
 // code under test has no work scheduled. The browser test setup calls it once per file.
 
-import { beforeAll, expect } from 'vitest';
+import { beforeAll, expect, TestRunner } from 'vitest';
 import { commands } from 'vitest/browser';
 import { judge, TRIES, type Try } from './budget-rule';
 
@@ -119,6 +119,7 @@ export async function until(cond: () => boolean, label = 'condition', ms = WAIT_
 
 declare module 'vitest/browser' {
   interface BrowserCommands {
+    machine(): Promise<{ free: number; cores: number }>;
     shown(): Promise<{
       jpeg: string;
       viewportWidth: number;
@@ -238,8 +239,9 @@ export const BUDGET_TEST = 'budget: ';
  * in ms on a quiet laptop, and `measure` runs the work from scratch and returns the times
  * under the same names. The rule is in budget-rule.ts: the calibration work is timed right
  * before and right after each measure, a limit grows with how much slower than a laptop it
- * ran, a measure taken while the machine changed pace is not judged, and the measure is taken
- * up to three times. Code that got slower fails. Other work on the machine does not.
+ * ran, a measure taken while the machine changed pace or while other work had its cores is not
+ * judged, and the measure is taken up to three times. Code that got slower fails. Other work
+ * on the machine does not.
  *
  * `measure` gets the scale of its limits (1 on a quiet laptop), for waits that grow with the
  * machine. It must start from scratch each time it is called. Only a test named "budget: ..."
@@ -254,21 +256,38 @@ export async function withinBudget<K extends string>(
     throw new Error(`withinBudget() is for tests named "${BUDGET_TEST}...", which run alone: ${name}`);
   }
   const ref = CALIBRATE_REF_MS[engine()];
+  // The free cores come from the test server. A package without the command judges without them.
+  const machine = (commands as { machine?: () => Promise<{ free: number; cores: number }> }).machine;
   const tries: Try[] = [];
   let verdict = judge(tries, budgets, ref);
   for (let i = 0; i < TRIES && verdict.verdict !== 'pass'; i++) {
+    const freeBefore = await machine?.();
     const before = calibrate(5);
     // The calibration is a long task of its own. It is over before the measure starts.
     await frame();
     const values = await measure(Math.max(1, before / ref));
-    tries.push({ values, before, after: calibrate(5) });
+    const after = calibrate(5);
+    const freeAfter = await machine?.();
+    tries.push({
+      values,
+      before,
+      after,
+      ...(freeBefore && freeAfter
+        ? { free: { before: freeBefore.free, after: freeAfter.free, cores: freeAfter.cores } }
+        : {}),
+    });
     verdict = judge(tries, budgets, ref);
   }
   const line = `${name.slice(name.indexOf(BUDGET_TEST))}: ${verdict.note}`;
   if (verdict.verdict === 'fail') throw new Error(line);
-  // A budget that was not judged must not look like one that was kept.
-  if (verdict.verdict === 'not judged') console.warn(line);
-  else console.info(line);
+  if (verdict.verdict === 'pass') {
+    console.info(line);
+    return;
+  }
+  // A budget that was not judged must not look like one that was kept: the test carries a note
+  // that reporters show, and the soak counts.
+  console.warn(line);
+  await TestRunner.getCurrentTest()?.context.annotate(line, 'warning');
 }
 
 if (typeof window !== 'undefined') {
