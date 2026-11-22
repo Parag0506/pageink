@@ -171,6 +171,125 @@ group('describe then resolve gives the same origin', () => {
     });
   }
 
+  // Content that sits in the middle of a wide block, with empty space on both sides inside the
+  // block's own box. Some of it is built from small blocks that repeat: the symbols of a formula.
+  const CENTRED: Record<string, string> = {
+    'a formula in MathML, centred with its number': `
+      <div class="mid" style="display:flex;align-items:center;justify-content:center;gap:30px;margin:14px 0;font-size:22px">
+        <math display="block"><mi>d</mi><mo>=</mo><mi>k</mi><msubsup><mo>&int;</mo><mn>0</mn><mi>T</mi></msubsup><mi>&omega;</mi><mo>(</mo><mi>t</mi><mo>)</mo><mspace width="0.2em"/><mi>d</mi><mi>t</mi></math>
+        <span style="font-size:15px">(1)</span>
+      </div>`,
+    'a formula built from small blocks that repeat': `
+      <div class="mid" style="display:flex;align-items:baseline;justify-content:center;gap:10px;margin:14px 0;font-size:22px">
+        <div>x</div><div>+</div><div>x</div><div>=</div><div>2</div><div>x</div> <span style="font-size:15px">(2)</span>
+      </div>`,
+    'a short centred line': `<p class="mid" style="text-align:center">Three words here.</p>`,
+    'a narrow block centred by its margins, with two lines that are the same': `
+      <div class="mid" style="width:220px;margin:14px auto"><div>the same words</div><div>the same words</div></div>`,
+  };
+  /** A text column with the centred content between two paragraphs. */
+  const column = (html: string): AnchorContext => {
+    document.body.innerHTML = `
+      <style>body{margin:0;font:17px/1.55 Arial,Helvetica,sans-serif} main{margin:22px 240px 60px 40px} p{margin:0 0 14px}</style>
+      <main>
+        <p>Let the angular speed of the ground image be known. The distance a bee reports is</p>
+        ${html}
+        <p>with a single gain, fitted once for all colonies. Over open fields the integral grows slowly, so a long trip reads short.</p>
+      </main>`;
+    dropModel(document);
+    return { doc: document };
+  };
+  /** The box of what an element shows, which can be much narrower than the element. */
+  const contentOf = (el: Element): DOMRect => {
+    const all = document.createRange();
+    all.selectNodeContents(el);
+    return all.getBoundingClientRect();
+  };
+  /** A box in the free space right of an element's content, level with its middle. */
+  const rightOf = (el: Element, gap = 44): Rect => {
+    const c = contentOf(el);
+    return { x: c.right + scrollX + gap, y: c.top + scrollY + c.height / 2 - 11, w: 30, h: 22 };
+  };
+
+  for (const [name, html] of Object.entries(CENTRED)) {
+    test(`notes on both sides of ${name}`, async () => {
+      await page.viewport(1032, 800);
+      const ctx = column(html);
+      // The space the content leaves free on each side, between the edges of the text column.
+      const main = docRect(document.querySelector('main')!);
+      const content = contentOf(document.querySelector('.mid')!);
+      const top = content.top + scrollY;
+      let checked = 0;
+      for (const h of [8, 22, content.height]) {
+        for (const gap of [12, 44, 90]) {
+          for (const box of [
+            { x: content.right + scrollX + gap, y: top + (content.height - h) / 2, w: 30, h },
+            { x: content.left + scrollX - gap - 30, y: top + (content.height - h) / 2, w: 30, h },
+          ]) {
+            if (box.x < main.x + 2 || box.x + box.w > main.x + main.w - 2) continue;
+            const d = describe(ctx, box);
+            const tag = `${d.anchor.type} ${d.anchor.place} "${d.anchor.quote.exact}" ${d.anchor.path.css}, box at ${Math.round(box.x)}, ${h} high`;
+            expect(d.anchor.type, tag).toBe('block');
+            for (const how of ['resolve', 'quick'] as const) {
+              const resolver = createResolver(ctx);
+              const res =
+                how === 'quick' ? resolver.quick!(d.anchor, d.frame) : resolver.resolve(d.anchor, d.frame);
+              // The quick rung may leave a note to the full ladder. It may not place it elsewhere.
+              if (how === 'quick' && !res) continue;
+              expect(res, `${how} ${tag}`).not.toBeNull();
+              expect(Math.abs(res!.origin.x - d.origin.x), `${how} ${tag} x`).toBeLessThanOrEqual(0.5);
+              expect(Math.abs(res!.origin.y - d.origin.y), `${how} ${tag} y`).toBeLessThanOrEqual(0.5);
+            }
+            checked++;
+          }
+        }
+      }
+      expect(checked).toBeGreaterThan(10);
+    });
+  }
+
+  test('a note beside a formula stays beside it when the page around the formula is rebuilt', async () => {
+    await page.viewport(1032, 800);
+    for (const html of [
+      CENTRED['a formula in MathML, centred with its number']!,
+      CENTRED['a formula built from small blocks that repeat']!,
+    ]) {
+      const ctx = column(html);
+      const mid = document.querySelector('.mid')!;
+      const d = describe(ctx, rightOf(mid));
+      expect(d.anchor.type).toBe('block');
+      const dx = d.origin.x - docRect(mid).x;
+      // A wrapper, a new class and a paragraph above: the stored path names nothing now.
+      const wrap = document.createElement('section');
+      mid.before(wrap);
+      wrap.append(mid);
+      mid.className = 'mid moved';
+      document.querySelector('main')!.insertAdjacentHTML('afterbegin', '<div>A line that is new.</div>');
+      dropModel(document);
+      const res = createResolver(ctx).resolve(d.anchor, d.frame)!;
+      expect(res).not.toBeNull();
+      expect(res.method).not.toBe('path');
+      expect(res.el).toBe(mid);
+      expect(Math.abs(res.origin.x - docRect(mid).x - dx)).toBeLessThanOrEqual(0.5);
+    }
+  });
+
+  test('a note beside the second of two formulas that are the same stays beside the second', async () => {
+    await page.viewport(1032, 800);
+    const formula = CENTRED['a formula built from small blocks that repeat']!;
+    const ctx = column(`${formula}<p>Then, by the same steps and for the other side,</p>${formula}`);
+    const mids = document.querySelectorAll('.mid');
+    for (const mid of mids) {
+      const d = describe(ctx, rightOf(mid));
+      expect(d.anchor.type).toBe('block');
+      const res = createResolver(ctx).resolve(d.anchor, d.frame)!;
+      expect(res).not.toBeNull();
+      expect(res.el).toBe(mid);
+      expect(Math.abs(res.origin.x - d.origin.x)).toBeLessThanOrEqual(0.5);
+      expect(Math.abs(res.origin.y - d.origin.y)).toBeLessThanOrEqual(0.5);
+    }
+  });
+
   test('a random sweep of boxes over the whole page', async () => {
     await page.viewport(1024, 768);
     const { ctx } = mount(articleHtml(99));

@@ -83,6 +83,14 @@ because it was found.
    only at a high score.
 4. **Tray.** If nothing passes, the note goes to the moved notes tray (section 7).
 
+A note beside a block is measured from that block's box, so every step must end at the block that was
+described. That block can be built from smaller blocks, as a formula is built from its symbols, and
+the quote can start inside one of them. In step 1 the twin check therefore looks at the block the path
+names, not at the small block where the quote starts. In steps 2 and 3 the search climbs from the
+match to the block with the stored hash, else to the nearest block of the same tag that holds text
+itself. Without this, a note beside a centred formula was measured from one symbol and landed on the
+other side of the formula.
+
 Media anchors have their own steps: the path if the tag and a source, file name, caption or alt still
 match; then the same source address; the same file name; the same caption; the same alt text; and last,
 the same kind of element with matching text around it. Repeats are separated by their surrounding text.

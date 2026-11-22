@@ -33,6 +33,7 @@ import { acceptExact, contextScore, findExact, findFuzzy, type Match } from './s
 import {
   buildModel,
   dropModel,
+  flatParent,
   fold,
   getModel,
   hasModel,
@@ -145,6 +146,12 @@ function hasTwin(m: TextModel, k: number): boolean {
   return !!blk && (blocksByHash(m).get(blockHash(m, blk))?.length ?? 0) > 1;
 }
 
+/** True when another block on the page, outside el, has the same text as el. */
+function twinOf(m: TextModel, el: Element): boolean {
+  const same = blocksByHash(m).get(blockHash(m, el)) ?? [];
+  return same.some((o) => o !== el && !el.contains(o) && !o.contains(el));
+}
+
 /**
  * A block whose whole text and tag are unchanged is the same block, wherever its
  * surroundings moved. Used when the context around the quote changed on both sides.
@@ -192,8 +199,10 @@ function findQuoted(ctx: AnchorContext, m: TextModel, a: Anchor): Found | null {
     const best = ms[0];
     if (!best) continue;
     // A path can point at the wrong twin after an insertion, so the context must agree too.
-    // A block with an identical twin elsewhere is left to the text position in step 2.
-    if (hasTwin(m, best.start)) continue;
+    // A block with an identical twin elsewhere is left to the text position in step 2. For a
+    // note beside a block, the block in question is the one the path names. It may be built
+    // from smaller blocks that repeat, as the symbols of a formula do, and still be the only one.
+    if (a.type === 'block' ? twinOf(m, el) : hasTwin(m, best.start)) continue;
     if (best.context >= 0.8 || (best.context >= 0.5 && !!a.hash && blockHash(m, el) === a.hash)) {
       return { el: blockFor(m, a, best.start, el), method: 'path', score: best.score, match: best };
     }
@@ -219,11 +228,27 @@ function findQuoted(ctx: AnchorContext, m: TextModel, a: Anchor): Found | null {
   return null;
 }
 
-/** The block a match belongs to. For a path hit, keep the element the path found when it holds the match. */
+/**
+ * The block a match belongs to. For a path hit, keep the element the path found when it holds
+ * the match. A note beside a block is measured from that block's box, and its quote can start in
+ * a smaller block inside it. So without a path the search climbs from the match to the block that
+ * was described: the one with the same text, else the nearest one of the same kind. Describe and
+ * resolve must name the same element, or the note lands elsewhere.
+ */
 function blockFor(m: TextModel, a: Anchor, start: number, pathEl?: Element): Element {
   const b = m.blockAt(start) ?? m.doc.body;
-  if (a.type === 'text' || !pathEl) return b;
-  return pathEl;
+  if (a.type === 'text') return b;
+  if (pathEl) return pathEl;
+  const tag = tagOfPath(a);
+  let kind: Element | null = null;
+  for (let e: Element | null = b; e && e !== m.doc.body; e = flatParent(e)) {
+    // Describe only names blocks that hold text themselves. The rest are wrappers, and their
+    // text can be the whole page: not worth a hash.
+    if (!m.ownSegs(e).length) continue;
+    if (a.hash && blockHash(m, e) === a.hash) return e;
+    if (!kind && e.localName === tag) kind = e;
+  }
+  return kind ?? b;
 }
 
 function textOk(s: string): boolean {
