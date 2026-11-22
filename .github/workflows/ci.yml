@@ -133,8 +133,9 @@ jobs:
       # Quick mode loads only local pages and offline fixtures, so it needs no network. --ext real
       # builds the bench variant of the extension (wxt build --mode bench) and measures a copy.
       # It compares the extension with a do-nothing control extension on this machine, and judges
-      # the fixed time budgets only when the machine is fit to: at least 4 cores and at most 1.25
-      # times slower than the reference at the calibration work (bench/README.md, the quick gate).
+      # the fixed time budgets only when the machine is fit to: at least 4 cores, 4 of them free,
+      # and at most 1.25 times slower than the reference at the calibration work, before the run
+      # and again after it when a budget was missed (bench/README.md, the quick gate).
       - name: Speed bench, quick gate, real extension
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: corepack pnpm --filter pageink-bench run bench --ext real --anchor core --quick --gate --out "$RUNNER_TEMP/bench"

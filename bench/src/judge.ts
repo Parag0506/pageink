@@ -8,6 +8,13 @@
 // - a machine within the bounds judges each fixed limit scaled by how much slower it ran the work;
 // - any other machine does not judge fixed limits at all. Each such rule is reported as not judged,
 //   with the measured value, the limit and the reason, and it does not fail the run.
+// A machine like the reference is still not fit while other work runs on it. The calibration
+// work is one short task on one thread, and a busy machine runs that nearly as fast as a quiet
+// one, while a page load, which needs several processes at once, takes several times as long.
+// So the bench also reads from the system how many cores were idle, and a machine with
+// fewer free cores than the browser needs judges no fixed limit. And a fixed limit that was
+// missed counts only if the machine is still fit when measured again after the run: load that
+// came during the run fails nothing.
 // Rules that do not depend on the machine's speed are judged everywhere: structural rules, and
 // first and largest paint against the control extension, which is judged against the run's own
 // noise. How often a load has a long task counts loads over a fixed time, so it is a fixed limit
@@ -20,6 +27,11 @@ export interface MachineMeasure {
   cores: number;
   /** The operating system, as Node names it (darwin, linux, win32). Older results hold none. */
   platform?: string;
+  /**
+   * Cores that sat idle while the machine was measured, from the system's CPU counters, with no
+   * browser of the bench running. Older results hold none.
+   */
+  freeCores?: number;
 }
 
 export interface Fitness {
@@ -43,6 +55,14 @@ export const BOUNDS = {
   maxRatio: 1.25,
   /** At least this many cores: with fewer, the browser's own processes take the page's core. */
   minCores: 4,
+  /**
+   * At least this many of them free. Other work on the machine takes the page's core just as a
+   * machine with too few cores does, and the calibration work does not show it: with 33 busy
+   * processes on the 11-core reference machine it ran about 1.2 times slower, within the bound
+   * above, while a timed load in a browser that just started took six to seven times as long
+   * (the cold first ink of the extension's e2e budgets: about 10 ms quiet, 63 and 75 ms busy).
+   */
+  minFreeCores: 4,
   /**
    * The same operating system as the reference. The calibration work is layout and script. It
    * measures no painting, and another system paints with other code: GitHub's 4-core Linux runner
@@ -72,6 +92,13 @@ export function fitness(m: MachineMeasure, ref: MachineMeasure | null, b = BOUND
     };
   if (m.cores < b.minCores)
     return { fit: false, scale: 1, ratio, reason: `${m.cores} cores, fewer than ${b.minCores}` };
+  if (m.freeCores !== undefined && m.freeCores < b.minFreeCores)
+    return {
+      fit: false,
+      scale: 1,
+      ratio,
+      reason: `other work was running on it: ${Math.round(m.freeCores * 10) / 10} of ${m.cores} cores were free, fewer than ${b.minFreeCores}`,
+    };
   if (ratio > b.maxRatio)
     return {
       fit: false,
@@ -80,6 +107,22 @@ export function fitness(m: MachineMeasure, ref: MachineMeasure | null, b = BOUND
       reason: `${ratio} times slower than the reference machine at the calibration work, more than ${b.maxRatio}`,
     };
   return { fit: true, scale: Math.max(1, ratio), ratio, reason: 'within the bounds' };
+}
+
+/**
+ * The fitness of a quick run whose timed rules found something: the machine measured before
+ * the run and again after it. Fit only when both are. The reason names the moment.
+ */
+export function fitnessAfter(
+  start: Fitness,
+  end: MachineMeasure,
+  ref: MachineMeasure | null,
+  b = BOUNDS,
+): Fitness {
+  if (!start.fit) return start;
+  const f = fitness(end, ref, b);
+  if (f.fit) return { ...start, scale: Math.max(start.scale, f.scale) };
+  return { ...f, reason: `measured again after the run, ${f.reason}` };
 }
 
 export type Verdict = 'pass' | 'fail' | 'not judged';

@@ -21,6 +21,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { gzipSync } from 'node:zlib';
 import { type BrowserContext, type CDPSession, chromium, type Page, type Worker } from 'playwright';
+import { freeCores } from '../../packages/core/src/budget-rule.ts';
 import { anchorEntry, bundleHarness } from '../../testset/src/bundle.ts';
 import { placeholderSvg } from '../../testset/src/freeze.ts';
 import { EXPLAIN_LOADS, EXPLAIN_MAX_BYTES, type Explained, explain, explainRows } from './explain.ts';
@@ -28,6 +29,7 @@ import {
   type Count,
   type Fitness,
   fitness,
+  fitnessAfter,
   type HeldBack,
   heldBack,
   type Judged,
@@ -235,9 +237,13 @@ async function offlineFixture(
 /**
  * The machine, measured in the browser the bench drives: the library's calibration work
  * (packages/core/src/testkit.ts calibrate()) in a page with no extension, median of five, and the
- * cores the browser may use.
+ * cores the browser may use. Before that, with no browser of the bench running, how many cores
+ * sit idle over half a second: other work on the machine shows there and not in the calibration.
  */
 async function measureMachine(headed: boolean): Promise<MachineMeasure> {
+  const counters = cpus();
+  await new Promise((r) => setTimeout(r, 500));
+  const free = Math.round(freeCores(counters, cpus()) * 10) / 10;
   const dir = join(CACHE, 'profile-calibrate');
   const ctx = await launch(dir, [], headed);
   const page = await ctx.newPage();
@@ -274,7 +280,12 @@ async function measureMachine(headed: boolean): Promise<MachineMeasure> {
     );
   await ctx.close();
   rmSync(dir, { recursive: true, force: true });
-  return { calibrateMs: r1(median(runs)), cores: availableParallelism(), platform: platform() };
+  return {
+    calibrateMs: r1(median(runs)),
+    cores: availableParallelism(),
+    platform: platform(),
+    freeCores: free,
+  };
 }
 
 /** The machine measurement stored with the published results, the reference for quick runs. */
@@ -644,6 +655,11 @@ async function main(): Promise<number> {
   };
   const fails: string[] = [];
   const notes: string[] = [];
+  /**
+   * Fixed limits a quick run missed on a machine that was fit when the run began. They fail the
+   * run only if the machine is still fit when it is measured again at the end (src/judge.ts).
+   */
+  const missed: string[] = [];
 
   // The machine, against the one the published results were measured on. A quick run judges
   // fixed time limits only on a machine fit to judge them (src/judge.ts).
@@ -653,7 +669,7 @@ async function main(): Promise<number> {
   (report.meta as Record<string, unknown>).calibrate = here;
   const judged: Judged[] = [];
   console.log(
-    `machine: calibration ${here.calibrateMs} ms, ${here.cores} cores; reference ${reference ? `${reference.calibrateMs} ms, ${reference.cores} cores` : 'none'}${quick ? `; fixed limits ${fit.fit ? `judged at ${fit.scale} times` : `not judged: ${fit.reason}`}` : ''}`,
+    `machine: calibration ${here.calibrateMs} ms, ${here.cores} cores, ${here.freeCores} free; reference ${reference ? `${reference.calibrateMs} ms, ${reference.cores} cores` : 'none'}${quick ? `; fixed limits ${fit.fit ? `judged at ${fit.scale} times` : `not judged: ${fit.reason}`}` : ''}`,
   );
   /**
    * A fixed time limit. A full run judges it as published. A quick run judges it only on a fit
@@ -672,7 +688,7 @@ async function main(): Promise<number> {
     }
     const j = judgeLimit(rule, value, limit, fit, over);
     judged.push(j);
-    if (j.verdict === 'fail') fails.push(`${line}, judged against ${j.judgedLimit} ms on this machine`);
+    if (j.verdict === 'fail') missed.push(`${line}, judged against ${j.judgedLimit} ms on this machine`);
     else if (j.verdict === 'not judged' && j.raw === 'fail')
       notes.push(`not judged on this machine: ${line} (${j.reason})`);
   };
@@ -1558,7 +1574,7 @@ async function main(): Promise<number> {
           const j = judgeRepeated(rule, h.delta, again ? again.delta : null, BUDGET.heldBackMs, fit);
           judged.push(j);
           if (j.verdict === 'fail')
-            fails.push(
+            missed.push(
               `${line}, and ${j.second} ms when measured again, judged against ${j.judgedLimit} ms on this machine`,
             );
           else if (j.notRepeated)
@@ -1743,7 +1759,7 @@ async function main(): Promise<number> {
     let frameFails = 0;
     const judge = (line: string, second: InkTask[] | undefined): boolean => {
       if (!again || second?.length) {
-        fails.push(line);
+        (quick ? missed : fails).push(line);
         return true;
       }
       notes.push(`${line}; it did not repeat when the extension's loads were measured again`);
@@ -1918,7 +1934,7 @@ async function main(): Promise<number> {
       const o = often[k];
       const line = `stress: loads with a task over ${oftenLongMs} ms, ${k}: ${o.ext.long} of ${o.ext.loads} with the extension, ${o.plain.long} of ${o.plain.loads} for the page alone, ${o.control.long} of ${o.control.loads} with the control extension`;
       if (oftenVerdict[k] === 'fail')
-        fails.push(
+        (quick ? missed : fails).push(
           `${line}: more often beyond chance, and again when measured a second time (${oftenAgain![k].ext.long}, ${oftenAgain![k].plain.long}, ${oftenAgain![k].control.long} of ${nOften})`,
         );
       else if (oftenVerdict[k] === 'not repeated')
@@ -2063,15 +2079,37 @@ async function main(): Promise<number> {
     }
 
   server.close();
+  // A fixed limit that was missed counts only if the machine is still fit now. Load that came
+  // during the run slows the timed loads, and it shows here: fewer free cores, or slower
+  // calibration work. Then the missed limits are reported and nothing fixed is judged.
+  let after: MachineMeasure | null = null;
+  let fitNow = fit;
+  if (missed.length) {
+    after = await measureMachine(!!values.headed);
+    fitNow = fitnessAfter(fit, after, reference);
+    console.log(
+      `machine after the run: calibration ${after.calibrateMs} ms, ${after.freeCores} cores free; ${fitNow.fit ? 'still fit' : `not fit: ${fitNow.reason}`}`,
+    );
+  }
+  if (fitNow.fit) fails.push(...missed);
+  else {
+    for (const line of missed) notes.push(`not judged on this machine: ${line} (${fitNow.reason})`);
+    for (const j of judged) {
+      if (j.verdict === 'not judged') continue;
+      j.verdict = 'not judged';
+      j.reason = fitNow.reason;
+    }
+  }
   (report.meta as Record<string, unknown>).seconds = Math.round((Date.now() - t0) / 1000);
   if (quick)
     report.gate = {
       machine: here,
+      ...(after ? { machineAfter: after } : {}),
       reference,
-      fit: fit.fit,
-      scale: fit.scale,
-      ratio: fit.ratio,
-      reason: fit.reason,
+      fit: fitNow.fit,
+      scale: fitNow.scale,
+      ratio: fitNow.ratio,
+      reason: fitNow.reason,
       judged,
       notJudged: judged.filter((j) => j.verdict === 'not judged').length,
     };
@@ -2143,7 +2181,8 @@ function markdown(r: Record<string, unknown>): string {
   ];
   const g = r.gate as
     | {
-        machine: { calibrateMs: number; cores: number };
+        machine: { calibrateMs: number; cores: number; freeCores?: number };
+        machineAfter?: { calibrateMs: number; cores: number; freeCores?: number };
         reference: { calibrateMs: number; cores: number; cpu?: string } | null;
         fit: boolean;
         scale: number;
@@ -2157,7 +2196,7 @@ function markdown(r: Record<string, unknown>): string {
     out.push(
       '## Quick gate: the machine and the fixed limits',
       '',
-      `This machine ran the calibration work in ${g.machine.calibrateMs} ms with ${g.machine.cores} cores. The reference machine of the published results: ${g.reference ? `${g.reference.calibrateMs} ms, ${g.reference.cores} cores${g.reference.cpu ? `, ${g.reference.cpu}` : ''}` : 'no measurement stored'}. ${g.fit ? `Fit to judge fixed limits: each is judged at ${g.scale} times its published value (measured ratio ${g.ratio}).` : `Not fit to judge fixed limits (${g.reason}). The rules below are measured and shown, and not judged: this run says nothing about the published budgets.`} Rules that do not depend on the machine's speed are judged in every run.`,
+      `This machine ran the calibration work in ${g.machine.calibrateMs} ms with ${g.machine.cores} cores${g.machine.freeCores === undefined ? '' : `, ${g.machine.freeCores} of them free`}${g.machineAfter ? `, and after the run, when a fixed limit had been missed, in ${g.machineAfter.calibrateMs} ms with ${g.machineAfter.freeCores} cores free` : ''}. The reference machine of the published results: ${g.reference ? `${g.reference.calibrateMs} ms, ${g.reference.cores} cores${g.reference.cpu ? `, ${g.reference.cpu}` : ''}` : 'no measurement stored'}. ${g.fit ? `Fit to judge fixed limits: each is judged at ${g.scale} times its published value (measured ratio ${g.ratio}).` : `Not fit to judge fixed limits (${g.reason}). The rules below are measured and shown, and not judged: this run says nothing about the published budgets.`} Rules that do not depend on the machine's speed are judged in every run.`,
       '',
       '| rule | measured, ms | published limit, ms | judged limit, ms | at the published limit | verdict |',
       '| --- | ---: | ---: | ---: | --- | --- |',

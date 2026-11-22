@@ -117,8 +117,14 @@ the bench measures the machine: the library's calibration work (the layout and s
 `calibrate()` in `packages/core/src/testkit.ts`), median of five in a page of the same Chromium, and
 the cores the browser may use. It compares them with the measurement stored in the published
 results (`meta.calibrate` in `results/latest.json`, written by every run). A machine with the
-reference's operating system and at least 4 cores that is at most 1.25 times slower at that work is
-fit: each fixed limit is judged at the limit times the measured ratio (never below 1). The bound is tight because the calibration work understates
+reference's operating system and at least 4 cores, at least 4 of them free, that is at most 1.25 times
+slower at that work is fit: each fixed limit is judged at the limit times the measured ratio (never below 1).
+Free cores are read from the system's CPU counters over half a second, before the bench starts a
+browser. They are what tells a busy machine from a quiet one. The calibration work is one short task
+on one thread, and a machine with other work running does it nearly as fast as a quiet one, while a
+timed page load, which needs several processes at once, takes much longer. A fixed limit that a quick
+run missed counts only if the machine is still fit when it is measured again after the run. Load that
+came during the run shows there, and then the missed limits are reported as not judged. The bound is tight because the calibration work understates
 a slow machine. On GitHub's 2-core runner it ran about 1.4 to 1.7 times slower than the reference,
 while first paint ran 2.6 times slower and script injection about 7 times slower. So scaling a limit
 by the calibration ratio is sound only on a machine close to the reference. The operating system

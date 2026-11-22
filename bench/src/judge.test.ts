@@ -3,6 +3,7 @@ import {
   armOf,
   BOUNDS,
   fitness,
+  fitnessAfter,
   groupsOf,
   heldBack,
   judgeLimit,
@@ -74,6 +75,40 @@ describe('the machine', () => {
     expect(f.fit).toBe(false);
     expect(f.reason).toContain('2 cores');
     expect(judgeLimit('stub', 11, 5, f).verdict).toBe('not judged');
+  });
+
+  test('a machine with other work running does not judge fixed limits, however fast its calibration', () => {
+    expect(BOUNDS.minFreeCores).toBe(4);
+    // The reference machine under load: the calibration work is within the bound, the cores are taken.
+    const f = fitness({ calibrateMs: 35, cores: 11, freeCores: 0.4 }, ref);
+    expect(f.fit).toBe(false);
+    expect(f.reason).toContain('other work was running');
+    expect(f.reason).toContain('0.4 of 11 cores were free');
+    expect(judgeLimit('first paint held back', 40, 16.7, f).verdict).toBe('not judged');
+    // Enough free cores, and results stored before free cores were measured, judge as before.
+    expect(fitness({ calibrateMs: 35, cores: 11, freeCores: 9.5 }, ref).fit).toBe(true);
+    expect(fitness({ calibrateMs: 35, cores: 11, freeCores: 4 }, ref).fit).toBe(true);
+    expect(fitness({ calibrateMs: 35, cores: 11 }, ref).fit).toBe(true);
+  });
+
+  test('a missed limit counts only if the machine is still fit after the run', () => {
+    const start = fitness({ calibrateMs: 33, cores: 11, freeCores: 10 }, ref);
+    expect(start.fit).toBe(true);
+    // Load came during the run: nothing fixed is judged, and the reason says when.
+    const busy = fitnessAfter(start, { calibrateMs: 34, cores: 11, freeCores: 1 }, ref);
+    expect(busy.fit).toBe(false);
+    expect(busy.reason).toContain('measured again after the run');
+    expect(busy.reason).toContain('other work was running');
+    const slow = fitnessAfter(start, { calibrateMs: 60, cores: 11, freeCores: 10 }, ref);
+    expect(slow.fit).toBe(false);
+    expect(slow.reason).toContain('2 times slower');
+    // Still fit: judged, at the larger of the two scales.
+    const still = fitnessAfter(start, { calibrateMs: 36, cores: 11, freeCores: 9 }, ref);
+    expect(still.fit).toBe(true);
+    expect(still.scale).toBe(1.2);
+    // A machine that was not fit at the start stays so.
+    const never = fitness({ calibrateMs: 90, cores: 11 }, ref);
+    expect(fitnessAfter(never, { calibrateMs: 30, cores: 11, freeCores: 10 }, ref)).toBe(never);
   });
 
   test('without a reference measurement nothing fixed is judged', () => {
