@@ -34,6 +34,168 @@ extension XCUIElement {
     }
     return self
   }
+
+  /// True once the element can be tapped and has kept its place for a moment. A tap on a row
+  /// that is still sliding in with its page, or with a list, is lost.
+  @discardableResult
+  func settled(_ timeout: TimeInterval = 4) -> Bool {
+    var last = CGRect.null
+    return waitFor(timeout, poll: 0.3) {
+      guard exists, isHittable else {
+        last = .null
+        return false
+      }
+      let f = frame
+      defer { last = f }
+      return !f.isEmpty && f == last
+    }
+  }
+
+  /// Taps until what should follow is there. A tap can be lost right after Settings or one of
+  /// its pages has opened, so this waits for the element to rest, taps, and taps again when
+  /// nothing came of it. Once the element is gone the page has moved on, and it only waits.
+  @discardableResult
+  func tap(until done: () -> Bool, tries: Int = 3, wait: TimeInterval = 6) -> Bool {
+    for _ in 0..<tries where !done() {
+      if settled() { tap() }
+      _ = waitFor(wait, done)
+    }
+    return done()
+  }
+
+  /// The switch of a switch row in Settings. On iPadOS 26 the row carries the identifier and
+  /// wraps the real switch. The row's own value can stay as it was until the row is drawn
+  /// again, which the 13-inch iPad showed in most runs, so the state is read from the switch.
+  var realSwitch: XCUIElement {
+    let inner = switches.firstMatch
+    return inner.exists ? inner : self
+  }
+
+  /// Turns a switch row in Settings on or off and looks at the switch again. A tap can be
+  /// lost, so it waits for the row to rest and tries up to three times. True when the switch
+  /// then reads as wanted.
+  @discardableResult
+  func turn(_ on: Bool) -> Bool {
+    let want = on ? "1" : "0"
+    for _ in 0..<3 where (realSwitch.value as? String) != want {
+      let c = realSwitch
+      c.settled()
+      c.tap()
+      _ = waitFor(3) { (self.realSwitch.value as? String) == want }
+    }
+    return (realSwitch.value as? String) == want
+  }
+
+  /// Scrolls the app until the element sits in the middle part of the screen, clear of the bars,
+  /// and has stopped moving. It drags slowly by as far as the element is off, so it cannot
+  /// overshoot the way a swipe can on a tall screen. While the element has no place yet (a row
+  /// far below), it moves a third of the screen at a time. True when the element can be tapped.
+  @discardableResult
+  func bringIntoView(in app: XCUIApplication, tries: Int = 10) -> Bool {
+    let screen = app.windows.firstMatch.frame
+    guard !screen.isEmpty else { return false }
+    let band = screen.insetBy(dx: 0, dy: screen.height * 0.25)
+    for _ in 0..<tries {
+      let f = exists ? frame : .zero
+      if !f.isEmpty, f.minY >= band.minY, f.maxY <= band.maxY {
+        // In place, once the list has stopped sliding.
+        if settled(3) { return true }
+        continue
+      }
+      var by = f.isEmpty ? screen.height / 3 : f.midY - screen.midY
+      by = max(-screen.height * 0.45, min(screen.height * 0.45, by))
+      let x = f.isEmpty ? screen.midX : f.midX
+      let from = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: x, dy: screen.midY + by / 2))
+      let to = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: x, dy: screen.midY - by / 2))
+      // The hold at the end stops the list where the finger left it.
+      from.press(forDuration: 0.05, thenDragTo: to, withVelocity: .slow, thenHoldForDuration: 0.4)
+    }
+    return exists && isHittable
+  }
+}
+
+/// Safari's "Hide Tab Bar While Scrolling" in Settings > Apps > Safari. While it is on, Safari
+/// shrinks its toolbar when a page scrolls, and the extension's button goes with it.
+enum TabBarSetting {
+  static let id = "HIDE_BARS_WHEN_SCROLLING"
+
+  enum Outcome: Equatable {
+    /// The switch reads as wanted in a Settings app that was opened anew.
+    case set
+    /// This system's Safari settings have no such switch.
+    case absent
+    /// It could not be set. The text says what was seen.
+    case stuck(String)
+  }
+
+  /// Whether the Safari page has the row at all. The page lists its rows before they are on
+  /// screen, and a row far below may only come after some scrolling.
+  static func listed(in s: XCUIApplication) -> Bool {
+    let cell = s.cells[id].firstMatch
+    let row = s.switches[id].firstMatch
+    _ = waitFor(10) { cell.exists || row.exists }
+    for _ in 0..<8 where !(cell.exists || row.exists) { s.swipeUp() }
+    return cell.exists || row.exists
+  }
+
+  /// Scrolls the row into view and returns it, or nil when its switch cannot be tapped.
+  static func find(in s: XCUIApplication) -> XCUIElement? {
+    let cell = s.cells[id].firstMatch
+    let row = s.switches[id].firstMatch
+    // Off screen the switch has no frame yet, and its cell has one.
+    guard (cell.exists ? cell : row).bringIntoView(in: s) else { return nil }
+    return row.realSwitch.settled(5) ? row : nil
+  }
+
+  /// Sets the switch and proves it: after it is turned, Settings is closed and opened again
+  /// and the switch is read there. Leaves Settings on the Safari page. Three rounds at most.
+  static func set(_ on: Bool, in s: XCUIApplication = Sim.settings) -> Outcome {
+    let want = on ? "1" : "0"
+    var seen = "the switch was not read"
+    for round in 0..<4 {
+      guard openSafariSettings(s) else { return .stuck("Safari is not in Settings > Apps") }
+      guard listed(in: s) else {
+        if round == 0 { return .absent }
+        seen = "the switch was there and is not listed any more"
+        continue
+      }
+      guard let row = find(in: s) else {
+        seen = "the switch is listed and could not be scrolled into view"
+        continue
+      }
+      let now = row.realSwitch.value as? String ?? "?"
+      if now == want { return .set }
+      seen = "turned \(round) times, the switch still reads \(now == "1" ? "on" : now == "0" ? "off" : now) in Settings opened anew"
+      if round == 3 { break }
+      row.turn(on)
+    }
+    return .stuck(seen)
+  }
+}
+
+/// Safari's toolbar. When Safari has shrunk it after a scroll, only a thin line with the
+/// address is left at the top, and the extension's button and Reload are gone. A reader taps
+/// that line to get the toolbar back, so the tests do the same.
+enum Toolbar {
+  static var bar: XCUIElement { Sim.safari.otherElements["Toolbar"].firstMatch }
+
+  /// The full toolbar is 54 points high and the shrunk line 25.
+  static var shrunk: Bool {
+    let b = bar
+    return b.exists && !b.frame.isEmpty && b.frame.height < 40
+  }
+
+  /// Brings the full toolbar back when it is shrunk. The tap lands on Safari's own bar, never
+  /// on the page, so it leaves no ink in draw mode. True when the toolbar is not shrunk.
+  @discardableResult
+  static func show() -> Bool {
+    for _ in 0..<3 where shrunk {
+      let f = bar.frame
+      Touch.tap(CGPoint(x: f.midX, y: f.midY))
+      _ = waitFor(3) { !shrunk }
+    }
+    return !shrunk
+  }
 }
 
 /// Settings > Apps > Safari. The Apps list fills in slowly on a new simulator, so this waits,
@@ -42,11 +204,13 @@ func openSafariSettings(_ s: XCUIApplication) -> Bool {
   s.terminate()
   s.launch()
   let apps = s.buttons["com.apple.settings.apps"]
+  let safari = s.buttons["com.apple.mobilesafari"]
   for _ in 0..<6 where !(apps.exists && apps.isHittable) {
     s.collectionViews["Sidebar"].swipeUp()
   }
-  apps.tap()
-  let safari = s.buttons["com.apple.mobilesafari"]
+  // A tap on Apps while Settings is still starting can be lost: General stays on screen and
+  // Safari is never found. So the tap is made again when the Apps list did not come.
+  apps.tap(until: { s.navigationBars["Apps"].exists || s.searchFields["Search Apps"].firstMatch.exists || safari.exists }, tries: 4)
   _ = safari.waitForExistence(timeout: 10)
   safari.reveal(in: s, tries: 10)
   if !(safari.exists && safari.isHittable) {
@@ -58,8 +222,46 @@ func openSafariSettings(_ s: XCUIApplication) -> Bool {
     _ = safari.waitForExistence(timeout: 10)
   }
   guard safari.exists && safari.isHittable else { return false }
-  safari.tap()
-  return true
+  // The Safari page is there once it lists one of its rows.
+  return safari.tap(until: {
+    s.cells["WEB_EXTENSIONS"].exists || s.cells[TabBarSetting.id].exists || s.buttons["CLEAR_HISTORY_AND_DATA"].exists
+      || s.staticTexts["Extensions"].firstMatch.exists
+  })
+}
+
+/// From Settings > Apps > Safari to the extension's own page: Extensions, then the extension.
+/// Nil when the page is open, or else what was missing.
+func openExtensionPage(_ s: XCUIApplication) -> String? {
+  s.swipeDown()
+  s.swipeDown()
+  s.swipeDown()
+  let ext = s.staticTexts["Extensions"].firstMatch.reveal(in: s)
+  guard ext.isHittable else { return "No Extensions row in Settings > Apps > Safari" }
+  let row = s.buttons["\(Sim.appId).extension"]
+  guard ext.tap(until: { row.exists }, wait: 10) else {
+    return "The extension is not listed. Was the app installed and opened once?"
+  }
+  let allow = s.switches["Allow Extension"]
+  guard row.tap(until: { allow.exists }, wait: 10) else { return "The extension's page in Settings did not open" }
+  return nil
+}
+
+/// On the extension's page: All Websites, one of the choices, and back. The choices are cells
+/// named by value: -1 Deny, 0 Ask, 1 Allow. `word` is how the row then reads, such as "Allow".
+func chooseAllWebsites(_ value: String, _ word: String, in s: XCUIApplication) -> Bool {
+  let all = s.buttons["All Websites"].reveal(in: s)
+  guard all.waitForExistence(timeout: 10) else { return false }
+  let cell = s.cells[value]
+  let back = s.buttons["BackButton"].firstMatch
+  let done = s.buttons.matching(NSPredicate(format: "label == %@", "All Websites, \(word)")).firstMatch
+  for _ in 0..<3 where !done.exists {
+    guard all.tap(until: { cell.exists }) else { continue }
+    cell.settled()
+    cell.tap()
+    back.tap(until: { !cell.exists })
+    _ = done.waitForExistence(timeout: 5)
+  }
+  return done.exists
 }
 
 /// Settings > Apps > Safari > Extensions > the extension > All Websites. The choices are cells
@@ -67,25 +269,8 @@ func openSafariSettings(_ s: XCUIApplication) -> Bool {
 @discardableResult
 func setAllWebsites(_ value: String, _ word: String) -> Bool {
   let s = Sim.settings
-  guard openSafariSettings(s) else { return false }
-  s.swipeDown()
-  s.swipeDown()
-  s.swipeDown()
-  let ext = s.staticTexts["Extensions"].firstMatch.reveal(in: s)
-  guard ext.isHittable else { return false }
-  ext.tap()
-  let row = s.buttons["\(Sim.appId).extension"]
-  guard row.waitForExistence(timeout: 10) else { return false }
-  row.tap()
-  let all = s.buttons["All Websites"].reveal(in: s)
-  guard all.waitForExistence(timeout: 10) else { return false }
-  all.tap()
-  let cell = s.cells[value]
-  guard cell.waitForExistence(timeout: 5) else { return false }
-  cell.tap()
-  s.buttons["BackButton"].firstMatch.tap()
-  let ok = s.buttons.matching(NSPredicate(format: "label == %@", "All Websites, \(word)")).firstMatch
-    .waitForExistence(timeout: 5)
+  guard openSafariSettings(s), openExtensionPage(s) == nil else { return false }
+  let ok = chooseAllWebsites(value, word, in: s)
   s.terminate()
   return ok
 }
@@ -160,6 +345,7 @@ enum Page {
   }
 
   static func reload() {
+    Toolbar.show()
     let b = Sim.safari.buttons["ReloadButton"]
     if b.exists && b.isHittable { b.tap() } else { Sim.safari.open(Sim.url(currentPath ?? "sim.html")) }
   }
@@ -347,6 +533,8 @@ enum Popup {
   @discardableResult
   static func open() -> Bool {
     if drawSwitch.exists { return true }
+    // The button is in the toolbar, which Safari may have shrunk after a scroll.
+    Toolbar.show()
     let b = Sim.safari.buttons.matching(NSPredicate(format: "label == %@", Sim.name)).firstMatch
     if !b.waitForExistence(timeout: 10) { return false }
     b.tap()

@@ -43,7 +43,7 @@ struct SetupView: View {
                 #if os(macOS)
                 Text("Hold Option while you drag to draw with the trackpad or mouse, or press Option-Shift-D to switch drawing on. Reload the page and the ink comes back.")
                 #else
-                Text("Write with Apple Pencil. A finger still scrolls and taps as usual. Reload the page and the ink comes back.")
+                Text("Write with Apple Pencil. A finger still scrolls and taps as usual. Reload the page and the ink comes back. If Safari shrinks its bar when you scroll, tap the address at the top to bring back the \(AppInfo.name) button and its **Draw on this page** switch.")
                 #endif
             }
 

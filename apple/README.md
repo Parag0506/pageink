@@ -18,7 +18,7 @@ corepack pnpm apple device-check  # the guided check on a real iPad with a Penci
 ```
 
 When there is no iPad simulator, `test` makes a temporary one on the newest iOS runtime and
-deletes it afterwards.
+deletes it afterwards. `INK_SIM_ID=<udid>` makes it use a simulator of your choice.
 
 Every build ends with `check-bundle.sh`, which looks inside each built app. It fails when the
 extension there is not the Safari build (no `nativeMessaging`, a Chrome or Firefox key, or
@@ -228,7 +228,7 @@ corepack pnpm apple sim-test
 
 This runs the extension in real Mobile Safari on a new iPad simulator and prints a pass or
 fail line per check, with what each check saw. It needs Xcode and an iOS simulator runtime.
-It takes about ten minutes. Logs, result bundles with screenshots and `summary.txt` go to
+It takes about fifteen minutes. Logs, result bundles with screenshots and `summary.txt` go to
 `apple/build/sim`. The workflow **iPad simulator** in `.github/workflows/simulator.yml` runs
 the same command when started by hand.
 
@@ -244,15 +244,16 @@ What the command does, in `sim/run.sh`:
    small text PDF made by the e2e helper.
 4. Runs the UI tests in phases: `A_SetupTests`, `B_SafariTests`, `G_ConnectTests` (the Sync
    screen shows the three choices, and "Not set up in this build." without client ids), then it
-   shuts the simulator down, boots it again and runs `C_AfterRebootTests`, then `H_TimingTests`
-   and `E_SiteAccessTests`. Then it deletes the simulator.
+   shuts the simulator down, boots it again and runs `C_AfterRebootTests`, then `H_TimingTests`,
+   `I_ToolbarTests` and `E_SiteAccessTests`. Then it deletes the simulator.
 
 It builds the bench variant of the extension (`wxt build --mode bench`): the release code plus
 the performance marks the test pages read to see that the stub ran. `INK_SIM_KEEP=1` keeps the
-simulator, `INK_SIM_ID=<udid>` uses one you made, and `INK_SIM_ONLY=B`, `C`, `E`, `G` or `H` runs
-setup and one phase. `INK_SIM_DIAG=1` instead builds the diagnostics variant that the device check uses,
-with the test server as its one origin, and runs `F_DiagnosticsTests`: the check page channel and
-the website check in Mobile Safari. Strokes in the PDF viewer still need an iPad and a Pencil.
+simulator, `INK_SIM_ID=<udid>` uses one you made, and `INK_SIM_ONLY=B`, `C`, `E`, `G`, `H` or `I`
+runs setup and one phase (`A` runs the setup alone). `INK_SIM_DIAG=1` instead builds the
+diagnostics variant that the device check uses, with the test server as its one origin, and runs
+`F_DiagnosticsTests`: the check page channel and the website check in Mobile Safari. Strokes in
+the PDF viewer still need an iPad and a Pencil.
 
 ### How the extension is turned on by automation
 
@@ -264,12 +265,23 @@ the setup test does what a reader does instead. It opens the Settings app and go
 **Apps > Safari > Extensions > PageInk**, turns on **Allow Extension**, and sets **All Websites**
 to **Allow**. The rows are found by their accessibility identifiers: `com.apple.settings.apps`,
 `com.apple.mobilesafari`, the extension's bundle id, the `Allow Extension` switch, and the
-cell named `1` (Allow) on the All Websites screen. It also turns off **Hide Tab Bar While
-Scrolling**, so the extension's toolbar button stays visible after a page scrolls.
+cell named `1` (Allow) on the All Websites screen.
+
+The setup also turns off **Hide Tab Bar While Scrolling**, so the extension's toolbar button
+stays visible after a page scrolls. The row is found by its identifier,
+`HIDE_BARS_WHEN_SCROLLING`, and dragged to the middle of the screen. Its state is read from the
+real switch inside the row, because the row's own value can stay as it was after a tap: on the
+13-inch iPad that made a working tap look like a failed one. A tap can also be lost right after
+Settings or one of its pages has opened. So every row and switch on the way is tapped only once
+it rests, and tapped again when nothing came of it. Then the test opens Settings anew and reads
+the switch again. It fails only when the switch still reads on after three such rounds. A
+system with no such switch is noted and not counted as a failure.
 
 The extension's popup is reached the same way a reader reaches it: the extension's button
 in the address bar. Its web view is in Safari's accessibility tree, so **Draw on this page**
-is a switch the test taps. Nothing test-only is in the product.
+is a switch the test taps. Nothing test-only is in the product. When Safari has shrunk its
+toolbar after a scroll, the button is not there. The tests then tap the thin line with the
+address at the top first, as a reader does (`Toolbar.show` in `SimTests/Support.swift`).
 
 ### What the tests check
 
@@ -299,6 +311,10 @@ pages set their text in grey, so dark blue pixels on the words are the first pen
   not listed under **Advanced > Website Data**, so the test clears all sites.
 - The app's Notes list shows the page written in Safari, and Share Archive opens the share
   sheet.
+- With **Hide Tab Bar While Scrolling** on, as a new simulator has it, Safari shrinks its
+  toolbar after a scroll and the extension's button and Reload are gone. A tap on the thin line
+  at the top brings them back and does not send the page to the top, the popup opens and Reload
+  works. The app's setup screen says what to tap. The test then turns the setting off again.
 - With **All Websites** on **Ask**, the popup shows one line that says what to tap, and the app's
   setup screen says the step is not done. With **Allow**, there is no line and the setup screen
   says every website is allowed. The test then sets **Allow** again.

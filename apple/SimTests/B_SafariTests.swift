@@ -296,19 +296,18 @@ final class B_SafariTests: XCTestCase {
     // the data of every site. The page's own localStorage mark shows that it happened.
     let clear = s.buttons["CLEAR_HISTORY_AND_DATA"].reveal(in: s, tries: 14)
     XCTAssertTrue(clear.isHittable, "No Clear History and Website Data in Settings > Apps > Safari")
-    clear.tap()
     // The sheet: timeframe All history, Close All Tabs on, then Clear History. Closing the
     // tabs ends their web content, so no page keeps the old storage in memory.
     let all = s.staticTexts["All history"].firstMatch
-    XCTAssertTrue(all.waitForExistence(timeout: 5), "No timeframe choice after Clear History and Website Data")
+    XCTAssertTrue(clear.tap(until: { all.exists }), "No timeframe choice after Clear History and Website Data")
+    all.settled()
     all.tap()
     let tabs = s.switches["CloseAllTabsSwitch"].firstMatch
     if tabs.exists, (tabs.value as? String) != "1" { tabs.tap() }
     B_SafariTests.tabsClosed = tabs.exists && (tabs.value as? String) == "1"
     let confirm = s.buttons["ClearHistoryButton"].firstMatch
     XCTAssertTrue(confirm.waitForExistence(timeout: 5), "No Clear History button in the sheet")
-    confirm.tap()
-    XCTAssertTrue(waitFor(10) { !confirm.exists }, "The Clear History sheet did not close")
+    XCTAssertTrue(confirm.tap(until: { !confirm.exists }, wait: 10), "The Clear History sheet did not close")
     s.terminate()
 
     // Settings hands the request to Safari, which may carry it out as it starts. Give it

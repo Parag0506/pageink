@@ -9,41 +9,26 @@ final class A_SetupTests: XCTestCase {
 
   func test01_EnableExtensionInSettings() throws {
     let s = Sim.settings
-    // Settings > Apps > Safari > Extensions > (the extension)
-    XCTAssertTrue(openSafariSettings(s), "Safari is not in Settings > Apps")
     // Safari shrinks its toolbar while a page scrolls, which hides the extension's button.
-    // The tests keep the toolbar in place so the popup is always one tap away.
-    let hide = s.switches["HIDE_BARS_WHEN_SCROLLING"].firstMatch.reveal(in: s, tries: 10)
-    if hide.exists, (hide.value as? String) == "1" {
-      hide.switches.firstMatch.exists ? hide.switches.firstMatch.tap() : hide.tap()
-      _ = waitFor(5) { (hide.value as? String) == "0" }
+    // The tests keep the toolbar in place so the popup is always one tap away. The switch is
+    // read again in a Settings app opened anew, so "off" here is what Safari will see.
+    switch TabBarSetting.set(false, in: s) {
+    case .set:
+      note("toolbar", "Hide Tab Bar While Scrolling is off, as read in Settings opened anew")
+    case .absent:
+      // Nothing to turn off. The tests bring a shrunk toolbar back themselves (Toolbar.show).
+      XCTAssertTrue(openSafariSettings(s), "Safari is not in Settings > Apps")
+      note("toolbar", "Settings > Apps > Safari has no Hide Tab Bar While Scrolling switch on this system")
+    case .stuck(let seen):
+      XCTFail("Hide Tab Bar While Scrolling could not be turned off in Settings > Apps > Safari: \(seen)")
     }
-    note("toolbar", "Hide Tab Bar While Scrolling is \((hide.value as? String) == "0" ? "off" : "still on")")
-    s.swipeDown()
-    s.swipeDown()
-    s.swipeDown()
-    let ext = s.staticTexts["Extensions"].firstMatch.reveal(in: s)
-    XCTAssertTrue(ext.isHittable, "No Extensions row in Settings > Apps > Safari")
-    ext.tap()
-    let row = s.buttons["\(Sim.appId).extension"]
-    XCTAssertTrue(row.waitForExistence(timeout: 10), "The extension is not listed. Was the app installed and opened once?")
-    row.tap()
+    // Settings > Apps > Safari > Extensions > (the extension). Every tap on the way is checked
+    // and made again when nothing came of it: a tap on a page that has just opened can be lost.
+    if let missing = openExtensionPage(s) { XCTFail(missing) }
 
     // Allow Extension, then All Websites: Allow.
-    let allow = s.switches["Allow Extension"]
-    XCTAssertTrue(allow.waitForExistence(timeout: 10))
-    if (allow.value as? String) != "1" { allow.switches.firstMatch.tap() }
-    XCTAssertTrue(waitFor(5) { (allow.value as? String) == "1" }, "Allow Extension did not turn on")
-    let all = s.buttons["All Websites"].reveal(in: s)
-    XCTAssertTrue(all.waitForExistence(timeout: 10), "No All Websites row once the extension is on")
-    all.tap()
-    // The choices are cells named by value: -1 Deny, 0 Ask, 1 Allow.
-    let allowCell = s.cells["1"]
-    XCTAssertTrue(allowCell.waitForExistence(timeout: 5))
-    allowCell.tap()
-    s.buttons["BackButton"].firstMatch.tap()
-    XCTAssertTrue(s.buttons.matching(NSPredicate(format: "label == 'All Websites, Allow'")).firstMatch.waitForExistence(timeout: 5),
-                  "All Websites is not set to Allow")
+    XCTAssertTrue(s.switches["Allow Extension"].turn(true), "Allow Extension did not turn on after three taps")
+    XCTAssertTrue(chooseAllWebsites("1", "Allow", in: s), "All Websites could not be set to Allow once the extension was on")
     note("enable", "Settings > Apps > Safari > Extensions > \(Sim.name): Allow Extension on, All Websites set to Allow")
     s.terminate()
   }

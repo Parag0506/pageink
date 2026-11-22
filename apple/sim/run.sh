@@ -7,11 +7,14 @@
 # iOS runtime, turns the extension on through the Settings app, serves the test pages from this
 # Mac and drives Safari with the SimTests UI tests. Before phase C it shuts the simulator down
 # and boots it again. Phase H times the stub and the first ink from the bench build's marks.
-# Phase E sets All Websites to Ask, checks what the popup and the app say, and sets it back to
-# Allow. At the end it deletes the simulator.
+# Phase I turns Safari's "Hide Tab Bar While Scrolling" on, checks that the popup is still
+# reached after Safari shrinks its toolbar, and turns it off again. Phase E sets All Websites to
+# Ask, checks what the popup and the app say, and sets it back to Allow. At the end it deletes
+# the simulator.
 #
 #   INK_SIM_KEEP=1    keep the simulator afterwards, to look at it
-#   INK_SIM_ONLY=B    run only phase A and the named phase (B, C, E, G or H), for work on the tests
+#   INK_SIM_ONLY=B    run only phase A and the named phase (B, C, E, G, H or I), for work on the
+#                     tests. INK_SIM_ONLY=A runs the setup alone.
 #   INK_SIM_ID=<udid> use this simulator instead of making one, and keep it
 #   INK_SIM_DIAG=1    instead of B to E, build the diagnostics variant for the device check and
 #                     run phase F: the check page channel and the website check in Mobile Safari
@@ -149,7 +152,8 @@ elif [ $status -eq 0 ]; then
     phase C_AfterRebootTests || status=1
   fi
   if [ -z "$only" ] || [ "$only" = H ]; then phase H_TimingTests || status=1; fi
-  # Last, because it changes Safari's website setting and puts it back.
+  # These two change a Safari setting and put it back, so they run after the others.
+  if [ -z "$only" ] || [ "$only" = I ]; then phase I_ToolbarTests || status=1; fi
   if [ -z "$only" ] || [ "$only" = E ]; then phase E_SiteAccessTests || status=1; fi
 fi
 

@@ -6,6 +6,7 @@
 #   apple/build.sh ios        iOS Simulator app only
 #   apple/build.sh test       unit tests on macOS and on an iPad simulator. When there is no
 #                             iPad simulator, a temporary one is made and removed afterwards.
+#                             INK_SIM_ID=<udid> uses that simulator and no other.
 #   apple/build.sh check      check the extension inside the built apps (check-bundle.sh) and
 #                             that names are set only in Config/PageInk.xcconfig (check-names.sh)
 #   apple/build.sh mac-local  macOS app signed to run locally, for Safari with unsigned extensions.
@@ -74,7 +75,7 @@ case "$what" in
   test)
     bash "$here/check-names.sh"
     xb -scheme Tests -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO test
-    id="$(ipad)"
+    id="${INK_SIM_ID:-$(ipad)}"
     if [ -z "$id" ]; then
       id="$(temp_ipad)"
       if [ -n "$id" ]; then
