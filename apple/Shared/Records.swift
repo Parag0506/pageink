@@ -19,6 +19,7 @@ public struct InkNote: Equatable, Sendable {
     public var link: String?
     public var posStart: Int
     public var markStyle: String?
+    public var markColor: String?
     public var strokes: [InkStroke]
 }
 
@@ -65,6 +66,7 @@ public enum RecordParser {
                 strokes.append(InkStroke(id: sid, t: num(s["t"]) ?? 0, tool: s["tool"] as? String ?? "pen",
                                          color: s["color"] as? String ?? "ink-1", d: d))
             }
+            let mark = n["mark"] as? [String: Any]
             notes.append(InkNote(
                 id: id,
                 kind: n["kind"] as? String ?? "ink",
@@ -73,7 +75,8 @@ public enum RecordParser {
                 quote: quote,
                 link: anchor["link"] as? String,
                 posStart: Int(num(pos) ?? 0),
-                markStyle: (n["mark"] as? [String: Any])?["style"] as? String,
+                markStyle: mark?["style"] as? String,
+                markColor: mark?["color"] as? String,
                 strokes: strokes
             ))
         }

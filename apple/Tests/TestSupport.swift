@@ -22,8 +22,9 @@ func recordJSON(key: String, title: String = "Page", updatedAt: Int = 1_700_000_
 
 /// An ink note has one stroke unless the test gives its strokes: an ink note with none shows nothing.
 func note(_ id: String, quote: String = "", created: Int = 1_700_000_000_000, start: Int = 0,
-          strokes: [[String: Any]]? = nil, kind: String = "ink", updated: Int? = nil) -> [String: Any] {
-    [
+          strokes: [[String: Any]]? = nil, kind: String = "ink", updated: Int? = nil,
+          mark: [String: Any]? = nil) -> [String: Any] {
+    var o: [String: Any] = [
         "id": id, "createdAt": created, "updatedAt": updated ?? created, "device": "test", "kind": kind,
         "anchor": [
             "type": "text", "quote": ["exact": quote, "prefix": "", "suffix": ""],
@@ -33,6 +34,13 @@ func note(_ id: String, quote: String = "", created: Int = 1_700_000_000_000, st
         "frame": ["w": 100, "h": 20, "fontPx": 16, "viewportW": 1024],
         "strokes": strokes ?? (kind == "ink" ? [stroke("\(id).s", t: created)] : []),
     ]
+    if let mark { o["mark"] = mark }
+    return o
+}
+
+/// A mark on text, as the extension writes it: no strokes, a style and a colour.
+func textMark(_ id: String, _ style: String, color: String, quote: String, updated: Int = 1_700_000_000_000) -> [String: Any] {
+    note(id, quote: quote, kind: "textmark", updated: updated, mark: ["style": style, "color": color])
 }
 
 func stroke(_ id: String, d: String = "M1,1l10,0l0,10Z", tool: String = "pen", color: String = "ink-1", t: Int = 1) -> [String: Any] {
