@@ -14,6 +14,9 @@
 //   --out DIR    where soak.md, soak.json and the logs go (default: a new folder in the temp dir)
 //   -- ...       passed to every test command, for example a file name to soak one file
 //
+// To free the machine for a while, make a file named `pause` in the results folder. The soak
+// waits before its next pass until the file is gone.
+//
 // Retries are always off here (--retry=0 for Vitest, --retries=0 for Playwright), whatever the
 // configs say. A test that passes on a second try is a failure for this script.
 //
@@ -314,7 +317,16 @@ const tail = (text) => plain(text).trim().split('\n').slice(-12).join('\n');
 async function vitestPass(name, suite, n, loaded) {
   for (const [i, step] of suite.steps.entries()) {
     const file = join(scratch, `${name}-${n}-${i}.json`);
-    const args = ['run', ...step.args, '--retry=0', '--reporter=dot', `--reporter=${reporter}`, ...more];
+    // One file may hold no test of a step (no budget test, say): that is not a failure.
+    const args = [
+      'run',
+      ...step.args,
+      '--retry=0',
+      '--passWithNoTests',
+      '--reporter=dot',
+      `--reporter=${reporter}`,
+      ...more,
+    ];
     const cmd = `corepack pnpm exec vitest ${args.map(quote).join(' ')}`;
     const log = join(logDir, `${name}-${n}${suite.steps.length > 1 ? `-${i}` : ''}.log`);
     const r = await run(cmd, join(repo, suite.cwd), { ...step.env, INK_SOAK_REPORT: file }, log);
@@ -431,6 +443,8 @@ if (opt.build) {
 
 /** One pass or block, timed, with the load on or off around it. */
 async function timed(suite, label, loaded, count, work) {
+  // A file named pause in the results folder holds the soak before its next pass.
+  while (existsSync(join(outDir, 'pause')) && !interrupted) await new Promise((r) => setTimeout(r, 1000));
   if (loaded) startLoad(opt.load);
   const t0 = Date.now();
   const before = loadavg()[0].toFixed(1);
