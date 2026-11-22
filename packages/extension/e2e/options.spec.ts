@@ -42,6 +42,8 @@ test('first run opens the guide once, on top of the library', async ({ context, 
   await expect(guide).toHaveURL(`chrome-extension://${extId}/options.html#library`);
   // Only one guide tab, ever.
   expect(context.pages().filter((p) => p.url().includes('#welcome'))).toHaveLength(0);
+  // The flag that keeps it to one is in storage (src/background/first-run.ts).
+  expect((await readStorage(guide, ['welcomed'])).welcomed).toMatchObject({ at: expect.any(Number) });
 });
 
 test('the library lists a written page, opens it, deletes it; an archive restores it in a fresh profile', async ({

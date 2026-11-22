@@ -23,6 +23,31 @@ final class B_SafariTests: XCTestCase {
     return r
   }
 
+  /// Set when Clear History closed every tab, the guide's among them.
+  static var tabsClosed = false
+
+  /// The first start of Safari after the extension was turned on in Settings. Safari sends no
+  /// installed event for it, so the extension opens its guide itself: once, at this start, as
+  /// a tab behind the page in front.
+  func test00_GuideOpensOnceBehindThePage() throws {
+    Sim.safari.launch()
+    _ = open("off.html")
+    // The background waits two seconds for an installed event before it opens the guide.
+    var place: String?
+    var covered = false
+    _ = waitFor(25, poll: 1) {
+      covered = covered || Guide.inFront
+      place = Guide.find(page: "Plain page")
+      return place != nil
+    }
+    covered = covered || Guide.inFront
+    if place == nil { print(Sim.safari.debugDescription) }
+    XCTAssertFalse(covered, "The guide opened on top of the page in front")
+    XCTAssertNotNil(Page.report(), "The page in front is not readable after the guide opened")
+    XCTAssertNotNil(place, "No guide tab after the first start of Safari with the extension on")
+    note("guide", "first start of Safari with the extension on: the guide's tab is \(place ?? "missing"), the page stays in front")
+  }
+
   func test01_StubLoadsAndAddsNothing() throws {
     Sim.safari.launch()
     let r0 = open("off.html")
@@ -279,6 +304,7 @@ final class B_SafariTests: XCTestCase {
     all.tap()
     let tabs = s.switches["CloseAllTabsSwitch"].firstMatch
     if tabs.exists, (tabs.value as? String) != "1" { tabs.tap() }
+    B_SafariTests.tabsClosed = tabs.exists && (tabs.value as? String) == "1"
     let confirm = s.buttons["ClearHistoryButton"].firstMatch
     XCTAssertTrue(confirm.waitForExistence(timeout: 5), "No Clear History button in the sheet")
     confirm.tap()
@@ -323,6 +349,28 @@ final class B_SafariTests: XCTestCase {
     XCTAssertTrue(shown, "The share sheet with the archive did not open")
     note("app", "the app lists Simulator page; Share Archive opens the share sheet")
     app.terminate()
+  }
+
+  func test16_GuideDoesNotComeBack() throws {
+    // By now Safari was quit and opened several times, and Clear History closed every tab.
+    // One more start, with time for the background to wake and decide.
+    Sim.safari.terminate()
+    Sim.safari.launch()
+    _ = open("sim.html")
+    var covered = false
+    _ = waitFor(10, poll: 1) {
+      covered = covered || Guide.inFront
+      return false
+    }
+    let place = Guide.find(page: "Simulator page")
+    XCTAssertFalse(covered, "The guide opened again, on top of the page")
+    XCTAssertNotNil(Page.report(), "The page in front is not readable")
+    if B_SafariTests.tabsClosed {
+      XCTAssertNil(place, "The guide opened a second time: its tab is \(place ?? "") after every tab was closed")
+    }
+    note("guide_once", B_SafariTests.tabsClosed
+      ? "after Safari was quit and opened again and every tab was closed: \(place == nil ? "no guide tab" : "a guide tab \(place!)")"
+      : "the tabs were not closed, so the first guide tab may still be there: \(place ?? "no guide tab")")
   }
 
   func test15_StylusInputInXCTest() throws {

@@ -393,6 +393,42 @@ enum Popup {
   }
 }
 
+// MARK: - The first-run guide
+
+/// The guide is the extension's settings page with the welcome on top. Safari names its tab
+/// after the page's title.
+enum Guide {
+  static var title: String { "\(Sim.name) notes" }
+
+  /// The guide's own heading. It is in the tree only while the guide's tab is in front.
+  static var inFront: Bool {
+    Sim.safari.webViews.staticTexts.matching(NSPredicate(format: "label == %@", "Welcome to \(Sim.name)")).firstMatch.exists
+  }
+
+  /// How many things in Safari carry the guide's title: its tab in the tab bar, or its card
+  /// in the tab overview.
+  static func count() -> Int {
+    Sim.safari.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS %@", title)).count
+  }
+
+  /// Looks for the guide's tab: first in the tab bar, then in the tab overview. Leaves Safari
+  /// on the page it was on. Says where it was found, or nil.
+  static func find(page: String) -> String? {
+    if count() > 0 { return "in the tab bar" }
+    let overview = Sim.safari.buttons.matching(NSPredicate(
+      format: "identifier == 'TabOverviewButton' OR label == 'Tab Overview' OR label == 'Tabs'")).firstMatch
+    guard overview.exists, overview.isHittable else { return nil }
+    overview.tap()
+    let found = waitFor(4) { count() > 0 }
+    // Back to the page the test was on.
+    let card = Sim.safari.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS %@", page)).firstMatch
+    let done = Sim.safari.buttons["Done"].firstMatch
+    if card.exists, card.isHittable { card.tap() } else if done.exists { done.tap() }
+    _ = waitFor(5) { Page.report() != nil }
+    return found ? "in the tab overview" : nil
+  }
+}
+
 // MARK: - Marks on the marker words
 
 enum Marks {

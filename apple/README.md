@@ -261,6 +261,8 @@ scroll position, and where the marker words are. The test reads that line from t
 accessibility tree and maps the words to screen points. Ink is found in screenshots: the
 pages set their text in grey, so dark blue pixels on the words are the first pen colour.
 
+- The first start of Safari with the extension on opens the guide once, as a tab behind the page
+  in front. After Safari was quit and opened again and every tab was closed, it does not come back.
 - The stub runs in Mobile Safari and adds nothing to a page without ink.
 - With draw mode on, one finger writes on the words, and the ink shows.
 - The bar's buttons are at least 44 points and do not cover the page's link, button or field.

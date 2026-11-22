@@ -147,6 +147,7 @@ deleted stroke come back.
 | `sync`                | sync status: `{ lastSync?, lastFull?, error?, problem?, locked? }`                                                                     |
 | `nudge`               | the backup prompt: `{ dismissed?, at?, chosen? }`                                                                                      |
 | `dest`                | the place notes are kept: `{ kind: "folder" }` or `{ kind: "cloud", provider }`, plus `since?` after a switch                          |
+| `welcomed`            | the first-run guide was shown, or was not needed: `{ at }`. Extension only, never synced                                               |
 | `tok:<provider>`      | that cloud's tokens, folder ids and the account name to show. Extension only, never synced, removed on Disconnect. In the secret store |
 | `names:<provider>`    | that cloud's name to file id list and change cursor                                                                                    |
 | `seen:<provider>`     | per file: version, page key and a hash of the text, to skip unchanged downloads                                                        |

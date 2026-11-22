@@ -316,6 +316,14 @@ every `scripting` entry.
   sleeps. A message from a content script wakes the background. Open WebKit bugs report messages
   that did not wake it on iOS 17 [9] or were dropped while it loaded (fixed in 2026) [10]; the stub
   therefore sends a lost inject request once more.
+- `runtime.onInstalled` does not mean "just installed" in Safari. WebKit decides the reason each
+  time it loads the extension [14]: "update" when the version or the bundle changed; "install"
+  when nothing changed and the extension is loaded while the browser already runs (turned on, or
+  off and on, or loaded again); and no installed event, only `onStartup`, when it is loaded in
+  the first seconds of the browser's life. An Apple engineer says the same of turning an
+  extension off and on [15]. So a reader who turns the extension on in Settings and then opens Safari gets no
+  installed event, and a later load sends "install" again. The first-run guide therefore keeps
+  its own flag and checks it at each start (section 6, "First-run guide").
 - Site access on Ask: content scripts in the manifest do not run on a site until the reader allows
   it [11], and `executeScript` and registered scripts need the same access. The stub never runs on
   such a site, so the popup and the app say what to tap (section 6, "Site access").
@@ -327,6 +335,9 @@ every `scripting` entry.
 What the iPad simulator showed (iOS 26.5, `apple/sim`, phase H): the registered viewer ran at
 document start on every load of a page with ink, after Safari was quit and after the simulator
 rebooted, and draw mode on a site without ink injected the viewer and the tools on request.
+Phase B: with the extension turned on in Settings while Safari was closed, the first start of
+Safari opened the guide as a tab behind the page in front. After Safari was quit and opened
+several times and Clear History had closed every tab, no guide tab came back.
 
 [1] MDN browser compatibility data, `webextensions/api/scripting.json`,
 https://github.com/mdn/browser-compat-data/blob/main/webextensions/api/scripting.json.
@@ -344,6 +355,11 @@ https://developer.apple.com/documentation/safariservices/optimizing-your-web-ext
 https://github.com/mdn/browser-compat-data/blob/main/webextensions/manifest/content_scripts.json.
 [12] Apple Developer Forums thread 768182, https://developer.apple.com/forums/thread/768182.
 [13] WebKit bug 263817, https://bugs.webkit.org/show_bug.cgi?id=263817.
+[14] WebKit source, `determineInstallReasonDuringLoad` in
+https://github.com/WebKit/WebKit/blob/main/Source/WebKit/UIProcess/Extensions/Cocoa/WebExtensionContextCocoa.mm,
+and `freshlyCreatedTimeout` (5 seconds) in `WebExtensionController.cpp` beside it. Safari's own
+code is not public, so this is read from WebKit and from what the simulator showed, above.
+[15] Apple Developer Forums thread 679429, https://developer.apple.com/forums/thread/679429.
 
 ## 5. Budgets (DESIGN 11)
 
@@ -379,6 +395,16 @@ budget in `packages/core/src/app/size.test.ts`.
   and shows one line that calls `permissions.request` from the reader's tap (`src/ui/access.ts`). On
   Safari the background also tells the app (`{ op: "access" }`, NATIVE_PROTOCOL.md), whose setup
   screen shows the step as done or not.
+- **First-run guide.** The short guide (`options.html#welcome`) opens once per install
+  (`src/background/first-run.ts`). A flag in storage, `welcomed`, is written before the tab is
+  opened, so no later start, update, re-enable or second installed event can open it again. If
+  storage cannot be read or written, nothing opens. An installed event with reason "install"
+  opens it; any other reason sets the flag and opens nothing. In Safari each start of the
+  background also reads the flag and, when it is not set, waits two seconds for an installed
+  event and then opens the guide itself, because Safari may send no event at all (4.2). The guide
+  never covers a page in use: in Chrome, Edge and Firefox the event comes as the reader adds the
+  extension, so it opens in front; in Safari it opens in front only when the tab in front is
+  blank, and otherwise as a background tab. A tab whose address Safari hides counts as a page.
 - **Clouds.** The reader's own Google Drive or OneDrive, with no server of ours. All cloud network
   code is in `packages/extension/src/cloud/`, built as `cloud.js`, loaded by the background for a
   reader who connects a cloud. Chrome and Edge service workers may not use `import()` (checked),

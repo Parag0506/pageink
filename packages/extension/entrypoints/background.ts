@@ -7,6 +7,7 @@ import { pickApi } from '../src/api';
 import { attentionOf, showAttention } from '../src/background/attention';
 import { loadCloud, startCloud } from '../src/background/cloud-load';
 import { relayDiag } from '../src/background/diag-relay';
+import { keepFirstRun } from '../src/background/first-run';
 import { folderKind, folderOpener, folderState } from '../src/background/folder';
 import { createPlace } from '../src/background/place';
 import { keepRegistered } from '../src/background/register';
@@ -111,9 +112,7 @@ export default defineBackground(() => {
     void attention().catch(() => {});
   };
   api.runtime.onStartup.addListener(start);
-  api.runtime.onInstalled.addListener((d) => {
-    // First run: show the short guide once.
-    if (d.reason === 'install') void api.tabs.create({ url: api.runtime.getURL('/options.html#welcome') });
-    start();
-  });
+  api.runtime.onInstalled.addListener(start);
+  // First run: the short guide, once per install (first-run.ts).
+  void keepFirstRun(api, { safari: __INK_TARGET__ === 'safari' });
 });
