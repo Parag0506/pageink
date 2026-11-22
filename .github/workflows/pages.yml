@@ -35,7 +35,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.first.outputs.page_url || steps.second.outputs.page_url }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -55,6 +55,19 @@ jobs:
         with:
           path: ${{ runner.temp }}/site
 
+      # GitHub sometimes does not list the upload yet when the publish step asks for it, and the
+      # step then fails with "No artifacts named github-pages". So a failed publish is tried once
+      # more after a wait, and the run fails only when the second try fails too.
       - name: Publish
-        id: deploy
+        id: first
+        continue-on-error: true
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+      - name: Wait before the second try
+        if: steps.first.outcome == 'failure'
+        run: sleep 45
+
+      - name: Publish, second try
+        id: second
+        if: steps.first.outcome == 'failure'
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
