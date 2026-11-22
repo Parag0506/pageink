@@ -1,7 +1,7 @@
 // The viewer checks a page's record before the page's first paint with ink, so the check of a
 // record that is good builds no field names: a name is built only to say which field failed.
 import { describe, expect, test } from 'vitest';
-import { cleanRecord } from './validate';
+import { built, cleanRecord } from './validate';
 
 const POINTS = 120;
 
@@ -41,18 +41,6 @@ function record(bad: boolean) {
   };
 }
 
-/** Median time of the check over fresh copies, ms. */
-function cost(bad: boolean): number {
-  const t: number[] = [];
-  for (let r = 0; r < 25; r++) {
-    const rec = record(bad);
-    const t0 = performance.now();
-    cleanRecord(rec);
-    t.push(performance.now() - t0);
-  }
-  return t.sort((a, b) => a - b)[12]!;
-}
-
 describe('the record check', () => {
   test('a bad note is named down to the failing number', () => {
     const c = cleanRecord(record(true));
@@ -61,12 +49,19 @@ describe('the record check', () => {
     expect(cleanRecord(record(false)).rec?.notes).toHaveLength(20);
   });
 
-  test('a good record is checked without field names: a bad one, named for its message, costs several times more', () => {
-    // Compared in the same run, so the speed of the machine cancels out. Checking a bad record
-    // runs the check once without names, then once with them. Were names built every time, both
-    // would cost about the same.
-    cost(false);
-    cost(true);
-    expect(cost(true) / cost(false)).toBeGreaterThan(1.8);
+  test('a good record is checked without field names: only a bad one builds them, for its message', () => {
+    // Counted, not timed: the count is the same on every machine. The record's own few fields
+    // are checked by name, so the notes must add nothing to what a record with no notes builds.
+    const names = (rec: unknown): number => {
+      const before = built.names;
+      cleanRecord(rec);
+      return built.names - before;
+    };
+    const good = record(false);
+    const empty = { ...record(false), notes: [] };
+    expect(names(good)).toBe(names(empty));
+    // A bad note is checked once without names, then once with them, to word the failure. So
+    // every bad note adds names, and here all twenty are bad.
+    expect(names(record(true))).toBeGreaterThan(names(good) + 20);
   });
 });

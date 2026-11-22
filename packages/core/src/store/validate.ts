@@ -38,7 +38,13 @@ const SLOT = /^[\da-z]{1,16}(\.[1-9]\d?)?$/;
  * fields, and again with names only to word the failure.
  */
 type Check<T = unknown> = (v: unknown, at: string) => T;
-const sub = (at: string, k: string | number): string => (at ? `${at}.${k}` : '');
+/** How many field names have been built. A test reads it: a good record builds none. */
+export const built = { names: 0 };
+const sub = (at: string, k: string | number): string => {
+  if (!at) return '';
+  built.names++;
+  return `${at}.${k}`;
+};
 
 const no = (at: string): never => {
   throw new TypeError(at);
