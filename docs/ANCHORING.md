@@ -290,7 +290,7 @@ pairs are added. It does not measure speed on real devices; the bench and the de
 | path        |  3035 |  3023 |             0 |    0 |     4 |            99.9% |  0.1% |
 | tray        |   145 |     0 |           134 |   11 |     0 |             0.0% |  0.0% |
 
-Source: `testset/results/latest.json`, anchor module `packages/core/src/anchor/index.ts`, run of 2026-11-18, 3,963 notes. Per category of change: [RESULTS.md](RESULTS.md).
+Source: `testset/results/latest.json`, anchor module `packages/core/src/anchor/index.ts`, run of 2026-11-22, 3,963 notes. Per category of change: [RESULTS.md](RESULTS.md).
 <!-- results:anchoring:end -->
 
 ## Failure classes that remain

@@ -179,7 +179,7 @@ Notes from the run:
 
 ## Anchor test set
 
-Source: `testset/results/latest.json`, anchor module `packages/core/src/anchor/index.ts`, run of 2026-11-18. 3,963 notes. Overall: **pass**.
+Source: `testset/results/latest.json`, anchor module `packages/core/src/anchor/index.ts`, run of 2026-11-22. 3,963 notes. Overall: **pass**.
 
 | measure                                                           | result | target          | status |
 | ----------------------------------------------------------------- | -----: | --------------- | ------ |
@@ -189,7 +189,7 @@ Source: `testset/results/latest.json`, anchor module `packages/core/src/anchor/i
 
 Notes in the tray because their content is truly gone: 92 on document pages.
 In the tray after their words were edited: 3. In the tray although the content is still
-there (misses): 11. Slowest page to resolve all its notes: 34.5 ms (py-stdtypes-311-313).
+there (misses): 11. Slowest page to resolve all its notes: 48.4 ms (wiki-leonardo-da-vinci-month).
 
 ### By category of change
 
@@ -254,8 +254,8 @@ there (misses): 11. Slowest page to resolve all its notes: 34.5 ms (py-stdtypes-
 | anchor type | notes | right | tray, correct | miss | wrong | right of present | wrong |
 | ----------- | ----: | ----: | ------------: | ---: | ----: | ---------------: | ----: |
 | block       |   980 |   939 |            32 |    4 |     1 |            99.4% |  0.1% |
-| media       |   381 |   361 |             8 |    2 |     5 |            98.4% |  1.3% |
-| text        |  2602 |  2490 |            94 |    5 |     7 |            99.5% |  0.3% |
+| media       |   374 |   354 |             8 |    2 |     5 |            98.3% |  1.3% |
+| text        |  2609 |  2497 |            94 |    5 |     7 |            99.5% |  0.3% |
 
 ## How to rerun
 

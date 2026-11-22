@@ -1,8 +1,8 @@
 {
  "meta": {
   "anchor": "packages/core/src/anchor/index.ts",
-  "started": "2026-11-18T22:08:11.595Z",
-  "seconds": 177,
+  "started": "2026-11-22T02:40:59.201Z",
+  "seconds": 201,
   "missing": [],
   "blockedRequests": 2,
   "quick": false,
@@ -735,32 +735,32 @@
    "correct": 0.9948979591836735
   },
   "media": {
-   "notes": 381,
-   "right": 0.9836512261580381,
+   "notes": 374,
+   "right": 0.9833333333333333,
    "trayGone": 8,
    "trayEdited": 0,
    "miss": 2,
-   "wrong": 0.013123359580052493,
+   "wrong": 0.013368983957219251,
    "hidden": 5,
    "error": 0,
    "unwritten": 0,
-   "present": 367,
+   "present": 360,
    "accounted": 1,
-   "correct": 0.9816272965879265
+   "correct": 0.9812834224598931
   },
   "text": {
-   "notes": 2602,
-   "right": 0.9952038369304557,
+   "notes": 2609,
+   "right": 0.9952172180151455,
    "trayGone": 90,
    "trayEdited": 4,
    "miss": 5,
-   "wrong": 0.002690238278247502,
+   "wrong": 0.0026830203142966655,
    "hidden": 6,
    "error": 0,
    "unwritten": 0,
-   "present": 2502,
+   "present": 2509,
    "accounted": 1,
-   "correct": 0.9953881629515757
+   "correct": 0.9954005366040629
   }
  },
  "byMethod": {
@@ -4724,7 +4724,7 @@
     "x": 719,
     "y": 11348
    },
-   "ms": 3.4,
+   "ms": 5.5,
    "cause": {
     "quote": ".7 adding",
     "truthText": "2.7 adding",
@@ -4791,7 +4791,7 @@
     "x": 264,
     "y": 4402
    },
-   "ms": 0.2,
+   "ms": 0.1,
    "cause": {
     "quote": "The Seven Wonders of the Ancient World",
     "truthText": "The Seven Wonders of the Ancient World",
@@ -4820,7 +4820,7 @@
     "x": 630,
     "y": 9258
    },
-   "ms": 2.4,
+   "ms": 3.3,
    "cause": {
     "quote": "due",
     "truthText": "due",
@@ -4888,7 +4888,7 @@
     "x": 1155,
     "y": 17063
    },
-   "ms": 0.2,
+   "ms": 0.3,
    "cause": {
     "quote": "raised.",
     "truthText": "raised.",
@@ -4918,7 +4918,7 @@
     "x": 488,
     "y": 33283
    },
-   "ms": 0,
+   "ms": 0.1,
    "cause": {
     "quote": "",
     "truthText": "",
@@ -4949,7 +4949,7 @@
     "x": 355,
     "y": 19836
    },
-   "ms": 0.9,
+   "ms": 2.4,
    "cause": {
     "quote": "Task Object",
     "truthText": "Task Object",
@@ -4981,7 +4981,7 @@
     "x": 355,
     "y": 109
    },
-   "ms": 0.4,
+   "ms": 0.5,
    "cause": {
     "quote": "Coroutines and Tasks",
     "truthText": "Coroutines and Tasks",
@@ -5011,7 +5011,7 @@
     "x": 760,
     "y": 60160
    },
-   "ms": 4.4,
+   "ms": 5,
    "cause": {
     "quote": "not",
     "truthText": "not",
@@ -5040,7 +5040,7 @@
     "x": 483,
     "y": 26175
    },
-   "ms": 3,
+   "ms": 3.2,
    "cause": {
     "quote": "find() method should",
     "truthText": "find() method should",
@@ -5069,7 +5069,7 @@
     "x": 355,
     "y": 63062
    },
-   "ms": 4.5,
+   "ms": 5.4,
    "cause": {
     "quote": "A conversion specifier contains two or more characters and has the following com",
     "truthText": "If format requires a single argument, values may be a single",
@@ -5098,7 +5098,7 @@
     "x": 214,
     "y": 5687
    },
-   "ms": 5.4,
+   "ms": 6,
    "cause": {
     "quote": "add an import",
     "truthText": "add an import",
@@ -5127,7 +5127,7 @@
     "x": 325,
     "y": 16121
    },
-   "ms": 1.1,
+   "ms": 1,
    "cause": {
     "quote": "Result",
     "truthText": "Result",
@@ -5158,7 +5158,7 @@
     "x": 564,
     "y": 3037
    },
-   "ms": 0.4,
+   "ms": 0.3,
    "cause": {
     "quote": "scroll",
     "truthText": "scroll",
@@ -5188,7 +5188,7 @@
     "x": 264,
     "y": 2339
    },
-   "ms": 2.7,
+   "ms": 1.5,
    "cause": {
     "quote": "Gutenberg adopted the basic design, thereby mechanizing the printing process.[18",
     "truthText": "During the Islamic Golden Age, Arab Muslims were printing te",
@@ -5219,7 +5219,7 @@
     "x": 396,
     "y": 13729
    },
-   "ms": 0,
+   "ms": 0.2,
    "cause": {
     "quote": "81.4% Good \"has a good, normal flavor and aroma for the predominant floral sourc",
     "truthText": "",
@@ -5249,7 +5249,7 @@
     "x": 290,
     "y": 25149
    },
-   "ms": 3.7,
+   "ms": 3.9,
    "cause": {
     "quote": "Environment Programme (UNEP). 2008. Archived from the",
     "truthText": "Environment Programme (UNEP). 2008. Archived from the",
@@ -5278,7 +5278,7 @@
     "x": 324,
     "y": 3395
    },
-   "ms": 0.3,
+   "ms": 0.6,
    "cause": {
     "quote": "were sold as houses or turned into small museums, while others stand empty",
     "truthText": "were sold as houses or turned into small museums, while othe",
@@ -5425,7 +5425,7 @@
     "x": 54,
     "y": 915
    },
-   "ms": 0,
+   "ms": 0.1,
    "cause": {
     "quote": "Loaves of bread in a basket",
     "truthText": "Bread",
@@ -12335,7 +12335,7 @@
    "w1280",
    "load",
    "table-17",
-   "media",
+   "text",
    "right",
    "path",
    1
@@ -31325,7 +31325,7 @@
    "w820",
    "load",
    "table-17",
-   "media",
+   "text",
    "right",
    "path",
    1
@@ -31525,7 +31525,7 @@
    "w390",
    "load",
    "table-17",
-   "media",
+   "text",
    "right",
    "path",
    1
@@ -31725,7 +31725,7 @@
    "w1280z150",
    "load",
    "table-17",
-   "media",
+   "text",
    "right",
    "path",
    1
@@ -31925,7 +31925,7 @@
    "w390z150",
    "load",
    "table-17",
-   "media",
+   "text",
    "right",
    "path",
    1
@@ -32125,7 +32125,7 @@
    "dark",
    "load",
    "table-17",
-   "media",
+   "text",
    "right",
    "path",
    1
@@ -32325,7 +32325,7 @@
    "darkcss",
    "load",
    "table-17",
-   "media",
+   "text",
    "right",
    "path",
    1
@@ -45077,1415 +45077,1415 @@
    "pair": "wiki-photosynthesis-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 10.9,
-   "totalMs": 12.4
+   "firstMs": 13,
+   "totalMs": 15.8
   },
   {
    "pair": "wiki-photosynthesis-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 11,
-   "totalMs": 16.3
+   "firstMs": 12.5,
+   "totalMs": 22
   },
   {
    "pair": "wiki-coffee-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 10.7,
-   "totalMs": 13.8
+   "firstMs": 13.2,
+   "totalMs": 17.1
   },
   {
    "pair": "wiki-coffee-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 14.6,
-   "totalMs": 22.7
+   "firstMs": 18.3,
+   "totalMs": 25.8
   },
   {
    "pair": "wiki-jazz-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 11.8,
-   "totalMs": 13.6
+   "firstMs": 16.6,
+   "totalMs": 19.2
   },
   {
    "pair": "wiki-mars-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 16.3,
-   "totalMs": 19.6
+   "firstMs": 17.8,
+   "totalMs": 21.8
   },
   {
    "pair": "wiki-mars-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 13.8,
-   "totalMs": 20.6
+   "firstMs": 14,
+   "totalMs": 22.3
   },
   {
    "pair": "wiki-octopus-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 9.5,
-   "totalMs": 11.7
+   "firstMs": 13,
+   "totalMs": 15
   },
   {
    "pair": "wiki-octopus-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 9.6,
-   "totalMs": 11.7
+   "firstMs": 10.8,
+   "totalMs": 13.5
   },
   {
    "pair": "wiki-leonardo-da-vinci-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 11.4,
-   "totalMs": 13.3
+   "firstMs": 39,
+   "totalMs": 48.4
   },
   {
    "pair": "wiki-solar-system-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 16.5,
-   "totalMs": 28.9
+   "firstMs": 29.2,
+   "totalMs": 46.2
   },
   {
    "pair": "wiki-python-programming-language-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 13.2,
-   "totalMs": 18.3
+   "firstMs": 29.5,
+   "totalMs": 38.7
   },
   {
    "pair": "wiki-python-programming-language-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 10.2,
-   "totalMs": 27
+   "firstMs": 13.9,
+   "totalMs": 40.3
   },
   {
    "pair": "wiki-unix-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 6.6,
-   "totalMs": 8.1
+   "firstMs": 14.9,
+   "totalMs": 20
   },
   {
    "pair": "wiki-unix-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 6.4,
-   "totalMs": 8.5
+   "firstMs": 8,
+   "totalMs": 10.9
   },
   {
    "pair": "wiki-seven-wonders-of-the-ancient-world-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 4.9,
-   "totalMs": 11.1
+   "firstMs": 6.3,
+   "totalMs": 14.9
   },
   {
    "pair": "wiki-seven-wonders-of-the-ancient-world-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 5.3,
-   "totalMs": 14
+   "firstMs": 6.8,
+   "totalMs": 17.2
   },
   {
    "pair": "wiki-list-of-tallest-buildings-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 14.7,
-   "totalMs": 17.1
+   "firstMs": 21.3,
+   "totalMs": 23.9
   },
   {
    "pair": "wiki-list-of-tallest-buildings-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 14.1,
-   "totalMs": 31.1
+   "firstMs": 18,
+   "totalMs": 35
   },
   {
    "pair": "wiki-jazz-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 11,
-   "totalMs": 15.4
+   "firstMs": 23.5,
+   "totalMs": 30
   },
   {
    "pair": "wiki-solar-system-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 16.1,
-   "totalMs": 22.8
+   "firstMs": 20.5,
+   "totalMs": 29.2
   },
   {
    "pair": "wiki-pasta-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 6.1,
-   "totalMs": 9.7
+   "firstMs": 7.2,
+   "totalMs": 11
   },
   {
    "pair": "wiki-pasta-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 7.8,
-   "totalMs": 11.1
+   "firstMs": 9.6,
+   "totalMs": 13.9
   },
   {
    "pair": "wiki-leonardo-da-vinci-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 12,
-   "totalMs": 14.9
+   "firstMs": 14.3,
+   "totalMs": 18.3
   },
   {
    "pair": "py-controlflow-312-313",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 6.2,
-   "totalMs": 7.3
+   "firstMs": 6.9,
+   "totalMs": 8.4
   },
   {
    "pair": "py-datastructures-312-313",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 4.5,
-   "totalMs": 7.3
+   "firstMs": 5.4,
+   "totalMs": 7.9
   },
   {
    "pair": "py-functions-312-313",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 9.4,
-   "totalMs": 11.7
+   "firstMs": 10.4,
+   "totalMs": 14.1
   },
   {
    "pair": "py-pathlib-311-314",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 9.5,
-   "totalMs": 18.2
+   "firstMs": 10,
+   "totalMs": 19.2
   },
   {
    "pair": "py-asyncio-task-312-313",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 6.8,
-   "totalMs": 9.6
+   "firstMs": 22.9,
+   "totalMs": 28.7
   },
   {
    "pair": "py-stdtypes-311-313",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 19.4,
-   "totalMs": 34.5
+   "firstMs": 24.9,
+   "totalMs": 42.3
   },
   {
    "pair": "rust-book-ownership-170-185",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 3.3,
-   "totalMs": 4.9
+   "firstMs": 4.4,
+   "totalMs": 7.5
   },
   {
    "pair": "rust-book-strings-170-185",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 3,
-   "totalMs": 8
+   "firstMs": 4.3,
+   "totalMs": 11.6
   },
   {
    "pair": "django-tutorial01-42-52",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 5.4,
-   "totalMs": 9.1
+   "firstMs": 6,
+   "totalMs": 10.2
   },
   {
    "pair": "node-path-v18-v22",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 5.3,
-   "totalMs": 7
+   "firstMs": 5.7,
+   "totalMs": 8.1
   },
   {
    "pair": "mdn-css-flex-basis",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 5.1,
-   "totalMs": 9.5
+   "firstMs": 5.2,
+   "totalMs": 10.7
   },
   {
    "pair": "mdn-array-map",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 4.1,
-   "totalMs": 6.5
+   "firstMs": 7.3,
+   "totalMs": 10.5
   },
   {
    "pair": "mdn-html-table",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 6.7,
-   "totalMs": 19.8
+   "firstMs": 9.5,
+   "totalMs": 24.5
   },
   {
    "pair": "mdn-http-cache-control",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 4.6,
-   "totalMs": 12
+   "firstMs": 5.4,
+   "totalMs": 13.3
   },
   {
    "pair": "blog-fowler-microservices",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 3.2,
-   "totalMs": 6.4
+   "firstMs": 3.8,
+   "totalMs": 8.5
   },
   {
    "pair": "blog-joel-test",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 2.8,
-   "totalMs": 4.6
+   "firstMs": 3.5,
+   "totalMs": 6.3
   },
   {
    "pair": "blog-overreacted-useeffect",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 9.2,
-   "totalMs": 15.9
+   "firstMs": 13.2,
+   "totalMs": 22.4
   },
   {
    "pair": "news-bbc-altman",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 2.4,
-   "totalMs": 8.1
+   "firstMs": 2.9,
+   "totalMs": 9
   },
   {
    "pair": "news-npr-home",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.3,
-   "totalMs": 3.2
+   "firstMs": 1.6,
+   "totalMs": 4.1
   },
   {
    "pair": "blog-jvns-git",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 3.1,
-   "totalMs": 8.5
+   "firstMs": 4.1,
+   "totalMs": 9.9
   },
   {
    "pair": "blog-simonw-llm",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 2.4,
-   "totalMs": 7.1
+   "firstMs": 3.3,
+   "totalMs": 10
   },
   {
    "pair": "arxiv-2404-19756",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 22.6,
-   "totalMs": 23.8
+   "firstMs": 25.8,
+   "totalMs": 27.4
   },
   {
    "pair": "arxiv-2402-03300",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 12.1,
-   "totalMs": 14.5
+   "firstMs": 14.1,
+   "totalMs": 15.8
   },
   {
    "pair": "arxiv-2405-04434",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 13.5,
-   "totalMs": 15.1
+   "firstMs": 18.8,
+   "totalMs": 21
   },
   {
    "pair": "arxiv-2407-21783",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 20.2,
-   "totalMs": 23
+   "firstMs": 31.2,
+   "totalMs": 34.2
   },
   {
    "pair": "wiki-bicycle-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 9,
-   "totalMs": 10.3
+   "firstMs": 11.1,
+   "totalMs": 12.9
   },
   {
    "pair": "wiki-penguin-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 8.8,
-   "totalMs": 11.6
+   "firstMs": 9.6,
+   "totalMs": 13.4
   },
   {
    "pair": "wiki-rainbow-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 8.3,
-   "totalMs": 10.2
+   "firstMs": 9.6,
+   "totalMs": 12.5
   },
   {
    "pair": "wiki-printing-press-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 5.5,
-   "totalMs": 17.5
+   "firstMs": 7.3,
+   "totalMs": 19.2
   },
   {
    "pair": "wiki-tea-2year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 9.5,
-   "totalMs": 15.4
+   "firstMs": 10.8,
+   "totalMs": 16.7
   },
   {
    "pair": "wiki-chess-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 15.2,
-   "totalMs": 16.9
+   "firstMs": 17.9,
+   "totalMs": 20.5
   },
   {
    "pair": "wiki-volcano-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 7.7,
-   "totalMs": 12.1
+   "firstMs": 9.4,
+   "totalMs": 15.2
   },
   {
    "pair": "wiki-honey-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 8.8,
-   "totalMs": 11.6
+   "firstMs": 9.4,
+   "totalMs": 12.7
   },
   {
    "pair": "wiki-lighthouse-2year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 5.1,
+   "firstMs": 5.4,
    "totalMs": 7.2
   },
   {
    "pair": "wiki-glacier-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 7,
-   "totalMs": 16.4
+   "firstMs": 6.9,
+   "totalMs": 16.7
   },
   {
    "pair": "wiki-origami-2year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 4.4,
-   "totalMs": 10.8
+   "firstMs": 4.7,
+   "totalMs": 12
   },
   {
    "pair": "wiki-pythagorean-theorem-year",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 10.7,
-   "totalMs": 19.3
+   "firstMs": 13.5,
+   "totalMs": 22.5
   },
   {
    "pair": "wiki-bread-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 6.6,
-   "totalMs": 8.9
+   "firstMs": 6.7,
+   "totalMs": 9
   },
   {
    "pair": "wiki-eiffel-tower-month",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 9.8,
-   "totalMs": 12.8
+   "firstMs": 9.2,
+   "totalMs": 12.2
   },
   {
    "pair": "py-json-312-313",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 5.1,
-   "totalMs": 6.9
+   "firstMs": 5.6,
+   "totalMs": 7.3
   },
   {
    "pair": "py-collections-311-313",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 7.3,
-   "totalMs": 10.4
+   "firstMs": 8.1,
+   "totalMs": 12.1
   },
   {
    "pair": "py-re-312-314",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 9.3,
-   "totalMs": 12.6
+   "firstMs": 9,
+   "totalMs": 11.8
   },
   {
    "pair": "py-classes-312-313",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 4.9,
-   "totalMs": 5.9
+   "firstMs": 5.4,
+   "totalMs": 6.6
   },
   {
    "pair": "py-errors-311-314",
    "cond": "w1280",
    "phase": "load",
    "firstMs": 4.9,
-   "totalMs": 6.6
+   "totalMs": 6.4
   },
   {
    "pair": "py-itertools-312-313",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 7.5,
-   "totalMs": 12.7
+   "firstMs": 7.6,
+   "totalMs": 12.6
   },
   {
    "pair": "py-logging-howto-312-313",
    "cond": "w1280",
    "phase": "load",
    "firstMs": 4.7,
-   "totalMs": 6.1
+   "totalMs": 6
   },
   {
    "pair": "rust-book-enums-170-185",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 4,
-   "totalMs": 5.7
+   "firstMs": 4.6,
+   "totalMs": 6.5
   },
   {
    "pair": "rust-book-result-170-185",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 3.5,
-   "totalMs": 11.2
+   "firstMs": 4,
+   "totalMs": 12.3
   },
   {
    "pair": "rust-book-closures-170-185",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 3.3,
-   "totalMs": 6.1
+   "firstMs": 14.3,
+   "totalMs": 17.4
   },
   {
    "pair": "django-tutorial02-42-52",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 4.6,
-   "totalMs": 6.9
+   "firstMs": 6.8,
+   "totalMs": 10.3
   },
   {
    "pair": "django-models-42-52",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 6.6,
-   "totalMs": 7.5
+   "firstMs": 8.6,
+   "totalMs": 9.7
   },
   {
    "pair": "node-events-v18-v22",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 7.2,
-   "totalMs": 9.1
+   "firstMs": 7.5,
+   "totalMs": 9.6
   },
   {
    "pair": "node-url-v18-v22",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 5.9,
-   "totalMs": 6.8
+   "firstMs": 7.9,
+   "totalMs": 9
   },
   {
    "pair": "syn-same",
    "cond": "w1280",
    "phase": "load",
    "firstMs": 1.7,
-   "totalMs": 2.8
+   "totalMs": 3
   },
   {
    "pair": "syn-para-inserted",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.3,
-   "totalMs": 2.9
+   "firstMs": 2.6,
+   "totalMs": 3.8
   },
   {
    "pair": "syn-sentence-edited",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 2.3,
-   "totalMs": 4.4
+   "firstMs": 2.4,
+   "totalMs": 5
   },
   {
    "pair": "syn-quote-repeated",
    "cond": "w1280",
    "phase": "load",
    "firstMs": 1.7,
-   "totalMs": 2.8
+   "totalMs": 2.6
   },
   {
    "pair": "syn-section-moved",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 2.2,
-   "totalMs": 3.6
+   "firstMs": 1.7,
+   "totalMs": 2.7
   },
   {
    "pair": "syn-section-deleted",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.4,
-   "totalMs": 3.9
+   "firstMs": 1.5,
+   "totalMs": 4
   },
   {
    "pair": "syn-ids-classes-renamed",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.3,
-   "totalMs": 2.3
+   "firstMs": 1.4,
+   "totalMs": 2.6
   },
   {
    "pair": "syn-list-reordered",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.6,
-   "totalMs": 3.1
+   "firstMs": 1.7,
+   "totalMs": 2.7
   },
   {
    "pair": "syn-sticky-sidebar",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.9,
-   "totalMs": 3.4
+   "firstMs": 2.6,
+   "totalMs": 4.3
   },
   {
    "pair": "syn-twin-notes",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.8,
-   "totalMs": 4.1
+   "firstMs": 1.9,
+   "totalMs": 3.7
   },
   {
    "pair": "syn-heading-renamed",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.4,
-   "totalMs": 3.2
+   "firstMs": 1.5,
+   "totalMs": 4.6
   },
   {
    "pair": "syn-footnotes-renumbered",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.5,
-   "totalMs": 3.6
+   "firstMs": 1.8,
+   "totalMs": 4.2
   },
   {
    "pair": "syn-table-column-removed",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.5,
-   "totalMs": 2.3
+   "firstMs": 1.7,
+   "totalMs": 2.7
   },
   {
    "pair": "syn-opening-rewritten",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.9,
-   "totalMs": 3.8
+   "firstMs": 2,
+   "totalMs": 4.7
   },
   {
    "pair": "syn-image-replaced",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 2.3,
-   "totalMs": 4.1
+   "firstMs": 1.9,
+   "totalMs": 3.5
   },
   {
    "pair": "syn-collapse-details",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.6,
-   "totalMs": 4.4
+   "firstMs": 2.2,
+   "totalMs": 6.9
   },
   {
    "pair": "syn-reopen-details",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.9,
-   "totalMs": 3.1
+   "firstMs": 2.3,
+   "totalMs": 3.8
   },
   {
    "pair": "syn-collapse-accordion",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 2.8,
-   "totalMs": 4
+   "firstMs": 1.8,
+   "totalMs": 2.9
   },
   {
    "pair": "syn-reopen-accordion",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.5,
-   "totalMs": 2.3
+   "firstMs": 2,
+   "totalMs": 2.9
   },
   {
    "pair": "syn-collapse-tabs",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 2.3,
-   "totalMs": 4.2
+   "firstMs": 5.2,
+   "totalMs": 10.9
   },
   {
    "pair": "syn-reopen-tabs",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.6,
-   "totalMs": 2.7
+   "firstMs": 5.1,
+   "totalMs": 6.8
   },
   {
    "pair": "syn-collapse-menu",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.6,
-   "totalMs": 3.8
+   "firstMs": 2,
+   "totalMs": 3.9
   },
   {
    "pair": "syn-reopen-menu",
    "cond": "w1280",
    "phase": "load",
-   "firstMs": 1.7,
-   "totalMs": 3.4
+   "firstMs": 2.1,
+   "totalMs": 4.9
   },
   {
    "pair": "dyn-lazy-article",
    "cond": "w1280",
    "phase": "early",
-   "firstMs": 1.4,
-   "totalMs": 4.1
+   "firstMs": 1.7,
+   "totalMs": 6.9
   },
   {
    "pair": "dyn-lazy-article",
    "cond": "w1280",
    "phase": "settled",
-   "firstMs": 1.1,
-   "totalMs": 1.9
+   "firstMs": 0.7,
+   "totalMs": 1
   },
   {
    "pair": "dyn-infinite-list",
    "cond": "w1280",
    "phase": "early",
-   "firstMs": 1.7,
-   "totalMs": 5.9
+   "firstMs": 2.4,
+   "totalMs": 8
   },
   {
    "pair": "dyn-infinite-list",
    "cond": "w1280",
    "phase": "settled",
-   "firstMs": 1.7,
-   "totalMs": 3.4
+   "firstMs": 0.5,
+   "totalMs": 1.5
   },
   {
    "pair": "dyn-spa-route",
    "cond": "w1280",
    "phase": "early",
+   "firstMs": 1.7,
+   "totalMs": 3.7
+  },
+  {
+   "pair": "dyn-spa-route",
+   "cond": "w1280",
+   "phase": "settled",
    "firstMs": 1.3,
-   "totalMs": 2.6
-  },
-  {
-   "pair": "dyn-spa-route",
-   "cond": "w1280",
-   "phase": "settled",
-   "firstMs": 1.7,
-   "totalMs": 3.1
+   "totalMs": 2.9
   },
   {
    "pair": "syn-same",
    "cond": "w820",
    "phase": "load",
-   "firstMs": 1.5,
-   "totalMs": 2.5
+   "firstMs": 2.9,
+   "totalMs": 4.2
   },
   {
    "pair": "syn-same",
    "cond": "w390",
    "phase": "load",
-   "firstMs": 1.6,
-   "totalMs": 2.6
+   "firstMs": 1.7,
+   "totalMs": 3.2
   },
   {
    "pair": "syn-same",
    "cond": "w1280z150",
    "phase": "load",
-   "firstMs": 1.6,
-   "totalMs": 2.3
+   "firstMs": 1.8,
+   "totalMs": 2.6
   },
   {
    "pair": "syn-same",
    "cond": "w390z150",
    "phase": "load",
-   "firstMs": 1.5,
-   "totalMs": 2.1
+   "firstMs": 2,
+   "totalMs": 3.7
   },
   {
    "pair": "syn-same",
    "cond": "dark",
    "phase": "load",
-   "firstMs": 1.6,
-   "totalMs": 2.7
+   "firstMs": 1.7,
+   "totalMs": 2.9
   },
   {
    "pair": "syn-same",
    "cond": "darkcss",
    "phase": "load",
-   "firstMs": 1.8,
-   "totalMs": 2.9
+   "firstMs": 3.1,
+   "totalMs": 4.5
   },
   {
    "pair": "wiki-photosynthesis-month",
    "cond": "w820",
    "phase": "load",
-   "firstMs": 13.7,
-   "totalMs": 15.5
+   "firstMs": 13.3,
+   "totalMs": 16.2
   },
   {
    "pair": "wiki-photosynthesis-month",
    "cond": "w390",
    "phase": "load",
-   "firstMs": 10.5,
-   "totalMs": 12
+   "firstMs": 12.6,
+   "totalMs": 14.7
   },
   {
    "pair": "wiki-photosynthesis-month",
    "cond": "w1280z150",
    "phase": "load",
-   "firstMs": 12.4,
-   "totalMs": 14.1
+   "firstMs": 13.3,
+   "totalMs": 15.2
   },
   {
    "pair": "wiki-photosynthesis-month",
    "cond": "w390z150",
    "phase": "load",
-   "firstMs": 10.4,
-   "totalMs": 11.9
+   "firstMs": 12.7,
+   "totalMs": 14.2
   },
   {
    "pair": "wiki-photosynthesis-month",
    "cond": "dark",
    "phase": "load",
    "firstMs": 12.7,
-   "totalMs": 14.9
+   "totalMs": 15.6
   },
   {
    "pair": "wiki-photosynthesis-month",
    "cond": "darkcss",
    "phase": "load",
-   "firstMs": 12.3,
-   "totalMs": 14.6
+   "firstMs": 13.6,
+   "totalMs": 16.9
   },
   {
    "pair": "wiki-solar-system-month",
    "cond": "w820",
    "phase": "load",
-   "firstMs": 16.9,
-   "totalMs": 21.2
+   "firstMs": 20.8,
+   "totalMs": 25.9
   },
   {
    "pair": "wiki-solar-system-month",
    "cond": "w390",
    "phase": "load",
-   "firstMs": 16.5,
-   "totalMs": 20.5
+   "firstMs": 18.2,
+   "totalMs": 24.8
   },
   {
    "pair": "wiki-solar-system-month",
    "cond": "w1280z150",
    "phase": "load",
-   "firstMs": 17.2,
-   "totalMs": 22.4
+   "firstMs": 18.8,
+   "totalMs": 23.8
   },
   {
    "pair": "wiki-solar-system-month",
    "cond": "w390z150",
    "phase": "load",
-   "firstMs": 17.2,
-   "totalMs": 22.2
+   "firstMs": 19.1,
+   "totalMs": 24
   },
   {
    "pair": "wiki-solar-system-month",
    "cond": "dark",
    "phase": "load",
-   "firstMs": 20.3,
-   "totalMs": 25
+   "firstMs": 22.4,
+   "totalMs": 26.9
   },
   {
    "pair": "wiki-solar-system-month",
    "cond": "darkcss",
    "phase": "load",
-   "firstMs": 20.5,
-   "totalMs": 25.4
+   "firstMs": 20.6,
+   "totalMs": 26.1
   },
   {
    "pair": "py-controlflow-312-313",
    "cond": "w820",
    "phase": "load",
-   "firstMs": 5.4,
-   "totalMs": 6.9
+   "firstMs": 7.6,
+   "totalMs": 9.4
   },
   {
    "pair": "py-controlflow-312-313",
    "cond": "w390",
    "phase": "load",
-   "firstMs": 6.8,
+   "firstMs": 7.6,
+   "totalMs": 9.4
+  },
+  {
+   "pair": "py-controlflow-312-313",
+   "cond": "w1280z150",
+   "phase": "load",
+   "firstMs": 6.5,
+   "totalMs": 8.3
+  },
+  {
+   "pair": "py-controlflow-312-313",
+   "cond": "w390z150",
+   "phase": "load",
+   "firstMs": 6.3,
    "totalMs": 8.2
   },
   {
    "pair": "py-controlflow-312-313",
-   "cond": "w1280z150",
-   "phase": "load",
-   "firstMs": 5.8,
-   "totalMs": 7.2
-  },
-  {
-   "pair": "py-controlflow-312-313",
-   "cond": "w390z150",
-   "phase": "load",
-   "firstMs": 5.6,
-   "totalMs": 6.8
-  },
-  {
-   "pair": "py-controlflow-312-313",
    "cond": "dark",
    "phase": "load",
-   "firstMs": 6.5,
-   "totalMs": 7.5
+   "firstMs": 8.2,
+   "totalMs": 10.1
   },
   {
    "pair": "py-controlflow-312-313",
    "cond": "darkcss",
    "phase": "load",
-   "firstMs": 6.4,
-   "totalMs": 7.4
-  },
-  {
-   "pair": "mdn-css-flex-basis",
-   "cond": "w820",
-   "phase": "load",
-   "firstMs": 4.9,
-   "totalMs": 7.2
-  },
-  {
-   "pair": "mdn-css-flex-basis",
-   "cond": "w390",
-   "phase": "load",
-   "firstMs": 4.9,
-   "totalMs": 7.2
-  },
-  {
-   "pair": "mdn-css-flex-basis",
-   "cond": "w1280z150",
-   "phase": "load",
-   "firstMs": 4.6,
-   "totalMs": 6.4
-  },
-  {
-   "pair": "mdn-css-flex-basis",
-   "cond": "w390z150",
-   "phase": "load",
-   "firstMs": 4.7,
-   "totalMs": 6.8
-  },
-  {
-   "pair": "mdn-css-flex-basis",
-   "cond": "dark",
-   "phase": "load",
-   "firstMs": 4.6,
-   "totalMs": 6.7
-  },
-  {
-   "pair": "mdn-css-flex-basis",
-   "cond": "darkcss",
-   "phase": "load",
-   "firstMs": 4.6,
-   "totalMs": 6.5
-  },
-  {
-   "pair": "rust-book-ownership-170-185",
-   "cond": "w820",
-   "phase": "load",
-   "firstMs": 3.5,
-   "totalMs": 4.8
-  },
-  {
-   "pair": "rust-book-ownership-170-185",
-   "cond": "w390",
-   "phase": "load",
-   "firstMs": 3.3,
-   "totalMs": 4.4
-  },
-  {
-   "pair": "rust-book-ownership-170-185",
-   "cond": "w1280z150",
-   "phase": "load",
-   "firstMs": 3.3,
-   "totalMs": 4.2
-  },
-  {
-   "pair": "rust-book-ownership-170-185",
-   "cond": "w390z150",
-   "phase": "load",
-   "firstMs": 3.3,
-   "totalMs": 4.6
-  },
-  {
-   "pair": "rust-book-ownership-170-185",
-   "cond": "dark",
-   "phase": "load",
-   "firstMs": 3.3,
-   "totalMs": 4
-  },
-  {
-   "pair": "rust-book-ownership-170-185",
-   "cond": "darkcss",
-   "phase": "load",
-   "firstMs": 3.6,
-   "totalMs": 4.4
-  },
-  {
-   "pair": "arxiv-2404-19756",
-   "cond": "w820",
-   "phase": "load",
-   "firstMs": 23.5,
-   "totalMs": 24.5
-  },
-  {
-   "pair": "arxiv-2404-19756",
-   "cond": "w390",
-   "phase": "load",
-   "firstMs": 22.8,
-   "totalMs": 24.2
-  },
-  {
-   "pair": "arxiv-2404-19756",
-   "cond": "w1280z150",
-   "phase": "load",
-   "firstMs": 23,
-   "totalMs": 24.7
-  },
-  {
-   "pair": "arxiv-2404-19756",
-   "cond": "w390z150",
-   "phase": "load",
-   "firstMs": 22.6,
-   "totalMs": 24.3
-  },
-  {
-   "pair": "arxiv-2404-19756",
-   "cond": "dark",
-   "phase": "load",
-   "firstMs": 22.7,
-   "totalMs": 24.1
-  },
-  {
-   "pair": "arxiv-2404-19756",
-   "cond": "darkcss",
-   "phase": "load",
-   "firstMs": 22.9,
-   "totalMs": 24.5
-  },
-  {
-   "pair": "wiki-coffee-month",
-   "cond": "w820",
-   "phase": "load",
-   "firstMs": 10.7,
-   "totalMs": 12
-  },
-  {
-   "pair": "wiki-coffee-month",
-   "cond": "w390",
-   "phase": "load",
-   "firstMs": 11,
-   "totalMs": 12.4
-  },
-  {
-   "pair": "wiki-coffee-month",
-   "cond": "w1280z150",
-   "phase": "load",
-   "firstMs": 10.6,
-   "totalMs": 11.7
-  },
-  {
-   "pair": "wiki-coffee-month",
-   "cond": "w390z150",
-   "phase": "load",
-   "firstMs": 10.5,
-   "totalMs": 11.4
-  },
-  {
-   "pair": "wiki-coffee-month",
-   "cond": "dark",
-   "phase": "load",
-   "firstMs": 11.1,
-   "totalMs": 12.9
-  },
-  {
-   "pair": "wiki-coffee-month",
-   "cond": "darkcss",
-   "phase": "load",
-   "firstMs": 11.2,
-   "totalMs": 13.5
-  },
-  {
-   "pair": "wiki-unix-year",
-   "cond": "w820",
-   "phase": "load",
-   "firstMs": 6,
-   "totalMs": 7.4
-  },
-  {
-   "pair": "wiki-unix-year",
-   "cond": "w390",
-   "phase": "load",
-   "firstMs": 6.1,
-   "totalMs": 7.6
-  },
-  {
-   "pair": "wiki-unix-year",
-   "cond": "w1280z150",
-   "phase": "load",
-   "firstMs": 6,
-   "totalMs": 7.6
-  },
-  {
-   "pair": "wiki-unix-year",
-   "cond": "w390z150",
-   "phase": "load",
-   "firstMs": 6.1,
-   "totalMs": 7.4
-  },
-  {
-   "pair": "wiki-unix-year",
-   "cond": "dark",
-   "phase": "load",
-   "firstMs": 6,
-   "totalMs": 8.4
-  },
-  {
-   "pair": "wiki-unix-year",
-   "cond": "darkcss",
-   "phase": "load",
-   "firstMs": 7.6,
+   "firstMs": 7.8,
    "totalMs": 9.9
   },
   {
-   "pair": "django-tutorial01-42-52",
+   "pair": "mdn-css-flex-basis",
    "cond": "w820",
    "phase": "load",
-   "firstMs": 3.5,
-   "totalMs": 4.5
+   "firstMs": 5.6,
+   "totalMs": 8.1
   },
   {
-   "pair": "django-tutorial01-42-52",
+   "pair": "mdn-css-flex-basis",
    "cond": "w390",
    "phase": "load",
-   "firstMs": 3.4,
-   "totalMs": 4.2
+   "firstMs": 5.8,
+   "totalMs": 8.1
   },
   {
-   "pair": "django-tutorial01-42-52",
+   "pair": "mdn-css-flex-basis",
    "cond": "w1280z150",
    "phase": "load",
-   "firstMs": 3.3,
-   "totalMs": 4.2
+   "firstMs": 5.9,
+   "totalMs": 8.7
   },
   {
-   "pair": "django-tutorial01-42-52",
+   "pair": "mdn-css-flex-basis",
    "cond": "w390z150",
    "phase": "load",
-   "firstMs": 3.4,
-   "totalMs": 4.5
+   "firstMs": 6.2,
+   "totalMs": 8.9
   },
   {
-   "pair": "django-tutorial01-42-52",
+   "pair": "mdn-css-flex-basis",
    "cond": "dark",
    "phase": "load",
-   "firstMs": 3.4,
-   "totalMs": 4.4
+   "firstMs": 5.9,
+   "totalMs": 8
   },
   {
-   "pair": "django-tutorial01-42-52",
+   "pair": "mdn-css-flex-basis",
    "cond": "darkcss",
    "phase": "load",
-   "firstMs": 3.5,
-   "totalMs": 4.4
+   "firstMs": 5.9,
+   "totalMs": 8.3
   },
   {
-   "pair": "node-path-v18-v22",
+   "pair": "rust-book-ownership-170-185",
    "cond": "w820",
    "phase": "load",
-   "firstMs": 3.8,
+   "firstMs": 4.1,
    "totalMs": 5.6
   },
   {
-   "pair": "node-path-v18-v22",
+   "pair": "rust-book-ownership-170-185",
    "cond": "w390",
-   "phase": "load",
-   "firstMs": 3.9,
-   "totalMs": 6
-  },
-  {
-   "pair": "node-path-v18-v22",
-   "cond": "w1280z150",
-   "phase": "load",
-   "firstMs": 3.9,
-   "totalMs": 5.9
-  },
-  {
-   "pair": "node-path-v18-v22",
-   "cond": "w390z150",
-   "phase": "load",
-   "firstMs": 4.4,
-   "totalMs": 6.8
-  },
-  {
-   "pair": "node-path-v18-v22",
-   "cond": "dark",
-   "phase": "load",
-   "firstMs": 4.1,
-   "totalMs": 5.5
-  },
-  {
-   "pair": "node-path-v18-v22",
-   "cond": "darkcss",
-   "phase": "load",
-   "firstMs": 3.8,
-   "totalMs": 5.5
-  },
-  {
-   "pair": "mdn-array-map",
-   "cond": "w820",
    "phase": "load",
    "firstMs": 4.1,
    "totalMs": 5.3
   },
   {
-   "pair": "mdn-array-map",
-   "cond": "w390",
-   "phase": "load",
-   "firstMs": 4.2,
-   "totalMs": 5.4
-  },
-  {
-   "pair": "mdn-array-map",
+   "pair": "rust-book-ownership-170-185",
    "cond": "w1280z150",
    "phase": "load",
    "firstMs": 4.4,
-   "totalMs": 5.9
-  },
-  {
-   "pair": "mdn-array-map",
-   "cond": "w390z150",
-   "phase": "load",
-   "firstMs": 4.4,
-   "totalMs": 5.3
-  },
-  {
-   "pair": "mdn-array-map",
-   "cond": "dark",
-   "phase": "load",
-   "firstMs": 4.4,
-   "totalMs": 5.5
-  },
-  {
-   "pair": "mdn-array-map",
-   "cond": "darkcss",
-   "phase": "load",
-   "firstMs": 4.5,
-   "totalMs": 6
-  },
-  {
-   "pair": "py-datastructures-312-313",
-   "cond": "w820",
-   "phase": "load",
-   "firstMs": 4.7,
    "totalMs": 5.6
   },
   {
-   "pair": "py-datastructures-312-313",
-   "cond": "w390",
-   "phase": "load",
-   "firstMs": 4.6,
-   "totalMs": 5.9
-  },
-  {
-   "pair": "py-datastructures-312-313",
-   "cond": "w1280z150",
+   "pair": "rust-book-ownership-170-185",
+   "cond": "w390z150",
    "phase": "load",
    "firstMs": 4.8,
    "totalMs": 6.1
   },
   {
-   "pair": "py-datastructures-312-313",
-   "cond": "w390z150",
-   "phase": "load",
-   "firstMs": 4.6,
-   "totalMs": 5.9
-  },
-  {
-   "pair": "py-datastructures-312-313",
+   "pair": "rust-book-ownership-170-185",
    "cond": "dark",
    "phase": "load",
-   "firstMs": 4.6,
-   "totalMs": 5.7
+   "firstMs": 4.1,
+   "totalMs": 5.2
   },
   {
-   "pair": "py-datastructures-312-313",
+   "pair": "rust-book-ownership-170-185",
    "cond": "darkcss",
    "phase": "load",
-   "firstMs": 4.6,
+   "firstMs": 4.4,
    "totalMs": 5.8
   },
   {
-   "pair": "syn-sticky-sidebar",
+   "pair": "arxiv-2404-19756",
    "cond": "w820",
    "phase": "load",
-   "firstMs": 1.5,
-   "totalMs": 3.1
+   "firstMs": 29.1,
+   "totalMs": 31
   },
   {
-   "pair": "syn-sticky-sidebar",
+   "pair": "arxiv-2404-19756",
    "cond": "w390",
    "phase": "load",
-   "firstMs": 1.5,
-   "totalMs": 3.3
+   "firstMs": 28.8,
+   "totalMs": 30.6
   },
   {
-   "pair": "syn-sticky-sidebar",
+   "pair": "arxiv-2404-19756",
    "cond": "w1280z150",
    "phase": "load",
-   "firstMs": 1.6,
-   "totalMs": 2.8
+   "firstMs": 29.8,
+   "totalMs": 31.4
   },
   {
-   "pair": "syn-sticky-sidebar",
+   "pair": "arxiv-2404-19756",
    "cond": "w390z150",
    "phase": "load",
-   "firstMs": 1.5,
-   "totalMs": 3.1
+   "firstMs": 27.4,
+   "totalMs": 29.1
   },
   {
-   "pair": "syn-sticky-sidebar",
+   "pair": "arxiv-2404-19756",
    "cond": "dark",
    "phase": "load",
-   "firstMs": 1.5,
-   "totalMs": 2.7
+   "firstMs": 28.5,
+   "totalMs": 30.4
   },
   {
-   "pair": "syn-sticky-sidebar",
+   "pair": "arxiv-2404-19756",
    "cond": "darkcss",
    "phase": "load",
-   "firstMs": 1.6,
-   "totalMs": 2.9
+   "firstMs": 28.8,
+   "totalMs": 31.5
   },
   {
-   "pair": "wiki-bread-month",
+   "pair": "wiki-coffee-month",
    "cond": "w820",
    "phase": "load",
-   "firstMs": 5.4,
-   "totalMs": 6.6
+   "firstMs": 12.2,
+   "totalMs": 13.4
   },
   {
-   "pair": "wiki-bread-month",
+   "pair": "wiki-coffee-month",
    "cond": "w390",
    "phase": "load",
-   "firstMs": 5.3,
-   "totalMs": 6.8
+   "firstMs": 12.2,
+   "totalMs": 13.6
   },
   {
-   "pair": "wiki-bread-month",
+   "pair": "wiki-coffee-month",
    "cond": "w1280z150",
    "phase": "load",
-   "firstMs": 5.2,
-   "totalMs": 6.6
+   "firstMs": 12.2,
+   "totalMs": 13.9
   },
   {
-   "pair": "wiki-bread-month",
+   "pair": "wiki-coffee-month",
    "cond": "w390z150",
+   "phase": "load",
+   "firstMs": 12.2,
+   "totalMs": 13.8
+  },
+  {
+   "pair": "wiki-coffee-month",
+   "cond": "dark",
+   "phase": "load",
+   "firstMs": 12.5,
+   "totalMs": 14.5
+  },
+  {
+   "pair": "wiki-coffee-month",
+   "cond": "darkcss",
+   "phase": "load",
+   "firstMs": 13.2,
+   "totalMs": 15.3
+  },
+  {
+   "pair": "wiki-unix-year",
+   "cond": "w820",
+   "phase": "load",
+   "firstMs": 7.5,
+   "totalMs": 9.6
+  },
+  {
+   "pair": "wiki-unix-year",
+   "cond": "w390",
+   "phase": "load",
+   "firstMs": 7.1,
+   "totalMs": 8.9
+  },
+  {
+   "pair": "wiki-unix-year",
+   "cond": "w1280z150",
+   "phase": "load",
+   "firstMs": 8.5,
+   "totalMs": 10.9
+  },
+  {
+   "pair": "wiki-unix-year",
+   "cond": "w390z150",
+   "phase": "load",
+   "firstMs": 9.2,
+   "totalMs": 11
+  },
+  {
+   "pair": "wiki-unix-year",
+   "cond": "dark",
+   "phase": "load",
+   "firstMs": 8.3,
+   "totalMs": 10.8
+  },
+  {
+   "pair": "wiki-unix-year",
+   "cond": "darkcss",
+   "phase": "load",
+   "firstMs": 7.8,
+   "totalMs": 10.4
+  },
+  {
+   "pair": "django-tutorial01-42-52",
+   "cond": "w820",
+   "phase": "load",
+   "firstMs": 4.5,
+   "totalMs": 5.6
+  },
+  {
+   "pair": "django-tutorial01-42-52",
+   "cond": "w390",
+   "phase": "load",
+   "firstMs": 4.2,
+   "totalMs": 5.2
+  },
+  {
+   "pair": "django-tutorial01-42-52",
+   "cond": "w1280z150",
+   "phase": "load",
+   "firstMs": 4.3,
+   "totalMs": 5.7
+  },
+  {
+   "pair": "django-tutorial01-42-52",
+   "cond": "w390z150",
+   "phase": "load",
+   "firstMs": 4.5,
+   "totalMs": 5.5
+  },
+  {
+   "pair": "django-tutorial01-42-52",
+   "cond": "dark",
+   "phase": "load",
+   "firstMs": 4.6,
+   "totalMs": 6.1
+  },
+  {
+   "pair": "django-tutorial01-42-52",
+   "cond": "darkcss",
+   "phase": "load",
+   "firstMs": 4.3,
+   "totalMs": 5.2
+  },
+  {
+   "pair": "node-path-v18-v22",
+   "cond": "w820",
+   "phase": "load",
+   "firstMs": 5.9,
+   "totalMs": 8.9
+  },
+  {
+   "pair": "node-path-v18-v22",
+   "cond": "w390",
+   "phase": "load",
+   "firstMs": 5.2,
+   "totalMs": 7.4
+  },
+  {
+   "pair": "node-path-v18-v22",
+   "cond": "w1280z150",
+   "phase": "load",
+   "firstMs": 11.4,
+   "totalMs": 13.3
+  },
+  {
+   "pair": "node-path-v18-v22",
+   "cond": "w390z150",
+   "phase": "load",
+   "firstMs": 6.7,
+   "totalMs": 9.1
+  },
+  {
+   "pair": "node-path-v18-v22",
+   "cond": "dark",
+   "phase": "load",
+   "firstMs": 5,
+   "totalMs": 6.9
+  },
+  {
+   "pair": "node-path-v18-v22",
+   "cond": "darkcss",
+   "phase": "load",
+   "firstMs": 5.1,
+   "totalMs": 7
+  },
+  {
+   "pair": "mdn-array-map",
+   "cond": "w820",
    "phase": "load",
    "firstMs": 5.3,
    "totalMs": 7
   },
   {
+   "pair": "mdn-array-map",
+   "cond": "w390",
+   "phase": "load",
+   "firstMs": 5.1,
+   "totalMs": 6.7
+  },
+  {
+   "pair": "mdn-array-map",
+   "cond": "w1280z150",
+   "phase": "load",
+   "firstMs": 5.4,
+   "totalMs": 7
+  },
+  {
+   "pair": "mdn-array-map",
+   "cond": "w390z150",
+   "phase": "load",
+   "firstMs": 5.4,
+   "totalMs": 7.2
+  },
+  {
+   "pair": "mdn-array-map",
+   "cond": "dark",
+   "phase": "load",
+   "firstMs": 5.5,
+   "totalMs": 6.7
+  },
+  {
+   "pair": "mdn-array-map",
+   "cond": "darkcss",
+   "phase": "load",
+   "firstMs": 5.6,
+   "totalMs": 6.9
+  },
+  {
+   "pair": "py-datastructures-312-313",
+   "cond": "w820",
+   "phase": "load",
+   "firstMs": 5.9,
+   "totalMs": 7.4
+  },
+  {
+   "pair": "py-datastructures-312-313",
+   "cond": "w390",
+   "phase": "load",
+   "firstMs": 6.7,
+   "totalMs": 8.3
+  },
+  {
+   "pair": "py-datastructures-312-313",
+   "cond": "w1280z150",
+   "phase": "load",
+   "firstMs": 6.3,
+   "totalMs": 7.8
+  },
+  {
+   "pair": "py-datastructures-312-313",
+   "cond": "w390z150",
+   "phase": "load",
+   "firstMs": 6.9,
+   "totalMs": 8.7
+  },
+  {
+   "pair": "py-datastructures-312-313",
+   "cond": "dark",
+   "phase": "load",
+   "firstMs": 5.6,
+   "totalMs": 6.8
+  },
+  {
+   "pair": "py-datastructures-312-313",
+   "cond": "darkcss",
+   "phase": "load",
+   "firstMs": 5.7,
+   "totalMs": 7.2
+  },
+  {
+   "pair": "syn-sticky-sidebar",
+   "cond": "w820",
+   "phase": "load",
+   "firstMs": 2,
+   "totalMs": 4.4
+  },
+  {
+   "pair": "syn-sticky-sidebar",
+   "cond": "w390",
+   "phase": "load",
+   "firstMs": 1.8,
+   "totalMs": 3.5
+  },
+  {
+   "pair": "syn-sticky-sidebar",
+   "cond": "w1280z150",
+   "phase": "load",
+   "firstMs": 1.8,
+   "totalMs": 4
+  },
+  {
+   "pair": "syn-sticky-sidebar",
+   "cond": "w390z150",
+   "phase": "load",
+   "firstMs": 1.8,
+   "totalMs": 3.9
+  },
+  {
+   "pair": "syn-sticky-sidebar",
+   "cond": "dark",
+   "phase": "load",
+   "firstMs": 1.8,
+   "totalMs": 3.2
+  },
+  {
+   "pair": "syn-sticky-sidebar",
+   "cond": "darkcss",
+   "phase": "load",
+   "firstMs": 1.9,
+   "totalMs": 3.9
+  },
+  {
+   "pair": "wiki-bread-month",
+   "cond": "w820",
+   "phase": "load",
+   "firstMs": 6.3,
+   "totalMs": 8.2
+  },
+  {
+   "pair": "wiki-bread-month",
+   "cond": "w390",
+   "phase": "load",
+   "firstMs": 6.2,
+   "totalMs": 8.4
+  },
+  {
+   "pair": "wiki-bread-month",
+   "cond": "w1280z150",
+   "phase": "load",
+   "firstMs": 6.1,
+   "totalMs": 7.3
+  },
+  {
+   "pair": "wiki-bread-month",
+   "cond": "w390z150",
+   "phase": "load",
+   "firstMs": 6.4,
+   "totalMs": 8.4
+  },
+  {
    "pair": "wiki-bread-month",
    "cond": "dark",
    "phase": "load",
-   "firstMs": 6.1,
-   "totalMs": 7.6
+   "firstMs": 7.2,
+   "totalMs": 9.8
   },
   {
    "pair": "wiki-bread-month",
    "cond": "darkcss",
    "phase": "load",
-   "firstMs": 6,
-   "totalMs": 8.3
+   "firstMs": 7.2,
+   "totalMs": 9.3
   },
   {
    "pair": "rust-book-enums-170-185",
    "cond": "w820",
    "phase": "load",
-   "firstMs": 3.3,
-   "totalMs": 4.6
+   "firstMs": 3.6,
+   "totalMs": 5.2
   },
   {
    "pair": "rust-book-enums-170-185",
    "cond": "w390",
    "phase": "load",
-   "firstMs": 3.3,
-   "totalMs": 4.5
+   "firstMs": 4.1,
+   "totalMs": 5.6
   },
   {
    "pair": "rust-book-enums-170-185",
    "cond": "w1280z150",
    "phase": "load",
    "firstMs": 3.9,
-   "totalMs": 5.2
+   "totalMs": 5.4
   },
   {
    "pair": "rust-book-enums-170-185",
    "cond": "w390z150",
    "phase": "load",
-   "firstMs": 3.1,
-   "totalMs": 4.4
+   "firstMs": 3.7,
+   "totalMs": 5.2
   },
   {
    "pair": "rust-book-enums-170-185",
    "cond": "dark",
    "phase": "load",
-   "firstMs": 2.9,
-   "totalMs": 4
+   "firstMs": 5,
+   "totalMs": 7
   },
   {
    "pair": "rust-book-enums-170-185",
    "cond": "darkcss",
    "phase": "load",
-   "firstMs": 3.1,
-   "totalMs": 4.6
+   "firstMs": 3.7,
+   "totalMs": 5.1
   }
  ],
  "describeOff": 57
