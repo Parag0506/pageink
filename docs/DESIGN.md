@@ -128,6 +128,8 @@ A highlighter or pen stroke is turned into a text mark when it is close to strai
 1.5 line heights, and it covers at least 60% of one or more line boxes. It is saved as the covered text
 range plus a style. It is redrawn from `Range.getClientRects()` with a slight hand-drawn wobble, so it wraps
 with the text at any width or zoom. A circle or bracket around words stays as ink, anchored `text`.
+A word at an end of the stroke is marked only when the stroke runs along most of it, so a line that
+runs a little past the last word does not take in the next one.
 A pen stroke in the gap between two lines could underline the one or strike the other, so it stays ink.
 
 ### 7.4 Finding anchors again (the ladder)

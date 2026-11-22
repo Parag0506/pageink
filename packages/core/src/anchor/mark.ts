@@ -1,11 +1,12 @@
 /**
  * Recognising text marks (DESIGN 7.3). A near straight stroke, less than 1.5 line
- * heights tall, that runs over text on one line for at least 60% of its length.
+ * heights tall, that runs over text on one line for at least 60% of its length. It marks whole
+ * words: a word at either end only when the stroke runs along most of it.
  */
 import type { AnchorContext, MarkStyle, RecognizeTextMark, Sample, StrokeTool } from '../types';
 import { glyphAt, NEW_TEXT } from './describe';
 import { charRect, viewOf } from './geom';
-import { dropModel, getModel, isWordChar, widenToWords } from './text';
+import { dropModel, getModel, isWordChar, type Span, type TextModel, widenToWords } from './text';
 
 /** Share of the stroke that must lie over text on one line. */
 const COVER = 0.6;
@@ -60,6 +61,73 @@ function yAt(samples: Sample[], x: number): number {
     }
   }
   return best.y;
+}
+
+/** Share of a word at an end of the stroke that the stroke must run along to take it in. */
+const END_WORD = 0.6;
+/**
+ * Half of a one letter word is a pixel or two. So the stroke must also run along this share of
+ * the line height, or along NARROW_WORD of the word when the word is narrower than that.
+ */
+const END_WORD_MIN = 0.25;
+const NARROW_WORD = 0.8;
+
+/** Left and right of the part of [a, b) drawn on the line through midY. Null when none is. */
+function extentOnLine(
+  m: TextModel,
+  a: number,
+  b: number,
+  midY: number,
+  lineH: number,
+): { l: number; r: number } | null {
+  const range = m.range(a, b);
+  if (!range) return null;
+  let l = Number.POSITIVE_INFINITY;
+  let r = Number.NEGATIVE_INFINITY;
+  for (const q of range.getClientRects()) {
+    if (q.width <= 0 || Math.abs((q.top + q.bottom) / 2 - midY) > lineH / 2) continue;
+    l = Math.min(l, q.left);
+    r = Math.max(r, q.right);
+  }
+  return l < r ? { l, r } : null;
+}
+
+/**
+ * Drops a word at either end of the span that the stroke only touches. A hand runs a little
+ * past the last word, or starts a little before the first, and that must not mark the
+ * neighbour. A word here is the text between two spaces, with its punctuation.
+ */
+function trimEnds(m: TextModel, w: Span, x0: number, x1: number, midY: number, lineH: number): void {
+  const t = m.text;
+  const kept = (a: number, b: number): boolean => {
+    const x = extentOnLine(m, a, b, midY, lineH);
+    // Text that cannot be measured is never dropped.
+    if (!x) return true;
+    const width = x.r - x.l;
+    const need = Math.max(width * END_WORD, Math.min(width * NARROW_WORD, lineH * END_WORD_MIN));
+    return Math.min(x1, x.r) - Math.max(x0, x.l) >= need;
+  };
+  for (;;) {
+    let b = w.start;
+    while (b < w.end && t[b] !== ' ') b++;
+    // One word left: the stroke is on this line and on text, so it is the word meant.
+    if (b >= w.end) return;
+    let a = w.start;
+    while (a > 0 && t[a - 1] !== ' ') a--;
+    if (kept(a, b)) break;
+    while (b < w.end && t[b] === ' ') b++;
+    w.start = b;
+  }
+  for (;;) {
+    let a = w.end;
+    while (a > w.start && t[a - 1] !== ' ') a--;
+    if (a <= w.start) return;
+    let b = w.end;
+    while (b < t.length && t[b] !== ' ') b++;
+    if (kept(a, b)) break;
+    while (a > w.start && !isWordChar(t[a - 1])) a--;
+    w.end = a;
+  }
 }
 
 export const recognizeTextMark: RecognizeTextMark = (
@@ -161,10 +229,12 @@ function recognize(
   if (left >= 0 && left < s) s = left;
   if (right >= 0 && right + 1 > e) e = right + 1;
   const w = widenToWords(m.text, s, e);
+  const t = m.text;
+  trimEnds(m, w, minX - v.sx, maxX - v.sx, midY, lineH);
+  // No word is left when the stroke only touched one and ran under a dash beside it.
   if (w.end <= w.start) return null;
   // Punctuation after the last word, such as the stop that ends a line, belongs to the mark when
   // the stroke runs under it.
-  const t = m.text;
   let pe = w.end;
   while (pe < w.end + 3 && t[pe] && t[pe] !== ' ' && !isWordChar(t[pe])) pe++;
   const r = pe > w.end && !isWordChar(t[pe]) ? charRect(m, pe - 1) : null;

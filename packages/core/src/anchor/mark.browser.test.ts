@@ -241,3 +241,99 @@ test('a mark range describes and resolves to the same words', () => {
   const r = createResolver(f.ctx).resolve(d.anchor, d.frame)!;
   expect(fold(r.range!.toString())).toBe(w.text);
 });
+
+/** A page with one paragraph of running text that has short words in it. */
+function prose(font: string, width: number): { ctx: { doc: Document }; ws: ReturnType<typeof allWords> } {
+  document.body.innerHTML = `<style>body{margin:0;font:${font}}</style><main style="width:${width}px;margin:20px 40px"><p id="pr">${Array.from(
+    { length: 6 },
+    () =>
+      'A bee shares what she found with the waggle dance, a short run on the comb whose angle gives the direction. So I go to it as a bee on a hill by an oak.',
+  ).join(' ')}</p></main>`;
+  dropModel(document);
+  return { ctx: { doc: document }, ws: allWords(document.getElementById('pr')!) };
+}
+
+const FONTS = [
+  ['17px/1.6 sans-serif', 700],
+  ['14px/1.4 serif', 520],
+  ['21px/1.5 Georgia, serif', 640],
+] as const;
+
+test('a stroke that runs a little past the last word does not take in the next word', () => {
+  for (const [font, width] of FONTS) {
+    const { ctx, ws } = prose(font, width);
+    let tried = 0;
+    for (let k = 1; k + 1 < ws.length; k++) {
+      const a = ws[k - 1]!.rects[0]!;
+      const b = ws[k]!.rects[0]!;
+      const next = ws[k + 1]!.rects[0]!;
+      // Two words with a third after them on the same line.
+      if (Math.abs(a.top - b.top) > 2 || Math.abs(next.top - b.top) > 2) continue;
+      const want = `${ws[k - 1]!.text} ${ws[k]!.text}`;
+      // How far a hand runs over depends on the size of the writing: 6 px at 17 px text.
+      const em = Number.parseFloat(font);
+      for (const over of [0.2 * em, 0.35 * em]) {
+        for (const before of [0, 0.25 * em]) {
+          const y = Math.max(a.bottom, b.bottom) + 1 + scrollY;
+          const m = recognizeTextMark(
+            ctx,
+            line(a.left - before + scrollX, b.right + over + scrollX, y, 0.4),
+            'pen',
+          );
+          const tag = `${font} "${want}" then "${ws[k + 1]!.text}", ${before} before, ${over} over: ${m ? fold(m.range.toString()) : 'ink'}`;
+          expect(m, tag).not.toBeNull();
+          expect(fold(m!.range.toString()), tag).toBe(want);
+          tried++;
+        }
+      }
+    }
+    expect(tried, font).toBeGreaterThan(100);
+  }
+});
+
+test('a word at an end of the stroke is taken in when the stroke runs under most of it', () => {
+  for (const [font, width] of FONTS) {
+    const { ctx, ws } = prose(font, width);
+    let tried = 0;
+    for (let k = 1; k + 2 < ws.length; k++) {
+      const p = ws[k - 1]!.rects[0]!;
+      const a = ws[k]!.rects[0]!;
+      const b = ws[k + 1]!.rects[0]!;
+      const n = ws[k + 2]!.rects[0]!;
+      if ([p, b, n].some((q) => Math.abs(q.top - a.top) > 2)) continue;
+      const y = Math.max(a.bottom, b.bottom) + 1 + scrollY;
+      // The stop or comma after the last word is marked only when the stroke reaches it.
+      const mark = (x0: number, x1: number) => {
+        const m = recognizeTextMark(ctx, line(x0 + scrollX, x1 + scrollX, y, 0.4), 'pen');
+        return m ? fold(m.range.toString()).replace(/[.,]$/, '') : 'ink';
+      };
+      const two = `${ws[k]!.text} ${ws[k + 1]!.text}`.replace(/[.,]$/, '');
+      const tag = `${font} "${ws[k - 1]!.text} ${two} ${ws[k + 2]!.text}"`;
+      // The stroke stops short inside both end words, with most of each word over it.
+      expect(mark(a.left + a.width * 0.15, b.right - b.width * 0.15), `${tag} short`).toBe(two);
+      // It runs under a fifth of the word before and of the word after: neither is marked.
+      expect(mark(p.right - p.width * 0.2, n.left + n.width * 0.2), `${tag} fifth`).toBe(two);
+      tried++;
+    }
+    expect(tried, font).toBeGreaterThan(40);
+  }
+});
+
+test('a stroke under a dash and the start of the next word stays ink', () => {
+  document.body.innerHTML =
+    '<style>body{margin:0;font:17px/1.6 sans-serif}</style><main style="width:700px;margin:20px 40px"><p id="da">The comb is level — whose angle gives the way.</p></main>';
+  dropModel(document);
+  const ws = allWords(document.getElementById('da')!);
+  const dash = ws.find((w) => w.text === '—')!.rects[0]!;
+  const next = ws.find((w) => w.text === 'whose')!.rects[0]!;
+  const y = dash.bottom + 1 + scrollY;
+  for (const share of [0.1, 0.3, 0.5]) {
+    const m = recognizeTextMark(
+      { doc: document },
+      line(dash.left - 2 + scrollX, next.left + next.width * share + scrollX, y, 0.4),
+      'pen',
+    );
+    // The word is only touched and a dash is no word: there is nothing to mark.
+    expect(m ? fold(m.range.toString()) : null, `${share}`).toBeNull();
+  }
+});

@@ -186,6 +186,12 @@ the line height, and at least 60% of probe points along it land on one line of t
 the middle of the line is an underline, through the middle a strike-through. The highlighter always
 makes a highlight. A circle or bracket around words stays as ink, anchored `text`.
 
+The mark covers whole words. A word at either end of the stroke is part of the mark only when the
+stroke runs along at least 60% of its width. A narrow word, such as "a" or "I", needs more: a quarter
+of the line height, or four fifths of the word when it is narrower than that. So a stroke that runs
+a little past the last word, or starts a little before the first, does not take in the neighbour.
+The stop or comma after the last word is marked when the stroke reaches it.
+
 A text mark stores the covered text range and a style, with no strokes. On every placement it is drawn
 fresh from the range's line boxes, with a slight hand-drawn wobble that is seeded from the note id so it
 looks the same every time. It rewraps with the text at any width or zoom.
