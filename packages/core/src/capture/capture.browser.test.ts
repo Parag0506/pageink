@@ -1,6 +1,7 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest';
 import { quiet, until } from '../testkit';
 import type { Capture, CaptureHost, Front, Gesture, StrokeProbe, Tool } from '../types';
+import { TAP_MS } from './capture';
 import { createCapture, createProbe } from './index';
 import {
   ALT,
@@ -73,6 +74,16 @@ async function drag(
     });
   }
   await pointer('mouseReleased', to[0], to[1], { ...o, gap: STEP_MS });
+}
+
+/**
+ * A pen tap: a hover, a press and a lift at one point, the lift STEP_MS after the press on the
+ * input clock, however long the machine takes between the two.
+ */
+async function penTap(x: number, y: number): Promise<void> {
+  await pointer('mouseMoved', x, y, { pen: true });
+  await pointer('mousePressed', x, y, { pen: true, force: 0.5, gap: STEP_MS });
+  await pointer('mouseReleased', x, y, { pen: true, gap: STEP_MS });
 }
 
 type TP = TouchPoint;
@@ -242,9 +253,7 @@ describe('pen', () => {
   });
 
   test('a tap on a link still clicks it and makes no ink', async () => {
-    await pointer('mouseMoved', 100, 320, { pen: true });
-    await pointer('mousePressed', 100, 320, { pen: true });
-    await pointer('mouseReleased', 100, 320, { pen: true });
+    await penTap(100, 320);
     await quiet();
     expect(clicks).toEqual(['link']);
     expect(rig.starts).toHaveLength(0);
@@ -266,12 +275,38 @@ describe('pen', () => {
   test('a tap on plain text is a dot and the page still gets the click', async () => {
     const seen: string[] = [];
     document.body.addEventListener('click', () => seen.push('click'));
-    await pointer('mouseMoved', 100, 500, { pen: true });
-    await pointer('mousePressed', 100, 500, { pen: true });
-    await pointer('mouseReleased', 100, 500, { pen: true });
+    await penTap(100, 500);
     await quiet();
     expect(rig.ends).toHaveLength(1);
     expect(seen).toEqual(['click']);
+  });
+
+  // The input clock of the test kit: a tap is told by the times of its events, so a machine that
+  // stalls between the press and the lift does not turn a test's tap into a stroke.
+  test('a press and a lift close together on the input clock are a tap, however late the lift arrives', async () => {
+    const seen: string[] = [];
+    document.body.addEventListener('click', () => seen.push('click'));
+    await pointer('mouseMoved', 100, 500, { pen: true });
+    await pointer('mousePressed', 100, 500, { pen: true, force: 0.5 });
+    // Longer than a tap may last. With the lift at the real time, the click would be swallowed.
+    await new Promise((r) => setTimeout(r, TAP_MS + 100));
+    await pointer('mouseReleased', 100, 500, { pen: true, gap: STEP_MS });
+    await quiet();
+    expect(rig.ends).toHaveLength(1);
+    expect(rig.ends[0]!.t1 - rig.ends[0]!.t0).toBeLessThanOrEqual(STEP_MS);
+    expect(seen).toEqual(['click']);
+  });
+
+  test('a lift that comes late on the real clock is no tap: the click after the dot is swallowed', async () => {
+    const seen: string[] = [];
+    document.body.addEventListener('click', () => seen.push('click'));
+    await pointer('mouseMoved', 100, 500, { pen: true });
+    await pointer('mousePressed', 100, 500, { pen: true, force: 0.5 });
+    await new Promise((r) => setTimeout(r, TAP_MS + 100));
+    await pointer('mouseReleased', 100, 500, { pen: true });
+    await quiet();
+    expect(rig.ends).toHaveLength(1);
+    expect(seen).toEqual([]);
   });
 
   test('page handlers do not see a stroke, and no text gets selected', async () => {
@@ -997,9 +1032,7 @@ describe('probe', () => {
     await frame();
     expect(probes.at(-1)).toMatchObject({ outcome: 'ink', replayed: true, samples: 3 });
 
-    await pointer('mouseMoved', 60, 320, { pen: true });
-    await pointer('mousePressed', 60, 320, { pen: true, force: 0.5 });
-    await pointer('mouseReleased', 60, 320, { pen: true });
+    await penTap(60, 320);
     expect(probes.at(-1)).toMatchObject({ outcome: 'tap', replayed: false });
 
     rig.state.enabled = false;

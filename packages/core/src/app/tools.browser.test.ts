@@ -81,6 +81,22 @@ describe('writing', () => {
     await until(() => rig.notes().length === 2, 'second note');
   });
 
+  // The input clock of the test kit: strokes are one note by the times of their events, not by
+  // when the machine delivers them.
+  test('a stroke marked as close to the last one joins its note, however late it arrives', async () => {
+    setPage(articleHtml());
+    const rig = await openViewer();
+    await rig.cmd();
+    const r = textRect(el('p1'), 'Paragraph 1');
+    await stroke(loop(r));
+    await until(() => rig.notes().length === 1, 'first');
+    // Longer than a note stays open on the real clock.
+    await wait(1600);
+    await stroke(line([r.right + 4, r.top], [r.right + 30, r.bottom + 6]), 'pen', 0, { after: 200 });
+    await until(() => rig.notes()[0]?.strokes.length === 2, 'joined');
+    expect(rig.notes()).toHaveLength(1);
+  });
+
   test('a straight highlighter line over text becomes a text mark that rewraps', async () => {
     setPage(articleHtml());
     const rig = await openViewer();
