@@ -1,6 +1,6 @@
 # Anchor test set results
 
-Anchor module: `packages/core/src/anchor/index.ts`. Run started 2026-11-22T02:40:59.201Z, took 201 s.
+Anchor module: `packages/core/src/anchor/index.ts`. Run started 2026-11-22T15:12:39.549Z, took 176 s.
 
 **PASS  anchor packages/core/src/anchor/index.ts: right 99.4% of present (document pages, target 95.0%), accounted 100.0%, wrong 0.3% (target under 2.0%), 3963 notes in 203 runs**
 
@@ -15,7 +15,7 @@ Anchor module: `packages/core/src/anchor/index.ts`. Run started 2026-11-22T02:40
 | in the tray but still present (miss) | 11 | 11 | |
 | hidden with content that is closed or hidden on B | 15 | 15 | |
 
-Slowest page: 48.4 ms to resolve all its notes. Describe disagreed with the truth rule on A for 57 notes. Blocked network requests during replay: 2.
+Slowest page: 38.8 ms to resolve all its notes. Describe disagreed with the truth rule on A for 57 notes. Blocked network requests during replay: 2.
 
 
 Held-out pairs were chosen by rule before any tuning (sources.json, `heldout`). Layout runs take the split of their fixture.

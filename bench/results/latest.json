@@ -3,20 +3,20 @@
   "ext": "bench/cache/ext-real",
   "product": true,
   "extName": "PageInk",
-  "extVersion": "0.1.0",
-  "extDigest": "0197b75df5de",
+  "extVersion": "0.1.1",
+  "extDigest": "0dc6c5022a5b",
   "benchBuild": true,
   "sizes": {
    "stub": 3366,
    "boot": 7198,
-   "viewer": 119148,
-   "tools": 80898
+   "viewer": 119225,
+   "tools": 84997
   },
   "loads": 10,
   "liveLoads": 20,
   "har": "replay",
   "settle": 1500,
-  "started": "2026-11-20T20:08:12.749Z",
+  "started": "2026-11-22T18:55:54.599Z",
   "quick": false,
   "budgets": {
    "stubMs": 5,
@@ -33,53 +33,55 @@
    "os": "darwin 25.3.0"
   },
   "calibrate": {
-   "calibrateMs": 36.7,
-   "cores": 11
+   "calibrateMs": 35.4,
+   "cores": 11,
+   "platform": "darwin",
+   "freeCores": 5.5
   },
   "browser": "Chrome/159.0.8154.6",
-  "seconds": 2598
+  "seconds": 3413
  },
  "pointer": {
   "lesson": {
    "mode": "local",
    "pointerEvents": 400,
    "wheels": 20,
-   "extMs": 6.72,
-   "usPerEvent": 16.8,
+   "extMs": 7.51,
+   "usPerEvent": 18.77,
    "scriptMs": {
     "with": {
-     "median": 3.9,
-     "iqr": 0.1,
-     "mad": 0.1,
+     "median": 4.4,
+     "iqr": 0.4,
+     "mad": 0.3,
      "n": 7
     },
     "without": {
-     "median": 1.9,
-     "iqr": 0.5,
-     "mad": 0.1,
+     "median": 2.2,
+     "iqr": 0.3,
+     "mad": 0.3,
      "n": 7
     },
-    "delta": 2,
-    "noise": 0.5,
+    "delta": 2.1,
+    "noise": 0.4,
     "beyondNoise": false
    },
    "traced": [
     {
      "events": 400,
-     "scriptMs": 4.45,
-     "extMs": 6.72,
+     "scriptMs": 4.95,
+     "extMs": 7.51,
      "extEvents": 400
     },
     {
      "events": 400,
-     "scriptMs": 4.84,
-     "extMs": 7.28,
+     "scriptMs": 4.9,
+     "extMs": 7.33,
      "extEvents": 400
     },
     {
      "events": 400,
-     "scriptMs": 4.45,
-     "extMs": 6.62,
+     "scriptMs": 5.57,
+     "extMs": 8.18,
      "extEvents": 400
     }
    ]
@@ -88,42 +90,42 @@
    "mode": "replay",
    "pointerEvents": 400,
    "wheels": 20,
-   "extMs": 6.29,
-   "usPerEvent": 15.73,
+   "extMs": 6.76,
+   "usPerEvent": 16.9,
    "scriptMs": {
     "with": {
-     "median": 3.9,
-     "iqr": 0.2,
-     "mad": 0.1,
+     "median": 4.5,
+     "iqr": 0.1,
+     "mad": 0,
      "n": 7
     },
     "without": {
-     "median": 2.3,
+     "median": 2.4,
      "iqr": 0.2,
-     "mad": 0.1,
+     "mad": 0,
      "n": 7
     },
-    "delta": 1.6,
+    "delta": 2.1,
     "noise": 0.2,
     "beyondNoise": false
    },
    "traced": [
     {
      "events": 400,
-     "scriptMs": 4.27,
-     "extMs": 6.29,
+     "scriptMs": 4.7,
+     "extMs": 6.75,
      "extEvents": 400
     },
     {
      "events": 400,
-     "scriptMs": 4.59,
-     "extMs": 6.4,
+     "scriptMs": 4.73,
+     "extMs": 6.76,
      "extEvents": 400
     },
     {
      "events": 400,
-     "scriptMs": 4.17,
-     "extMs": 6.08,
+     "scriptMs": 4.86,
+     "extMs": 6.97,
      "extEvents": 400
     }
    ]
@@ -142,53 +144,53 @@
    },
    "fp": {
     "with": {
-     "median": 116,
-     "iqr": 11,
-     "mad": 6,
+     "median": 122,
+     "iqr": 15,
+     "mad": 10,
      "n": 10
     },
     "without": {
-     "median": 108,
-     "iqr": 4,
-     "mad": 2,
+     "median": 114,
+     "iqr": 10,
+     "mad": 4,
      "n": 10
     },
     "delta": 8,
-    "noise": 11,
+    "noise": 15,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 116,
-     "iqr": 11,
-     "mad": 6,
+     "median": 122,
+     "iqr": 15,
+     "mad": 10,
      "n": 10
     },
     "without": {
-     "median": 108,
-     "iqr": 4,
-     "mad": 2,
+     "median": 114,
+     "iqr": 10,
+     "mad": 4,
      "n": 10
     },
     "delta": 8,
-    "noise": 11,
+    "noise": 15,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 116,
-     "iqr": 11,
-     "mad": 6,
+     "median": 122,
+     "iqr": 15,
+     "mad": 10,
      "n": 10
     },
     "without": {
-     "median": 108,
-     "iqr": 4,
-     "mad": 2,
+     "median": 114,
+     "iqr": 10,
+     "mad": 4,
      "n": 10
     },
     "delta": 8,
-    "noise": 11,
+    "noise": 15,
     "beyondNoise": false
    },
    "confirm": null,
@@ -198,25 +200,25 @@
    },
    "taskMs": {
     "with": {
-     "median": 197.4,
-     "iqr": 25.9,
-     "mad": 13,
+     "median": 204.3,
+     "iqr": 12.7,
+     "mad": 7.5,
      "n": 10
     },
     "without": {
-     "median": 192.8,
-     "iqr": 5.9,
-     "mad": 3.4,
+     "median": 205.5,
+     "iqr": 9,
+     "mad": 4.8,
      "n": 10
     },
-    "delta": 4.6,
-    "noise": 25.9,
+    "delta": -1.2,
+    "noise": 12.7,
     "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
      "median": 0,
-     "iqr": 0,
+     "iqr": 39.8,
      "mad": 0,
      "n": 10
     },
@@ -227,33 +229,33 @@
      "n": 10
     },
     "delta": 0,
-    "noise": 0,
+    "noise": 39.8,
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.4,
+    "median": 0.45,
     "max": 0.7
    },
    "extMs": {
-    "median": 1.48,
-    "max": 1.89,
+    "median": 1.62,
+    "max": 2.27,
     "loads": [
-     1.48,
-     1.41,
-     1.89
+     2.27,
+     1.49,
+     1.62
     ],
-    "allFrames": 1.48,
-    "allFramesMax": 1.89,
+    "allFrames": 1.62,
+    "allFramesMax": 2.27,
     "otherFrames": 0,
     "longestTask": 10.2,
     "byName": {
-     "ScriptInjection::InjectJs": 1.89,
-     "EvaluateScript": 0.85,
-     "v8.compile": 0.15,
+     "ScriptInjection::InjectJs": 1.62,
+     "EvaluateScript": 0.92,
+     "v8.compile": 0.17,
      "NativeExtensionBindingsSystem::SendRequest": 0.03
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.09
     }
    }
   },
@@ -269,53 +271,53 @@
    },
    "fp": {
     "with": {
-     "median": 260,
-     "iqr": 27,
-     "mad": 16,
-     "n": 10
-    },
-    "without": {
-     "median": 248,
-     "iqr": 8,
-     "mad": 4,
-     "n": 10
-    },
-    "delta": 12,
-    "noise": 27,
-    "beyondNoise": false
-   },
-   "fcp": {
-    "with": {
-     "median": 260,
-     "iqr": 27,
-     "mad": 16,
-     "n": 10
-    },
-    "without": {
-     "median": 248,
-     "iqr": 8,
-     "mad": 4,
-     "n": 10
-    },
-    "delta": 12,
-    "noise": 27,
-    "beyondNoise": false
-   },
-   "lcp": {
-    "with": {
-     "median": 388,
-     "iqr": 43,
+     "median": 278,
+     "iqr": 46,
      "mad": 24,
      "n": 10
     },
     "without": {
-     "median": 348,
-     "iqr": 30,
-     "mad": 16,
+     "median": 270,
+     "iqr": 8,
+     "mad": 2,
      "n": 10
     },
-    "delta": 40,
-    "noise": 43,
+    "delta": 8,
+    "noise": 46,
+    "beyondNoise": false
+   },
+   "fcp": {
+    "with": {
+     "median": 278,
+     "iqr": 46,
+     "mad": 24,
+     "n": 10
+    },
+    "without": {
+     "median": 270,
+     "iqr": 8,
+     "mad": 2,
+     "n": 10
+    },
+    "delta": 8,
+    "noise": 46,
+    "beyondNoise": false
+   },
+   "lcp": {
+    "with": {
+     "median": 398,
+     "iqr": 45,
+     "mad": 28,
+     "n": 10
+    },
+    "without": {
+     "median": 368,
+     "iqr": 56,
+     "mad": 22,
+     "n": 10
+    },
+    "delta": 30,
+    "noise": 56,
     "beyondNoise": false
    },
    "confirm": null,
@@ -325,62 +327,62 @@
    },
    "taskMs": {
     "with": {
-     "median": 408.8,
-     "iqr": 20.7,
-     "mad": 11,
+     "median": 430.6,
+     "iqr": 27.4,
+     "mad": 15.6,
      "n": 10
     },
     "without": {
-     "median": 416.9,
-     "iqr": 26,
-     "mad": 13.4,
+     "median": 424.8,
+     "iqr": 22.9,
+     "mad": 9.7,
      "n": 10
     },
-    "delta": -8.1,
-    "noise": 26,
+    "delta": 5.8,
+    "noise": 27.4,
     "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
-     "median": 36,
-     "iqr": 133.8,
-     "mad": 36,
-     "n": 10
-    },
-    "without": {
      "median": 0,
-     "iqr": 0,
+     "iqr": 135,
      "mad": 0,
      "n": 10
     },
-    "delta": 36,
-    "noise": 133.8,
+    "without": {
+     "median": 37.5,
+     "iqr": 125,
+     "mad": 37.5,
+     "n": 10
+    },
+    "delta": -37.5,
+    "noise": 135,
     "beyondNoise": false
    },
    "stubMs": {
     "median": 0.4,
-    "max": 0.7
+    "max": 0.6
    },
    "extMs": {
-    "median": 4.13,
-    "max": 4.21,
+    "median": 4.27,
+    "max": 5.22,
     "loads": [
-     4.21,
-     4.13,
-     4.01
+     5.22,
+     4.27,
+     4.07
     ],
-    "allFrames": 4.13,
-    "allFramesMax": 4.21,
+    "allFrames": 4.27,
+    "allFramesMax": 5.22,
     "otherFrames": 0,
-    "longestTask": 9,
+    "longestTask": 10.2,
     "byName": {
-     "ScriptInjection::InjectJs": 4.01,
-     "EvaluateScript": 1.5,
-     "v8.compile": 0.2,
-     "NativeExtensionBindingsSystem::SendRequest": 0.02
+     "ScriptInjection::InjectJs": 4.08,
+     "EvaluateScript": 1.47,
+     "v8.compile": 0.21,
+     "NativeExtensionBindingsSystem::SendRequest": 0.03
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.69
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.68
     }
    }
   },
@@ -397,52 +399,52 @@
    "fp": {
     "with": {
      "median": 80,
-     "iqr": 8,
-     "mad": 4,
+     "iqr": 32,
+     "mad": 18,
      "n": 20
     },
     "without": {
-     "median": 78,
-     "iqr": 5,
-     "mad": 2,
+     "median": 92,
+     "iqr": 25,
+     "mad": 8,
      "n": 20
     },
-    "delta": 2,
-    "noise": 8,
+    "delta": -12,
+    "noise": 32,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
      "median": 80,
-     "iqr": 8,
-     "mad": 4,
+     "iqr": 32,
+     "mad": 18,
      "n": 20
     },
     "without": {
-     "median": 78,
-     "iqr": 5,
-     "mad": 2,
+     "median": 92,
+     "iqr": 25,
+     "mad": 8,
      "n": 20
     },
-    "delta": 2,
-    "noise": 8,
+    "delta": -12,
+    "noise": 32,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
      "median": 80,
-     "iqr": 8,
-     "mad": 4,
+     "iqr": 32,
+     "mad": 18,
      "n": 20
     },
     "without": {
-     "median": 78,
-     "iqr": 5,
-     "mad": 2,
+     "median": 92,
+     "iqr": 25,
+     "mad": 8,
      "n": 20
     },
-    "delta": 2,
-    "noise": 8,
+    "delta": -12,
+    "noise": 32,
     "beyondNoise": false
    },
    "confirm": null,
@@ -452,19 +454,19 @@
    },
    "taskMs": {
     "with": {
-     "median": 215.2,
-     "iqr": 14.2,
-     "mad": 7.7,
+     "median": 209,
+     "iqr": 27,
+     "mad": 14,
      "n": 20
     },
     "without": {
-     "median": 208.6,
-     "iqr": 16.6,
-     "mad": 9,
+     "median": 223.1,
+     "iqr": 29.2,
+     "mad": 14,
      "n": 20
     },
-    "delta": 6.6,
-    "noise": 16.6,
+    "delta": -14.1,
+    "noise": 29.2,
     "beyondNoise": false
    },
    "longTaskMs": {
@@ -486,29 +488,29 @@
    },
    "stubMs": {
     "median": 0.5,
-    "max": 3
+    "max": 1.4
    },
    "extMs": {
-    "median": 1.66,
-    "max": 3.2,
+    "median": 1.88,
+    "max": 1.94,
     "loads": [
-     3.2,
-     1.63,
-     1.66
+     1.88,
+     1.94,
+     1.85
     ],
-    "allFrames": 4.24,
-    "allFramesMax": 5.59,
+    "allFrames": 6.13,
+    "allFramesMax": 7.01,
     "otherFrames": 3,
     "longestTask": 10.1,
     "byName": {
-     "Dispatcher::UpdateUserScripts": 0.05,
-     "ScriptInjection::InjectJs": 4.14,
-     "EvaluateScript": 1.87,
-     "v8.compile": 0.31,
+     "Dispatcher::UpdateUserScripts": 0.04,
+     "ScriptInjection::InjectJs": 6.1,
+     "EvaluateScript": 2.77,
+     "v8.compile": 0.53,
      "NativeExtensionBindingsSystem::SendRequest": 0.03
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 2.18
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 3.3
     }
    }
   },
@@ -524,53 +526,53 @@
    },
    "fp": {
     "with": {
-     "median": 254,
-     "iqr": 13,
-     "mad": 8,
+     "median": 224,
+     "iqr": 46,
+     "mad": 10,
      "n": 10
     },
     "without": {
-     "median": 252,
-     "iqr": 51,
-     "mad": 26,
+     "median": 270,
+     "iqr": 14,
+     "mad": 8,
      "n": 10
     },
-    "delta": 2,
-    "noise": 51,
+    "delta": -46,
+    "noise": 46,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 254,
-     "iqr": 13,
-     "mad": 8,
+     "median": 224,
+     "iqr": 46,
+     "mad": 10,
      "n": 10
     },
     "without": {
-     "median": 252,
-     "iqr": 51,
-     "mad": 26,
+     "median": 270,
+     "iqr": 14,
+     "mad": 8,
      "n": 10
     },
-    "delta": 2,
-    "noise": 51,
+    "delta": -46,
+    "noise": 46,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 254,
-     "iqr": 13,
-     "mad": 8,
+     "median": 224,
+     "iqr": 46,
+     "mad": 10,
      "n": 10
     },
     "without": {
-     "median": 252,
-     "iqr": 51,
-     "mad": 26,
+     "median": 270,
+     "iqr": 14,
+     "mad": 8,
      "n": 10
     },
-    "delta": 2,
-    "noise": 51,
+    "delta": -46,
+    "noise": 46,
     "beyondNoise": false
    },
    "confirm": null,
@@ -580,20 +582,402 @@
    },
    "taskMs": {
     "with": {
-     "median": 388.7,
-     "iqr": 15.3,
-     "mad": 8.9,
+     "median": 390.7,
+     "iqr": 16.1,
+     "mad": 7.9,
      "n": 10
     },
     "without": {
-     "median": 363.1,
-     "iqr": 21.6,
-     "mad": 6.7,
+     "median": 383.7,
+     "iqr": 18.2,
+     "mad": 8.5,
      "n": 10
     },
-    "delta": 25.6,
-    "noise": 21.6,
+    "delta": 7,
+    "noise": 18.2,
+    "beyondNoise": false
+   },
+   "longTaskMs": {
+    "with": {
+     "median": 0,
+     "iqr": 37.5,
+     "mad": 0,
+     "n": 10
+    },
+    "without": {
+     "median": 50,
+     "iqr": 50.8,
+     "mad": 50,
+     "n": 10
+    },
+    "delta": -50,
+    "noise": 50.8,
+    "beyondNoise": false
+   },
+   "stubMs": {
+    "median": 0.5,
+    "max": 0.7
+   },
+   "extMs": {
+    "median": 1.72,
+    "max": 1.74,
+    "loads": [
+     1.58,
+     1.72,
+     1.74
+    ],
+    "allFrames": 1.72,
+    "allFramesMax": 1.74,
+    "otherFrames": 0,
+    "longestTask": 3,
+    "byName": {
+     "ScriptInjection::InjectJs": 1.74,
+     "EvaluateScript": 1.01,
+     "v8.compile": 0.18,
+     "NativeExtensionBindingsSystem::SendRequest": 0.03
+    },
+    "byUrl": {
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.19
+    }
+   }
+  },
+  "news": {
+   "type": "News article",
+   "url": "https://www.npr.org/sections/science/",
+   "mode": "live",
+   "modeReason": "replay did not load",
+   "failed": {
+    "with": 0,
+    "without": 0,
+    "errors": []
+   },
+   "fp": {
+    "with": {
+     "median": 3304,
+     "iqr": 1741,
+     "mad": 902,
+     "n": 20
+    },
+    "without": {
+     "median": 3236,
+     "iqr": 1827,
+     "mad": 890,
+     "n": 20
+    },
+    "delta": 68,
+    "noise": 1827,
+    "beyondNoise": false
+   },
+   "fcp": {
+    "with": {
+     "median": 3304,
+     "iqr": 1741,
+     "mad": 902,
+     "n": 20
+    },
+    "without": {
+     "median": 3236,
+     "iqr": 1827,
+     "mad": 890,
+     "n": 20
+    },
+    "delta": 68,
+    "noise": 1827,
+    "beyondNoise": false
+   },
+   "lcp": {
+    "with": {
+     "median": 3420,
+     "iqr": 1734,
+     "mad": 924,
+     "n": 20
+    },
+    "without": {
+     "median": 3342,
+     "iqr": 1868,
+     "mad": 904,
+     "n": 20
+    },
+    "delta": 78,
+    "noise": 1868,
+    "beyondNoise": false
+   },
+   "confirm": null,
+   "real": {
+    "fcp": false,
+    "lcp": false
+   },
+   "taskMs": {
+    "with": {
+     "median": 865.1,
+     "iqr": 133.7,
+     "mad": 41.4,
+     "n": 20
+    },
+    "without": {
+     "median": 736.8,
+     "iqr": 230.5,
+     "mad": 121.7,
+     "n": 20
+    },
+    "delta": 128.2,
+    "noise": 230.5,
+    "beyondNoise": false
+   },
+   "longTaskMs": {
+    "with": {
+     "median": 57,
+     "iqr": 6.3,
+     "mad": 3,
+     "n": 20
+    },
+    "without": {
+     "median": 0,
+     "iqr": 53.5,
+     "mad": 0,
+     "n": 20
+    },
+    "delta": 57,
+    "noise": 53.5,
     "beyondNoise": true
+   },
+   "stubMs": {
+    "median": 0.85,
+    "max": 1.9
+   },
+   "extMs": {
+    "median": 3.97,
+    "max": 10.47,
+    "loads": [
+     10.47,
+     3.97,
+     2.72
+    ],
+    "allFrames": 10.98,
+    "allFramesMax": 14.88,
+    "otherFrames": 4,
+    "longestTask": 11.3,
+    "byName": {
+     "Dispatcher::UpdateUserScripts": 0.16,
+     "ScriptInjection::InjectJs": 8.45,
+     "EvaluateScript": 4.28,
+     "v8.compile": 0.85,
+     "NativeExtensionBindingsSystem::SendRequest": 0.04
+    },
+    "byUrl": {
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 5.13
+    }
+   }
+  },
+  "docs": {
+   "type": "Docs site",
+   "url": "https://docs.python.org/3/library/pathlib.html",
+   "mode": "replay",
+   "modeReason": "faithful",
+   "failed": {
+    "with": 0,
+    "without": 0,
+    "errors": []
+   },
+   "fp": {
+    "with": {
+     "median": 100,
+     "iqr": 15,
+     "mad": 8,
+     "n": 10
+    },
+    "without": {
+     "median": 106,
+     "iqr": 19,
+     "mad": 10,
+     "n": 10
+    },
+    "delta": -6,
+    "noise": 19,
+    "beyondNoise": false
+   },
+   "fcp": {
+    "with": {
+     "median": 100,
+     "iqr": 15,
+     "mad": 8,
+     "n": 10
+    },
+    "without": {
+     "median": 106,
+     "iqr": 19,
+     "mad": 10,
+     "n": 10
+    },
+    "delta": -6,
+    "noise": 19,
+    "beyondNoise": false
+   },
+   "lcp": {
+    "with": {
+     "median": 100,
+     "iqr": 15,
+     "mad": 8,
+     "n": 10
+    },
+    "without": {
+     "median": 106,
+     "iqr": 19,
+     "mad": 10,
+     "n": 10
+    },
+    "delta": -6,
+    "noise": 19,
+    "beyondNoise": false
+   },
+   "confirm": null,
+   "real": {
+    "fcp": false,
+    "lcp": false
+   },
+   "taskMs": {
+    "with": {
+     "median": 107.6,
+     "iqr": 15.3,
+     "mad": 8.7,
+     "n": 10
+    },
+    "without": {
+     "median": 105.4,
+     "iqr": 10.5,
+     "mad": 6.2,
+     "n": 10
+    },
+    "delta": 2.3,
+    "noise": 15.3,
+    "beyondNoise": false
+   },
+   "longTaskMs": {
+    "with": {
+     "median": 0,
+     "iqr": 0,
+     "mad": 0,
+     "n": 10
+    },
+    "without": {
+     "median": 0,
+     "iqr": 0,
+     "mad": 0,
+     "n": 10
+    },
+    "delta": 0,
+    "noise": 0,
+    "beyondNoise": false
+   },
+   "stubMs": {
+    "median": 0.7,
+    "max": 1.1
+   },
+   "extMs": {
+    "median": 1.6,
+    "max": 1.85,
+    "loads": [
+     1.85,
+     1.53,
+     1.6
+    ],
+    "allFrames": 1.6,
+    "allFramesMax": 1.85,
+    "otherFrames": 0,
+    "longestTask": 2.4,
+    "byName": {
+     "ScriptInjection::InjectJs": 1.6,
+     "EvaluateScript": 0.91,
+     "v8.compile": 0.16,
+     "NativeExtensionBindingsSystem::SendRequest": 0.03
+    },
+    "byUrl": {
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.07
+    }
+   }
+  },
+  "blog": {
+   "type": "Long blog post",
+   "url": "https://paulgraham.com/greatwork.html",
+   "mode": "replay",
+   "modeReason": "faithful",
+   "failed": {
+    "with": 0,
+    "without": 0,
+    "errors": []
+   },
+   "fp": {
+    "with": {
+     "median": 40,
+     "iqr": 6,
+     "mad": 4,
+     "n": 10
+    },
+    "without": {
+     "median": 40,
+     "iqr": 7,
+     "mad": 4,
+     "n": 10
+    },
+    "delta": 0,
+    "noise": 7,
+    "beyondNoise": false
+   },
+   "fcp": {
+    "with": {
+     "median": 40,
+     "iqr": 6,
+     "mad": 4,
+     "n": 10
+    },
+    "without": {
+     "median": 40,
+     "iqr": 7,
+     "mad": 4,
+     "n": 10
+    },
+    "delta": 0,
+    "noise": 7,
+    "beyondNoise": false
+   },
+   "lcp": {
+    "with": {
+     "median": 40,
+     "iqr": 6,
+     "mad": 4,
+     "n": 10
+    },
+    "without": {
+     "median": 40,
+     "iqr": 7,
+     "mad": 4,
+     "n": 10
+    },
+    "delta": 0,
+    "noise": 7,
+    "beyondNoise": false
+   },
+   "confirm": null,
+   "real": {
+    "fcp": false,
+    "lcp": false
+   },
+   "taskMs": {
+    "with": {
+     "median": 41.8,
+     "iqr": 5.3,
+     "mad": 2.8,
+     "n": 10
+    },
+    "without": {
+     "median": 38.7,
+     "iqr": 10.1,
+     "mad": 4.6,
+     "n": 10
+    },
+    "delta": 3,
+    "noise": 10.1,
+    "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
@@ -617,407 +1001,25 @@
     "max": 0.8
    },
    "extMs": {
-    "median": 1.78,
-    "max": 1.82,
+    "median": 1.62,
+    "max": 1.72,
     "loads": [
-     1.78,
-     1.82,
-     1.67
+     1.57,
+     1.62,
+     1.72
     ],
-    "allFrames": 1.78,
-    "allFramesMax": 1.82,
+    "allFrames": 1.62,
+    "allFramesMax": 1.72,
     "otherFrames": 0,
-    "longestTask": 3.2,
+    "longestTask": 2.9,
     "byName": {
-     "ScriptInjection::InjectJs": 1.67,
-     "EvaluateScript": 0.96,
-     "v8.compile": 0.18,
-     "NativeExtensionBindingsSystem::SendRequest": 0.03
-    },
-    "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.14
-    }
-   }
-  },
-  "news": {
-   "type": "News article",
-   "url": "https://www.npr.org/sections/science/",
-   "mode": "live",
-   "modeReason": "replay did not load",
-   "failed": {
-    "with": 0,
-    "without": 0,
-    "errors": []
-   },
-   "fp": {
-    "with": {
-     "median": 2352,
-     "iqr": 1393,
-     "mad": 862,
-     "n": 20
-    },
-    "without": {
-     "median": 2370,
-     "iqr": 1180,
-     "mad": 822,
-     "n": 20
-    },
-    "delta": -18,
-    "noise": 1393,
-    "beyondNoise": false
-   },
-   "fcp": {
-    "with": {
-     "median": 2352,
-     "iqr": 1393,
-     "mad": 862,
-     "n": 20
-    },
-    "without": {
-     "median": 2370,
-     "iqr": 1180,
-     "mad": 822,
-     "n": 20
-    },
-    "delta": -18,
-    "noise": 1393,
-    "beyondNoise": false
-   },
-   "lcp": {
-    "with": {
-     "median": 2354,
-     "iqr": 1393,
-     "mad": 860,
-     "n": 20
-    },
-    "without": {
-     "median": 2370,
-     "iqr": 1197,
-     "mad": 826,
-     "n": 20
-    },
-    "delta": -16,
-    "noise": 1393,
-    "beyondNoise": false
-   },
-   "confirm": null,
-   "real": {
-    "fcp": false,
-    "lcp": false
-   },
-   "taskMs": {
-    "with": {
-     "median": 881,
-     "iqr": 45.6,
-     "mad": 22.4,
-     "n": 20
-    },
-    "without": {
-     "median": 865.6,
-     "iqr": 54.3,
-     "mad": 23.4,
-     "n": 20
-    },
-    "delta": 15.4,
-    "noise": 54.3,
-    "beyondNoise": false
-   },
-   "longTaskMs": {
-    "with": {
-     "median": 64,
-     "iqr": 5,
-     "mad": 2,
-     "n": 20
-    },
-    "without": {
-     "median": 62.5,
-     "iqr": 2.3,
-     "mad": 1,
-     "n": 20
-    },
-    "delta": 1.5,
-    "noise": 5,
-    "beyondNoise": false
-   },
-   "stubMs": {
-    "median": 0.75,
-    "max": 1.2
-   },
-   "extMs": {
-    "median": 2.73,
-    "max": 3.55,
-    "loads": [
-     2.73,
-     3.55,
-     2.58
-    ],
-    "allFrames": 15.54,
-    "allFramesMax": 18.33,
-    "otherFrames": 10,
-    "longestTask": 4.6,
-    "byName": {
-     "Dispatcher::UpdateUserScripts": 0.24,
-     "ScriptInjection::InjectJs": 14.01,
-     "EvaluateScript": 6.97,
-     "v8.compile": 1.21,
+     "ScriptInjection::InjectJs": 1.72,
+     "EvaluateScript": 0.9,
+     "v8.compile": 0.15,
      "NativeExtensionBindingsSystem::SendRequest": 0.04
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 8.19
-    }
-   }
-  },
-  "docs": {
-   "type": "Docs site",
-   "url": "https://docs.python.org/3/library/pathlib.html",
-   "mode": "replay",
-   "modeReason": "faithful",
-   "failed": {
-    "with": 0,
-    "without": 0,
-    "errors": []
-   },
-   "fp": {
-    "with": {
-     "median": 96,
-     "iqr": 27,
-     "mad": 14,
-     "n": 10
-    },
-    "without": {
-     "median": 100,
-     "iqr": 13,
-     "mad": 8,
-     "n": 10
-    },
-    "delta": -4,
-    "noise": 27,
-    "beyondNoise": false
-   },
-   "fcp": {
-    "with": {
-     "median": 96,
-     "iqr": 27,
-     "mad": 14,
-     "n": 10
-    },
-    "without": {
-     "median": 100,
-     "iqr": 13,
-     "mad": 8,
-     "n": 10
-    },
-    "delta": -4,
-    "noise": 27,
-    "beyondNoise": false
-   },
-   "lcp": {
-    "with": {
-     "median": 96,
-     "iqr": 27,
-     "mad": 14,
-     "n": 10
-    },
-    "without": {
-     "median": 100,
-     "iqr": 13,
-     "mad": 8,
-     "n": 10
-    },
-    "delta": -4,
-    "noise": 27,
-    "beyondNoise": false
-   },
-   "confirm": null,
-   "real": {
-    "fcp": false,
-    "lcp": false
-   },
-   "taskMs": {
-    "with": {
-     "median": 97.1,
-     "iqr": 17.6,
-     "mad": 9,
-     "n": 10
-    },
-    "without": {
-     "median": 99.1,
-     "iqr": 14.6,
-     "mad": 7.3,
-     "n": 10
-    },
-    "delta": -2,
-    "noise": 17.6,
-    "beyondNoise": false
-   },
-   "longTaskMs": {
-    "with": {
-     "median": 0,
-     "iqr": 0,
-     "mad": 0,
-     "n": 10
-    },
-    "without": {
-     "median": 0,
-     "iqr": 0,
-     "mad": 0,
-     "n": 10
-    },
-    "delta": 0,
-    "noise": 0,
-    "beyondNoise": false
-   },
-   "stubMs": {
-    "median": 0.5,
-    "max": 1.2
-   },
-   "extMs": {
-    "median": 1.63,
-    "max": 1.82,
-    "loads": [
-     1.82,
-     1.61,
-     1.63
-    ],
-    "allFrames": 1.63,
-    "allFramesMax": 1.82,
-    "otherFrames": 0,
-    "longestTask": 2.1,
-    "byName": {
-     "ScriptInjection::InjectJs": 1.63,
-     "EvaluateScript": 0.9,
-     "v8.compile": 0.16,
-     "NativeExtensionBindingsSystem::SendRequest": 0.03
-    },
-    "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.06
-    }
-   }
-  },
-  "blog": {
-   "type": "Long blog post",
-   "url": "https://paulgraham.com/greatwork.html",
-   "mode": "replay",
-   "modeReason": "faithful",
-   "failed": {
-    "with": 0,
-    "without": 0,
-    "errors": []
-   },
-   "fp": {
-    "with": {
-     "median": 42,
-     "iqr": 7,
-     "mad": 4,
-     "n": 10
-    },
-    "without": {
-     "median": 42,
-     "iqr": 8,
-     "mad": 4,
-     "n": 10
-    },
-    "delta": 0,
-    "noise": 8,
-    "beyondNoise": false
-   },
-   "fcp": {
-    "with": {
-     "median": 42,
-     "iqr": 7,
-     "mad": 4,
-     "n": 10
-    },
-    "without": {
-     "median": 42,
-     "iqr": 8,
-     "mad": 4,
-     "n": 10
-    },
-    "delta": 0,
-    "noise": 8,
-    "beyondNoise": false
-   },
-   "lcp": {
-    "with": {
-     "median": 42,
-     "iqr": 7,
-     "mad": 4,
-     "n": 10
-    },
-    "without": {
-     "median": 42,
-     "iqr": 8,
-     "mad": 4,
-     "n": 10
-    },
-    "delta": 0,
-    "noise": 8,
-    "beyondNoise": false
-   },
-   "confirm": null,
-   "real": {
-    "fcp": false,
-    "lcp": false
-   },
-   "taskMs": {
-    "with": {
-     "median": 39.3,
-     "iqr": 2.9,
-     "mad": 2.1,
-     "n": 10
-    },
-    "without": {
-     "median": 36.3,
-     "iqr": 2.8,
-     "mad": 1.6,
-     "n": 10
-    },
-    "delta": 3,
-    "noise": 2.9,
-    "beyondNoise": false
-   },
-   "longTaskMs": {
-    "with": {
-     "median": 0,
-     "iqr": 0,
-     "mad": 0,
-     "n": 10
-    },
-    "without": {
-     "median": 0,
-     "iqr": 0,
-     "mad": 0,
-     "n": 10
-    },
-    "delta": 0,
-    "noise": 0,
-    "beyondNoise": false
-   },
-   "stubMs": {
-    "median": 0.5,
-    "max": 0.6
-   },
-   "extMs": {
-    "median": 1.59,
-    "max": 1.6,
-    "loads": [
-     1.59,
-     1.6,
-     1.53
-    ],
-    "allFrames": 1.59,
-    "allFramesMax": 1.6,
-    "otherFrames": 0,
-    "longestTask": 2.5,
-    "byName": {
-     "ScriptInjection::InjectJs": 1.53,
-     "EvaluateScript": 0.87,
-     "v8.compile": 0.15,
-     "NativeExtensionBindingsSystem::SendRequest": 0.02
-    },
-    "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.02
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.05
     }
    }
   },
@@ -1033,53 +1035,53 @@
    },
    "fp": {
     "with": {
-     "median": 104,
-     "iqr": 14,
+     "median": 102,
+     "iqr": 17,
      "mad": 8,
      "n": 10
     },
     "without": {
-     "median": 100,
-     "iqr": 10,
-     "mad": 6,
+     "median": 106,
+     "iqr": 14,
+     "mad": 8,
      "n": 10
     },
-    "delta": 4,
-    "noise": 14,
+    "delta": -4,
+    "noise": 17,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 104,
-     "iqr": 14,
+     "median": 102,
+     "iqr": 17,
      "mad": 8,
      "n": 10
     },
     "without": {
-     "median": 100,
-     "iqr": 10,
-     "mad": 6,
+     "median": 106,
+     "iqr": 14,
+     "mad": 8,
      "n": 10
     },
-    "delta": 4,
-    "noise": 14,
+    "delta": -4,
+    "noise": 17,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 122,
-     "iqr": 19,
-     "mad": 12,
+     "median": 120,
+     "iqr": 18,
+     "mad": 10,
      "n": 10
     },
     "without": {
-     "median": 120,
-     "iqr": 155,
-     "mad": 14,
+     "median": 124,
+     "iqr": 10,
+     "mad": 8,
      "n": 10
     },
-    "delta": 2,
-    "noise": 155,
+    "delta": -4,
+    "noise": 18,
     "beyondNoise": false
    },
    "confirm": null,
@@ -1089,19 +1091,19 @@
    },
    "taskMs": {
     "with": {
-     "median": 150.6,
-     "iqr": 16.3,
-     "mad": 8.2,
+     "median": 151.4,
+     "iqr": 23.3,
+     "mad": 12.1,
      "n": 10
     },
     "without": {
-     "median": 149.6,
-     "iqr": 14.5,
-     "mad": 6.8,
+     "median": 154.9,
+     "iqr": 18.7,
+     "mad": 9.9,
      "n": 10
     },
-    "delta": 1,
-    "noise": 16.3,
+    "delta": -3.5,
+    "noise": 23.3,
     "beyondNoise": false
    },
    "longTaskMs": {
@@ -1126,26 +1128,26 @@
     "max": 0.3
    },
    "extMs": {
-    "median": 1.82,
-    "max": 2.09,
+    "median": 1.8,
+    "max": 2.19,
     "loads": [
-     1.79,
-     1.82,
-     2.09
+     1.74,
+     1.8,
+     2.19
     ],
-    "allFrames": 1.86,
-    "allFramesMax": 2.13,
+    "allFrames": 1.84,
+    "allFramesMax": 2.24,
     "otherFrames": 0,
-    "longestTask": 2.8,
+    "longestTask": 2.9,
     "byName": {
      "Dispatcher::UpdateUserScripts": 0.08,
-     "ScriptInjection::InjectJs": 2.05,
-     "EvaluateScript": 1.12,
-     "v8.compile": 0.17,
+     "ScriptInjection::InjectJs": 2.16,
+     "EvaluateScript": 1.16,
+     "v8.compile": 0.18,
      "NativeExtensionBindingsSystem::SendRequest": 0.04
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.29
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.34
     }
    }
   },
@@ -1161,53 +1163,53 @@
    },
    "fp": {
     "with": {
-     "median": 794,
-     "iqr": 259,
-     "mad": 148,
+     "median": 1352,
+     "iqr": 143,
+     "mad": 22,
      "n": 20
     },
     "without": {
-     "median": 874,
-     "iqr": 146,
-     "mad": 74,
+     "median": 1354,
+     "iqr": 266,
+     "mad": 194,
      "n": 20
     },
-    "delta": -80,
-    "noise": 259,
+    "delta": -2,
+    "noise": 266,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 818,
-     "iqr": 258,
-     "mad": 138,
+     "median": 1360,
+     "iqr": 146,
+     "mad": 34,
      "n": 20
     },
     "without": {
-     "median": 884,
-     "iqr": 146,
-     "mad": 74,
+     "median": 1378,
+     "iqr": 257,
+     "mad": 160,
      "n": 20
     },
-    "delta": -66,
-    "noise": 258,
+    "delta": -18,
+    "noise": 257,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 2088,
-     "iqr": 279,
-     "mad": 140,
+     "median": 1838,
+     "iqr": 168,
+     "mad": 40,
      "n": 20
     },
     "without": {
-     "median": 2074,
-     "iqr": 149,
-     "mad": 90,
+     "median": 1836,
+     "iqr": 301,
+     "mad": 160,
      "n": 20
     },
-    "delta": 14,
-    "noise": 279,
+    "delta": 2,
+    "noise": 301,
     "beyondNoise": false
    },
    "confirm": null,
@@ -1217,62 +1219,62 @@
    },
    "taskMs": {
     "with": {
-     "median": 831.5,
-     "iqr": 35.4,
-     "mad": 20.2,
+     "median": 1208.4,
+     "iqr": 75.4,
+     "mad": 39.7,
      "n": 20
     },
     "without": {
-     "median": 835.5,
-     "iqr": 63.1,
-     "mad": 35.8,
+     "median": 1212.4,
+     "iqr": 138.2,
+     "mad": 56.8,
      "n": 20
     },
-    "delta": -4,
-    "noise": 63.1,
+    "delta": -3.9,
+    "noise": 138.2,
     "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
-     "median": 200,
-     "iqr": 67.8,
-     "mad": 20,
+     "median": 298,
+     "iqr": 69.8,
+     "mad": 36,
      "n": 20
     },
     "without": {
-     "median": 247,
-     "iqr": 10,
-     "mad": 5,
+     "median": 311.5,
+     "iqr": 101,
+     "mad": 51.5,
      "n": 20
     },
-    "delta": -47,
-    "noise": 67.8,
+    "delta": -13.5,
+    "noise": 101,
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.2,
-    "max": 0.8
+    "median": 0.3,
+    "max": 0.4
    },
    "extMs": {
-    "median": 0.66,
-    "max": 0.94,
+    "median": 1.07,
+    "max": 1.89,
     "loads": [
-     0.94,
-     0.66,
-     0.62
+     1.89,
+     0.62,
+     1.07
     ],
-    "allFrames": 0.66,
-    "allFramesMax": 0.98,
+    "allFrames": 1.07,
+    "allFramesMax": 1.92,
     "otherFrames": 0,
-    "longestTask": 7.9,
+    "longestTask": 5.5,
     "byName": {
-     "ScriptInjection::InjectJs": 0.62,
-     "EvaluateScript": 0.21,
-     "v8.compile": 0.01,
-     "NativeExtensionBindingsSystem::SendRequest": 0.01
+     "ScriptInjection::InjectJs": 1.07,
+     "EvaluateScript": 0.44,
+     "v8.compile": 0.1,
+     "NativeExtensionBindingsSystem::SendRequest": 0.02
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 0.22
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 0.54
     }
    }
   },
@@ -1288,53 +1290,53 @@
    },
    "fp": {
     "with": {
-     "median": 174,
-     "iqr": 39,
-     "mad": 20,
+     "median": 1062,
+     "iqr": 34,
+     "mad": 16,
      "n": 20
     },
     "without": {
-     "median": 162,
-     "iqr": 67,
-     "mad": 34,
+     "median": 1056,
+     "iqr": 114,
+     "mad": 22,
      "n": 20
     },
-    "delta": 12,
-    "noise": 67,
+    "delta": 6,
+    "noise": 114,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 174,
-     "iqr": 39,
-     "mad": 20,
+     "median": 1062,
+     "iqr": 34,
+     "mad": 16,
      "n": 20
     },
     "without": {
-     "median": 162,
-     "iqr": 67,
-     "mad": 34,
+     "median": 1056,
+     "iqr": 114,
+     "mad": 22,
      "n": 20
     },
-    "delta": 12,
-    "noise": 67,
+    "delta": 6,
+    "noise": 114,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 1348,
-     "iqr": 51,
-     "mad": 34,
+     "median": 1062,
+     "iqr": 34,
+     "mad": 16,
      "n": 20
     },
     "without": {
-     "median": 1330,
-     "iqr": 66,
-     "mad": 24,
+     "median": 1056,
+     "iqr": 114,
+     "mad": 22,
      "n": 20
     },
-    "delta": 18,
-    "noise": 66,
+    "delta": 6,
+    "noise": 114,
     "beyondNoise": false
    },
    "confirm": null,
@@ -1344,19 +1346,19 @@
    },
    "taskMs": {
     "with": {
-     "median": 153.1,
-     "iqr": 27,
-     "mad": 9.2,
+     "median": 54.9,
+     "iqr": 12.7,
+     "mad": 5.9,
      "n": 20
     },
     "without": {
-     "median": 149.4,
+     "median": 50.8,
      "iqr": 12.8,
-     "mad": 7.5,
+     "mad": 6.5,
      "n": 20
     },
-    "delta": 3.7,
-    "noise": 27,
+    "delta": 4.1,
+    "noise": 12.8,
     "beyondNoise": false
    },
    "longTaskMs": {
@@ -1377,29 +1379,29 @@
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.6,
-    "max": 2.9
+    "median": 1,
+    "max": 1.8
    },
    "extMs": {
-    "median": 1.72,
-    "max": 2.23,
+    "median": 2.98,
+    "max": 4.27,
     "loads": [
-     2.23,
-     1.51,
-     1.72
+     4.27,
+     2.72,
+     2.98
     ],
-    "allFrames": 1.72,
-    "allFramesMax": 2.23,
+    "allFrames": 2.98,
+    "allFramesMax": 4.27,
     "otherFrames": 0,
-    "longestTask": 3.4,
+    "longestTask": 5.2,
     "byName": {
-     "ScriptInjection::InjectJs": 1.72,
-     "EvaluateScript": 0.9,
-     "v8.compile": 0.16,
-     "NativeExtensionBindingsSystem::SendRequest": 0.03
+     "ScriptInjection::InjectJs": 2.98,
+     "EvaluateScript": 1.57,
+     "v8.compile": 0.31,
+     "NativeExtensionBindingsSystem::SendRequest": 0.04
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.06
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.88
     }
    }
   },
@@ -1415,36 +1417,36 @@
    },
    "fp": {
     "with": {
-     "median": 70,
-     "iqr": 12,
-     "mad": 6,
+     "median": 86,
+     "iqr": 19,
+     "mad": 12,
      "n": 10
     },
     "without": {
-     "median": 74,
-     "iqr": 14,
-     "mad": 8,
+     "median": 78,
+     "iqr": 10,
+     "mad": 6,
      "n": 10
     },
-    "delta": -4,
-    "noise": 14,
+    "delta": 8,
+    "noise": 19,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 70,
-     "iqr": 12,
-     "mad": 6,
+     "median": 86,
+     "iqr": 19,
+     "mad": 12,
      "n": 10
     },
     "without": {
-     "median": 74,
-     "iqr": 14,
-     "mad": 8,
+     "median": 78,
+     "iqr": 10,
+     "mad": 6,
      "n": 10
     },
-    "delta": -4,
-    "noise": 14,
+    "delta": 8,
+    "noise": 19,
     "beyondNoise": false
    },
    "lcp": {
@@ -1471,63 +1473,63 @@
    },
    "taskMs": {
     "with": {
-     "median": 193.8,
-     "iqr": 13.9,
-     "mad": 7.7,
+     "median": 204.8,
+     "iqr": 9.5,
+     "mad": 4.2,
      "n": 10
     },
     "without": {
-     "median": 195.2,
-     "iqr": 7.3,
-     "mad": 4.4,
+     "median": 214.9,
+     "iqr": 15,
+     "mad": 11.1,
      "n": 10
     },
-    "delta": -1.4,
-    "noise": 13.9,
+    "delta": -10.2,
+    "noise": 15,
     "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
-     "median": 111,
-     "iqr": 3.3,
-     "mad": 1,
+     "median": 115,
+     "iqr": 5.3,
+     "mad": 3,
      "n": 10
     },
     "without": {
-     "median": 110.5,
-     "iqr": 3.5,
-     "mad": 1.5,
+     "median": 113,
+     "iqr": 2,
+     "mad": 1,
      "n": 10
     },
-    "delta": 0.5,
-    "noise": 3.5,
+    "delta": 2,
+    "noise": 5.3,
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.5,
-    "max": 0.6
+    "median": 0.45,
+    "max": 0.7
    },
    "extMs": {
-    "median": 1.67,
-    "max": 1.87,
+    "median": 1.61,
+    "max": 1.62,
     "loads": [
-     1.67,
-     1.87,
-     1.57
+     0,
+     1.62,
+     1.61
     ],
-    "allFrames": 1.67,
-    "allFramesMax": 1.91,
+    "allFrames": 1.65,
+    "allFramesMax": 1.66,
     "otherFrames": 0,
-    "longestTask": 2.9,
+    "longestTask": 2.4,
     "byName": {
      "Dispatcher::UpdateUserScripts": 0.04,
-     "ScriptInjection::InjectJs": 1.57,
-     "EvaluateScript": 0.89,
+     "ScriptInjection::InjectJs": 1.61,
+     "EvaluateScript": 0.93,
      "v8.compile": 0.17,
      "NativeExtensionBindingsSystem::SendRequest": 0.03
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.06
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.1
     }
    }
   },
@@ -1543,53 +1545,53 @@
    },
    "fp": {
     "with": {
-     "median": 520,
-     "iqr": 127,
-     "mad": 64,
+     "median": 2590,
+     "iqr": 850,
+     "mad": 304,
      "n": 20
     },
     "without": {
-     "median": 506,
-     "iqr": 142,
-     "mad": 72,
+     "median": 2566,
+     "iqr": 637,
+     "mad": 286,
      "n": 20
     },
-    "delta": 14,
-    "noise": 142,
+    "delta": 24,
+    "noise": 850,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 520,
-     "iqr": 127,
-     "mad": 64,
+     "median": 2590,
+     "iqr": 850,
+     "mad": 304,
      "n": 20
     },
     "without": {
-     "median": 506,
-     "iqr": 142,
-     "mad": 72,
+     "median": 2566,
+     "iqr": 637,
+     "mad": 286,
      "n": 20
     },
-    "delta": 14,
-    "noise": 142,
+    "delta": 24,
+    "noise": 850,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 594,
-     "iqr": 102,
-     "mad": 52,
+     "median": 3178,
+     "iqr": 279,
+     "mad": 176,
      "n": 20
     },
     "without": {
-     "median": 574,
-     "iqr": 132,
-     "mad": 58,
+     "median": 3114,
+     "iqr": 286,
+     "mad": 144,
      "n": 20
     },
-    "delta": 20,
-    "noise": 132,
+    "delta": 64,
+    "noise": 286,
     "beyondNoise": false
    },
    "confirm": null,
@@ -1599,19 +1601,19 @@
    },
    "taskMs": {
     "with": {
-     "median": 398.8,
-     "iqr": 26.1,
-     "mad": 13.8,
+     "median": 521.6,
+     "iqr": 68.4,
+     "mad": 34.8,
      "n": 20
     },
     "without": {
-     "median": 397.7,
-     "iqr": 56.2,
-     "mad": 19.3,
+     "median": 532.3,
+     "iqr": 49.2,
+     "mad": 26.9,
      "n": 20
     },
-    "delta": 1.2,
-    "noise": 56.2,
+    "delta": -10.6,
+    "noise": 68.4,
     "beyondNoise": false
    },
    "longTaskMs": {
@@ -1632,29 +1634,30 @@
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.75,
-    "max": 1.2
+    "median": 0.9,
+    "max": 5
    },
    "extMs": {
-    "median": 2.45,
-    "max": 3.43,
+    "median": 4.19,
+    "max": 4.65,
     "loads": [
-     3.43,
-     2.45,
-     2.28
+     2.28,
+     4.19,
+     4.65
     ],
-    "allFrames": 2.45,
-    "allFramesMax": 3.43,
+    "allFrames": 4.19,
+    "allFramesMax": 4.65,
     "otherFrames": 0,
-    "longestTask": 4.6,
+    "longestTask": 8.4,
     "byName": {
-     "ScriptInjection::InjectJs": 2.28,
-     "EvaluateScript": 1.23,
-     "v8.compile": 0.21,
-     "NativeExtensionBindingsSystem::SendRequest": 0.05
+     "Dispatcher::UpdateUserScripts": 0.05,
+     "ScriptInjection::InjectJs": 4.6,
+     "EvaluateScript": 2.11,
+     "v8.compile": 0.39,
+     "NativeExtensionBindingsSystem::SendRequest": 0.07
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.44
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 2.5
     }
    }
   },
@@ -1671,52 +1674,52 @@
    "fp": {
     "with": {
      "median": 124,
-     "iqr": 7,
-     "mad": 4,
-     "n": 10
-    },
-    "without": {
-     "median": 122,
-     "iqr": 15,
+     "iqr": 11,
      "mad": 6,
      "n": 10
     },
-    "delta": 2,
-    "noise": 15,
+    "without": {
+     "median": 128,
+     "iqr": 13,
+     "mad": 6,
+     "n": 10
+    },
+    "delta": -4,
+    "noise": 13,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
      "median": 124,
-     "iqr": 7,
-     "mad": 4,
-     "n": 10
-    },
-    "without": {
-     "median": 122,
-     "iqr": 15,
+     "iqr": 11,
      "mad": 6,
      "n": 10
     },
-    "delta": 2,
-    "noise": 15,
+    "without": {
+     "median": 128,
+     "iqr": 13,
+     "mad": 6,
+     "n": 10
+    },
+    "delta": -4,
+    "noise": 13,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 178,
-     "iqr": 15,
-     "mad": 6,
+     "median": 188,
+     "iqr": 10,
+     "mad": 4,
      "n": 10
     },
     "without": {
-     "median": 188,
-     "iqr": 15,
-     "mad": 10,
+     "median": 208,
+     "iqr": 40,
+     "mad": 12,
      "n": 10
     },
-    "delta": -10,
-    "noise": 15,
+    "delta": -20,
+    "noise": 40,
     "beyondNoise": false
    },
    "confirm": null,
@@ -1726,19 +1729,19 @@
    },
    "taskMs": {
     "with": {
-     "median": 122.2,
-     "iqr": 7.4,
-     "mad": 4.2,
+     "median": 125.5,
+     "iqr": 8.2,
+     "mad": 4.7,
      "n": 10
     },
     "without": {
-     "median": 122.9,
-     "iqr": 3.2,
-     "mad": 1.6,
+     "median": 127,
+     "iqr": 14.1,
+     "mad": 8.3,
      "n": 10
     },
-    "delta": -0.7,
-    "noise": 7.4,
+    "delta": -1.5,
+    "noise": 14.1,
     "beyondNoise": false
    },
    "longTaskMs": {
@@ -1759,31 +1762,25 @@
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.4,
-    "max": 0.8
+    "median": 0.55,
+    "max": 0.7
    },
    "extMs": {
     "median": 0,
-    "max": 1.64,
+    "max": 1.65,
     "loads": [
      0,
-     0,
-     1.64
+     1.65,
+     0
     ],
     "allFrames": 0.04,
-    "allFramesMax": 1.68,
+    "allFramesMax": 1.69,
     "otherFrames": 0,
     "longestTask": 2,
     "byName": {
-     "Dispatcher::UpdateUserScripts": 0.04,
-     "ScriptInjection::InjectJs": 1.64,
-     "EvaluateScript": 0.93,
-     "v8.compile": 0.17,
-     "NativeExtensionBindingsSystem::SendRequest": 0.03
+     "Dispatcher::UpdateUserScripts": 0.04
     },
-    "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.1
-    }
+    "byUrl": {}
    }
   },
   "spreadsheet": {
@@ -1798,53 +1795,53 @@
    },
    "fp": {
     "with": {
-     "median": 330,
-     "iqr": 66,
-     "mad": 34,
+     "median": 1530,
+     "iqr": 551,
+     "mad": 226,
      "n": 20
     },
     "without": {
-     "median": 332,
-     "iqr": 53,
-     "mad": 30,
+     "median": 1548,
+     "iqr": 287,
+     "mad": 214,
      "n": 20
     },
-    "delta": -2,
-    "noise": 66,
+    "delta": -18,
+    "noise": 551,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 332,
-     "iqr": 81,
-     "mad": 36,
+     "median": 1530,
+     "iqr": 551,
+     "mad": 226,
      "n": 20
     },
     "without": {
-     "median": 332,
-     "iqr": 47,
-     "mad": 24,
+     "median": 1548,
+     "iqr": 287,
+     "mad": 214,
      "n": 20
     },
-    "delta": 0,
-    "noise": 81,
+    "delta": -18,
+    "noise": 551,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 364,
-     "iqr": 72,
-     "mad": 36,
+     "median": 1558,
+     "iqr": 552,
+     "mad": 220,
      "n": 20
     },
     "without": {
-     "median": 366,
-     "iqr": 51,
-     "mad": 26,
+     "median": 1580,
+     "iqr": 284,
+     "mad": 210,
      "n": 20
     },
-    "delta": -2,
-    "noise": 72,
+    "delta": -22,
+    "noise": 552,
     "beyondNoise": false
    },
    "confirm": null,
@@ -1854,63 +1851,63 @@
    },
    "taskMs": {
     "with": {
-     "median": 533.2,
-     "iqr": 33.6,
-     "mad": 11.2,
+     "median": 664.1,
+     "iqr": 51.5,
+     "mad": 21.1,
      "n": 20
     },
     "without": {
-     "median": 544.6,
-     "iqr": 30.5,
-     "mad": 15.3,
+     "median": 636.1,
+     "iqr": 37,
+     "mad": 15.6,
      "n": 20
     },
-    "delta": -11.3,
-    "noise": 33.6,
+    "delta": 28,
+    "noise": 51.5,
     "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
-     "median": 110.5,
-     "iqr": 23.3,
-     "mad": 6.5,
+     "median": 174,
+     "iqr": 24.8,
+     "mad": 9,
      "n": 20
     },
     "without": {
-     "median": 165.5,
-     "iqr": 15.3,
-     "mad": 3,
+     "median": 178,
+     "iqr": 8.3,
+     "mad": 4,
      "n": 20
     },
-    "delta": -55,
-    "noise": 23.3,
-    "beyondNoise": true
+    "delta": -4,
+    "noise": 24.8,
+    "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.75,
-    "max": 1.2
+    "median": 1,
+    "max": 1.4
    },
    "extMs": {
-    "median": 2.71,
-    "max": 3.14,
+    "median": 3.63,
+    "max": 5.1,
     "loads": [
-     2.71,
-     2.31,
+     5.1,
+     3.63,
      3.14
     ],
-    "allFrames": 4.18,
-    "allFramesMax": 4.84,
+    "allFrames": 5.41,
+    "allFramesMax": 7.38,
     "otherFrames": 1,
-    "longestTask": 4.3,
+    "longestTask": 7.1,
     "byName": {
      "Dispatcher::UpdateUserScripts": 0.04,
-     "ScriptInjection::InjectJs": 4.8,
-     "EvaluateScript": 2.37,
-     "v8.compile": 0.36,
-     "NativeExtensionBindingsSystem::SendRequest": 0.23
+     "ScriptInjection::InjectJs": 5.17,
+     "EvaluateScript": 2.16,
+     "v8.compile": 0.39,
+     "NativeExtensionBindingsSystem::SendRequest": 0.03
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 2.73
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 2.55
     }
    }
   },
@@ -1926,53 +1923,53 @@
    },
    "fp": {
     "with": {
-     "median": 188,
-     "iqr": 7,
-     "mad": 4,
+     "median": 192,
+     "iqr": 13,
+     "mad": 8,
      "n": 10
     },
     "without": {
-     "median": 196,
-     "iqr": 10,
-     "mad": 4,
+     "median": 204,
+     "iqr": 15,
+     "mad": 10,
      "n": 10
     },
-    "delta": -8,
-    "noise": 10,
+    "delta": -12,
+    "noise": 15,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 188,
-     "iqr": 7,
-     "mad": 4,
+     "median": 192,
+     "iqr": 13,
+     "mad": 8,
      "n": 10
     },
     "without": {
-     "median": 196,
-     "iqr": 10,
-     "mad": 4,
+     "median": 204,
+     "iqr": 15,
+     "mad": 10,
      "n": 10
     },
-    "delta": -8,
-    "noise": 10,
+    "delta": -12,
+    "noise": 15,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 188,
-     "iqr": 7,
-     "mad": 4,
+     "median": 192,
+     "iqr": 13,
+     "mad": 8,
      "n": 10
     },
     "without": {
-     "median": 196,
-     "iqr": 10,
-     "mad": 4,
+     "median": 204,
+     "iqr": 15,
+     "mad": 10,
      "n": 10
     },
-    "delta": -8,
-    "noise": 10,
+    "delta": -12,
+    "noise": 15,
     "beyondNoise": false
    },
    "confirm": null,
@@ -1982,62 +1979,62 @@
    },
    "taskMs": {
     "with": {
-     "median": 441,
-     "iqr": 18,
+     "median": 449.1,
+     "iqr": 15.1,
      "mad": 9.2,
      "n": 10
     },
     "without": {
-     "median": 444.9,
-     "iqr": 21.1,
-     "mad": 9.8,
+     "median": 456.4,
+     "iqr": 25,
+     "mad": 13.2,
      "n": 10
     },
-    "delta": -3.9,
-    "noise": 21.1,
+    "delta": -7.3,
+    "noise": 25,
     "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
-     "median": 65,
-     "iqr": 11.8,
+     "median": 66,
+     "iqr": 13.8,
      "mad": 3.5,
      "n": 10
     },
     "without": {
-     "median": 65.5,
-     "iqr": 3,
-     "mad": 1.5,
+     "median": 66,
+     "iqr": 5.8,
+     "mad": 3,
      "n": 10
     },
-    "delta": -0.5,
-    "noise": 11.8,
+    "delta": 0,
+    "noise": 13.8,
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.5,
-    "max": 0.8
+    "median": 0.4,
+    "max": 1.3
    },
    "extMs": {
-    "median": 1.69,
-    "max": 1.87,
+    "median": 1.52,
+    "max": 1.63,
     "loads": [
-     1.51,
-     1.69,
-     1.87
+     1.63,
+     1.48,
+     1.52
     ],
-    "allFrames": 1.69,
-    "allFramesMax": 1.87,
+    "allFrames": 1.52,
+    "allFramesMax": 1.63,
     "otherFrames": 0,
-    "longestTask": 10,
+    "longestTask": 10.1,
     "byName": {
-     "ScriptInjection::InjectJs": 1.87,
-     "EvaluateScript": 1,
+     "ScriptInjection::InjectJs": 1.52,
+     "EvaluateScript": 0.86,
      "v8.compile": 0.15,
-     "NativeExtensionBindingsSystem::SendRequest": 0.23
+     "NativeExtensionBindingsSystem::SendRequest": 0.02
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.15
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.01
     }
    }
   },
@@ -2053,53 +2050,53 @@
    },
    "fp": {
     "with": {
-     "median": 128,
-     "iqr": 17,
-     "mad": 8,
+     "median": 130,
+     "iqr": 22,
+     "mad": 6,
      "n": 10
     },
     "without": {
-     "median": 126,
-     "iqr": 22,
-     "mad": 12,
+     "median": 132,
+     "iqr": 29,
+     "mad": 18,
      "n": 10
     },
-    "delta": 2,
-    "noise": 22,
+    "delta": -2,
+    "noise": 29,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
      "median": 200,
-     "iqr": 14,
-     "mad": 8,
+     "iqr": 13,
+     "mad": 4,
      "n": 10
     },
     "without": {
-     "median": 194,
-     "iqr": 10,
-     "mad": 2,
+     "median": 204,
+     "iqr": 23,
+     "mad": 12,
      "n": 10
     },
-    "delta": 6,
-    "noise": 14,
+    "delta": -4,
+    "noise": 23,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 358,
-     "iqr": 22,
-     "mad": 12,
+     "median": 368,
+     "iqr": 17,
+     "mad": 10,
      "n": 10
     },
     "without": {
-     "median": 354,
-     "iqr": 27,
-     "mad": 14,
+     "median": 380,
+     "iqr": 39,
+     "mad": 24,
      "n": 10
     },
-    "delta": 4,
-    "noise": 27,
+    "delta": -12,
+    "noise": 39,
     "beyondNoise": false
    },
    "confirm": null,
@@ -2109,62 +2106,62 @@
    },
    "taskMs": {
     "with": {
-     "median": 293.8,
-     "iqr": 14.3,
-     "mad": 8.2,
+     "median": 300.5,
+     "iqr": 24.2,
+     "mad": 13.5,
      "n": 10
     },
     "without": {
-     "median": 283,
-     "iqr": 8.1,
-     "mad": 4.8,
+     "median": 303.2,
+     "iqr": 14.7,
+     "mad": 5.8,
      "n": 10
     },
-    "delta": 10.8,
-    "noise": 14.3,
+    "delta": -2.7,
+    "noise": 24.2,
     "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
-     "median": 70.5,
-     "iqr": 3,
-     "mad": 2.5,
-     "n": 10
-    },
-    "without": {
-     "median": 70,
-     "iqr": 3.5,
+     "median": 71,
+     "iqr": 3.3,
      "mad": 2,
      "n": 10
     },
-    "delta": 0.5,
-    "noise": 3.5,
+    "without": {
+     "median": 73.5,
+     "iqr": 6.5,
+     "mad": 3.5,
+     "n": 10
+    },
+    "delta": -2.5,
+    "noise": 6.5,
     "beyondNoise": false
    },
    "stubMs": {
     "median": 0.45,
-    "max": 0.6
+    "max": 0.7
    },
    "extMs": {
-    "median": 1.57,
-    "max": 1.87,
+    "median": 1.75,
+    "max": 1.86,
     "loads": [
-     1.5,
-     1.87,
-     1.57
+     1.86,
+     1.75,
+     1.61
     ],
-    "allFrames": 1.57,
-    "allFramesMax": 1.87,
+    "allFrames": 1.75,
+    "allFramesMax": 1.86,
     "otherFrames": 0,
-    "longestTask": 4,
+    "longestTask": 4.9,
     "byName": {
-     "ScriptInjection::InjectJs": 1.57,
-     "EvaluateScript": 0.88,
+     "ScriptInjection::InjectJs": 1.61,
+     "EvaluateScript": 0.93,
      "v8.compile": 0.16,
      "NativeExtensionBindingsSystem::SendRequest": 0.03
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.04
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.09
     }
    }
   },
@@ -2180,53 +2177,53 @@
    },
    "fp": {
     "with": {
-     "median": 152,
-     "iqr": 13,
-     "mad": 6,
+     "median": 2016.4,
+     "iqr": 218.9,
+     "mad": 119.5,
      "n": 20
     },
     "without": {
-     "median": 148,
-     "iqr": 12,
-     "mad": 6,
+     "median": 1986.6,
+     "iqr": 228,
+     "mad": 210.6,
      "n": 20
     },
-    "delta": 4,
-    "noise": 13,
+    "delta": 29.8,
+    "noise": 228,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 152,
-     "iqr": 13,
-     "mad": 6,
+     "median": 2016.4,
+     "iqr": 218.9,
+     "mad": 119.5,
      "n": 20
     },
     "without": {
-     "median": 148,
-     "iqr": 12,
-     "mad": 6,
+     "median": 1986.6,
+     "iqr": 228,
+     "mad": 210.6,
      "n": 20
     },
-    "delta": 4,
-    "noise": 13,
+    "delta": 29.8,
+    "noise": 228,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 188,
-     "iqr": 22,
-     "mad": 14,
+     "median": 2016.4,
+     "iqr": 218.9,
+     "mad": 119.5,
      "n": 20
     },
     "without": {
-     "median": 184,
-     "iqr": 20,
-     "mad": 10,
+     "median": 1986.6,
+     "iqr": 228,
+     "mad": 210.6,
      "n": 20
     },
-    "delta": 4,
-    "noise": 22,
+    "delta": 29.8,
+    "noise": 228,
     "beyondNoise": false
    },
    "confirm": null,
@@ -2236,62 +2233,63 @@
    },
    "taskMs": {
     "with": {
-     "median": 242.2,
-     "iqr": 33.8,
-     "mad": 16.2,
+     "median": 222.6,
+     "iqr": 48.8,
+     "mad": 11.5,
      "n": 20
     },
     "without": {
-     "median": 234.5,
-     "iqr": 19.8,
-     "mad": 10.3,
+     "median": 204.4,
+     "iqr": 66.6,
+     "mad": 25.9,
      "n": 20
     },
-    "delta": 7.7,
-    "noise": 33.8,
+    "delta": 18.2,
+    "noise": 66.6,
     "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
      "median": 0,
-     "iqr": 0,
+     "iqr": 51.5,
      "mad": 0,
      "n": 20
     },
     "without": {
      "median": 0,
-     "iqr": 0,
+     "iqr": 12.8,
      "mad": 0,
      "n": 20
     },
     "delta": 0,
-    "noise": 0,
+    "noise": 51.5,
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.6,
-    "max": 0.7
+    "median": 0.86,
+    "max": 4.67
    },
    "extMs": {
-    "median": 2.05,
-    "max": 2.19,
+    "median": 2.81,
+    "max": 3.98,
     "loads": [
-     2.05,
-     2.19,
-     1.84
+     3.98,
+     2.81,
+     2.23
     ],
-    "allFrames": 2.05,
-    "allFramesMax": 2.19,
-    "otherFrames": 0,
-    "longestTask": 3.9,
+    "allFrames": 4.76,
+    "allFramesMax": 6.45,
+    "otherFrames": 1,
+    "longestTask": 6.3,
     "byName": {
-     "ScriptInjection::InjectJs": 1.84,
-     "EvaluateScript": 1.01,
-     "v8.compile": 0.17,
-     "NativeExtensionBindingsSystem::SendRequest": 0.03
+     "Dispatcher::UpdateUserScripts": 0.08,
+     "ScriptInjection::InjectJs": 4.67,
+     "EvaluateScript": 2.4,
+     "v8.compile": 0.47,
+     "NativeExtensionBindingsSystem::SendRequest": 0.04
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.18
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 2.88
     }
    }
   },
@@ -2307,53 +2305,53 @@
    },
    "fp": {
     "with": {
-     "median": 176,
-     "iqr": 25,
-     "mad": 12,
+     "median": 1294,
+     "iqr": 282,
+     "mad": 232,
      "n": 20
     },
     "without": {
-     "median": 164,
-     "iqr": 27,
-     "mad": 14,
+     "median": 1204,
+     "iqr": 495,
+     "mad": 158,
      "n": 20
     },
-    "delta": 12,
-    "noise": 27,
+    "delta": 90,
+    "noise": 495,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 176,
-     "iqr": 25,
-     "mad": 12,
+     "median": 1294,
+     "iqr": 282,
+     "mad": 232,
      "n": 20
     },
     "without": {
-     "median": 164,
-     "iqr": 27,
-     "mad": 14,
+     "median": 1204,
+     "iqr": 495,
+     "mad": 158,
      "n": 20
     },
-    "delta": 12,
-    "noise": 27,
+    "delta": 90,
+    "noise": 495,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
-     "median": 1600,
-     "iqr": 32,
-     "mad": 32,
-     "n": 2
+     "median": null,
+     "iqr": null,
+     "mad": null,
+     "n": 0
     },
     "without": {
-     "median": 1602,
-     "iqr": 44,
-     "mad": 26,
-     "n": 6
+     "median": null,
+     "iqr": null,
+     "mad": null,
+     "n": 0
     },
-    "delta": -2,
-    "noise": 44,
+    "delta": null,
+    "noise": null,
     "beyondNoise": false
    },
    "confirm": null,
@@ -2363,62 +2361,62 @@
    },
    "taskMs": {
     "with": {
-     "median": 697.1,
-     "iqr": 92.6,
-     "mad": 30.7,
+     "median": 311.9,
+     "iqr": 21.8,
+     "mad": 11.6,
      "n": 20
     },
     "without": {
-     "median": 718.3,
-     "iqr": 18,
-     "mad": 11.9,
+     "median": 310.1,
+     "iqr": 31.6,
+     "mad": 9.8,
      "n": 20
     },
-    "delta": -21.3,
-    "noise": 92.6,
+    "delta": 1.8,
+    "noise": 31.6,
     "beyondNoise": false
    },
    "longTaskMs": {
     "with": {
-     "median": 229,
-     "iqr": 34.8,
-     "mad": 7.5,
+     "median": 142,
+     "iqr": 6.3,
+     "mad": 3,
      "n": 20
     },
     "without": {
-     "median": 232,
-     "iqr": 9.5,
-     "mad": 5,
+     "median": 143.5,
+     "iqr": 4,
+     "mad": 2,
      "n": 20
     },
-    "delta": -3,
-    "noise": 34.8,
+    "delta": -1.5,
+    "noise": 6.3,
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.55,
-    "max": 1.4
+    "median": 1.25,
+    "max": 2.2
    },
    "extMs": {
-    "median": 2.34,
-    "max": 2.76,
+    "median": 2.73,
+    "max": 3.26,
     "loads": [
-     2.34,
-     2.76,
-     2.25
+     3.26,
+     2.4,
+     2.73
     ],
-    "allFrames": 2.34,
-    "allFramesMax": 2.76,
+    "allFrames": 2.73,
+    "allFramesMax": 3.26,
     "otherFrames": 0,
-    "longestTask": 3.3,
+    "longestTask": 3.8,
     "byName": {
-     "ScriptInjection::InjectJs": 2.25,
-     "EvaluateScript": 1.18,
-     "v8.compile": 0.17,
-     "NativeExtensionBindingsSystem::SendRequest": 0.05
+     "ScriptInjection::InjectJs": 2.73,
+     "EvaluateScript": 1.41,
+     "v8.compile": 0.25,
+     "NativeExtensionBindingsSystem::SendRequest": 0.06
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.35
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.66
     }
    }
   },
@@ -2434,26 +2432,26 @@
    },
    "fp": {
     "with": {
-     "median": 24,
-     "iqr": 23,
+     "median": 26,
+     "iqr": 8,
      "mad": 6,
      "n": 10
     },
     "without": {
-     "median": 20,
-     "iqr": 8,
-     "mad": 4,
+     "median": 28,
+     "iqr": 11,
+     "mad": 6,
      "n": 10
     },
-    "delta": 4,
-    "noise": 23,
+    "delta": -2,
+    "noise": 11,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
-     "median": 38,
-     "iqr": 11,
-     "mad": 2,
+     "median": 42,
+     "iqr": 7,
+     "mad": 4,
      "n": 10
     },
     "without": {
@@ -2468,9 +2466,9 @@
    },
    "lcp": {
     "with": {
-     "median": 38,
-     "iqr": 11,
-     "mad": 2,
+     "median": 42,
+     "iqr": 7,
+     "mad": 4,
      "n": 10
     },
     "without": {
@@ -2490,19 +2488,19 @@
    },
    "taskMs": {
     "with": {
-     "median": 22.3,
-     "iqr": 7,
-     "mad": 2.9,
+     "median": 25.5,
+     "iqr": 9.9,
+     "mad": 5.2,
      "n": 10
     },
     "without": {
-     "median": 12.7,
-     "iqr": 2.3,
-     "mad": 1,
+     "median": 16.7,
+     "iqr": 2.2,
+     "mad": 1.4,
      "n": 10
     },
-    "delta": 9.6,
-    "noise": 7,
+    "delta": 8.9,
+    "noise": 9.9,
     "beyondNoise": false
    },
    "longTaskMs": {
@@ -2523,32 +2521,33 @@
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.75,
-    "max": 11
+    "median": 0.7,
+    "max": 2.1
    },
    "extMs": {
-    "median": 2.07,
-    "max": 2.77,
+    "median": 2.2,
+    "max": 5.35,
     "loads": [
-     1.85,
-     2.77,
-     2.07
+     2.2,
+     2.01,
+     5.35
     ],
-    "allFrames": 2.07,
-    "allFramesMax": 2.77,
+    "allFrames": 2.27,
+    "allFramesMax": 5.43,
     "otherFrames": 0,
-    "longestTask": 4.8,
+    "longestTask": 7.2,
     "byName": {
-     "ScriptInjection::InjectJs": 2.06,
-     "EvaluateScript": 1.18,
-     "v8.compile": 0.29,
-     "NativeExtensionBindingsSystem::SendRequest": 0.02,
+     "ScriptInjection::InjectJs": 5.32,
+     "EvaluateScript": 1.28,
+     "v8.compile": 0.31,
+     "NativeExtensionBindingsSystem::SendRequest": 0.03,
      "MainThreadIPCMessageSender::SendOpenMessageChannel/extension": 0.01,
-     "Dispatcher::ExecuteCode": 0.29
+     "Dispatcher::ExecuteCode": 0.28,
+     "Dispatcher::UpdateUserScripts": 0.09
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.11,
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/content/pdf.js": 0.36
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.24,
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/content/pdf.js": 0.35
     }
    }
   },
@@ -2565,52 +2564,52 @@
    "fp": {
     "with": {
      "median": 40,
-     "iqr": 10,
-     "mad": 6,
-     "n": 10
-    },
-    "without": {
-     "median": 32,
-     "iqr": 7,
+     "iqr": 4,
      "mad": 4,
      "n": 10
     },
-    "delta": 8,
-    "noise": 10,
+    "without": {
+     "median": 36,
+     "iqr": 3,
+     "mad": 0,
+     "n": 10
+    },
+    "delta": 4,
+    "noise": 4,
     "beyondNoise": false
    },
    "fcp": {
     "with": {
      "median": 40,
-     "iqr": 10,
-     "mad": 6,
-     "n": 10
-    },
-    "without": {
-     "median": 32,
-     "iqr": 7,
+     "iqr": 4,
      "mad": 4,
      "n": 10
     },
-    "delta": 8,
-    "noise": 10,
+    "without": {
+     "median": 36,
+     "iqr": 3,
+     "mad": 0,
+     "n": 10
+    },
+    "delta": 4,
+    "noise": 4,
     "beyondNoise": false
    },
    "lcp": {
     "with": {
      "median": 40,
-     "iqr": 10,
-     "mad": 6,
-     "n": 10
-    },
-    "without": {
-     "median": 32,
-     "iqr": 7,
+     "iqr": 4,
      "mad": 4,
      "n": 10
     },
-    "delta": 8,
-    "noise": 10,
+    "without": {
+     "median": 36,
+     "iqr": 3,
+     "mad": 0,
+     "n": 10
+    },
+    "delta": 4,
+    "noise": 4,
     "beyondNoise": false
    },
    "confirm": null,
@@ -2620,19 +2619,19 @@
    },
    "taskMs": {
     "with": {
-     "median": 35.2,
-     "iqr": 0.8,
-     "mad": 0.5,
+     "median": 35.1,
+     "iqr": 4.7,
+     "mad": 2.7,
      "n": 10
     },
     "without": {
-     "median": 31.4,
-     "iqr": 4.8,
-     "mad": 2.6,
+     "median": 32.3,
+     "iqr": 9,
+     "mad": 3.7,
      "n": 10
     },
-    "delta": 3.8,
-    "noise": 4.8,
+    "delta": 2.8,
+    "noise": 9,
     "beyondNoise": false
    },
    "longTaskMs": {
@@ -2653,29 +2652,29 @@
     "beyondNoise": false
    },
    "stubMs": {
-    "median": 0.55,
-    "max": 0.7
+    "median": 0.5,
+    "max": 0.6
    },
    "extMs": {
-    "median": 1.64,
-    "max": 2.23,
+    "median": 1.55,
+    "max": 1.6,
     "loads": [
-     1.57,
-     1.64,
-     2.23
+     1.55,
+     1.53,
+     1.6
     ],
-    "allFrames": 1.64,
-    "allFramesMax": 2.23,
+    "allFrames": 1.55,
+    "allFramesMax": 1.6,
     "otherFrames": 0,
-    "longestTask": 4.5,
+    "longestTask": 3.8,
     "byName": {
-     "ScriptInjection::InjectJs": 2.23,
-     "EvaluateScript": 1.09,
-     "v8.compile": 0.15,
-     "NativeExtensionBindingsSystem::SendRequest": 0.24
+     "ScriptInjection::InjectJs": 1.6,
+     "EvaluateScript": 0.91,
+     "v8.compile": 0.17,
+     "NativeExtensionBindingsSystem::SendRequest": 0.03
     },
     "byUrl": {
-     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.24
+     "chrome-extension://jmhhlabpbcpngdckepfpkjakiaammmnj/stub.js": 1.08
     }
    }
   }
@@ -2685,16 +2684,16 @@
    "url": "local:lesson.html",
    "notes": 17,
    "cold": {
-    "median": 16,
-    "max": 18.4,
+    "median": 16.3,
+    "max": 16.5,
     "n": 5,
     "near": 6,
-    "allMedian": 20,
-    "frameMedian": 11.5,
-    "paintMedian": -0.4,
+    "allMedian": 20.2,
+    "frameMedian": 16.4,
+    "paintMedian": -0.3,
     "paintMax": -0.3,
-    "contentPaintMedian": 33.6,
-    "contentPaintMax": 43.1,
+    "contentPaintMedian": 34.4,
+    "contentPaintMax": 37.4,
     "seenMedian": 0,
     "seenMax": 0,
     "sameFrameLoads": 5,
@@ -2703,186 +2702,58 @@
     "booted": 5,
     "loads": 5,
     "timeline": {
-     "lastAnchor": 14.4,
+     "lastAnchor": 14.5,
      "fcp": 48,
-     "stubStart": 8.4,
-     "viewStart": 16.6,
-     "firstInk": 30.3
+     "stubStart": 9.3,
+     "viewStart": 16.5,
+     "firstInk": 30.4
     },
     "runs": [
-     {
-      "worstNear": 18.4,
-      "worstNearFrame": 3.3,
-      "worstNearPaint": -0.5,
-      "worstContentPaint": 43.1,
-      "worstSeen": 0,
-      "sameFrame": 6,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 60,
-      "worstAll": 23.2,
-      "near": 6,
-      "nearDrawn": 6,
-      "drawn": 17,
-      "firstInkMark": 35.1,
-      "placedMark": 39.9,
-      "lastAnchor": 16.9,
-      "stubStart": 10.1,
-      "viewStart": 19.5
-     },
      {
       "worstNear": 15.7,
-      "worstNearFrame": 16.1,
+      "worstNearFrame": 16.4,
       "worstNearPaint": -0.4,
-      "worstContentPaint": 35.7,
-      "worstSeen": 0,
-      "sameFrame": 6,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 48,
-      "worstAll": 19.9,
-      "near": 6,
-      "nearDrawn": 6,
-      "drawn": 17,
-      "firstInkMark": 27.9,
-      "placedMark": 32,
-      "lastAnchor": 12.3,
-      "stubStart": 7.1,
-      "viewStart": 14.1
-     },
-     {
-      "worstNear": 16,
-      "worstNearFrame": 13,
-      "worstNearPaint": -0.4,
-      "worstContentPaint": 33.6,
-      "worstSeen": 0,
-      "sameFrame": 6,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 48,
-      "worstAll": 20,
-      "near": 6,
-      "nearDrawn": 6,
-      "drawn": 17,
-      "firstInkMark": 30.3,
-      "placedMark": 34.3,
-      "lastAnchor": 14.4,
-      "stubStart": 8.4,
-      "viewStart": 16.6
-     },
-     {
-      "worstNear": 16.7,
-      "worstNearFrame": 11.3,
-      "worstNearPaint": -0.4,
-      "worstContentPaint": 33.4,
-      "worstSeen": 0,
-      "sameFrame": 6,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 48,
-      "worstAll": 20.9,
-      "near": 6,
-      "nearDrawn": 6,
-      "drawn": 17,
-      "firstInkMark": 31,
-      "placedMark": 35.3,
-      "lastAnchor": 14.6,
-      "stubStart": 8.4,
-      "viewStart": 16.8
-     },
-     {
-      "worstNear": 14.6,
-      "worstNearFrame": 11.5,
-      "worstNearPaint": -0.3,
-      "worstContentPaint": 31.3,
-      "worstSeen": 0,
-      "sameFrame": 6,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 44,
-      "worstAll": 18.3,
-      "near": 6,
-      "nearDrawn": 6,
-      "drawn": 17,
-      "firstInkMark": 27.2,
-      "placedMark": 30.9,
-      "lastAnchor": 12.7,
-      "stubStart": 7.2,
-      "viewStart": 14.6
-     }
-    ]
-   },
-   "warm": {
-    "median": 15.1,
-    "max": 19.5,
-    "n": 8,
-    "near": 6,
-    "allMedian": 18.8,
-    "frameMedian": 13.9,
-    "paintMedian": -0.3,
-    "paintMax": -0.2,
-    "contentPaintMedian": 35.7,
-    "contentPaintMax": 39.7,
-    "seenMedian": 0,
-    "seenMax": 0,
-    "sameFrameLoads": 8,
-    "elementTimed": 40,
-    "nearDrawn": 48,
-    "booted": 8,
-    "loads": 8,
-    "timeline": {
-     "lastAnchor": 12.4,
-     "fcp": 48,
-     "stubStart": 7.1,
-     "viewStart": 14.4,
-     "firstInk": 27.3
-    },
-    "runs": [
-     {
-      "worstNear": 17.8,
-      "worstNearFrame": 11.4,
-      "worstNearPaint": -0.3,
-      "worstContentPaint": 31.1,
-      "worstSeen": 0,
-      "sameFrame": 6,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 44,
-      "worstAll": 21.7,
-      "near": 6,
-      "nearDrawn": 6,
-      "drawn": 17,
-      "firstInkMark": 30.5,
-      "placedMark": 34.3,
-      "lastAnchor": 12.9,
-      "stubStart": 7.7,
-      "viewStart": 23.4
-     },
-     {
-      "worstNear": 14.2,
-      "worstNearFrame": 0.6,
-      "worstNearPaint": -0.3,
-      "worstContentPaint": 39.6,
+      "worstContentPaint": 37.1,
       "worstSeen": 0,
       "sameFrame": 6,
       "elementTimed": 5,
       "boot": true,
       "fcp": 52,
-      "worstAll": 17.7,
+      "worstAll": 19.4,
       "near": 6,
       "nearDrawn": 6,
       "drawn": 17,
-      "firstInkMark": 26.4,
-      "placedMark": 29.9,
-      "lastAnchor": 12.4,
-      "stubStart": 7.4,
-      "viewStart": 14.3
+      "firstInkMark": 30.4,
+      "placedMark": 34.2,
+      "lastAnchor": 14.9,
+      "stubStart": 9.8,
+      "viewStart": 17.1
      },
      {
-      "worstNear": 16.5,
-      "worstNearFrame": 14.6,
+      "worstNear": 16.4,
+      "worstNearFrame": 27.5,
       "worstNearPaint": -0.3,
-      "worstContentPaint": 35.6,
+      "worstContentPaint": 33.5,
+      "worstSeen": 0,
+      "sameFrame": 6,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 48,
+      "worstAll": 20.2,
+      "near": 6,
+      "nearDrawn": 6,
+      "drawn": 17,
+      "firstInkMark": 30.7,
+      "placedMark": 34.6,
+      "lastAnchor": 14.5,
+      "stubStart": 9.3,
+      "viewStart": 22.7
+     },
+     {
+      "worstNear": 16.1,
+      "worstNearFrame": 11.8,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 34.1,
       "worstSeen": 0,
       "sameFrame": 6,
       "elementTimed": 5,
@@ -2892,229 +2763,357 @@
       "near": 6,
       "nearDrawn": 6,
       "drawn": 17,
-      "firstInkMark": 28.6,
-      "placedMark": 32.5,
-      "lastAnchor": 12.4,
-      "stubStart": 6.3,
-      "viewStart": 14.6
+      "firstInkMark": 29.8,
+      "placedMark": 33.9,
+      "lastAnchor": 13.9,
+      "stubStart": 8.7,
+      "viewStart": 15.7
      },
      {
-      "worstNear": 15,
-      "worstNearFrame": 14.6,
+      "worstNear": 16.5,
+      "worstNearFrame": 17.6,
       "worstNearPaint": -0.3,
-      "worstContentPaint": 35.4,
-      "worstSeen": 0,
-      "sameFrame": 6,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 48,
-      "worstAll": 18.7,
-      "near": 6,
-      "nearDrawn": 6,
-      "drawn": 17,
-      "firstInkMark": 27.5,
-      "placedMark": 31.2,
-      "lastAnchor": 12.6,
-      "stubStart": 7.4,
-      "viewStart": 14.6
-     },
-     {
-      "worstNear": 14.4,
-      "worstNearFrame": 0.7,
-      "worstNearPaint": -0.3,
-      "worstContentPaint": 39.7,
+      "worstContentPaint": 37.4,
       "worstSeen": 0,
       "sameFrame": 6,
       "elementTimed": 5,
       "boot": true,
       "fcp": 52,
-      "worstAll": 18,
+      "worstAll": 20.2,
       "near": 6,
       "nearDrawn": 6,
       "drawn": 17,
-      "firstInkMark": 26.4,
-      "placedMark": 30.1,
-      "lastAnchor": 12.3,
-      "stubStart": 7.2,
-      "viewStart": 14.1
+      "firstInkMark": 30.9,
+      "placedMark": 34.7,
+      "lastAnchor": 14.6,
+      "stubStart": 9.4,
+      "viewStart": 16.5
      },
      {
-      "worstNear": 15.2,
-      "worstNearFrame": 13.1,
-      "worstNearPaint": -0.4,
-      "worstContentPaint": 36.7,
-      "worstSeen": 0,
-      "sameFrame": 6,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 48,
-      "worstAll": 18.9,
-      "near": 6,
-      "nearDrawn": 6,
-      "drawn": 17,
-      "firstInkMark": 26.3,
-      "placedMark": 30.1,
-      "lastAnchor": 11.3,
-      "stubStart": 6.2,
-      "viewStart": 13.2
-     },
-     {
-      "worstNear": 15,
-      "worstNearFrame": 15,
-      "worstNearPaint": -0.2,
-      "worstContentPaint": 35.7,
-      "worstSeen": 0,
-      "sameFrame": 6,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 48,
-      "worstAll": 18.4,
-      "near": 6,
-      "nearDrawn": 6,
-      "drawn": 17,
-      "firstInkMark": 27,
-      "placedMark": 30.6,
-      "lastAnchor": 12.3,
-      "stubStart": 7,
-      "viewStart": 14.2
-     },
-     {
-      "worstNear": 19.5,
-      "worstNearFrame": 24.8,
+      "worstNear": 16.3,
+      "worstNearFrame": 14.2,
       "worstNearPaint": -0.3,
-      "worstContentPaint": 31.5,
+      "worstContentPaint": 34.4,
+      "worstSeen": 0,
+      "sameFrame": 6,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 48,
+      "worstAll": 20.2,
+      "near": 6,
+      "nearDrawn": 6,
+      "drawn": 17,
+      "firstInkMark": 29.7,
+      "placedMark": 33.7,
+      "lastAnchor": 13.6,
+      "stubStart": 8.4,
+      "viewStart": 15.6
+     }
+    ]
+   },
+   "warm": {
+    "median": 18.8,
+    "max": 20.2,
+    "n": 8,
+    "near": 6,
+    "allMedian": 22.4,
+    "frameMedian": 10.8,
+    "paintMedian": -0.4,
+    "paintMax": -0.3,
+    "contentPaintMedian": 31.4,
+    "contentPaintMax": 45.7,
+    "seenMedian": 0,
+    "seenMax": 0,
+    "sameFrameLoads": 8,
+    "elementTimed": 40,
+    "nearDrawn": 48,
+    "booted": 8,
+    "loads": 8,
+    "timeline": {
+     "lastAnchor": 13.5,
+     "fcp": 44,
+     "stubStart": 7.5,
+     "viewStart": 15.6,
+     "firstInk": 33.1
+    },
+    "runs": [
+     {
+      "worstNear": 14.8,
+      "worstNearFrame": 6.2,
+      "worstNearPaint": -0.5,
+      "worstContentPaint": 28.1,
+      "worstSeen": 0,
+      "sameFrame": 6,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 40,
+      "worstAll": 18.6,
+      "near": 6,
+      "nearDrawn": 6,
+      "drawn": 17,
+      "firstInkMark": 26.6,
+      "placedMark": 30.5,
+      "lastAnchor": 11.9,
+      "stubStart": 6.8,
+      "viewStart": 13.7
+     },
+     {
+      "worstNear": 17.9,
+      "worstNearFrame": 10.5,
+      "worstNearPaint": -0.5,
+      "worstContentPaint": 32.3,
       "worstSeen": 0,
       "sameFrame": 6,
       "elementTimed": 5,
       "boot": true,
       "fcp": 44,
-      "worstAll": 23.3,
+      "worstAll": 21.7,
       "near": 6,
       "nearDrawn": 6,
       "drawn": 17,
-      "firstInkMark": 31.9,
-      "placedMark": 35.7,
-      "lastAnchor": 12.5,
-      "stubStart": 7,
-      "viewStart": 14.5
+      "firstInkMark": 29.4,
+      "placedMark": 33.3,
+      "lastAnchor": 11.7,
+      "stubStart": 6.6,
+      "viewStart": 13.6
+     },
+     {
+      "worstNear": 17.7,
+      "worstNearFrame": 11.1,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 35.5,
+      "worstSeen": 0,
+      "sameFrame": 6,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 52,
+      "worstAll": 21.7,
+      "near": 6,
+      "nearDrawn": 6,
+      "drawn": 17,
+      "firstInkMark": 34.1,
+      "placedMark": 38.1,
+      "lastAnchor": 16.5,
+      "stubStart": 8.5,
+      "viewStart": 19.5
+     },
+     {
+      "worstNear": 20.2,
+      "worstNearFrame": 26.5,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 30.8,
+      "worstSeen": 0,
+      "sameFrame": 6,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 44,
+      "worstAll": 23.7,
+      "near": 6,
+      "nearDrawn": 6,
+      "drawn": 17,
+      "firstInkMark": 33.3,
+      "placedMark": 36.8,
+      "lastAnchor": 13.2,
+      "stubStart": 7.4,
+      "viewStart": 15.3
+     },
+     {
+      "worstNear": 19.3,
+      "worstNearFrame": 23.4,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 26.7,
+      "worstSeen": 0,
+      "sameFrame": 6,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 40,
+      "worstAll": 22.7,
+      "near": 6,
+      "nearDrawn": 6,
+      "drawn": 17,
+      "firstInkMark": 32.4,
+      "placedMark": 35.9,
+      "lastAnchor": 13.3,
+      "stubStart": 7.4,
+      "viewStart": 15.4
+     },
+     {
+      "worstNear": 19.3,
+      "worstNearFrame": 7.4,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 26.4,
+      "worstSeen": 0,
+      "sameFrame": 6,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 40,
+      "worstAll": 23,
+      "near": 6,
+      "nearDrawn": 6,
+      "drawn": 17,
+      "firstInkMark": 32.8,
+      "placedMark": 36.5,
+      "lastAnchor": 13.6,
+      "stubStart": 7.6,
+      "viewStart": 15.8
+     },
+     {
+      "worstNear": 19.6,
+      "worstNearFrame": 22,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 45.7,
+      "worstSeen": 0,
+      "sameFrame": 6,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 60,
+      "worstAll": 23.2,
+      "near": 6,
+      "nearDrawn": 6,
+      "drawn": 17,
+      "firstInkMark": 33.8,
+      "placedMark": 37.3,
+      "lastAnchor": 14.3,
+      "stubStart": 8.3,
+      "viewStart": 16.4
+     },
+     {
+      "worstNear": 18.3,
+      "worstNearFrame": 9.3,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 32,
+      "worstSeen": 0,
+      "sameFrame": 6,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 48,
+      "worstAll": 22.1,
+      "near": 6,
+      "nearDrawn": 6,
+      "drawn": 17,
+      "firstInkMark": 34.1,
+      "placedMark": 38,
+      "lastAnchor": 16,
+      "stubStart": 8.9,
+      "viewStart": 18.2
      }
     ]
    },
    "plain": {
     "cold": {
-     "contentPaintMedian": 9.5,
+     "contentPaintMedian": 10.4,
      "n": 5,
      "runs": [
-      7.9,
-      14.3,
+      17.1,
       12.8,
-      6.6,
-      9.5
+      10.4,
+      9.9,
+      9.4
      ]
     },
     "warm": {
-     "contentPaintMedian": 11.8,
+     "contentPaintMedian": 9.3,
      "n": 8,
      "runs": [
-      8,
-      7.4,
-      15.5,
-      7.6,
-      35.9,
-      16.5,
-      20.5,
-      7
+      8.4,
+      7.5,
+      9.7,
+      8.8,
+      25.6,
+      15,
+      17.9,
+      7.7
      ]
     }
    },
    "heldBack": {
     "cold": {
      "with": {
-      "median": 28.3,
-      "iqr": 2,
+      "median": 33.4,
+      "iqr": 3,
       "n": 5,
       "groups": [
        {
         "n": 5,
-        "median": 28.3,
-        "min": 27.3,
-        "max": 38
+        "median": 33.4,
+        "min": 30.6,
+        "max": 35
        }
       ],
       "runs": [
-       38,
-       27.3,
-       28.3,
-       29.9,
-       27.9
+       30.6,
+       33.4,
+       35,
+       33.8,
+       30.8
       ]
      },
      "alone": {
-      "median": 23.7,
-      "iqr": 11,
+      "median": 23.9,
+      "iqr": 6,
       "n": 5,
       "groups": [
        {
         "n": 5,
-        "median": 23.7,
-        "min": 14.9,
-        "max": 40.6
+        "median": 23.9,
+        "min": 18.3,
+        "max": 28
        }
       ],
       "runs": [
-       16.1,
-       27.1,
-       40.6,
-       14.9,
-       23.7
+       26.8,
+       23.9,
+       20.8,
+       18.3,
+       28
       ]
      },
-     "delta": 4.2,
-     "noise": 14.8,
+     "delta": 9.5,
+     "noise": 10.4,
      "basis": "pairs",
      "wait": {
       "with": {
-       "median": 15.9,
-       "iqr": 1.2,
+       "median": 16.6,
+       "iqr": 1.3,
        "n": 5,
        "groups": [
         {
          "n": 5,
-         "median": 15.9,
+         "median": 16.6,
          "min": 15.7,
-         "max": 24.1
+         "max": 19
         }
        ],
        "runs": [
-        24.1,
-        15.9,
+        16.6,
+        17.6,
         15.7,
-        16.9,
-        15.7
+        19,
+        16.3
        ]
       },
       "alone": {
-       "median": 9.5,
-       "iqr": 4.9,
+       "median": 10.4,
+       "iqr": 2.9,
        "n": 5,
        "groups": [
         {
          "n": 5,
-         "median": 9.5,
-         "min": 6.6,
-         "max": 14.3
+         "median": 10.4,
+         "min": 9.4,
+         "max": 17.1
         }
        ],
        "runs": [
-        7.9,
-        14.3,
+        17.1,
         12.8,
-        6.6,
-        9.5
+        10.4,
+        9.9,
+        9.4
        ]
       },
-      "delta": 6.2,
-      "noise": 7.4,
+      "delta": 5.3,
+      "noise": 2.1,
       "basis": "pairs"
      },
      "timed": 25,
@@ -3122,109 +3121,109 @@
     },
     "warm": {
      "with": {
-      "median": 30.3,
-      "iqr": 4.4,
+      "median": 33.4,
+      "iqr": 5.3,
       "n": 8,
       "groups": [
        {
         "n": 8,
-        "median": 30.3,
-        "min": 25.5,
-        "max": 39.7
+        "median": 33.4,
+        "min": 28.6,
+        "max": 46.7
        }
       ],
       "runs": [
-       30.7,
-       39.7,
-       26.7,
-       28.9,
-       31.5,
-       36.3,
-       25.5,
-       29.9
+       34.8,
+       46.7,
+       34.9,
+       38.6,
+       28.6,
+       30.2,
+       32,
+       30.6
       ]
      },
      "alone": {
-      "median": 19.3,
-      "iqr": 12.2,
+      "median": 17.6,
+      "iqr": 6.3,
       "n": 8,
       "groups": [
        {
         "n": 7,
-        "median": 15.8,
-        "min": 13.9,
-        "max": 34.7
+        "median": 16.9,
+        "min": 15,
+        "max": 26.1
        },
        {
         "n": 1,
-        "median": 58,
-        "min": 58,
-        "max": 58
+        "median": 43.3,
+        "min": 43.3,
+        "max": 43.3
        }
       ],
       "runs": [
-       15.8,
-       14,
-       22.7,
-       13.9,
-       58,
-       24,
-       34.7,
-       14.6
+       16.9,
+       15,
+       18.3,
+       16.4,
+       43.3,
+       21.1,
+       26.1,
+       15
       ]
      },
-     "delta": 13.6,
-     "noise": 14.4,
+     "delta": 16.1,
+     "noise": 10.7,
      "basis": "pairs",
      "wait": {
       "with": {
-       "median": 15.9,
-       "iqr": 1.5,
+       "median": 18.6,
+       "iqr": 3,
        "n": 8,
        "groups": [
         {
          "n": 8,
-         "median": 15.9,
-         "min": 12.1,
-         "max": 19.1
+         "median": 18.6,
+         "min": 15.5,
+         "max": 20.8
         }
        ],
        "runs": [
-        17.7,
-        12.1,
-        14.9,
-        15.9,
-        15.9,
-        19.1,
-        15.1,
-        16.2
+        19.3,
+        15.5,
+        20.8,
+        20.3,
+        16.6,
+        17.8,
+        19.4,
+        16.5
        ]
       },
       "alone": {
-       "median": 11.8,
-       "iqr": 10,
+       "median": 9.3,
+       "iqr": 7.5,
        "n": 8,
        "groups": [
         {
          "n": 8,
-         "median": 11.8,
-         "min": 7,
-         "max": 35.9
+         "median": 9.3,
+         "min": 7.5,
+         "max": 25.6
         }
        ],
        "runs": [
-        8,
-        7.4,
-        15.5,
-        7.6,
-        35.9,
-        16.5,
-        20.5,
-        7
+        8.4,
+        7.5,
+        9.7,
+        8.8,
+        25.6,
+        15,
+        17.9,
+        7.7
        ]
       },
-      "delta": 3.7,
-      "noise": 10.3,
+      "delta": 8.4,
+      "noise": 8.5,
       "basis": "pairs"
      },
      "timed": 40,
@@ -3241,16 +3240,16 @@
    "url": "fixture:synthetic/syn-same/a.html",
    "notes": 19,
    "cold": {
-    "median": 17.4,
-    "max": 20.4,
+    "median": 17.8,
+    "max": 21.5,
     "n": 5,
     "near": 4,
-    "allMedian": 21.5,
-    "frameMedian": 17,
+    "allMedian": 22.3,
+    "frameMedian": 25.4,
     "paintMedian": -0.3,
     "paintMax": -0.3,
-    "contentPaintMedian": 17.8,
-    "contentPaintMax": 20.7,
+    "contentPaintMedian": 18.1,
+    "contentPaintMax": 21.9,
     "seenMedian": 0,
     "seenMax": 0,
     "sameFrameLoads": 5,
@@ -3259,96 +3258,96 @@
     "booted": 5,
     "loads": 5,
     "timeline": {
-     "lastAnchor": 14.5,
-     "fcp": 52,
-     "stubStart": 8.4,
-     "viewStart": 17.8,
-     "firstInk": 31.4
+     "lastAnchor": 13.7,
+     "fcp": 48,
+     "stubStart": 8.5,
+     "viewStart": 17.3,
+     "firstInk": 31.5
     },
     "runs": [
      {
-      "worstNear": 16.5,
-      "worstNearFrame": 4,
+      "worstNear": 17.2,
+      "worstNearFrame": 25.4,
       "worstNearPaint": -0.3,
-      "worstContentPaint": 16.8,
-      "worstSeen": 0,
-      "sameFrame": 4,
-      "elementTimed": 4,
-      "boot": true,
-      "fcp": 56,
-      "worstAll": 20.8,
-      "near": 4,
-      "nearDrawn": 4,
-      "drawn": 19,
-      "firstInkMark": 30.8,
-      "placedMark": 35.1,
-      "lastAnchor": 14.5,
-      "stubStart": 8.7,
-      "viewStart": 17.8
-     },
-     {
-      "worstNear": 20.4,
-      "worstNearFrame": 18.3,
-      "worstNearPaint": -0.3,
-      "worstContentPaint": 20.7,
-      "worstSeen": 0,
-      "sameFrame": 4,
-      "elementTimed": 4,
-      "boot": true,
-      "fcp": 56,
-      "worstAll": 26.3,
-      "near": 4,
-      "nearDrawn": 4,
-      "drawn": 19,
-      "firstInkMark": 36.8,
-      "placedMark": 42.6,
-      "lastAnchor": 16.6,
-      "stubStart": 8.2,
-      "viewStart": 21.4
-     },
-     {
-      "worstNear": 15.9,
-      "worstNearFrame": 22,
-      "worstNearPaint": -0.4,
-      "worstContentPaint": 16.3,
-      "worstSeen": 0,
-      "sameFrame": 4,
-      "elementTimed": 4,
-      "boot": true,
-      "fcp": 40,
-      "worstAll": 20.2,
-      "near": 4,
-      "nearDrawn": 4,
-      "drawn": 19,
-      "firstInkMark": 29.4,
-      "placedMark": 33.7,
-      "lastAnchor": 13.6,
-      "stubStart": 8,
-      "viewStart": 16.8
-     },
-     {
-      "worstNear": 17.4,
-      "worstNearFrame": 7.7,
-      "worstNearPaint": -0.4,
-      "worstContentPaint": 17.8,
+      "worstContentPaint": 17.5,
       "worstSeen": 0,
       "sameFrame": 4,
       "elementTimed": 4,
       "boot": true,
       "fcp": 44,
-      "worstAll": 21.5,
+      "worstAll": 21.3,
       "near": 4,
       "nearDrawn": 4,
       "drawn": 19,
-      "firstInkMark": 31.4,
-      "placedMark": 35.5,
-      "lastAnchor": 14.2,
-      "stubStart": 8.4,
+      "firstInkMark": 30.4,
+      "placedMark": 34.6,
+      "lastAnchor": 13.4,
+      "stubStart": 8.3,
+      "viewStart": 16.5
+     },
+     {
+      "worstNear": 17.3,
+      "worstNearFrame": 26,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 17.7,
+      "worstSeen": 0,
+      "sameFrame": 4,
+      "elementTimed": 4,
+      "boot": true,
+      "fcp": 44,
+      "worstAll": 21.4,
+      "near": 4,
+      "nearDrawn": 4,
+      "drawn": 19,
+      "firstInkMark": 30.9,
+      "placedMark": 35.1,
+      "lastAnchor": 13.7,
+      "stubStart": 8.2,
+      "viewStart": 17.1
+     },
+     {
+      "worstNear": 21.5,
+      "worstNearFrame": 21.6,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 21.9,
+      "worstSeen": 0,
+      "sameFrame": 4,
+      "elementTimed": 4,
+      "boot": true,
+      "fcp": 64,
+      "worstAll": 25.9,
+      "near": 4,
+      "nearDrawn": 4,
+      "drawn": 19,
+      "firstInkMark": 41.9,
+      "placedMark": 46.4,
+      "lastAnchor": 20.6,
+      "stubStart": 14.9,
+      "viewStart": 33.8
+     },
+     {
+      "worstNear": 18.3,
+      "worstNearFrame": 26.8,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 18.6,
+      "worstSeen": 0,
+      "sameFrame": 4,
+      "elementTimed": 4,
+      "boot": true,
+      "fcp": 48,
+      "worstAll": 22.6,
+      "near": 4,
+      "nearDrawn": 4,
+      "drawn": 19,
+      "firstInkMark": 31.6,
+      "placedMark": 36,
+      "lastAnchor": 13.6,
+      "stubStart": 8.5,
       "viewStart": 17.6
      },
      {
       "worstNear": 17.8,
-      "worstNearFrame": 17,
+      "worstNearFrame": 15.9,
       "worstNearPaint": -0.3,
       "worstContentPaint": 18.1,
       "worstSeen": 0,
@@ -3356,29 +3355,29 @@
       "elementTimed": 4,
       "boot": true,
       "fcp": 52,
-      "worstAll": 22.1,
+      "worstAll": 22.3,
       "near": 4,
       "nearDrawn": 4,
       "drawn": 19,
-      "firstInkMark": 33.3,
-      "placedMark": 37.6,
-      "lastAnchor": 15.7,
-      "stubStart": 10.4,
-      "viewStart": 19
+      "firstInkMark": 31.5,
+      "placedMark": 36,
+      "lastAnchor": 14,
+      "stubStart": 8.9,
+      "viewStart": 17.3
      }
     ]
    },
    "warm": {
-    "median": 16.8,
-    "max": 19.1,
+    "median": 17.5,
+    "max": 21.5,
     "n": 8,
     "near": 4,
-    "allMedian": 20.9,
-    "frameMedian": 11.7,
-    "paintMedian": -0.3,
-    "paintMax": -0.2,
-    "contentPaintMedian": 17.1,
-    "contentPaintMax": 19.4,
+    "allMedian": 21.7,
+    "frameMedian": 13,
+    "paintMedian": -0.4,
+    "paintMax": -0.3,
+    "contentPaintMedian": 17.9,
+    "contentPaintMax": 22.2,
     "seenMedian": 0,
     "seenMax": 0,
     "sameFrameLoads": 8,
@@ -3387,290 +3386,290 @@
     "booted": 8,
     "loads": 8,
     "timeline": {
-     "lastAnchor": 13,
-     "fcp": 46,
+     "lastAnchor": 13.1,
+     "fcp": 48,
      "stubStart": 7.4,
-     "viewStart": 16.3,
-     "firstInk": 29.4
+     "viewStart": 16.6,
+     "firstInk": 30.6
     },
     "runs": [
      {
-      "worstNear": 16.3,
-      "worstNearFrame": 14.9,
+      "worstNear": 18.1,
+      "worstNearFrame": 16.9,
       "worstNearPaint": -0.7,
-      "worstContentPaint": 17,
+      "worstContentPaint": 18.8,
       "worstSeen": 0,
       "sameFrame": 4,
       "elementTimed": 4,
       "boot": true,
       "fcp": 48,
-      "worstAll": 20.4,
+      "worstAll": 22.1,
       "near": 4,
       "nearDrawn": 4,
       "drawn": 19,
-      "firstInkMark": 27.1,
-      "placedMark": 31.3,
-      "lastAnchor": 11.2,
-      "stubStart": 6.2,
-      "viewStart": 14.3
+      "firstInkMark": 30.6,
+      "placedMark": 34.6,
+      "lastAnchor": 12.7,
+      "stubStart": 7,
+      "viewStart": 16.1
      },
      {
-      "worstNear": 17.3,
-      "worstNearFrame": 23.8,
-      "worstNearPaint": -0.6,
-      "worstContentPaint": 17.9,
-      "worstSeen": 0,
-      "sameFrame": 4,
-      "elementTimed": 4,
-      "boot": true,
-      "fcp": 40,
-      "worstAll": 21,
-      "near": 4,
-      "nearDrawn": 4,
-      "drawn": 19,
-      "firstInkMark": 28.6,
-      "placedMark": 32.4,
-      "lastAnchor": 11.6,
-      "stubStart": 6.3,
-      "viewStart": 14.8
-     },
-     {
-      "worstNear": 16.6,
-      "worstNearFrame": 10.1,
-      "worstNearPaint": -0.3,
-      "worstContentPaint": 16.9,
+      "worstNear": 17.6,
+      "worstNearFrame": 8.4,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 18,
       "worstSeen": 0,
       "sameFrame": 4,
       "elementTimed": 4,
       "boot": true,
       "fcp": 44,
-      "worstAll": 20.8,
+      "worstAll": 21.8,
       "near": 4,
       "nearDrawn": 4,
       "drawn": 19,
-      "firstInkMark": 29.6,
-      "placedMark": 33.8,
+      "firstInkMark": 30.6,
+      "placedMark": 34.8,
       "lastAnchor": 13.1,
-      "stubStart": 7.4,
-      "viewStart": 16.5
+      "stubStart": 7.2,
+      "viewStart": 16.6
      },
      {
-      "worstNear": 19.1,
-      "worstNearFrame": 11.7,
-      "worstNearPaint": -0.3,
-      "worstContentPaint": 19.4,
+      "worstNear": 21.5,
+      "worstNearFrame": 21.6,
+      "worstNearPaint": -0.7,
+      "worstContentPaint": 22.2,
+      "worstSeen": 0,
+      "sameFrame": 4,
+      "elementTimed": 4,
+      "boot": true,
+      "fcp": 56,
+      "worstAll": 25.3,
+      "near": 4,
+      "nearDrawn": 4,
+      "drawn": 19,
+      "firstInkMark": 34.9,
+      "placedMark": 38.8,
+      "lastAnchor": 13.6,
+      "stubStart": 7.5,
+      "viewStart": 17.4
+     },
+     {
+      "worstNear": 18.9,
+      "worstNearFrame": 11.8,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 19.3,
       "worstSeen": 0,
       "sameFrame": 4,
       "elementTimed": 4,
       "boot": true,
       "fcp": 48,
-      "worstAll": 23.4,
+      "worstAll": 22.9,
       "near": 4,
       "nearDrawn": 4,
       "drawn": 19,
       "firstInkMark": 32.8,
-      "placedMark": 36.9,
-      "lastAnchor": 13.8,
-      "stubStart": 7.4,
-      "viewStart": 17.7
+      "placedMark": 36.8,
+      "lastAnchor": 14.2,
+      "stubStart": 8,
+      "viewStart": 18.1
      },
      {
-      "worstNear": 16.4,
-      "worstNearFrame": 11.7,
-      "worstNearPaint": -0.3,
-      "worstContentPaint": 16.7,
+      "worstNear": 17,
+      "worstNearFrame": 17.4,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 17.4,
       "worstSeen": 0,
       "sameFrame": 4,
       "elementTimed": 4,
       "boot": true,
-      "fcp": 44,
-      "worstAll": 20.6,
+      "fcp": 52,
+      "worstAll": 21.2,
       "near": 4,
       "nearDrawn": 4,
       "drawn": 19,
-      "firstInkMark": 29.2,
-      "placedMark": 33.4,
-      "lastAnchor": 13,
-      "stubStart": 7.3,
+      "firstInkMark": 29.7,
+      "placedMark": 33.9,
+      "lastAnchor": 12.9,
+      "stubStart": 7.2,
       "viewStart": 16.3
      },
      {
-      "worstNear": 17.5,
-      "worstNearFrame": 15.4,
+      "worstNear": 15.7,
+      "worstNearFrame": 1.9,
       "worstNearPaint": -0.3,
+      "worstContentPaint": 16,
+      "worstSeen": 0,
+      "sameFrame": 4,
+      "elementTimed": 4,
+      "boot": true,
+      "fcp": 52,
+      "worstAll": 19.9,
+      "near": 4,
+      "nearDrawn": 4,
+      "drawn": 19,
+      "firstInkMark": 26.9,
+      "placedMark": 31.2,
+      "lastAnchor": 11.4,
+      "stubStart": 6.4,
+      "viewStart": 14.5
+     },
+     {
+      "worstNear": 17.4,
+      "worstNearFrame": 7.8,
+      "worstNearPaint": -0.4,
       "worstContentPaint": 17.8,
       "worstSeen": 0,
       "sameFrame": 4,
       "elementTimed": 4,
       "boot": true,
-      "fcp": 48,
-      "worstAll": 21.7,
+      "fcp": 44,
+      "worstAll": 21.6,
       "near": 4,
       "nearDrawn": 4,
       "drawn": 19,
-      "firstInkMark": 30,
-      "placedMark": 34.2,
-      "lastAnchor": 12.6,
-      "stubStart": 7,
-      "viewStart": 16.3
+      "firstInkMark": 30.9,
+      "placedMark": 35.2,
+      "lastAnchor": 13.7,
+      "stubStart": 7.6,
+      "viewStart": 17.4
      },
      {
       "worstNear": 16.9,
-      "worstNearFrame": 4.9,
+      "worstNearFrame": 14.1,
       "worstNearPaint": -0.3,
       "worstContentPaint": 17.2,
       "worstSeen": 0,
       "sameFrame": 4,
       "elementTimed": 4,
       "boot": true,
-      "fcp": 40,
-      "worstAll": 21.2,
+      "fcp": 48,
+      "worstAll": 21,
       "near": 4,
       "nearDrawn": 4,
       "drawn": 19,
-      "firstInkMark": 30,
-      "placedMark": 34.3,
-      "lastAnchor": 13.3,
-      "stubStart": 7.4,
-      "viewStart": 16.8
-     },
-     {
-      "worstNear": 16.3,
-      "worstNearFrame": 3.5,
-      "worstNearPaint": -0.2,
-      "worstContentPaint": 16.5,
-      "worstSeen": 0,
-      "sameFrame": 4,
-      "elementTimed": 4,
-      "boot": true,
-      "fcp": 52,
-      "worstAll": 20.4,
-      "near": 4,
-      "nearDrawn": 4,
-      "drawn": 19,
-      "firstInkMark": 29.1,
-      "placedMark": 33.3,
-      "lastAnchor": 13,
-      "stubStart": 7.6,
-      "viewStart": 16.3
+      "firstInkMark": 29.8,
+      "placedMark": 34,
+      "lastAnchor": 13.1,
+      "stubStart": 7.5,
+      "viewStart": 16.6
      }
     ]
    },
    "plain": {
     "cold": {
-     "contentPaintMedian": 10,
+     "contentPaintMedian": 10.8,
      "n": 5,
      "runs": [
-      10,
-      9.4,
-      10.7,
+      20,
+      10.8,
       9.3,
-      15.3
+      12.2,
+      10.7
      ]
     },
     "warm": {
-     "contentPaintMedian": 15.1,
+     "contentPaintMedian": 15.7,
      "n": 8,
      "runs": [
-      13.3,
-      17.3,
-      15.7,
-      10.3,
-      8,
-      17.9,
-      14.5,
-      16.6
+      19.7,
+      20.8,
+      34.7,
+      12.3,
+      8.5,
+      9.4,
+      19.1,
+      8.7
      ]
     }
    },
    "heldBack": {
     "cold": {
      "with": {
-      "median": 31.4,
-      "iqr": 3.9,
+      "median": 35.1,
+      "iqr": 3.1,
       "n": 5,
       "groups": [
        {
         "n": 5,
-        "median": 31.4,
-        "min": 30.1,
-        "max": 41.3
+        "median": 35.1,
+        "min": 32.2,
+        "max": 39.1
        }
       ],
       "runs": [
-       30.9,
-       34.8,
-       30.1,
-       31.4,
-       41.3
+       32.2,
+       35.8,
+       35.1,
+       39.1,
+       32.7
       ]
      },
      "alone": {
-      "median": 18.5,
-      "iqr": 4.1,
+      "median": 20.3,
+      "iqr": 4,
       "n": 5,
       "groups": [
        {
         "n": 5,
-        "median": 18.5,
-        "min": 17.1,
-        "max": 24
+        "median": 20.3,
+        "min": 18,
+        "max": 36.3
        }
       ],
       "runs": [
-       18.1,
-       17.1,
-       22.2,
-       18.5,
-       24
+       36.3,
+       18.8,
+       20.3,
+       22.8,
+       18
       ]
      },
-     "delta": 12.9,
-     "noise": 4.5,
+     "delta": 14.8,
+     "noise": 1.6,
      "basis": "pairs",
      "wait": {
       "with": {
-       "median": 18.1,
-       "iqr": 1.3,
+       "median": 19.2,
+       "iqr": 2.7,
        "n": 5,
        "groups": [
         {
          "n": 5,
-         "median": 18.1,
-         "min": 17.1,
-         "max": 23.4
+         "median": 19.2,
+         "min": 18,
+         "max": 21.3
         }
        ],
        "runs": [
-        18.1,
-        19.4,
-        17.1,
-        18.1,
-        23.4
+        18,
+        18,
+        20.7,
+        21.3,
+        19.2
        ]
       },
       "alone": {
-       "median": 10,
-       "iqr": 1.3,
+       "median": 10.8,
+       "iqr": 1.5,
        "n": 5,
        "groups": [
         {
          "n": 5,
-         "median": 10,
+         "median": 10.8,
          "min": 9.3,
-         "max": 15.3
+         "max": 20
         }
        ],
        "runs": [
-        10,
-        9.4,
-        10.7,
+        20,
+        10.8,
         9.3,
-        15.3
+        12.2,
+        10.7
        ]
       },
-      "delta": 8.1,
-      "noise": 0.7,
+      "delta": 8.5,
+      "noise": 1.9,
       "basis": "pairs"
      },
      "timed": 20,
@@ -3678,103 +3677,103 @@
     },
     "warm": {
      "with": {
-      "median": 30.3,
-      "iqr": 2.8,
+      "median": 32.9,
+      "iqr": 4.5,
       "n": 8,
       "groups": [
        {
         "n": 8,
-        "median": 30.3,
-        "min": 29.9,
-        "max": 47.2
+        "median": 32.9,
+        "min": 28.6,
+        "max": 39.3
        }
       ],
       "runs": [
-       36.2,
-       47.2,
-       31.8,
-       30.4,
-       29.9,
-       30.2,
-       30.2,
-       30
+       33.3,
+       37.7,
+       31.7,
+       32.5,
+       39.3,
+       35.6,
+       28.6,
+       31.4
       ]
      },
      "alone": {
-      "median": 22.7,
-      "iqr": 4.4,
+      "median": 22.9,
+      "iqr": 10.4,
       "n": 8,
       "groups": [
        {
         "n": 8,
-        "median": 22.7,
+        "median": 22.9,
         "min": 15.8,
-        "max": 32
+        "max": 45
        }
       ],
       "runs": [
-       21.4,
-       24.5,
-       32,
-       17.5,
-       15.8,
-       25.6,
-       22.1,
-       23.3
+       26.6,
+       29.1,
+       45,
+       19.6,
+       16.9,
+       16.5,
+       26.1,
+       15.8
       ]
      },
-     "delta": 10.5,
-     "noise": 8.1,
+     "delta": 10.8,
+     "noise": 10.8,
      "basis": "pairs",
      "wait": {
       "with": {
-       "median": 17.3,
-       "iqr": 1.6,
+       "median": 18.4,
+       "iqr": 1.9,
        "n": 8,
        "groups": [
         {
          "n": 8,
-         "median": 17.3,
-         "min": 16.4,
-         "max": 21.4
+         "median": 18.4,
+         "min": 16.9,
+         "max": 23.9
         }
        ],
        "runs": [
-        21.4,
-        18,
-        19.8,
-        17.2,
-        16.6,
-        16.4,
-        17,
-        17.3
+        18.1,
+        23.9,
+        18.8,
+        18.2,
+        23.1,
+        18.5,
+        16.9,
+        17.4
        ]
       },
       "alone": {
-       "median": 15.1,
-       "iqr": 4.2,
+       "median": 15.7,
+       "iqr": 10.8,
        "n": 8,
        "groups": [
         {
          "n": 8,
-         "median": 15.1,
-         "min": 8,
-         "max": 17.9
+         "median": 15.7,
+         "min": 8.5,
+         "max": 34.7
         }
        ],
        "runs": [
-        13.3,
-        17.3,
-        15.7,
-        10.3,
-        8,
-        17.9,
-        14.5,
-        16.6
+        19.7,
+        20.8,
+        34.7,
+        12.3,
+        8.5,
+        9.4,
+        19.1,
+        8.7
        ]
       },
-      "delta": 3.3,
-      "noise": 6.5,
+      "delta": 4.5,
+      "noise": 10.5,
       "basis": "pairs"
      },
      "timed": 32,
@@ -3795,7 +3794,7 @@
     "max": null,
     "n": 0,
     "near": 0,
-    "allMedian": 202.1,
+    "allMedian": 199,
     "frameMedian": null,
     "paintMedian": null,
     "paintMax": null,
@@ -3809,11 +3808,11 @@
     "booted": 5,
     "loads": 5,
     "timeline": {
-     "lastAnchor": 47.1,
-     "fcp": 124,
-     "stubStart": 12,
-     "viewStart": 35.7,
-     "firstInk": 114.4
+     "lastAnchor": 65.6,
+     "fcp": 128,
+     "stubStart": 13.8,
+     "viewStart": 34.8,
+     "firstInk": 131.7
     },
     "runs": [
      {
@@ -3826,15 +3825,15 @@
       "elementTimed": 0,
       "boot": true,
       "fcp": 128,
-      "worstAll": 217.3,
+      "worstAll": 199,
       "near": 0,
       "nearDrawn": 0,
       "drawn": 20,
-      "firstInkMark": 112.9,
-      "placedMark": 239.6,
-      "lastAnchor": 47.7,
-      "stubStart": 13.4,
-      "viewStart": 35.9
+      "firstInkMark": 134.9,
+      "placedMark": 221.6,
+      "lastAnchor": 48,
+      "stubStart": 13.6,
+      "viewStart": 32.9
      },
      {
       "worstNear": null,
@@ -3845,16 +3844,16 @@
       "sameFrame": 0,
       "elementTimed": 0,
       "boot": true,
-      "fcp": 88,
-      "worstAll": 210,
+      "fcp": 148,
+      "worstAll": 242.7,
       "near": 0,
       "nearDrawn": 0,
       "drawn": 20,
-      "firstInkMark": 120.2,
-      "placedMark": 231.3,
-      "lastAnchor": 77.8,
-      "stubStart": 11.1,
-      "viewStart": 37.2
+      "firstInkMark": 144.6,
+      "placedMark": 265.5,
+      "lastAnchor": 65.6,
+      "stubStart": 13.9,
+      "viewStart": 33.5
      },
      {
       "worstNear": null,
@@ -3865,16 +3864,16 @@
       "sameFrame": 0,
       "elementTimed": 0,
       "boot": true,
-      "fcp": 128,
-      "worstAll": 195.7,
+      "fcp": 132,
+      "worstAll": 198.3,
       "near": 0,
       "nearDrawn": 0,
       "drawn": 20,
-      "firstInkMark": 111.9,
-      "placedMark": 217.5,
-      "lastAnchor": 47.1,
-      "stubStart": 13,
-      "viewStart": 35.7
+      "firstInkMark": 116.9,
+      "placedMark": 221.1,
+      "lastAnchor": 49.7,
+      "stubStart": 13.8,
+      "viewStart": 38.6
      },
      {
       "worstNear": null,
@@ -3885,36 +3884,36 @@
       "sameFrame": 0,
       "elementTimed": 0,
       "boot": true,
-      "fcp": 112,
-      "worstAll": 168.2,
+      "fcp": 96,
+      "worstAll": 194.4,
       "near": 0,
       "nearDrawn": 0,
       "drawn": 20,
-      "firstInkMark": 119.3,
-      "placedMark": 189,
-      "lastAnchor": 44.3,
-      "stubStart": 12,
-      "viewStart": 34.1
-     },
-     {
-      "worstNear": null,
-      "worstNearFrame": null,
-      "worstNearPaint": null,
-      "worstContentPaint": null,
-      "worstSeen": null,
-      "sameFrame": 0,
-      "elementTimed": 0,
-      "boot": true,
-      "fcp": 124,
-      "worstAll": 202.1,
-      "near": 0,
-      "nearDrawn": 0,
-      "drawn": 20,
-      "firstInkMark": 114.4,
-      "placedMark": 222.8,
-      "lastAnchor": 46.1,
+      "firstInkMark": 128,
+      "placedMark": 216.1,
+      "lastAnchor": 81.4,
       "stubStart": 11.9,
-      "viewStart": 34.9
+      "viewStart": 34.8
+     },
+     {
+      "worstNear": null,
+      "worstNearFrame": null,
+      "worstNearPaint": null,
+      "worstContentPaint": null,
+      "worstSeen": null,
+      "sameFrame": 0,
+      "elementTimed": 0,
+      "boot": true,
+      "fcp": 92,
+      "worstAll": 212.9,
+      "near": 0,
+      "nearDrawn": 0,
+      "drawn": 20,
+      "firstInkMark": 131.7,
+      "placedMark": 236.1,
+      "lastAnchor": 81.9,
+      "stubStart": 14.3,
+      "viewStart": 35.1
      }
     ]
    },
@@ -3923,7 +3922,7 @@
     "max": null,
     "n": 0,
     "near": 0,
-    "allMedian": 189.6,
+    "allMedian": 192.1,
     "frameMedian": null,
     "paintMedian": null,
     "paintMax": null,
@@ -3937,11 +3936,11 @@
     "booted": 8,
     "loads": 8,
     "timeline": {
-     "lastAnchor": 51.5,
-     "fcp": 110,
-     "stubStart": 11.6,
-     "viewStart": 36.3,
-     "firstInk": 119.4
+     "lastAnchor": 48.5,
+     "fcp": 118,
+     "stubStart": 12.2,
+     "viewStart": 35.8,
+     "firstInk": 112.1
     },
     "runs": [
      {
@@ -3953,16 +3952,16 @@
       "sameFrame": 0,
       "elementTimed": 0,
       "boot": true,
-      "fcp": 124,
-      "worstAll": 195,
+      "fcp": 104,
+      "worstAll": 147.3,
       "near": 0,
       "nearDrawn": 0,
       "drawn": 20,
-      "firstInkMark": 113.8,
-      "placedMark": 215.2,
-      "lastAnchor": 50.9,
-      "stubStart": 11.5,
-      "viewStart": 39
+      "firstInkMark": 112.2,
+      "placedMark": 167.1,
+      "lastAnchor": 42.9,
+      "stubStart": 10.9,
+      "viewStart": 32.8
      },
      {
       "worstNear": null,
@@ -3973,96 +3972,16 @@
       "sameFrame": 0,
       "elementTimed": 0,
       "boot": true,
-      "fcp": 84,
-      "worstAll": 212.3,
+      "fcp": 92,
+      "worstAll": 215.6,
       "near": 0,
       "nearDrawn": 0,
       "drawn": 20,
-      "firstInkMark": 130.4,
-      "placedMark": 233.9,
-      "lastAnchor": 76.4,
-      "stubStart": 12.3,
-      "viewStart": 37
-     },
-     {
-      "worstNear": null,
-      "worstNearFrame": null,
-      "worstNearPaint": null,
-      "worstContentPaint": null,
-      "worstSeen": null,
-      "sameFrame": 0,
-      "elementTimed": 0,
-      "boot": true,
-      "fcp": 112,
-      "worstAll": 189.8,
-      "near": 0,
-      "nearDrawn": 0,
-      "drawn": 20,
-      "firstInkMark": 129.1,
-      "placedMark": 210.1,
-      "lastAnchor": 44.6,
+      "firstInkMark": 114.9,
+      "placedMark": 236.4,
+      "lastAnchor": 76.8,
       "stubStart": 11.4,
-      "viewStart": 34
-     },
-     {
-      "worstNear": null,
-      "worstNearFrame": null,
-      "worstNearPaint": null,
-      "worstContentPaint": null,
-      "worstSeen": null,
-      "sameFrame": 0,
-      "elementTimed": 0,
-      "boot": true,
-      "fcp": 112,
-      "worstAll": 167.3,
-      "near": 0,
-      "nearDrawn": 0,
-      "drawn": 20,
-      "firstInkMark": 122.1,
-      "placedMark": 187.4,
-      "lastAnchor": 44.1,
-      "stubStart": 11.1,
-      "viewStart": 33
-     },
-     {
-      "worstNear": null,
-      "worstNearFrame": null,
-      "worstNearPaint": null,
-      "worstContentPaint": null,
-      "worstSeen": null,
-      "sameFrame": 0,
-      "elementTimed": 0,
-      "boot": true,
-      "fcp": 108,
-      "worstAll": 161.2,
-      "near": 0,
-      "nearDrawn": 0,
-      "drawn": 20,
-      "firstInkMark": 116.6,
-      "placedMark": 181.7,
-      "lastAnchor": 44.6,
-      "stubStart": 11.6,
-      "viewStart": 34.7
-     },
-     {
-      "worstNear": null,
-      "worstNearFrame": null,
-      "worstNearPaint": null,
-      "worstContentPaint": null,
-      "worstSeen": null,
-      "sameFrame": 0,
-      "elementTimed": 0,
-      "boot": true,
-      "fcp": 80,
-      "worstAll": 189.4,
-      "near": 0,
-      "nearDrawn": 0,
-      "drawn": 20,
-      "firstInkMark": 111.3,
-      "placedMark": 210.4,
-      "lastAnchor": 74.4,
-      "stubStart": 10.5,
-      "viewStart": 36.4
+      "viewStart": 36.8
      },
      {
       "worstNear": null,
@@ -4074,15 +3993,15 @@
       "elementTimed": 0,
       "boot": true,
       "fcp": 120,
-      "worstAll": 189.4,
+      "worstAll": 198.5,
       "near": 0,
       "nearDrawn": 0,
       "drawn": 20,
-      "firstInkMark": 113.5,
-      "placedMark": 211.4,
-      "lastAnchor": 52.1,
-      "stubStart": 13.3,
-      "viewStart": 39.2
+      "firstInkMark": 111.7,
+      "placedMark": 220.1,
+      "lastAnchor": 45.8,
+      "stubStart": 12.6,
+      "viewStart": 34.9
      },
      {
       "worstNear": null,
@@ -4093,16 +4012,96 @@
       "sameFrame": 0,
       "elementTimed": 0,
       "boot": true,
-      "fcp": 76,
-      "worstAll": 223.6,
+      "fcp": 132,
+      "worstAll": 209.2,
       "near": 0,
       "nearDrawn": 0,
       "drawn": 20,
-      "firstInkMark": 127.5,
-      "placedMark": 244.4,
-      "lastAnchor": 76.5,
-      "stubStart": 11.8,
-      "viewStart": 36.1
+      "firstInkMark": 116,
+      "placedMark": 230.3,
+      "lastAnchor": 52.7,
+      "stubStart": 12.5,
+      "viewStart": 40
+     },
+     {
+      "worstNear": null,
+      "worstNearFrame": null,
+      "worstNearPaint": null,
+      "worstContentPaint": null,
+      "worstSeen": null,
+      "sameFrame": 0,
+      "elementTimed": 0,
+      "boot": true,
+      "fcp": 124,
+      "worstAll": 191,
+      "near": 0,
+      "nearDrawn": 0,
+      "drawn": 20,
+      "firstInkMark": 111.9,
+      "placedMark": 212,
+      "lastAnchor": 45.9,
+      "stubStart": 12.1,
+      "viewStart": 34.7
+     },
+     {
+      "worstNear": null,
+      "worstNearFrame": null,
+      "worstNearPaint": null,
+      "worstContentPaint": null,
+      "worstSeen": null,
+      "sameFrame": 0,
+      "elementTimed": 0,
+      "boot": true,
+      "fcp": 124,
+      "worstAll": 193.1,
+      "near": 0,
+      "nearDrawn": 0,
+      "drawn": 20,
+      "firstInkMark": 115.9,
+      "placedMark": 215.8,
+      "lastAnchor": 49.4,
+      "stubStart": 13.7,
+      "viewStart": 37.8
+     },
+     {
+      "worstNear": null,
+      "worstNearFrame": null,
+      "worstNearPaint": null,
+      "worstContentPaint": null,
+      "worstSeen": null,
+      "sameFrame": 0,
+      "elementTimed": 0,
+      "boot": true,
+      "fcp": 84,
+      "worstAll": 187.9,
+      "near": 0,
+      "nearDrawn": 0,
+      "drawn": 20,
+      "firstInkMark": 110.3,
+      "placedMark": 207.6,
+      "lastAnchor": 73.7,
+      "stubStart": 9.6,
+      "viewStart": 34.1
+     },
+     {
+      "worstNear": null,
+      "worstNearFrame": null,
+      "worstNearPaint": null,
+      "worstContentPaint": null,
+      "worstSeen": null,
+      "sameFrame": 0,
+      "elementTimed": 0,
+      "boot": true,
+      "fcp": 116,
+      "worstAll": 186.1,
+      "near": 0,
+      "nearDrawn": 0,
+      "drawn": 20,
+      "firstInkMark": 108.8,
+      "placedMark": 207.3,
+      "lastAnchor": 47.5,
+      "stubStart": 12.3,
+      "viewStart": 36.7
      }
     ]
    },
@@ -4225,16 +4224,16 @@
    "url": "fixture:dynamic/dyn-lazy-article/b.html",
    "notes": 20,
    "cold": {
-    "median": 18.1,
-    "max": 19.8,
+    "median": 17.6,
+    "max": 19.6,
     "n": 5,
     "near": 5,
-    "allMedian": 48.1,
-    "frameMedian": 12.9,
+    "allMedian": 49.5,
+    "frameMedian": 16.7,
     "paintMedian": -0.4,
     "paintMax": -0.3,
-    "contentPaintMedian": 18.4,
-    "contentPaintMax": 20.2,
+    "contentPaintMedian": 18,
+    "contentPaintMax": 20,
     "seenMedian": 0,
     "seenMax": 0,
     "sameFrameLoads": 5,
@@ -4243,56 +4242,76 @@
     "booted": 5,
     "loads": 5,
     "timeline": {
-     "lastAnchor": 819.8,
-     "fcp": 56,
-     "stubStart": 9.1,
-     "viewStart": 19.3,
-     "firstInk": 33.5
+     "lastAnchor": 817.3,
+     "fcp": 52,
+     "stubStart": 9.4,
+     "viewStart": 18.3,
+     "firstInk": 32.2
     },
     "runs": [
      {
-      "worstNear": 18.1,
-      "worstNearFrame": 3,
+      "worstNear": 17.8,
+      "worstNearFrame": 15.3,
       "worstNearPaint": -0.3,
-      "worstContentPaint": 18.4,
+      "worstContentPaint": 18.1,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
-      "fcp": 56,
-      "worstAll": 54.3,
+      "fcp": 52,
+      "worstAll": 49.9,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 20,
-      "firstInkMark": 33.6,
-      "placedMark": 42.6,
-      "lastAnchor": 818.2,
-      "stubStart": 9.8,
-      "viewStart": 19.3
+      "firstInkMark": 32.2,
+      "placedMark": 39.6,
+      "lastAnchor": 818.8,
+      "stubStart": 9.6,
+      "viewStart": 17.9
      },
      {
-      "worstNear": 19.8,
-      "worstNearFrame": 20.3,
+      "worstNear": 17.1,
+      "worstNearFrame": 16.7,
       "worstNearPaint": -0.4,
-      "worstContentPaint": 20.2,
+      "worstContentPaint": 17.5,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
-      "fcp": 60,
-      "worstAll": 39.1,
+      "fcp": 52,
+      "worstAll": 38.4,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 20,
-      "firstInkMark": 35.1,
-      "placedMark": 43.1,
-      "lastAnchor": 819.8,
-      "stubStart": 9.1,
-      "viewStart": 19.3
+      "firstInkMark": 31.5,
+      "placedMark": 39.3,
+      "lastAnchor": 817,
+      "stubStart": 9.4,
+      "viewStart": 23.3
+     },
+     {
+      "worstNear": 19.6,
+      "worstNearFrame": 26.6,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 20,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 44,
+      "worstAll": 49.7,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 20,
+      "firstInkMark": 32.7,
+      "placedMark": 40.3,
+      "lastAnchor": 817.3,
+      "stubStart": 7.5,
+      "viewStart": 16.6
      },
      {
       "worstNear": 17.6,
-      "worstNearFrame": 13.4,
+      "worstNearFrame": 16,
       "worstNearPaint": -0.4,
       "worstContentPaint": 18,
       "worstSeen": 0,
@@ -4300,69 +4319,49 @@
       "elementTimed": 5,
       "boot": true,
       "fcp": 48,
-      "worstAll": 48.1,
+      "worstAll": 38.5,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 20,
-      "firstInkMark": 31.1,
-      "placedMark": 38.4,
-      "lastAnchor": 818.6,
-      "stubStart": 7.9,
-      "viewStart": 17.5
+      "firstInkMark": 29.9,
+      "placedMark": 37.5,
+      "lastAnchor": 816.6,
+      "stubStart": 7.5,
+      "viewStart": 21.6
      },
      {
-      "worstNear": 18.6,
-      "worstNearFrame": 12.9,
-      "worstNearPaint": -0.4,
-      "worstContentPaint": 19,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 48,
-      "worstAll": 48.2,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 20,
-      "firstInkMark": 32.9,
-      "placedMark": 41.1,
-      "lastAnchor": 819.8,
-      "stubStart": 8.3,
-      "viewStart": 18.1
-     },
-     {
-      "worstNear": 17.9,
-      "worstNearFrame": 3.8,
-      "worstNearPaint": -0.4,
-      "worstContentPaint": 18.3,
+      "worstNear": 17.1,
+      "worstNearFrame": 17.5,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 17.4,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
       "fcp": 56,
-      "worstAll": 44,
+      "worstAll": 49.5,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 20,
-      "firstInkMark": 33.5,
-      "placedMark": 41.1,
-      "lastAnchor": 820.6,
-      "stubStart": 9.6,
-      "viewStart": 19.3
+      "firstInkMark": 32.2,
+      "placedMark": 39.8,
+      "lastAnchor": 819.4,
+      "stubStart": 10.3,
+      "viewStart": 18.3
      }
     ]
    },
    "warm": {
-    "median": 17.9,
-    "max": 21.1,
+    "median": 17.6,
+    "max": 21.5,
     "n": 8,
     "near": 5,
-    "allMedian": 43.5,
-    "frameMedian": 17.8,
+    "allMedian": 49.4,
+    "frameMedian": 18.4,
     "paintMedian": -0.7,
-    "paintMax": -0.4,
-    "contentPaintMedian": 18.8,
-    "contentPaintMax": 21.5,
+    "paintMax": -0.3,
+    "contentPaintMedian": 18.2,
+    "contentPaintMax": 21.8,
     "seenMedian": 0,
     "seenMax": 0,
     "sameFrameLoads": 8,
@@ -4371,290 +4370,290 @@
     "booted": 8,
     "loads": 8,
     "timeline": {
-     "lastAnchor": 819.2,
-     "fcp": 52,
-     "stubStart": 8.4,
-     "viewStart": 17.9,
-     "firstInk": 31.8
+     "lastAnchor": 816.9,
+     "fcp": 48,
+     "stubStart": 7.2,
+     "viewStart": 16.7,
+     "firstInk": 30.6
     },
     "runs": [
      {
-      "worstNear": 21.1,
-      "worstNearFrame": 24.7,
-      "worstNearPaint": -0.4,
-      "worstContentPaint": 21.5,
+      "worstNear": 21.5,
+      "worstNearFrame": 23.5,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 21.8,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
-      "fcp": 44,
-      "worstAll": 44.5,
+      "fcp": 60,
+      "worstAll": 55.9,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 20,
-      "firstInkMark": 34.3,
-      "placedMark": 41.3,
-      "lastAnchor": 817.1,
-      "stubStart": 7.9,
-      "viewStart": 23.5
+      "firstInkMark": 34.4,
+      "placedMark": 42,
+      "lastAnchor": 816.9,
+      "stubStart": 7.3,
+      "viewStart": 16.8
      },
      {
-      "worstNear": 18.2,
-      "worstNearFrame": 17.7,
+      "worstNear": 17,
+      "worstNearFrame": 18.2,
       "worstNearPaint": -0.8,
-      "worstContentPaint": 19,
+      "worstContentPaint": 17.8,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
       "fcp": 52,
-      "worstAll": 38.7,
+      "worstAll": 39.8,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 20,
-      "firstInkMark": 32.1,
-      "placedMark": 39.3,
-      "lastAnchor": 819.8,
+      "firstInkMark": 30.7,
+      "placedMark": 38.1,
+      "lastAnchor": 817.9,
       "stubStart": 8.4,
-      "viewStart": 18
+      "viewStart": 17.2
+     },
+     {
+      "worstNear": 15.5,
+      "worstNearFrame": 18.5,
+      "worstNearPaint": -0.7,
+      "worstContentPaint": 16.2,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 48,
+      "worstAll": 42.1,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 20,
+      "firstInkMark": 26.8,
+      "placedMark": 34.2,
+      "lastAnchor": 816.2,
+      "stubStart": 6.5,
+      "viewStart": 14.6
+     },
+     {
+      "worstNear": 17.6,
+      "worstNearFrame": 23.8,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 17.9,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 40,
+      "worstAll": 44.1,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 20,
+      "firstInkMark": 29,
+      "placedMark": 35.6,
+      "lastAnchor": 815.5,
+      "stubStart": 6.5,
+      "viewStart": 14.6
+     },
+     {
+      "worstNear": 19.9,
+      "worstNearFrame": 23.6,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 20.2,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 44,
+      "worstAll": 57.7,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 20,
+      "firstInkMark": 32.9,
+      "placedMark": 39.7,
+      "lastAnchor": 818.7,
+      "stubStart": 7.1,
+      "viewStart": 17.2
+     },
+     {
+      "worstNear": 17.9,
+      "worstNearFrame": 13.3,
+      "worstNearPaint": -0.8,
+      "worstContentPaint": 18.7,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 48,
+      "worstAll": 51,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 20,
+      "firstInkMark": 30.5,
+      "placedMark": 37.9,
+      "lastAnchor": 816.7,
+      "stubStart": 7,
+      "viewStart": 16.2
      },
      {
       "worstNear": 17.3,
-      "worstNearFrame": 17.9,
+      "worstNearFrame": 3.3,
       "worstNearPaint": -0.7,
       "worstContentPaint": 18,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
-      "fcp": 52,
-      "worstAll": 42.5,
+      "fcp": 40,
+      "worstAll": 55.8,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 20,
-      "firstInkMark": 31.2,
-      "placedMark": 38.7,
-      "lastAnchor": 818.8,
-      "stubStart": 8.7,
-      "viewStart": 17.4
-     },
-     {
-      "worstNear": 17.1,
-      "worstNearFrame": 18.1,
-      "worstNearPaint": -0.6,
-      "worstContentPaint": 17.7,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 52,
-      "worstAll": 41.7,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 20,
-      "firstInkMark": 31.4,
-      "placedMark": 38.9,
-      "lastAnchor": 819.6,
-      "stubStart": 8.9,
-      "viewStart": 17.8
-     },
-     {
-      "worstNear": 19.6,
-      "worstNearFrame": 8,
-      "worstNearPaint": -0.7,
-      "worstContentPaint": 20.3,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 60,
-      "worstAll": 46.5,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 20,
-      "firstInkMark": 34.1,
-      "placedMark": 41.9,
-      "lastAnchor": 819.8,
-      "stubStart": 8.3,
-      "viewStart": 18.9
+      "firstInkMark": 30.5,
+      "placedMark": 37.9,
+      "lastAnchor": 818.2,
+      "stubStart": 7.8,
+      "viewStart": 16.9
      },
      {
       "worstNear": 17.6,
-      "worstNearFrame": 13.9,
-      "worstNearPaint": -0.9,
-      "worstContentPaint": 18.5,
+      "worstNearFrame": 10.9,
+      "worstNearPaint": -0.7,
+      "worstContentPaint": 18.3,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
       "fcp": 48,
-      "worstAll": 34.7,
+      "worstAll": 47.7,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 20,
-      "firstInkMark": 30.9,
-      "placedMark": 38.8,
-      "lastAnchor": 818.2,
-      "stubStart": 7.7,
-      "viewStart": 17.2
-     },
-     {
-      "worstNear": 20.1,
-      "worstNearFrame": 19.1,
-      "worstNearPaint": -0.9,
-      "worstContentPaint": 21,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 56,
-      "worstAll": 50.5,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 20,
-      "firstInkMark": 35.1,
-      "placedMark": 42.8,
-      "lastAnchor": 821.2,
-      "stubStart": 8.7,
-      "viewStart": 19.6
-     },
-     {
-      "worstNear": 16.8,
-      "worstNearFrame": 5.9,
-      "worstNearPaint": -0.8,
-      "worstContentPaint": 17.6,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 40,
-      "worstAll": 54.4,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 20,
-      "firstInkMark": 29.8,
-      "placedMark": 37.1,
-      "lastAnchor": 817.6,
+      "firstInkMark": 30.7,
+      "placedMark": 38,
+      "lastAnchor": 816.9,
       "stubStart": 7.5,
-      "viewStart": 16.5
+      "viewStart": 16.6
      }
     ]
    },
    "plain": {
     "cold": {
-     "contentPaintMedian": 10,
+     "contentPaintMedian": 9,
      "n": 5,
      "runs": [
-      11.4,
-      9.3,
-      8.6,
-      11.8,
-      10
+      7.5,
+      7.7,
+      9,
+      11.5,
+      11.7
      ]
     },
     "warm": {
-     "contentPaintMedian": 15.3,
+     "contentPaintMedian": 16.1,
      "n": 8,
      "runs": [
-      16.7,
-      9,
-      9.6,
-      17,
-      12.1,
-      18.9,
-      14.4,
-      16.1
+      17.6,
+      16.1,
+      18.1,
+      8.2,
+      12.6,
+      16,
+      18.5,
+      9.4
      ]
     }
    },
    "heldBack": {
     "cold": {
      "with": {
-      "median": 31.2,
-      "iqr": 4.1,
+      "median": 35.4,
+      "iqr": 2.1,
       "n": 5,
       "groups": [
        {
         "n": 5,
-        "median": 31.2,
-        "min": 28.8,
-        "max": 33.5
+        "median": 35.4,
+        "min": 31.3,
+        "max": 36
        }
       ],
       "runs": [
-       28.8,
-       28.8,
-       32.9,
-       33.5,
-       31.2
+       35.4,
+       35.9,
+       33.8,
+       36,
+       31.3
       ]
      },
      "alone": {
-      "median": 21,
-      "iqr": 3.6,
+      "median": 21.5,
+      "iqr": 3.9,
       "n": 5,
       "groups": [
        {
         "n": 5,
-        "median": 21,
-        "min": 17.3,
-        "max": 26
+        "median": 21.5,
+        "min": 17.4,
+        "max": 24.6
        }
       ],
       "runs": [
-       26,
-       23.2,
-       19.6,
-       21,
-       17.3
+       18.5,
+       17.4,
+       24.6,
+       22.4,
+       21.5
       ]
      },
-     "delta": 12.5,
-     "noise": 7.7,
+     "delta": 13.6,
+     "noise": 7.1,
      "basis": "pairs",
      "wait": {
       "with": {
-       "median": 18.4,
-       "iqr": 1.7,
+       "median": 19.5,
+       "iqr": 1.8,
        "n": 5,
        "groups": [
         {
          "n": 5,
-         "median": 18.4,
-         "min": 17.2,
-         "max": 19.3
+         "median": 19.5,
+         "min": 18.3,
+         "max": 22.4
         }
        ],
        "runs": [
-        17.2,
-        17.3,
-        19,
-        19.3,
-        18.4
+        19.5,
+        20.5,
+        18.3,
+        22.4,
+        18.7
        ]
       },
       "alone": {
-       "median": 10,
-       "iqr": 2.1,
+       "median": 9,
+       "iqr": 3.8,
        "n": 5,
        "groups": [
         {
          "n": 5,
-         "median": 10,
-         "min": 8.6,
-         "max": 11.8
+         "median": 9,
+         "min": 7.5,
+         "max": 11.7
         }
        ],
        "runs": [
-        11.4,
-        9.3,
-        8.6,
-        11.8,
-        10
+        7.5,
+        7.7,
+        9,
+        11.5,
+        11.7
        ]
       },
-      "delta": 8,
-      "noise": 0.9,
+      "delta": 10.9,
+      "noise": 2.7,
       "basis": "pairs"
      },
      "timed": 25,
@@ -4662,109 +4661,103 @@
     },
     "warm": {
      "with": {
-      "median": 33,
-      "iqr": 2.8,
-      "n": 8,
-      "groups": [
-       {
-        "n": 7,
-        "median": 32.9,
-        "min": 29.7,
-        "max": 36.9
-       },
-       {
-        "n": 1,
-        "median": 60.3,
-        "min": 60.3,
-        "max": 60.3
-       }
-      ],
-      "runs": [
-       32.1,
-       33.6,
-       33.1,
-       30.1,
-       32.9,
-       60.3,
-       29.7,
-       36.9
-      ]
-     },
-     "alone": {
-      "median": 21.7,
-      "iqr": 4.2,
+      "median": 31.9,
+      "iqr": 2.6,
       "n": 8,
       "groups": [
        {
         "n": 8,
-        "median": 21.7,
-        "min": 16.6,
-        "max": 25.4
+        "median": 31.9,
+        "min": 30.4,
+        "max": 46.1
        }
       ],
       "runs": [
-       23.5,
-       17.1,
-       16.6,
-       23.9,
-       20.2,
-       25.4,
-       21.9,
-       21.5
+       31,
+       46.1,
+       30.4,
+       31.9,
+       32.6,
+       31.8,
+       36.2,
+       30.4
       ]
      },
-     "delta": 14.1,
-     "noise": 8.1,
+     "alone": {
+      "median": 21.9,
+      "iqr": 6.2,
+      "n": 8,
+      "groups": [
+       {
+        "n": 8,
+        "median": 21.9,
+        "min": 15.9,
+        "max": 35.2
+       }
+      ],
+      "runs": [
+       24.8,
+       22.6,
+       35.2,
+       15.9,
+       19.1,
+       21.2,
+       26.4,
+       18.5
+      ]
+     },
+     "delta": 11.3,
+     "noise": 5.2,
      "basis": "pairs",
      "wait": {
       "with": {
-       "median": 18.7,
+       "median": 19.1,
        "iqr": 2.1,
        "n": 8,
        "groups": [
         {
          "n": 8,
-         "median": 18.7,
-         "min": 15.3,
-         "max": 24.7
+         "median": 19.1,
+         "min": 17.3,
+         "max": 27
         }
        ],
        "runs": [
+        18.6,
+        27,
         19,
-        19.1,
-        20.6,
-        17.5,
-        18.3,
-        24.7,
-        17,
-        15.3
+        18.6,
+        19.8,
+        19.2,
+        23.4,
+        17.3
        ]
       },
       "alone": {
-       "median": 15.3,
-       "iqr": 5.3,
+       "median": 16.1,
+       "iqr": 5.9,
        "n": 8,
        "groups": [
         {
          "n": 8,
-         "median": 15.3,
-         "min": 9,
-         "max": 18.9
+         "median": 16.1,
+         "min": 8.2,
+         "max": 18.5
         }
        ],
        "runs": [
-        16.7,
-        9,
-        9.6,
-        17,
-        12.1,
-        18.9,
-        14.4,
-        16.1
+        17.6,
+        16.1,
+        18.1,
+        8.2,
+        12.6,
+        16,
+        18.5,
+        9.4
        ]
       },
-      "delta": 4.2,
-      "noise": 5.3,
+      "delta": 6.1,
+      "noise": 5.9,
       "basis": "pairs"
      },
      "timed": 40,
@@ -4781,144 +4774,144 @@
    "url": "fixture:wiki-mars-month/a.html",
    "notes": 200,
    "cold": {
-    "median": 63.1,
-    "max": 132.8,
+    "median": 60.5,
+    "max": 114,
     "n": 5,
     "near": 5,
-    "allMedian": 210.6,
-    "frameMedian": 58.8,
+    "allMedian": 226.5,
+    "frameMedian": 58.7,
     "paintMedian": -0.2,
-    "paintMax": 17,
-    "contentPaintMedian": 63.3,
-    "contentPaintMax": 133.1,
+    "paintMax": -0.2,
+    "contentPaintMedian": 60.9,
+    "contentPaintMax": 114.3,
     "seenMedian": 0,
-    "seenMax": 17,
-    "sameFrameLoads": 4,
+    "seenMax": 0,
+    "sameFrameLoads": 5,
     "elementTimed": 25,
     "nearDrawn": 25,
     "booted": 5,
     "loads": 5,
     "timeline": {
-     "lastAnchor": 157.3,
-     "fcp": 112,
-     "stubStart": 14.8,
-     "viewStart": 47.4,
-     "firstInk": 87.5
+     "lastAnchor": 154.4,
+     "fcp": 108,
+     "stubStart": 15.9,
+     "viewStart": 41.9,
+     "firstInk": 84
     },
     "runs": [
      {
-      "worstNear": 58.9,
-      "worstNearFrame": 55.3,
+      "worstNear": 114,
+      "worstNearFrame": 105.7,
       "worstNearPaint": -0.3,
-      "worstContentPaint": 59.2,
+      "worstContentPaint": 114.3,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 172,
+      "worstAll": 253.8,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 200,
+      "firstInkMark": 140.7,
+      "placedMark": 324.3,
+      "lastAnchor": 157.6,
+      "stubStart": 17.5,
+      "viewStart": 41.9
+     },
+     {
+      "worstNear": 74.4,
+      "worstNearFrame": 60.8,
+      "worstNearPaint": -0.2,
+      "worstContentPaint": 74.7,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 128,
+      "worstAll": 207.4,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 200,
+      "firstInkMark": 104.6,
+      "placedMark": 326.9,
+      "lastAnchor": 173.8,
+      "stubStart": 21,
+      "viewStart": 37.1
+     },
+     {
+      "worstNear": 58,
+      "worstNearFrame": 50.2,
+      "worstNearPaint": -0.2,
+      "worstContentPaint": 58.3,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
       "fcp": 104,
-      "worstAll": 210.6,
+      "worstAll": 267.4,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 200,
-      "firstInkMark": 82.5,
-      "placedMark": 308.6,
-      "lastAnchor": 156.9,
-      "stubStart": 14.2,
-      "viewStart": 43.6
+      "firstInkMark": 81.2,
+      "placedMark": 365.6,
+      "lastAnchor": 154.4,
+      "stubStart": 13.9,
+      "viewStart": 37.4
      },
      {
-      "worstNear": 132.8,
-      "worstNearFrame": 125,
-      "worstNearPaint": 17,
-      "worstContentPaint": 133.1,
-      "worstSeen": 17,
-      "sameFrame": 2,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 188,
-      "worstAll": 211.6,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 200,
-      "firstInkMark": 157.5,
-      "placedMark": 278.4,
-      "lastAnchor": 80.2,
-      "stubStart": 14.8,
-      "viewStart": 38.4
-     },
-     {
-      "worstNear": 64.9,
-      "worstNearFrame": 58.4,
+      "worstNear": 60.5,
+      "worstNearFrame": 55.9,
       "worstNearPaint": -0.2,
-      "worstContentPaint": 65.2,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 116,
-      "worstAll": 216.2,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 200,
-      "firstInkMark": 91.5,
-      "placedMark": 322.2,
-      "lastAnchor": 165.1,
-      "stubStart": 16.6,
-      "viewStart": 52.1
-     },
-     {
-      "worstNear": 63.1,
-      "worstNearFrame": 59.8,
-      "worstNearPaint": -0.2,
-      "worstContentPaint": 63.3,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 112,
-      "worstAll": 196.2,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 200,
-      "firstInkMark": 87.5,
-      "placedMark": 297.4,
-      "lastAnchor": 158.3,
-      "stubStart": 14.1,
-      "viewStart": 50.3
-     },
-     {
-      "worstNear": 59.7,
-      "worstNearFrame": 58.8,
-      "worstNearPaint": -0.2,
-      "worstContentPaint": 59.9,
+      "worstContentPaint": 60.9,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
       "fcp": 108,
-      "worstAll": 193.5,
+      "worstAll": 201.8,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 200,
-      "firstInkMark": 86.5,
-      "placedMark": 295.6,
-      "lastAnchor": 157.3,
-      "stubStart": 15.5,
-      "viewStart": 47.4
+      "firstInkMark": 84,
+      "placedMark": 299.6,
+      "lastAnchor": 153.7,
+      "stubStart": 13.8,
+      "viewStart": 45
+     },
+     {
+      "worstNear": 59,
+      "worstNearFrame": 58.7,
+      "worstNearPaint": -0.2,
+      "worstContentPaint": 59.2,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 108,
+      "worstAll": 226.5,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 200,
+      "firstInkMark": 83.7,
+      "placedMark": 324.9,
+      "lastAnchor": 154.4,
+      "stubStart": 15.9,
+      "viewStart": 48.1
      }
     ]
    },
    "warm": {
-    "median": 57.1,
-    "max": 59,
+    "median": 57.5,
+    "max": 113.4,
     "n": 8,
     "near": 5,
-    "allMedian": 193.2,
-    "frameMedian": 51.1,
+    "allMedian": 186.8,
+    "frameMedian": 52.7,
     "paintMedian": -0.2,
-    "paintMax": -0.1,
-    "contentPaintMedian": 57.4,
-    "contentPaintMax": 59.2,
+    "paintMax": -0.2,
+    "contentPaintMedian": 57.8,
+    "contentPaintMax": 113.8,
     "seenMedian": 0,
     "seenMax": 0,
     "sameFrameLoads": 8,
@@ -4927,302 +4920,302 @@
     "booted": 8,
     "loads": 8,
     "timeline": {
-     "lastAnchor": 148.1,
+     "lastAnchor": 150,
      "fcp": 102,
-     "stubStart": 13.3,
-     "viewStart": 45.2,
-     "firstInk": 80.1
+     "stubStart": 12.6,
+     "viewStart": 45.7,
+     "firstInk": 81.1
     },
     "runs": [
      {
-      "worstNear": 57.3,
-      "worstNearFrame": 58.5,
+      "worstNear": 59.7,
+      "worstNearFrame": 43.7,
       "worstNearPaint": -0.2,
-      "worstContentPaint": 57.6,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 104,
-      "worstAll": 176.7,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 200,
-      "firstInkMark": 81.4,
-      "placedMark": 271.8,
-      "lastAnchor": 149.7,
-      "stubStart": 14.7,
-      "viewStart": 47.5
-     },
-     {
-      "worstNear": 59,
-      "worstNearFrame": 46.2,
-      "worstNearPaint": -0.2,
-      "worstContentPaint": 59.2,
+      "worstContentPaint": 60,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
       "fcp": 108,
-      "worstAll": 193.1,
+      "worstAll": 184.7,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 200,
-      "firstInkMark": 83.4,
-      "placedMark": 290.1,
-      "lastAnchor": 150.1,
-      "stubStart": 13.8,
-      "viewStart": 48.3
+      "firstInkMark": 83.7,
+      "placedMark": 281,
+      "lastAnchor": 150.6,
+      "stubStart": 13.9,
+      "viewStart": 47.9
+     },
+     {
+      "worstNear": 55.3,
+      "worstNearFrame": 44.3,
+      "worstNearPaint": -0.2,
+      "worstContentPaint": 55.5,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 104,
+      "worstAll": 188.9,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 200,
+      "firstInkMark": 78.2,
+      "placedMark": 280.5,
+      "lastAnchor": 146.2,
+      "stubStart": 12.7,
+      "viewStart": 44.9
+     },
+     {
+      "worstNear": 57.6,
+      "worstNearFrame": 55.4,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 57.9,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 100,
+      "worstAll": 183.6,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 200,
+      "firstInkMark": 80.9,
+      "placedMark": 279.9,
+      "lastAnchor": 152.6,
+      "stubStart": 12.4,
+      "viewStart": 40.1
+     },
+     {
+      "worstNear": 113.4,
+      "worstNearFrame": 113.8,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 113.8,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 164,
+      "worstAll": 235.8,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 200,
+      "firstInkMark": 139.3,
+      "placedMark": 298.9,
+      "lastAnchor": 156.7,
+      "stubStart": 16.3,
+      "viewStart": 40.1
+     },
+     {
+      "worstNear": 57.3,
+      "worstNearFrame": 56.2,
+      "worstNearPaint": -0.3,
+      "worstContentPaint": 57.6,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 100,
+      "worstAll": 182.7,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 200,
+      "firstInkMark": 80.6,
+      "placedMark": 277.4,
+      "lastAnchor": 150,
+      "stubStart": 12.1,
+      "viewStart": 46.1
      },
      {
       "worstNear": 56.9,
-      "worstNearFrame": 50.8,
+      "worstNearFrame": 41.3,
       "worstNearPaint": -0.2,
       "worstContentPaint": 57.1,
       "worstSeen": 0,
       "sameFrame": 5,
       "elementTimed": 5,
       "boot": true,
-      "fcp": 96,
-      "worstAll": 180.2,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 200,
-      "firstInkMark": 80.1,
-      "placedMark": 275.7,
-      "lastAnchor": 147.2,
-      "stubStart": 14.1,
-      "viewStart": 38.8
-     },
-     {
-      "worstNear": 56.6,
-      "worstNearFrame": 44.4,
-      "worstNearPaint": -0.2,
-      "worstContentPaint": 56.8,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
       "fcp": 104,
-      "worstAll": 198.5,
+      "worstAll": 184.4,
       "near": 5,
       "nearDrawn": 5,
       "drawn": 200,
-      "firstInkMark": 79.9,
-      "placedMark": 292,
-      "lastAnchor": 147,
-      "stubStart": 14.3,
-      "viewStart": 45.9
-     },
-     {
-      "worstNear": 56.6,
-      "worstNearFrame": 51.4,
-      "worstNearPaint": -0.3,
-      "worstContentPaint": 56.9,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 96,
-      "worstAll": 193.3,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 200,
-      "firstInkMark": 78.3,
-      "placedMark": 285.5,
-      "lastAnchor": 146.3,
-      "stubStart": 12.5,
-      "viewStart": 44.5
-     },
-     {
-      "worstNear": 58.4,
-      "worstNearFrame": 46.6,
-      "worstNearPaint": -0.1,
-      "worstContentPaint": 58.6,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 104,
-      "worstAll": 213.1,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 200,
-      "firstInkMark": 80,
-      "placedMark": 306.4,
-      "lastAnchor": 146.7,
-      "stubStart": 11.1,
-      "viewStart": 43.8
-     },
-     {
-      "worstNear": 58.4,
-      "worstNearFrame": 53.4,
-      "worstNearPaint": -0.2,
-      "worstContentPaint": 58.7,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 100,
-      "worstAll": 191.6,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 200,
-      "firstInkMark": 81.7,
-      "placedMark": 287.6,
-      "lastAnchor": 151.8,
-      "stubStart": 12.8,
-      "viewStart": 46.3
-     },
-     {
-      "worstNear": 56.4,
-      "worstNearFrame": 56.2,
-      "worstNearPaint": -0.2,
-      "worstContentPaint": 56.6,
-      "worstSeen": 0,
-      "sameFrame": 5,
-      "elementTimed": 5,
-      "boot": true,
-      "fcp": 100,
-      "worstAll": 198.6,
-      "near": 5,
-      "nearDrawn": 5,
-      "drawn": 200,
-      "firstInkMark": 78.9,
-      "placedMark": 291.2,
+      "firstInkMark": 81.2,
+      "placedMark": 278.8,
       "lastAnchor": 149,
+      "stubStart": 12.9,
+      "viewStart": 47
+     },
+     {
+      "worstNear": 55.9,
+      "worstNearFrame": 49.9,
+      "worstNearPaint": -0.2,
+      "worstContentPaint": 56.1,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 96,
+      "worstAll": 210.3,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 200,
+      "firstInkMark": 78.7,
+      "placedMark": 302.5,
+      "lastAnchor": 146.9,
       "stubStart": 12,
-      "viewStart": 44.5
+      "viewStart": 45.2
+     },
+     {
+      "worstNear": 59,
+      "worstNearFrame": 55.9,
+      "worstNearPaint": -0.4,
+      "worstContentPaint": 59.4,
+      "worstSeen": 0,
+      "sameFrame": 5,
+      "elementTimed": 5,
+      "boot": true,
+      "fcp": 100,
+      "worstAll": 218,
+      "near": 5,
+      "nearDrawn": 5,
+      "drawn": 200,
+      "firstInkMark": 82.1,
+      "placedMark": 313.9,
+      "lastAnchor": 149.9,
+      "stubStart": 12.5,
+      "viewStart": 46.5
      }
     ]
    },
    "plain": {
     "cold": {
-     "contentPaintMedian": 61.7,
+     "contentPaintMedian": 58.5,
      "n": 5,
      "runs": [
-      108.2,
-      113.1,
-      51.4,
-      51.5,
-      61.7
+      54.3,
+      49.6,
+      119.3,
+      58.5,
+      112.4
      ]
     },
     "warm": {
-     "contentPaintMedian": 51.6,
+     "contentPaintMedian": 50.9,
      "n": 8,
      "runs": [
-      60.1,
-      94.8,
-      96,
-      48.9,
-      50.2,
-      50.5,
-      52.7,
-      48.6
+      50,
+      49.6,
+      51.8,
+      49,
+      87.4,
+      49,
+      58.1,
+      54.7
      ]
     }
    },
    "heldBack": {
     "cold": {
      "with": {
-      "median": 145.3,
-      "iqr": 5.8,
+      "median": 137.2,
+      "iqr": 6.4,
       "n": 5,
       "groups": [
        {
         "n": 5,
-        "median": 145.3,
-        "min": 129.1,
-        "max": 164.4
+        "median": 137.2,
+        "min": 131.7,
+        "max": 154.7
        }
       ],
       "runs": [
-       129.1,
-       142,
-       145.3,
-       147.8,
-       164.4
+       131.7,
+       154.7,
+       141.5,
+       135.1,
+       137.2
       ]
      },
      "alone": {
-      "median": 125.3,
-      "iqr": 13.7,
+      "median": 129.5,
+      "iqr": 8.3,
       "n": 5,
       "groups": [
        {
         "n": 5,
-        "median": 125.3,
-        "min": 114.3,
-        "max": 133.9
+        "median": 129.5,
+        "min": 116.2,
+        "max": 146.3
        }
       ],
       "runs": [
-       125.3,
-       133.9,
-       116.1,
-       114.3,
-       129.8
+       122.4,
+       116.2,
+       146.3,
+       129.5,
+       130.7
       ]
      },
-     "delta": 29.2,
-     "noise": 25.4,
+     "delta": 6.5,
+     "noise": 3.7,
      "basis": "pairs",
      "wait": {
       "with": {
-       "median": 65.9,
-       "iqr": 10.2,
+       "median": 107.4,
+       "iqr": 46.6,
        "n": 5,
        "groups": [
         {
-         "n": 4,
-         "median": 64.7,
-         "min": 62.7,
-         "max": 73.6
+         "n": 2,
+         "median": 62.1,
+         "min": 58.8,
+         "max": 65.4
         },
         {
-         "n": 1,
-         "median": 107.5,
-         "min": 107.5,
-         "max": 107.5
+         "n": 3,
+         "median": 112,
+         "min": 107.4,
+         "max": 112.3
         }
        ],
        "runs": [
-        107.5,
-        62.7,
-        63.4,
-        65.9,
-        73.6
+        107.4,
+        65.4,
+        58.8,
+        112.3,
+        112
        ]
       },
       "alone": {
-       "median": 61.7,
-       "iqr": 56.7,
+       "median": 58.5,
+       "iqr": 58.1,
        "n": 5,
        "groups": [
         {
          "n": 3,
-         "median": 51.5,
-         "min": 51.4,
-         "max": 61.7
+         "median": 54.3,
+         "min": 49.6,
+         "max": 58.5
         },
         {
          "n": 2,
-         "median": 110.7,
-         "min": 108.2,
-         "max": 113.1
+         "median": 115.9,
+         "min": 112.4,
+         "max": 119.3
         }
        ],
        "runs": [
-        108.2,
-        113.1,
-        51.4,
-        51.5,
-        61.7
+        54.3,
+        49.6,
+        119.3,
+        58.5,
+        112.4
        ]
       },
-      "delta": 11.9,
-      "noise": 12.7,
+      "delta": 15.8,
+      "noise": 53.5,
       "basis": "pairs"
      },
      "timed": 15,
@@ -5230,115 +5223,109 @@
     },
     "warm": {
      "with": {
-      "median": 137.2,
-      "iqr": 3.2,
-      "n": 8,
-      "groups": [
-       {
-        "n": 7,
-        "median": 136.8,
-        "min": 133.4,
-        "max": 141.3
-       },
-       {
-        "n": 1,
-        "median": 205.2,
-        "min": 205.2,
-        "max": 205.2
-       }
-      ],
-      "runs": [
-       137.5,
-       133.4,
-       139.1,
-       205.2,
-       136.5,
-       136.8,
-       141.3,
-       136.2
-      ]
-     },
-     "alone": {
-      "median": 115.9,
-      "iqr": 4.5,
+      "median": 138.6,
+      "iqr": 8.3,
       "n": 8,
       "groups": [
        {
         "n": 8,
-        "median": 115.9,
-        "min": 113.3,
-        "max": 132.1
+        "median": 138.6,
+        "min": 129.3,
+        "max": 150.8
        }
       ],
       "runs": [
-       132.1,
-       113.3,
-       114.6,
-       113.7,
-       117.5,
-       117.1,
-       120.1,
-       113.7
+       145.2,
+       129.3,
+       150.8,
+       141.1,
+       134.3,
+       132.2,
+       136.3,
+       140.8
       ]
      },
-     "delta": 20.7,
-     "noise": 3.5,
+     "alone": {
+      "median": 115.3,
+      "iqr": 3.8,
+      "n": 8,
+      "groups": [
+       {
+        "n": 8,
+        "median": 115.3,
+        "min": 105.9,
+        "max": 124.4
+       }
+      ],
+      "runs": [
+       113.4,
+       114.3,
+       117.7,
+       115.2,
+       105.9,
+       115.3,
+       124.4,
+       118.4
+      ]
+     },
+     "delta": 24.2,
+     "noise": 12.8,
      "basis": "pairs",
      "wait": {
       "with": {
-       "median": 58.7,
-       "iqr": 3.4,
+       "median": 60.2,
+       "iqr": 2.6,
        "n": 8,
        "groups": [
         {
          "n": 8,
-         "median": 58.7,
-         "min": 53,
-         "max": 71.9
+         "median": 60.2,
+         "min": 56.4,
+         "max": 69.6
         }
        ],
        "runs": [
-        58,
-        60.9,
-        61.4,
-        71.9,
-        58,
+        61.8,
+        61.8,
+        69.6,
+        58.6,
         59.4,
-        53,
-        56.6
+        56.4,
+        59.9,
+        60.4
        ]
       },
       "alone": {
-       "median": 51.6,
-       "iqr": 18.9,
+       "median": 50.9,
+       "iqr": 6.1,
        "n": 8,
        "groups": [
         {
-         "n": 6,
-         "median": 50.4,
-         "min": 48.6,
-         "max": 60.1
+         "n": 7,
+         "median": 50,
+         "min": 49,
+         "max": 58.1
         },
         {
-         "n": 2,
-         "median": 95.4,
-         "min": 94.8,
-         "max": 96
+         "n": 1,
+         "median": 87.4,
+         "min": 87.4,
+         "max": 87.4
         }
        ],
        "runs": [
-        60.1,
-        94.8,
-        96,
-        48.9,
-        50.2,
-        50.5,
-        52.7,
-        48.6
+        50,
+        49.6,
+        51.8,
+        49,
+        87.4,
+        49,
+        58.1,
+        54.7
        ]
       },
-      "delta": 4,
-      "noise": 18.3,
+      "delta": 8.5,
+      "noise": 7.2,
       "basis": "pairs"
      },
      "timed": 24,
@@ -5354,79 +5341,223 @@
   "cold": {
    "runs": [
     {
-     "inkMs": 97.87,
-     "longestTask": 46.8,
-     "longestInkTask": 40.6,
-     "longestInkTaskInk": 3.5,
+     "inkMs": 78.04,
+     "longestTask": 44,
+     "longestInkTask": 34.5,
+     "longestInkTaskInk": 3.4,
      "inkLongTasks": [],
      "longTasks": [],
      "inkTasks": [
       {
-       "ms": 9.4,
-       "inkMs": 4.7
+       "ms": 10.6,
+       "inkMs": 5
       },
       {
-       "ms": 31.1,
+       "ms": 33.9,
        "inkMs": 3
       },
       {
-       "ms": 18.1,
-       "inkMs": 3
+       "ms": 14.5,
+       "inkMs": 2.3
       },
       {
-       "ms": 40.6,
-       "inkMs": 3.5
+       "ms": 34.5,
+       "inkMs": 3.4
       },
       {
-       "ms": 12.2,
-       "inkMs": 2.6
+       "ms": 15.1,
+       "inkMs": 3.3
       },
       {
-       "ms": 24.1,
-       "inkMs": 2
+       "ms": 26.9,
+       "inkMs": 1.8
       },
       {
-       "ms": 10.8,
-       "inkMs": 1.9
+       "ms": 11.9,
+       "inkMs": 3.1
       },
       {
-       "ms": 3.9,
-       "inkMs": 2.6
+       "ms": 1.9,
+       "inkMs": 1.8
       },
       {
-       "ms": 6.8,
-       "inkMs": 6.8
+       "ms": 6.4,
+       "inkMs": 6.4
       },
       {
        "ms": 6.2,
-       "inkMs": 6.1
+       "inkMs": 6.2
       },
       {
-       "ms": 6.1,
-       "inkMs": 6
-      },
-      {
-       "ms": 6.9,
-       "inkMs": 6.9
-      },
-      {
-       "ms": 3.8,
-       "inkMs": 3.7
+       "ms": 5.2,
+       "inkMs": 5.2
       },
       {
        "ms": 8.9,
        "inkMs": 8.9
       },
       {
-       "ms": 8.7,
-       "inkMs": 8.7
+       "ms": 9.4,
+       "inkMs": 9.3
       },
       {
-       "ms": 9.2,
-       "inkMs": 9.1
+       "ms": 8.2,
+       "inkMs": 8.2
+      },
+      {
+       "ms": 8.2,
+       "inkMs": 8.2
+      },
+      {
+       "ms": 2.2,
+       "inkMs": 1.5
+      }
+     ]
+    },
+    {
+     "inkMs": 86.69,
+     "longestTask": 37.8,
+     "longestInkTask": 37.8,
+     "longestInkTaskInk": 3.2,
+     "inkLongTasks": [],
+     "longTasks": [],
+     "inkTasks": [
+      {
+       "ms": 11.2,
+       "inkMs": 5.7
+      },
+      {
+       "ms": 37.8,
+       "inkMs": 3.2
+      },
+      {
+       "ms": 14.7,
+       "inkMs": 2.2
+      },
+      {
+       "ms": 37.1,
+       "inkMs": 3.5
+      },
+      {
+       "ms": 13,
+       "inkMs": 2.8
+      },
+      {
+       "ms": 23.7,
+       "inkMs": 1.7
+      },
+      {
+       "ms": 9,
+       "inkMs": 2.8
+      },
+      {
+       "ms": 1.7,
+       "inkMs": 1.6
+      },
+      {
+       "ms": 6.7,
+       "inkMs": 6.7
+      },
+      {
+       "ms": 6.2,
+       "inkMs": 6.1
+      },
+      {
+       "ms": 5.5,
+       "inkMs": 5.5
+      },
+      {
+       "ms": 8.9,
+       "inkMs": 8.9
+      },
+      {
+       "ms": 9.5,
+       "inkMs": 9.4
+      },
+      {
+       "ms": 8.6,
+       "inkMs": 8.5
       },
       {
        "ms": 8.4,
+       "inkMs": 8.3
+      },
+      {
+       "ms": 8.8,
+       "inkMs": 8.1
+      },
+      {
+       "ms": 1.1,
+       "inkMs": 1.1
+      }
+     ]
+    },
+    {
+     "inkMs": 84.34,
+     "longestTask": 39.9,
+     "longestInkTask": 39.9,
+     "longestInkTaskInk": 3.4,
+     "inkLongTasks": [],
+     "longTasks": [],
+     "inkTasks": [
+      {
+       "ms": 9.3,
+       "inkMs": 4.7
+      },
+      {
+       "ms": 33.3,
+       "inkMs": 3.1
+      },
+      {
+       "ms": 15.1,
+       "inkMs": 2.1
+      },
+      {
+       "ms": 39.9,
+       "inkMs": 3.4
+      },
+      {
+       "ms": 12,
+       "inkMs": 2.6
+      },
+      {
+       "ms": 21.9,
+       "inkMs": 1.7
+      },
+      {
+       "ms": 9,
+       "inkMs": 2.9
+      },
+      {
+       "ms": 1.8,
+       "inkMs": 1.7
+      },
+      {
+       "ms": 6.6,
+       "inkMs": 6.6
+      },
+      {
+       "ms": 6.2,
+       "inkMs": 6.1
+      },
+      {
+       "ms": 5,
+       "inkMs": 4.9
+      },
+      {
+       "ms": 9,
+       "inkMs": 9
+      },
+      {
+       "ms": 9.5,
+       "inkMs": 9.4
+      },
+      {
+       "ms": 8.6,
+       "inkMs": 8.5
+      },
+      {
+       "ms": 8.3,
        "inkMs": 8.3
       },
       {
@@ -5434,42 +5565,54 @@
        "inkMs": 8.1
       }
      ]
-    },
+    }
+   ],
+   "plain": [
+    73.1,
+    72.7,
+    42.8
+   ],
+   "longestTask": 44,
+   "plainLongestTask": 73.1,
+   "plainLongTasks": 2
+  },
+  "warm": {
+   "runs": [
     {
-     "inkMs": 85.33,
-     "longestTask": 39.9,
-     "longestInkTask": 38,
+     "inkMs": 85.09,
+     "longestTask": 40,
+     "longestInkTask": 40,
      "longestInkTaskInk": 3.6,
      "inkLongTasks": [],
      "longTasks": [],
      "inkTasks": [
       {
-       "ms": 11.3,
-       "inkMs": 5
+       "ms": 9.5,
+       "inkMs": 5.2
       },
       {
-       "ms": 35.3,
+       "ms": 33.1,
        "inkMs": 3.1
       },
       {
-       "ms": 15,
-       "inkMs": 2.2
+       "ms": 14.8,
+       "inkMs": 2
       },
       {
-       "ms": 38,
+       "ms": 40,
        "inkMs": 3.6
       },
       {
-       "ms": 14,
+       "ms": 11.3,
+       "inkMs": 2.5
+      },
+      {
+       "ms": 20.6,
+       "inkMs": 1.7
+      },
+      {
+       "ms": 9,
        "inkMs": 2.8
-      },
-      {
-       "ms": 25,
-       "inkMs": 1.8
-      },
-      {
-       "ms": 9.3,
-       "inkMs": 2.9
       },
       {
        "ms": 1.7,
@@ -5481,92 +5624,18 @@
       },
       {
        "ms": 6.2,
-       "inkMs": 6.2
+       "inkMs": 6.1
       },
       {
        "ms": 4.9,
        "inkMs": 4.8
       },
       {
-       "ms": 8.9,
-       "inkMs": 8.9
-      },
-      {
-       "ms": 9.4,
-       "inkMs": 9.3
-      },
-      {
-       "ms": 8.6,
-       "inkMs": 8.6
-      },
-      {
-       "ms": 8.4,
-       "inkMs": 8.4
-      },
-      {
-       "ms": 8.2,
-       "inkMs": 8.2
-      }
-     ]
-    },
-    {
-     "inkMs": 82.67,
-     "longestTask": 39.8,
-     "longestInkTask": 39.8,
-     "longestInkTaskInk": 3.3,
-     "inkLongTasks": [],
-     "longTasks": [],
-     "inkTasks": [
-      {
-       "ms": 10.2,
-       "inkMs": 5.4
-      },
-      {
-       "ms": 32,
-       "inkMs": 3
-      },
-      {
-       "ms": 14.9,
-       "inkMs": 2.1
-      },
-      {
-       "ms": 39.8,
-       "inkMs": 3.3
-      },
-      {
-       "ms": 11,
-       "inkMs": 2.5
-      },
-      {
-       "ms": 19.6,
-       "inkMs": 1.7
-      },
-      {
        "ms": 8.8,
-       "inkMs": 2.7
-      },
-      {
-       "ms": 1.7,
-       "inkMs": 1.6
-      },
-      {
-       "ms": 6.2,
-       "inkMs": 6.2
-      },
-      {
-       "ms": 6.1,
-       "inkMs": 6.1
-      },
-      {
-       "ms": 5.1,
-       "inkMs": 5.1
-      },
-      {
-       "ms": 8.9,
        "inkMs": 8.8
       },
       {
-       "ms": 9.3,
+       "ms": 9.4,
        "inkMs": 9.3
       },
       {
@@ -5574,233 +5643,79 @@
        "inkMs": 8.5
       },
       {
-       "ms": 8.4,
-       "inkMs": 8.3
-      },
-      {
-       "ms": 7.5,
-       "inkMs": 7.5
-      }
-     ]
-    }
-   ],
-   "plain": [
-    40.2,
-    73,
-    71.9
-   ],
-   "longestTask": 46.8,
-   "plainLongestTask": 73,
-   "plainLongTasks": 2
-  },
-  "warm": {
-   "runs": [
-    {
-     "inkMs": 83.38,
-     "longestTask": 46,
-     "longestInkTask": 40,
-     "longestInkTaskInk": 3.5,
-     "inkLongTasks": [],
-     "longTasks": [],
-     "inkTasks": [
-      {
-       "ms": 9.8,
-       "inkMs": 5.2
-      },
-      {
-       "ms": 31.7,
-       "inkMs": 3
-      },
-      {
-       "ms": 14.3,
-       "inkMs": 1.9
-      },
-      {
-       "ms": 40,
-       "inkMs": 3.5
-      },
-      {
-       "ms": 11.7,
-       "inkMs": 2.4
-      },
-      {
-       "ms": 21.8,
-       "inkMs": 1.7
-      },
-      {
-       "ms": 8.9,
-       "inkMs": 2.9
-      },
-      {
-       "ms": 1.6,
-       "inkMs": 1.6
-      },
-      {
-       "ms": 6.2,
-       "inkMs": 6.1
-      },
-      {
-       "ms": 6.1,
-       "inkMs": 6.1
-      },
-      {
-       "ms": 5.3,
-       "inkMs": 5.3
+       "ms": 8.2,
+       "inkMs": 8.2
       },
       {
        "ms": 8.9,
        "inkMs": 8.9
-      },
-      {
-       "ms": 9.5,
-       "inkMs": 9.5
-      },
-      {
-       "ms": 8.4,
-       "inkMs": 8.4
-      },
-      {
-       "ms": 8.4,
-       "inkMs": 8.4
-      },
-      {
-       "ms": 8.7,
-       "inkMs": 8
       }
      ]
     },
     {
-     "inkMs": 74.56,
-     "longestTask": 49.9,
-     "longestInkTask": 39.1,
+     "inkMs": 74.52,
+     "longestTask": 52.1,
+     "longestInkTask": 38.6,
      "longestInkTaskInk": 3.3,
      "inkLongTasks": [],
-     "longTasks": [],
-     "inkTasks": [
-      {
-       "ms": 8.7,
-       "inkMs": 4.8
-      },
-      {
-       "ms": 31.1,
-       "inkMs": 3.1
-      },
-      {
-       "ms": 14.3,
-       "inkMs": 1.9
-      },
-      {
-       "ms": 39.1,
-       "inkMs": 3.3
-      },
-      {
-       "ms": 10.9,
-       "inkMs": 2.4
-      },
-      {
-       "ms": 20.4,
-       "inkMs": 1.6
-      },
-      {
-       "ms": 8.8,
-       "inkMs": 2.7
-      },
-      {
-       "ms": 1.7,
-       "inkMs": 1.6
-      },
-      {
-       "ms": 6.2,
-       "inkMs": 6.2
-      },
-      {
-       "ms": 6.2,
-       "inkMs": 6.1
-      },
-      {
-       "ms": 4.6,
-       "inkMs": 4.6
-      },
-      {
-       "ms": 8.9,
-       "inkMs": 8.8
-      },
-      {
-       "ms": 9.3,
-       "inkMs": 9.3
-      },
-      {
-       "ms": 8.6,
-       "inkMs": 8.6
-      },
-      {
-       "ms": 8.1,
-       "inkMs": 8.1
-      }
-     ]
-    },
-    {
-     "inkMs": 75.02,
-     "longestTask": 40,
-     "longestInkTask": 39.6,
-     "longestInkTaskInk": 3.3,
-     "inkLongTasks": [],
-     "longTasks": [],
+     "longTasks": [
+      52.1
+     ],
      "inkTasks": [
       {
        "ms": 9.7,
        "inkMs": 4.9
       },
       {
-       "ms": 31.4,
-       "inkMs": 3
-      },
-      {
-       "ms": 14.3,
-       "inkMs": 1.9
-      },
-      {
-       "ms": 39.6,
-       "inkMs": 3.3
-      },
-      {
-       "ms": 11.2,
-       "inkMs": 2.5
-      },
-      {
-       "ms": 21.5,
-       "inkMs": 1.8
-      },
-      {
-       "ms": 9,
+       "ms": 31.6,
        "inkMs": 2.9
       },
       {
-       "ms": 1.6,
-       "inkMs": 1.6
+       "ms": 15.1,
+       "inkMs": 2.7
       },
       {
-       "ms": 6.2,
-       "inkMs": 6.2
+       "ms": 38.6,
+       "inkMs": 3.3
       },
       {
-       "ms": 6,
-       "inkMs": 6
+       "ms": 11.3,
+       "inkMs": 2.4
+      },
+      {
+       "ms": 21.1,
+       "inkMs": 1.9
+      },
+      {
+       "ms": 7.3,
+       "inkMs": 1.3
+      },
+      {
+       "ms": 2.2,
+       "inkMs": 1.9
+      },
+      {
+       "ms": 6.3,
+       "inkMs": 6.3
+      },
+      {
+       "ms": 6.1,
+       "inkMs": 6.1
       },
       {
        "ms": 4.6,
        "inkMs": 4.6
       },
       {
-       "ms": 8.8,
-       "inkMs": 8.8
+       "ms": 8.9,
+       "inkMs": 8.9
       },
       {
-       "ms": 9.4,
-       "inkMs": 9.4
+       "ms": 9.3,
+       "inkMs": 9.2
       },
       {
-       "ms": 8.4,
+       "ms": 8.5,
        "inkMs": 8.4
       },
       {
@@ -5808,217 +5723,147 @@
        "inkMs": 8.1
       },
       {
-       "ms": 1.1,
-       "inkMs": 1.1
+       "ms": 1.3,
+       "inkMs": 1.3
+      }
+     ]
+    },
+    {
+     "inkMs": 83,
+     "longestTask": 48.9,
+     "longestInkTask": 36.4,
+     "longestInkTaskInk": 3.4,
+     "inkLongTasks": [],
+     "longTasks": [],
+     "inkTasks": [
+      {
+       "ms": 9.5,
+       "inkMs": 4.9
+      },
+      {
+       "ms": 32.6,
+       "inkMs": 3
+      },
+      {
+       "ms": 14.3,
+       "inkMs": 1.9
+      },
+      {
+       "ms": 36.4,
+       "inkMs": 3.4
+      },
+      {
+       "ms": 12.5,
+       "inkMs": 2.5
+      },
+      {
+       "ms": 22.7,
+       "inkMs": 1.8
+      },
+      {
+       "ms": 10.5,
+       "inkMs": 3.5
+      },
+      {
+       "ms": 1.6,
+       "inkMs": 1.6
+      },
+      {
+       "ms": 6.3,
+       "inkMs": 6.3
+      },
+      {
+       "ms": 6.2,
+       "inkMs": 6.2
+      },
+      {
+       "ms": 4.7,
+       "inkMs": 4.7
+      },
+      {
+       "ms": 8.9,
+       "inkMs": 8.9
+      },
+      {
+       "ms": 8.7,
+       "inkMs": 8.7
+      },
+      {
+       "ms": 8.4,
+       "inkMs": 8.4
+      },
+      {
+       "ms": 8.3,
+       "inkMs": 8.2
+      },
+      {
+       "ms": 8.4,
+       "inkMs": 8.4
       }
      ]
     }
    ],
    "plain": [
-    47.3,
-    43.5,
-    48
+    70.3,
+    42.8,
+    42.3
    ],
-   "longestTask": 49.9,
-   "plainLongestTask": 48,
-   "plainLongTasks": 0
+   "longestTask": 52.1,
+   "plainLongestTask": 70.3,
+   "plainLongTasks": 1
   },
   "runs": [
    {
-    "inkMs": 83.38,
-    "longestTask": 46,
+    "inkMs": 85.09,
+    "longestTask": 40,
     "longestInkTask": 40,
-    "longestInkTaskInk": 3.5,
+    "longestInkTaskInk": 3.6,
     "inkLongTasks": [],
     "longTasks": [],
     "inkTasks": [
      {
-      "ms": 9.8,
+      "ms": 9.5,
       "inkMs": 5.2
      },
      {
-      "ms": 31.7,
-      "inkMs": 3
-     },
-     {
-      "ms": 14.3,
-      "inkMs": 1.9
-     },
-     {
-      "ms": 40,
-      "inkMs": 3.5
-     },
-     {
-      "ms": 11.7,
-      "inkMs": 2.4
-     },
-     {
-      "ms": 21.8,
-      "inkMs": 1.7
-     },
-     {
-      "ms": 8.9,
-      "inkMs": 2.9
-     },
-     {
-      "ms": 1.6,
-      "inkMs": 1.6
-     },
-     {
-      "ms": 6.2,
-      "inkMs": 6.1
-     },
-     {
-      "ms": 6.1,
-      "inkMs": 6.1
-     },
-     {
-      "ms": 5.3,
-      "inkMs": 5.3
-     },
-     {
-      "ms": 8.9,
-      "inkMs": 8.9
-     },
-     {
-      "ms": 9.5,
-      "inkMs": 9.5
-     },
-     {
-      "ms": 8.4,
-      "inkMs": 8.4
-     },
-     {
-      "ms": 8.4,
-      "inkMs": 8.4
-     },
-     {
-      "ms": 8.7,
-      "inkMs": 8
-     }
-    ]
-   },
-   {
-    "inkMs": 74.56,
-    "longestTask": 49.9,
-    "longestInkTask": 39.1,
-    "longestInkTaskInk": 3.3,
-    "inkLongTasks": [],
-    "longTasks": [],
-    "inkTasks": [
-     {
-      "ms": 8.7,
-      "inkMs": 4.8
-     },
-     {
-      "ms": 31.1,
+      "ms": 33.1,
       "inkMs": 3.1
      },
      {
-      "ms": 14.3,
-      "inkMs": 1.9
+      "ms": 14.8,
+      "inkMs": 2
      },
      {
-      "ms": 39.1,
-      "inkMs": 3.3
+      "ms": 40,
+      "inkMs": 3.6
      },
      {
-      "ms": 10.9,
-      "inkMs": 2.4
+      "ms": 11.3,
+      "inkMs": 2.5
      },
      {
-      "ms": 20.4,
-      "inkMs": 1.6
+      "ms": 20.6,
+      "inkMs": 1.7
      },
      {
-      "ms": 8.8,
-      "inkMs": 2.7
+      "ms": 9,
+      "inkMs": 2.8
      },
      {
       "ms": 1.7,
-      "inkMs": 1.6
+      "inkMs": 1.7
      },
      {
-      "ms": 6.2,
-      "inkMs": 6.2
+      "ms": 6.5,
+      "inkMs": 6.4
      },
      {
       "ms": 6.2,
       "inkMs": 6.1
      },
      {
-      "ms": 4.6,
-      "inkMs": 4.6
-     },
-     {
-      "ms": 8.9,
-      "inkMs": 8.8
-     },
-     {
-      "ms": 9.3,
-      "inkMs": 9.3
-     },
-     {
-      "ms": 8.6,
-      "inkMs": 8.6
-     },
-     {
-      "ms": 8.1,
-      "inkMs": 8.1
-     }
-    ]
-   },
-   {
-    "inkMs": 75.02,
-    "longestTask": 40,
-    "longestInkTask": 39.6,
-    "longestInkTaskInk": 3.3,
-    "inkLongTasks": [],
-    "longTasks": [],
-    "inkTasks": [
-     {
-      "ms": 9.7,
-      "inkMs": 4.9
-     },
-     {
-      "ms": 31.4,
-      "inkMs": 3
-     },
-     {
-      "ms": 14.3,
-      "inkMs": 1.9
-     },
-     {
-      "ms": 39.6,
-      "inkMs": 3.3
-     },
-     {
-      "ms": 11.2,
-      "inkMs": 2.5
-     },
-     {
-      "ms": 21.5,
-      "inkMs": 1.8
-     },
-     {
-      "ms": 9,
-      "inkMs": 2.9
-     },
-     {
-      "ms": 1.6,
-      "inkMs": 1.6
-     },
-     {
-      "ms": 6.2,
-      "inkMs": 6.2
-     },
-     {
-      "ms": 6,
-      "inkMs": 6
-     },
-     {
-      "ms": 4.6,
-      "inkMs": 4.6
+      "ms": 4.9,
+      "inkMs": 4.8
      },
      {
       "ms": 8.8,
@@ -6026,10 +5871,86 @@
      },
      {
       "ms": 9.4,
-      "inkMs": 9.4
+      "inkMs": 9.3
      },
      {
-      "ms": 8.4,
+      "ms": 8.5,
+      "inkMs": 8.5
+     },
+     {
+      "ms": 8.2,
+      "inkMs": 8.2
+     },
+     {
+      "ms": 8.9,
+      "inkMs": 8.9
+     }
+    ]
+   },
+   {
+    "inkMs": 74.52,
+    "longestTask": 52.1,
+    "longestInkTask": 38.6,
+    "longestInkTaskInk": 3.3,
+    "inkLongTasks": [],
+    "longTasks": [
+     52.1
+    ],
+    "inkTasks": [
+     {
+      "ms": 9.7,
+      "inkMs": 4.9
+     },
+     {
+      "ms": 31.6,
+      "inkMs": 2.9
+     },
+     {
+      "ms": 15.1,
+      "inkMs": 2.7
+     },
+     {
+      "ms": 38.6,
+      "inkMs": 3.3
+     },
+     {
+      "ms": 11.3,
+      "inkMs": 2.4
+     },
+     {
+      "ms": 21.1,
+      "inkMs": 1.9
+     },
+     {
+      "ms": 7.3,
+      "inkMs": 1.3
+     },
+     {
+      "ms": 2.2,
+      "inkMs": 1.9
+     },
+     {
+      "ms": 6.3,
+      "inkMs": 6.3
+     },
+     {
+      "ms": 6.1,
+      "inkMs": 6.1
+     },
+     {
+      "ms": 4.6,
+      "inkMs": 4.6
+     },
+     {
+      "ms": 8.9,
+      "inkMs": 8.9
+     },
+     {
+      "ms": 9.3,
+      "inkMs": 9.2
+     },
+     {
+      "ms": 8.5,
       "inkMs": 8.4
      },
      {
@@ -6037,18 +5958,92 @@
       "inkMs": 8.1
      },
      {
-      "ms": 1.1,
-      "inkMs": 1.1
+      "ms": 1.3,
+      "inkMs": 1.3
+     }
+    ]
+   },
+   {
+    "inkMs": 83,
+    "longestTask": 48.9,
+    "longestInkTask": 36.4,
+    "longestInkTaskInk": 3.4,
+    "inkLongTasks": [],
+    "longTasks": [],
+    "inkTasks": [
+     {
+      "ms": 9.5,
+      "inkMs": 4.9
+     },
+     {
+      "ms": 32.6,
+      "inkMs": 3
+     },
+     {
+      "ms": 14.3,
+      "inkMs": 1.9
+     },
+     {
+      "ms": 36.4,
+      "inkMs": 3.4
+     },
+     {
+      "ms": 12.5,
+      "inkMs": 2.5
+     },
+     {
+      "ms": 22.7,
+      "inkMs": 1.8
+     },
+     {
+      "ms": 10.5,
+      "inkMs": 3.5
+     },
+     {
+      "ms": 1.6,
+      "inkMs": 1.6
+     },
+     {
+      "ms": 6.3,
+      "inkMs": 6.3
+     },
+     {
+      "ms": 6.2,
+      "inkMs": 6.2
+     },
+     {
+      "ms": 4.7,
+      "inkMs": 4.7
+     },
+     {
+      "ms": 8.9,
+      "inkMs": 8.9
+     },
+     {
+      "ms": 8.7,
+      "inkMs": 8.7
+     },
+     {
+      "ms": 8.4,
+      "inkMs": 8.4
+     },
+     {
+      "ms": 8.3,
+      "inkMs": 8.2
+     },
+     {
+      "ms": 8.4,
+      "inkMs": 8.4
      }
     ]
    }
   ],
-  "longestInkTask": 40.6,
-  "longestInkTaskInk": 3.5,
+  "longestInkTask": 40,
+  "longestInkTaskInk": 3.6,
   "inkLongTasks": 0,
   "verdict": {
    "caused": [],
-   "maxInkMs": 9.5,
+   "maxInkMs": 9.4,
    "overFrame": [],
    "long": [],
    "onlyWithInk": [],
@@ -6061,28 +6056,15 @@
   },
   "often": {
    "loads": 20,
+   "longMs": 50,
    "alpha": 0.05,
    "cold": {
     "ext": {
-     "long": 1,
+     "long": 2,
      "loads": 20
     },
     "plain": {
-     "long": 12,
-     "loads": 20
-    },
-    "control": {
-     "long": 10,
-     "loads": 20
-    }
-   },
-   "warm": {
-    "ext": {
-     "long": 7,
-     "loads": 20
-    },
-    "plain": {
-     "long": 4,
+     "long": 14,
      "loads": 20
     },
     "control": {
@@ -6090,14 +6072,28 @@
      "loads": 20
     }
    },
+   "warm": {
+    "ext": {
+     "long": 4,
+     "loads": 20
+    },
+    "plain": {
+     "long": 4,
+     "loads": 20
+    },
+    "control": {
+     "long": 5,
+     "loads": 20
+    }
+   },
    "p": {
     "cold": {
-     "plain": 0.999993557835593,
-     "control": 0.9999273467015332
+     "plain": 0.9999949894276846,
+     "control": 0.999784187492741
     },
     "warm": {
-     "plain": 0.24005767554154422,
-     "control": 0.9445152314862509
+     "plain": 0.6526176526176496,
+     "control": 0.7747117747117719
     }
    },
    "again": null,
@@ -6109,99 +6105,366 @@
     "ext": {
      "cold": [
       [
-       38.7
+       40.9
       ],
       [
-       38.7
+       79.3
       ],
       [
-       45.8
+       63.2
       ],
       [
-       39.4
+       40.1
       ],
       [
-       39.4
+       38
       ],
       [
-       41.2
+       40.2
+      ],
+      [
+       37.9
+      ],
+      [
+       40.1
       ],
       [
        39.1
       ],
       [
-       39.1
+       41
       ],
       [
-       41.9
+       40.3
       ],
       [
        38.7
       ],
       [
-       39.9
-      ],
-      [
-       36.7
+       39.7
       ],
       [
        38.8
       ],
       [
-       39.4
+       42.8
       ],
       [
-       34.4
+       39.5
       ],
       [
-       40.6
+       39
+      ],
+      [
+       40.1
       ],
       [
        40.9
+      ],
+      [
+       40.1
+      ]
+     ],
+     "warm": [
+      [
+       37.5
+      ],
+      [
+       50.6
+      ],
+      [
+       51.9
+      ],
+      [
+       54.7
+      ],
+      [
+       41
+      ],
+      [
+       43
+      ],
+      [
+       43.2
+      ],
+      [
+       42.7
+      ],
+      [
+       44
+      ],
+      [
+       45.8
+      ],
+      [
+       39.9
+      ],
+      [
+       46.2
+      ],
+      [
+       43.3
+      ],
+      [
+       39.9
+      ],
+      [
+       45.3
+      ],
+      [
+       66.5
+      ],
+      [
+       39.5
+      ],
+      [
+       40.2
+      ],
+      [
+       39.3
+      ],
+      [
+       40.3
+      ]
+     ]
+    },
+    "plain": {
+     "cold": [
+      [
+       41
+      ],
+      [
+       80.2
+      ],
+      [
+       76
+      ],
+      [
+       71.6
+      ],
+      [
+       72.1
       ],
       [
        73.2
       ],
       [
-       39.2
+       71.1
       ],
       [
-       40
+       42.5
+      ],
+      [
+       74
+      ],
+      [
+       43.3
+      ],
+      [
+       72.1
+      ],
+      [
+       74.5
+      ],
+      [
+       41.1
+      ],
+      [
+       40.6
+      ],
+      [
+       52
+      ],
+      [
+       72.8
+      ],
+      [
+       73.3
+      ],
+      [
+       44.4
+      ],
+      [
+       71.4
+      ],
+      [
+       72.6
       ]
      ],
      "warm": [
       [
-       72.5
+       77.6
       ],
       [
-       39.8
+       50
       ],
       [
-       38.4
+       68.9
       ],
       [
-       40.8
+       38.1
       ],
       [
-       48.1
+       45.3
       ],
       [
-       38.5
+       68.2
       ],
       [
-       72.9
+       40.5
       ],
       [
-       81.1
+       43.3
       ],
       [
-       40.9
+       44.7
       ],
       [
-       45.6
+       43.9
       ],
       [
-       45.4
+       70
+      ],
+      [
+       42.1
+      ],
+      [
+       44.2
+      ],
+      [
+       40.6
+      ],
+      [
+       40.7
+      ],
+      [
+       43
+      ],
+      [
+       49.3
+      ],
+      [
+       43.2
+      ],
+      [
+       36.6
+      ],
+      [
+       39.1
+      ]
+     ]
+    },
+    "control": {
+     "cold": [
+      [
+       69.3
+      ],
+      [
+       71.5
+      ],
+      [
+       81
+      ],
+      [
+       44.8
+      ],
+      [
+       70.4
+      ],
+      [
+       70
+      ],
+      [
+       71.6
+      ],
+      [
+       69.7
+      ],
+      [
+       42.9
+      ],
+      [
+       70.7
+      ],
+      [
+       40.4
+      ],
+      [
+       42.6
+      ],
+      [
+       43.2
+      ],
+      [
+       42.9
+      ],
+      [
+       80.6
+      ],
+      [
+       73.1
+      ],
+      [
+       42.4
+      ],
+      [
+       46.4
+      ],
+      [
+       42.4
+      ],
+      [
+       71.9
+      ]
+     ],
+     "warm": [
+      [
+       42.3
+      ],
+      [
+       43.9
+      ],
+      [
+       41.7
+      ],
+      [
+       65.3
+      ],
+      [
+       42.8
+      ],
+      [
+       49
+      ],
+      [
+       41
+      ],
+      [
+       47.7
+      ],
+      [
+       69.4
+      ],
+      [
+       42.3
+      ],
+      [
+       43.8
+      ],
+      [
+       43.5
+      ],
+      [
+       72.2
+      ],
+      [
+       42.6
+      ],
+      [
+       44.2
+      ],
+      [
+       43.9
       ],
       [
        44.1
@@ -6210,277 +6473,10 @@
        70.8
       ],
       [
-       40.1
-      ],
-      [
-       42
-      ],
-      [
-       38.9
-      ],
-      [
-       68
-      ],
-      [
-       65.9
-      ],
-      [
-       50.4
-      ],
-      [
-       43.2
-      ]
-     ]
-    },
-    "plain": {
-     "cold": [
-      [
-       73.4
-      ],
-      [
-       42.9
-      ],
-      [
-       69.8
-      ],
-      [
-       77.8
+       74.3
       ],
       [
        44.7
-      ],
-      [
-       41.1
-      ],
-      [
-       70.3
-      ],
-      [
-       41
-      ],
-      [
-       80.2
-      ],
-      [
-       73.8
-      ],
-      [
-       70
-      ],
-      [
-       41.6
-      ],
-      [
-       71
-      ],
-      [
-       71.7
-      ],
-      [
-       71.5
-      ],
-      [
-       74.4
-      ],
-      [
-       41
-      ],
-      [
-       38.6
-      ],
-      [
-       41.9
-      ],
-      [
-       80.4
-      ]
-     ],
-     "warm": [
-      [
-       40.1
-      ],
-      [
-       45.7
-      ],
-      [
-       47.5
-      ],
-      [
-       70.9
-      ],
-      [
-       44.8
-      ],
-      [
-       49.4
-      ],
-      [
-       58.8
-      ],
-      [
-       38.8
-      ],
-      [
-       44
-      ],
-      [
-       46.9
-      ],
-      [
-       43.1
-      ],
-      [
-       45.3
-      ],
-      [
-       47.4
-      ],
-      [
-       46.1
-      ],
-      [
-       44.3
-      ],
-      [
-       39.7
-      ],
-      [
-       44.3
-      ],
-      [
-       73.6
-      ],
-      [
-       68.9
-      ],
-      [
-       46.4
-      ]
-     ]
-    },
-    "control": {
-     "cold": [
-      [
-       72
-      ],
-      [
-       71.1
-      ],
-      [
-       72.6
-      ],
-      [
-       70.6
-      ],
-      [
-       71.8
-      ],
-      [
-       42.8
-      ],
-      [
-       70.6
-      ],
-      [
-       77.2
-      ],
-      [
-       41.8
-      ],
-      [
-       41.6
-      ],
-      [
-       177.1
-      ],
-      [
-       40
-      ],
-      [
-       41.3
-      ],
-      [
-       42.2
-      ],
-      [
-       72.5
-      ],
-      [
-       43.5
-      ],
-      [
-       42.9
-      ],
-      [
-       43.6
-      ],
-      [
-       43.1
-      ],
-      [
-       79.5
-      ]
-     ],
-     "warm": [
-      [
-       72.2
-      ],
-      [
-       70.7
-      ],
-      [
-       50.8
-      ],
-      [
-       49
-      ],
-      [
-       75.7
-      ],
-      [
-       38.8
-      ],
-      [
-       37.5
-      ],
-      [
-       40.3
-      ],
-      [
-       46.8
-      ],
-      [
-       72.4
-      ],
-      [
-       68.3
-      ],
-      [
-       71.3
-      ],
-      [
-       42
-      ],
-      [
-       68
-      ],
-      [
-       46
-      ],
-      [
-       71.5
-      ],
-      [
-       43.6
-      ],
-      [
-       70.6
-      ],
-      [
-       44.4
-      ],
-      [
-       70.1
       ]
      ]
     }
@@ -6491,115 +6487,116 @@
   "page": "local:lesson.html",
   "mode": "local",
   "cold": {
-   "median": 23.4,
-   "iqr": 8.2,
-   "max": 30.3,
+   "median": 16,
+   "iqr": 1.9,
+   "max": 21.3,
    "n": 10,
    "runs": [
-    22.4,
-    26.1,
-    25.6,
-    21.2,
-    16.6,
-    30.3,
-    24.4,
-    16.6,
-    15.4,
-    28.2
+    21.3,
+    16.1,
+    16.8,
+    15.6,
+    17.7,
+    15.9,
+    15.6,
+    17.7,
+    15.5,
+    15.4
    ]
   },
   "warm": {
-   "median": 28.9,
-   "iqr": 2.4,
-   "max": 32.7,
+   "median": 29.1,
+   "iqr": 4.2,
+   "max": 39.9,
    "n": 10,
    "runs": [
-    28.9,
-    28.8,
-    28.3,
-    32.7,
-    22.4,
-    23.4,
-    30.9,
-    29.1,
-    26.7,
-    29.6
+    15.1,
+    30.3,
+    31.5,
+    39.9,
+    31.9,
+    27.8,
+    26.8,
+    27.8,
+    17.5,
+    30.5
    ]
   },
   "later": {
-   "median": 0.8,
-   "iqr": 0.6,
+   "median": 0.9,
+   "iqr": 1,
    "max": 1.7,
    "n": 20,
    "runs": [
-    0.7,
-    0.6,
-    0.8,
-    0.2,
     1.6,
-    0.8,
-    1.7,
-    0.6,
-    0.4,
     0.9,
-    1.6,
-    1.1,
+    0.4,
+    0.1,
+    1.7,
+    0.9,
     1.4,
     0.4,
-    0.8,
-    1,
+    1.4,
+    0.4,
+    0.3,
+    0.3,
     1.3,
-    0.5,
+    1,
+    1.6,
+    0.2,
     0.6,
-    1
+    1.4,
+    1.3,
+    0.8
    ]
   },
   "injectCold": {
-   "median": 13,
-   "iqr": 4.8,
-   "max": 18.5,
+   "median": 8.3,
+   "iqr": 0.6,
+   "max": 13.3,
    "n": 10,
    "runs": [
-    11.7,
-    14.6,
-    13.1,
-    12.8,
-    8.9,
-    18.5,
-    14,
-    9,
-    8,
-    16.9
+    13.3,
+    8.3,
+    8.8,
+    8.1,
+    7.9,
+    8.4,
+    8.2,
+    9.4,
+    8.2,
+    8.1
    ]
   },
   "injectWarm": {
-   "median": 14.5,
-   "iqr": 1.6,
-   "max": 16,
+   "median": 14.1,
+   "iqr": 2,
+   "max": 23.2,
    "n": 10,
    "runs": [
-    14.8,
+    6.5,
+    14.5,
     14.9,
-    13.1,
-    16,
-    10.2,
-    12.4,
-    15.4,
-    14.4,
-    13.8,
-    14.5
+    23.2,
+    14.7,
+    13.3,
+    12.7,
+    13.7,
+    7.9,
+    15.1
    ]
   }
  },
  "pass": true,
  "fails": [],
  "notes": [
-  "mdn: the stub was also injected into 3 frames in other processes; 4.24 ms over all renderer main threads",
-  "news: the stub was also injected into 10 frames in other processes; 15.54 ms over all renderer main threads",
-  "spreadsheet: the stub was also injected into 1 frame in other processes; 4.18 ms over all renderer main threads",
-  "seed-wikipedia: no note has its anchor in the first screen, so the budget has nothing to time (cold). Worst lag over all notes, drawn in idle time below the screen: 202.1 ms (median)",
-  "seed-wikipedia: no note has its anchor in the first screen, so the budget has nothing to time (warm). Worst lag over all notes, drawn in idle time below the screen: 189.6 ms (median)",
-  "stress-wikipedia: first paint of the content under ink held back 29.2 ms by the extension (cold, pairs, noise 25.4 ms); reported, not judged",
-  "stress-wikipedia: first paint of the content under ink held back 20.7 ms by the extension (warm, pairs, noise 3.5 ms); reported, not judged"
+  "mdn: the stub was also injected into 3 frames in other processes; 6.13 ms over all renderer main threads",
+  "news: the stub was also injected into 4 frames in other processes; 10.98 ms over all renderer main threads",
+  "spreadsheet: the stub was also injected into 1 frame in other processes; 5.41 ms over all renderer main threads",
+  "qa: the stub was also injected into 1 frame in other processes; 4.76 ms over all renderer main threads",
+  "seed-wikipedia: no note has its anchor in the first screen, so the budget has nothing to time (cold). Worst lag over all notes, drawn in idle time below the screen: 199 ms (median)",
+  "seed-wikipedia: no note has its anchor in the first screen, so the budget has nothing to time (warm). Worst lag over all notes, drawn in idle time below the screen: 192.1 ms (median)",
+  "stress-wikipedia: first paint of the content under ink held back 6.5 ms by the extension (cold, pairs, noise 3.7 ms); reported, not judged",
+  "stress-wikipedia: first paint of the content under ink held back 24.2 ms by the extension (warm, pairs, noise 12.8 ms); reported, not judged"
  ]
 }
