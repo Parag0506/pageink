@@ -118,7 +118,14 @@ export async function until(cond: () => boolean, label = 'condition', ms = WAIT_
 
 declare module 'vitest/browser' {
   interface BrowserCommands {
-    shown(): Promise<{ jpeg: string; viewportWidth: number; x: number; y: number; width: number }>;
+    shown(): Promise<{
+      jpeg: string;
+      viewportWidth: number;
+      mark: number;
+      x: number;
+      y: number;
+      width: number;
+    }>;
   }
 }
 
@@ -128,25 +135,47 @@ declare module 'vitest/browser' {
  * not from a screenshot: a screenshot paints the page again in one pass and so hides a fault
  * in how the browser puts its layers together. The frame is a JPEG, so colours are close, not
  * exact.
+ *
+ * The frame is proven to be new. On a busy machine the browser puts a picture on the screen
+ * some frames after the page asked for it, and the first frames of a screencast can still show
+ * the page as it was. The command puts a mark in the corner of the page after it starts, so
+ * only a frame with the mark in it shows what the test drew before the call. A frame without
+ * it is asked for again.
  */
 export async function shown(): Promise<(x: number, y: number) => [number, number, number]> {
-  const f = await commands.shown();
-  const bin = atob(f.jpeg);
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  const bmp = await createImageBitmap(new Blob([bytes], { type: 'image/jpeg' }));
-  const c = document.createElement('canvas');
-  c.width = bmp.width;
-  c.height = bmp.height;
-  const ctx = c.getContext('2d', { willReadFrequently: true })!;
-  ctx.drawImage(bmp, 0, 0);
-  // Picture pixels per CSS pixel of the page, and CSS pixels of the page per one of the frame.
-  const k = bmp.width / f.viewportWidth;
-  const s = f.width / window.innerWidth;
-  return (x, y) => {
-    const d = ctx.getImageData(Math.round((f.x + x * s) * k), Math.round((f.y + y * s) * k), 1, 1).data;
-    return [d[0]!, d[1]!, d[2]!];
-  };
+  const end = performance.now() + WAIT_MS;
+  for (;;) {
+    const f = await commands.shown();
+    const bin = atob(f.jpeg);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const bmp = await createImageBitmap(new Blob([bytes], { type: 'image/jpeg' }));
+    const c = document.createElement('canvas');
+    c.width = bmp.width;
+    c.height = bmp.height;
+    const ctx = c.getContext('2d', { willReadFrequently: true })!;
+    ctx.drawImage(bmp, 0, 0);
+    // Picture pixels per CSS pixel of the page, and CSS pixels of the page per one of the frame.
+    const k = bmp.width / f.viewportWidth;
+    const s = f.width / window.innerWidth;
+    // The middle of the mark: magenta or cyan, so blue is full and red and green are far apart.
+    const m = ctx.getImageData(
+      Math.round(bmp.width - (f.mark / 2) * k),
+      Math.round(bmp.height - (f.mark / 2) * k),
+      1,
+      1,
+    ).data;
+    if (m[2]! > 180 && Math.abs(m[0]! - m[1]!) > 120) {
+      return (x, y) => {
+        const d = ctx.getImageData(Math.round((f.x + x * s) * k), Math.round((f.y + y * s) * k), 1, 1).data;
+        return [d[0]!, d[1]!, d[2]!];
+      };
+    }
+    if (performance.now() > end)
+      throw new Error(
+        `the browser showed no new picture of the page: its corner is rgb(${m[0]}, ${m[1]}, ${m[2]})`,
+      );
+  }
 }
 
 /** A clock the test moves by hand, for the `now` option of the placer, the viewer and the resolver. */

@@ -63,10 +63,18 @@ const throttle: BrowserCommand<[rate: number]> = async (ctx, rate) => {
   }
 };
 
+/** The side of the mark the shown command puts in the bottom right corner of the page, in px. */
+const SHOWN_MARK_PX = 8;
+
 /**
  * What the browser puts on the screen: one frame of the page's screencast as a JPEG, with the
  * place of the test frame in it. A screenshot paints the page again in one pass, so it cannot
  * show a fault in how the browser puts its layers together. A screencast frame can.
+ *
+ * While it runs, a small mark in the bottom right corner of the page changes between two
+ * colours no page here uses (magenta and cyan). It keeps frames coming, and it dates them: a
+ * frame that shows the mark was made after this command began, so it shows everything the
+ * test drew before. A frame without it is older. The caller checks (shown in src/testkit.ts).
  */
 const shown: BrowserCommand<[]> = async (ctx) => {
   const frame = await ctx.frame();
@@ -83,21 +91,23 @@ const shown: BrowserCommand<[]> = async (ctx) => {
     },
   });
   try {
-    // A browser sends a frame when the page changes. One pixel in the corner changes until
-    // two frames have come, so the frame read is from after the screencast began.
+    // A browser sends a frame when the page changes. The mark changes until two frames have come.
     for (let i = 0; i < 100 && seen < 2; i++) {
-      await ctx.page.evaluate((n) => {
-        const id = 'ink-shown-tick';
-        let d = document.getElementById(id);
-        if (!d) {
-          d = document.createElement('div');
-          d.id = id;
-          d.style.cssText = 'position:fixed;right:0;bottom:0;width:1px;height:1px;z-index:2147483647';
-          document.documentElement.append(d);
-        }
-        d.style.background = n % 2 ? '#fefefe' : '#fdfdfd';
-        return new Promise((r) => requestAnimationFrame(() => r(null)));
-      }, i);
+      await ctx.page.evaluate(
+        ([n, px]) => {
+          const id = 'ink-shown-tick';
+          let d = document.getElementById(id);
+          if (!d) {
+            d = document.createElement('div');
+            d.id = id;
+            d.style.cssText = `position:fixed;right:0;bottom:0;width:${px}px;height:${px}px;z-index:2147483647`;
+            document.documentElement.append(d);
+          }
+          d.style.background = n % 2 ? '#ff00ff' : '#00ffff';
+          return new Promise((r) => requestAnimationFrame(() => r(null)));
+        },
+        [i, SHOWN_MARK_PX] as const,
+      );
       await new Promise((r) => setTimeout(r, 50));
     }
   } finally {
@@ -108,6 +118,7 @@ const shown: BrowserCommand<[]> = async (ctx) => {
   return {
     jpeg: last.data.toString('base64'),
     viewportWidth: last.viewportWidth || size.width,
+    mark: SHOWN_MARK_PX,
     x: box?.x ?? 0,
     y: box?.y ?? 0,
     width: box?.width ?? size.width,
