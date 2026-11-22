@@ -365,7 +365,7 @@ async function playwrightBlock(name, suite, repeat, loaded) {
 
 async function commandPass(name, suite, n, loaded) {
   for (const [i, step] of suite.steps.entries()) {
-    const cmd = `corepack pnpm exec ${step.replaceAll('{tmp}', scratch)}`;
+    const cmd = `corepack pnpm exec ${step.replaceAll('{tmp}', scratch)} ${more.map(quote).join(' ')}`;
     const log = join(logDir, `${name}-${n}${suite.steps.length > 1 ? `-${i}` : ''}.log`);
     const r = await run(cmd, join(repo, suite.cwd), {}, log);
     note(name, step, loaded, r.code !== 0, [`exit ${r.code}\n${tail(r.text)}`]);
