@@ -68,6 +68,47 @@ for app in "${apps[@]}"; do
       status=1
     fi
   done
+  # Where the app and the extension meet. Both name one App Group. On the Mac, a signed and
+  # sandboxed pair must be able to share a folder: either both claim that group and it is not
+  # named exactly like the app (macOS would give the app its own container for it, and the Notes
+  # list would stay empty), or both carry the same folder exception of the build signed to run
+  # locally (Config/Local-macOS.entitlements). That exception must never be signed with a team.
+  expl="$appex/Info.plist"
+  [ -f "$expl" ] || expl="$appex/Contents/Info.plist"
+  appId="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$plist" 2>/dev/null || true)"
+  group="$(/usr/libexec/PlistBuddy -c 'Print :InkAppGroup' "$plist" 2>/dev/null || true)"
+  extGroup="$(/usr/libexec/PlistBuddy -c 'Print :InkAppGroup' "$expl" 2>/dev/null || true)"
+  if [ -z "$group" ] || [ "$group" != "$extGroup" ]; then
+    echo "FAIL $app: the app's App Group is \"$group\" and the extension's is \"$extGroup\". They must be one name (Config/PageInk.xcconfig)." >&2
+    status=1
+  fi
+  if [ -d "$app/Contents" ]; then
+    # One entitlement of a signed bundle: a list as JSON, a yes or no as "true" or "false".
+    ent() { codesign -d --entitlements - --xml "$1" 2>/dev/null | plutil -extract "$2" "${3:-json}" -o - - 2>/dev/null || true; }
+    local_key='com\.apple\.security\.temporary-exception\.files\.home-relative-path\.read-write'
+    appLocal="$(ent "$app" "$local_key")"
+    extLocal="$(ent "$appex" "$local_key")"
+    for b in "$app" "$appex"; do
+      # A build with signing off is not sandboxed and carries no entitlements. Nothing to check.
+      [ "$(ent "$b" 'com\.apple\.security\.app-sandbox' raw)" = true ] || continue
+      team="$(codesign -dvv "$b" 2>&1 | sed -n 's/^TeamIdentifier=//p')"
+      if [ -n "$appLocal$extLocal" ]; then
+        if [ "$team" != "not set" ]; then
+          echo "FAIL $b: signed with a team and with the local folder exception. That exception is only for the build signed to run locally." >&2
+          status=1
+        elif [ -z "$appLocal" ] || [ "$appLocal" != "$extLocal" ]; then
+          echo "FAIL $b: the app's local folder is $appLocal and the extension's is $extLocal. Both must be signed with Config/Local-macOS.entitlements." >&2
+          status=1
+        fi
+      elif [ "$group" = "$appId" ]; then
+        echo "FAIL $b: the App Group is named exactly like the app ($appId), which a build with no team has. macOS does not share such a group, so the app would not see the extension's notes. Build with: apple/build.sh mac-local" >&2
+        status=1
+      elif [ "$(ent "$b" 'com\.apple\.security\.application-groups')" != "[\"$group\"]" ]; then
+        echo "FAIL $b: not signed for the App Group \"$group\" that Info.plist names." >&2
+        status=1
+      fi
+    done
+  fi
   exempt="$(/usr/libexec/PlistBuddy -c 'Print :ITSAppUsesNonExemptEncryption' "$plist" 2>/dev/null || true)"
   if [ "$exempt" != "false" ]; then
     echo "FAIL $app: ITSAppUsesNonExemptEncryption is not NO in Info.plist (Config/PageInk.xcconfig)." >&2

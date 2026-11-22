@@ -28,6 +28,11 @@ inside the stub), when a file that the manifest, a page or a script names is mis
 `LICENSE`, `NOTICE`, the PDF viewer page or its PDF.js files are missing, or when a file is left
 from an earlier build. `test` and `check` also run `check-names.sh` (see "Change the name").
 
+It also checks that the app and the extension can meet. Both must name one App Group. A signed
+Mac pair must either claim that group, which must not be named exactly like the app, or carry the
+same folder of the build signed to run locally (see (a)). A bundle signed with a team must not
+carry that folder.
+
 The check also looks for two things the App Store asks for. The app and the extension must carry
 the privacy manifest, `Shared/PrivacyInfo.xcprivacy`. It says that nothing is collected or tracked,
 and why the code reads its own settings and file dates. The app's `Info.plist` must also say that
@@ -49,6 +54,7 @@ to the project by hand.
 | ----------------------------------- | ------------------------------------------------------------------------- |
 | `Config/PageInk.xcconfig`           | The app name, the bundle id base, the App Group and signing. Rename here. |
 | `Config/Local.xcconfig`             | Your team id and bundle id base. Not in git. Copy the `.example` file.    |
+| `Config/Local-macOS.entitlements`   | Signing for `mac-local` only: one folder for the app and the extension.   |
 | `Shared/`                           | File store, native protocol, mirror, records, zip, clouds and the lock.   |
 | `Extension/`                        | `SafariWebExtensionHandler`, used by both platforms.                      |
 | `App/`                              | The SwiftUI app, one codebase for Mac and iPad.                           |
@@ -83,7 +89,8 @@ PDF addresses in its own viewer; the extension's PDF viewer opens from **Open a 
 The extension talks to the app through `browser.runtime.sendNativeMessage`, with the protocol in
 `packages/extension/NATIVE_PROTOCOL.md`. The handler keeps notes in the App Group container, in
 `Store/pages/<hash>.ink.json`. That container belongs to the app, so clearing Safari's website
-data or removing only the extension does not remove notes.
+data or removing only the extension does not remove notes. The Mac build signed to run locally
+has a folder of its own in its place, see (a).
 
 When you choose a folder in the app, the extension first tries to open it itself, through the
 bookmark the app shares in the App Group. If that works, Safari writes straight to the folder.
@@ -126,8 +133,19 @@ With a team (free personal team is fine):
 6. In Xcode, choose the **App (macOS)** scheme and **My Mac**, then **Product > Run**.
 
 Without a team, run `corepack pnpm apple mac-local` and open the app it prints. It is signed to
-run locally. On recent macOS versions the shared container may then be refused, and the app shows
-"Storage is not available". Notes still work in Safari; they stay in Safari's own storage.
+run locally. This build keeps notes in `~/Library/Application Support/<bundle id base>.local`,
+not in an App Group container. Delete that folder to remove them.
+
+The reason: with no team, macOS does not let the app and the extension share an App Group
+container. The group is then named exactly like the app, and macOS gives the app its own
+container for it (`~/Library/Containers/<bundle id>/Data`) and the extension another folder
+(`~/Library/Group Containers/<bundle id>`), so the Notes list stays empty. A group with any other
+name does not work either: on macOS 26 the app then stops at its first access to the group
+folder and waits, because macOS guards the group folders of apps it cannot tie to a team. So
+`mac-local` signs the app and the extension with `Config/Local-macOS.entitlements`, which lets
+both into that one folder, and `Shared/SharedSpace.swift` reads the folder from the signature.
+A Mac app signed to run locally in any other way, such as from Xcode with no team, says
+"Storage is not available", and notes stay in Safari's own storage.
 
 Then in Safari:
 

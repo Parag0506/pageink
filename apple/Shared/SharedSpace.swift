@@ -1,4 +1,7 @@
 import Foundation
+#if os(macOS)
+import Security
+#endif
 
 /// The folder the reader picked, kept as a bookmark so access survives restarts.
 public struct FolderLink: Codable, Equatable {
@@ -62,8 +65,10 @@ public final class SharedSpace: @unchecked Sendable {
 
     /// The App Group container named in Info.plist, or nil when this build has no usable group.
     public static func appGroup(bundle: Bundle = .main) -> SharedSpace? {
-        guard let id = bundle.object(forInfoDictionaryKey: "InkAppGroup") as? String, !id.isEmpty,
-              let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: id)
+        let id = bundle.object(forInfoDictionaryKey: "InkAppGroup") as? String ?? ""
+        guard let url = sharedRoot(group: id, home: URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true),
+                                   local: localStore(),
+                                   lookup: { FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: $0) })
         else { return nil }
         let space = SharedSpace(root: url)
         // The path is returned even when the sandbox denies it, so check that it is usable.
@@ -74,6 +79,53 @@ public final class SharedSpace: @unchecked Sendable {
             return nil
         }
         return space
+    }
+
+    /// The folder the app and the extension share, or nil when this build has none.
+    ///
+    /// `local` is the folder of a Mac build signed to run locally (`localStore`). It comes
+    /// first, and the system is then not asked about a group at all.
+    ///
+    /// Otherwise it is the folder the system gives for the App Group, unless that folder is
+    /// this process's own home. On macOS a group named exactly like the app is answered with
+    /// the app's own container, and the extension gets a different folder for the same name.
+    /// That is what a build with no team prefix has. Using it would show an empty Notes list
+    /// beside notes that Safari keeps elsewhere, so it counts as no group.
+    static func sharedRoot(group id: String, home: URL, local: URL? = nil, lookup: (String) -> URL?) -> URL? {
+        if let local { return local }
+        guard !id.isEmpty, let url = lookup(id) else { return nil }
+        func path(_ u: URL) -> String { u.standardizedFileURL.resolvingSymlinksInPath().path }
+        return path(url) == path(home) ? nil : url
+    }
+
+    /// The sandbox exception that only the Mac build signed to run locally carries
+    /// (Config/Local-macOS.entitlements): folders under the reader's home, each ending in "/".
+    static let localStoreEntitlement = "com.apple.security.temporary-exception.files.home-relative-path.read-write"
+
+    /// The folder that exception names, in the reader's real home, or nil when there is none.
+    /// Only a plain folder under Library is taken: anything else is not ours.
+    static func localStore(exceptions: [String]?, userHome: String) -> URL? {
+        guard let path = exceptions?.first, path.hasPrefix("/Library/"), path.hasSuffix("/"),
+              !path.split(separator: "/").contains(".."), !userHome.isEmpty
+        else { return nil }
+        return URL(fileURLWithPath: userHome + String(path.dropLast()), isDirectory: true)
+    }
+
+    /// Where a Mac build signed to run locally keeps notes, or nil in every other build.
+    /// With no team, macOS does not let the app and the extension share an App Group container,
+    /// so `build.sh mac-local` signs both with one exception for one folder. Each side reads the
+    /// folder from its own signature, so the two cannot disagree about where it is.
+    static func localStore() -> URL? {
+        #if os(macOS)
+        guard let task = SecTaskCreateFromSelf(nil),
+              let value = SecTaskCopyValueForEntitlement(task, localStoreEntitlement as CFString, nil),
+              let dir = getpwuid(getuid())?.pointee.pw_dir
+        else { return nil }
+        // The sandbox gives a container as the home folder. The exception is for the real one.
+        return localStore(exceptions: value as? [String], userHome: String(cString: dir))
+        #else
+        return nil
+        #endif
     }
 
     public var storeRoot: URL { root.appendingPathComponent("Store", isDirectory: true) }

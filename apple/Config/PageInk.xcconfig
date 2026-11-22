@@ -10,6 +10,9 @@ INK_BUNDLE_ID_BASE = org.example.pageink
 
 // The App Group that the app and the extension share. Notes live in its container.
 // macOS uses the team-prefixed form, which needs no provisioning profile.
+// A Mac build with no team has no prefix, and macOS does not share a group without one. The
+// build signed to run locally (build.sh mac-local) keeps notes in a folder of its own instead:
+// see Config/Local-macOS.entitlements.
 INK_APP_GROUP = group.$(INK_BUNDLE_ID_BASE)
 INK_APP_GROUP[sdk=macosx*] = $(TeamIdentifierPrefix)$(INK_BUNDLE_ID_BASE)
 

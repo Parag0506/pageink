@@ -264,7 +264,9 @@ final class LockTests: XCTestCase {
         for f in try FileManager.default.contentsOfDirectory(atPath: config.path) where f.hasSuffix(".entitlements") {
             let o = try XCTUnwrap(PropertyListSerialization.propertyList(from: Data(contentsOf: config.appendingPathComponent(f)), format: nil) as? [String: Any])
             XCTAssertNil(o["keychain-access-groups"], f)
-            XCTAssertEqual(o["com.apple.security.application-groups"] as? [String], ["$(INK_APP_GROUP)"], f)
+            // The Mac build signed to run locally shares a folder and no group (SharedSpaceTests).
+            let groups = f == "Local-macOS.entitlements" ? nil : ["$(INK_APP_GROUP)"]
+            XCTAssertEqual(o["com.apple.security.application-groups"] as? [String], groups, f)
         }
         // Nothing else in the app's sources touches the keychain or asks for synced items.
         for dir in ["apple/Shared", "apple/App", "apple/Extension"] {

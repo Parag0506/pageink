@@ -8,7 +8,8 @@
 #                             iPad simulator, a temporary one is made and removed afterwards.
 #   apple/build.sh check      check the extension inside the built apps (check-bundle.sh) and
 #                             that names are set only in Config/PageInk.xcconfig (check-names.sh)
-#   apple/build.sh mac-local  macOS app signed to run locally, for Safari with unsigned extensions
+#   apple/build.sh mac-local  macOS app signed to run locally, for Safari with unsigned extensions.
+#                             Notes are kept in ~/Library/Application Support/<bundle id base>.local
 #   apple/build.sh sim-test   the extension end to end in Mobile Safari on a new iPad simulator
 #                             (sim/run.sh). It makes the simulator and deletes it afterwards.
 #   apple/build.sh device-check   the guided check on a real iPad with an Apple Pencil
@@ -62,7 +63,11 @@ case "$what" in
     check "$products"/Debug/*.app ;;
   ios) xb -scheme "App (iOS)" -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
     check "$products"/Debug-iphonesimulator/*.app ;;
-  mac-local) xb -scheme "App (macOS)" -destination 'platform=macOS' CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY=- build
+  mac-local)
+    # No team, so no App Group that macOS would share. The app and the extension are both signed
+    # with Config/Local-macOS.entitlements, which gives them one folder to keep notes in.
+    xb -scheme "App (macOS)" -destination 'platform=macOS' CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY=- \
+      CODE_SIGN_ENTITLEMENTS="$here/Config/Local-macOS.entitlements" build
     check "$products"/Debug/*.app
     echo "App: $(ls -d "$products"/Debug/*.app | head -1)" ;;
   check) check; bash "$here/check-names.sh" ;;
