@@ -44,8 +44,8 @@ The record format (section 6) is in `FORMAT.md`.
 - **The page record is read directly by the content script** from `storage.local` (key `p:<page hash>`,
   typically 5 to 20 KB). No background worker in the path.
 - **One overlay for the document,** inside a closed shadow root on a custom element attached to
-  `<html>`, `position: absolute`, `pointer-events: none`. The browser scrolls it with the page. No script
-  runs during scroll.
+  `<html>`. The element has no box of its own; its surfaces are `position: absolute` and
+  `pointer-events: none`. The browser scrolls them with the page. No script runs during scroll.
 - **Notes inside an inner scrolling area** (a code pane, a chat pane) follow that area through one passive
   scroll listener that sets a transform, throttled to animation frames.
 - **Placement is batched:** all layout reads in one pass, all writes in the next, so the page never

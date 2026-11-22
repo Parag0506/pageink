@@ -78,7 +78,7 @@ test('a page with a strict style policy: ink, bar and tray are styled and nothin
       const tray = cs('.iu .tray');
       const path = root.querySelector('path[data-stroke]');
       return {
-        host: { position: host.position, pointer: host.pointerEvents, width: host.width },
+        host: { display: host.display, pointer: host.pointerEvents },
         bar: bar && { position: bar.position, display: bar.display, radius: bar.borderTopLeftRadius },
         tray: tray && { position: tray.position, display: tray.display, bg: tray.backgroundColor },
         surface: cs('svg.s')?.position,
@@ -86,7 +86,8 @@ test('a page with a strict style policy: ink, bar and tray are styled and nothin
       };
     });
   let l = (await look())!;
-  expect(l.host).toEqual({ position: 'absolute', pointer: 'none', width: '0px' });
+  // The host has no box, so the browser can never give it a layer of its own.
+  expect(l.host).toEqual({ display: 'contents', pointer: 'none' });
   expect(l.bar).toEqual({ position: 'fixed', display: 'flex', radius: '14px' });
   expect(l.surface).toBe('absolute');
   expect(l.fill).not.toBe('rgb(0, 0, 0)');

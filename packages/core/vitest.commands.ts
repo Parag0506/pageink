@@ -63,4 +63,55 @@ const throttle: BrowserCommand<[rate: number]> = async (ctx, rate) => {
   }
 };
 
-export const commands = { reducedMotion, realMouse, throttle };
+/**
+ * What the browser puts on the screen: one frame of the page's screencast as a JPEG, with the
+ * place of the test frame in it. A screenshot paints the page again in one pass, so it cannot
+ * show a fault in how the browser puts its layers together. A screencast frame can.
+ */
+const shown: BrowserCommand<[]> = async (ctx) => {
+  const frame = await ctx.frame();
+  const box = await (await frame.frameElement()).boundingBox();
+  const size = ctx.page.viewportSize() ?? { width: 1280, height: 720 };
+  let last: { data: Buffer; viewportWidth: number } | undefined;
+  let seen = 0;
+  await ctx.page.screencast.start({
+    size,
+    quality: 100,
+    onFrame: (f) => {
+      last = f;
+      seen++;
+    },
+  });
+  try {
+    // A browser sends a frame when the page changes. One pixel in the corner changes until
+    // two frames have come, so the frame read is from after the screencast began.
+    for (let i = 0; i < 100 && seen < 2; i++) {
+      await ctx.page.evaluate((n) => {
+        const id = 'ink-shown-tick';
+        let d = document.getElementById(id);
+        if (!d) {
+          d = document.createElement('div');
+          d.id = id;
+          d.style.cssText = 'position:fixed;right:0;bottom:0;width:1px;height:1px;z-index:2147483647';
+          document.documentElement.append(d);
+        }
+        d.style.background = n % 2 ? '#fefefe' : '#fdfdfd';
+        return new Promise((r) => requestAnimationFrame(() => r(null)));
+      }, i);
+      await new Promise((r) => setTimeout(r, 50));
+    }
+  } finally {
+    await ctx.page.screencast.stop();
+    await ctx.page.evaluate(() => document.getElementById('ink-shown-tick')?.remove());
+  }
+  if (!last) throw new Error('The browser sent no screencast frame');
+  return {
+    jpeg: last.data.toString('base64'),
+    viewportWidth: last.viewportWidth || size.width,
+    x: box?.x ?? 0,
+    y: box?.y ?? 0,
+    width: box?.width ?? size.width,
+  };
+};
+
+export const commands = { reducedMotion, realMouse, throttle, shown };

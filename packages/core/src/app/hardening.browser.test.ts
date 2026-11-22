@@ -153,7 +153,7 @@ describe('zoom and transforms on <html>', () => {
     const host = document.querySelector('ink-layer') as HTMLElement;
     const visibleSurfaces = () =>
       [...(a.v!.layer.root.querySelectorAll('svg.s') as NodeListOf<SVGSVGElement>)].filter(
-        (s) => getComputedStyle(s).display !== 'none',
+        (s) => getComputedStyle(s).visibility !== 'hidden',
       ).length;
     expect(visibleSurfaces()).toBe(4);
     document.documentElement.style.transform = 'scale(0.8)';

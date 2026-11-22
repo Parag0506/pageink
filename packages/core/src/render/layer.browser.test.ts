@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, test } from 'vitest';
 import { page } from 'vitest/browser';
+import { frame, shown } from '../testkit';
 import type { Note, Stroke } from '../types';
 import type { InkLayer } from './layer';
 import { createLayer, svgToPng } from './layer';
@@ -66,16 +67,16 @@ function pathRect(l: InkLayer, strokeId: string): DOMRect {
 }
 
 describe('host element', () => {
-  test('is a closed, unsized, absolute element on <html> that takes no pointer events', () => {
+  test('is a closed element on <html> with no box that takes no pointer events', () => {
     const l = mkLayer();
     expect(l.host.tagName.toLowerCase()).toBe('ink-layer');
     expect(l.host.parentElement).toBe(document.documentElement);
     expect(l.host.shadowRoot).toBeNull();
     const cs = getComputedStyle(l.host);
-    expect(cs.position).toBe('absolute');
+    // No box: the host can never get a layer of its own or form a stacking context.
+    expect(cs.display).toBe('contents');
+    expect(l.host.getClientRects().length).toBe(0);
     expect(cs.pointerEvents).toBe('none');
-    expect(cs.width).toBe('0px');
-    expect(cs.overflow).toBe('visible');
     const svg = l.root.querySelector('svg')!;
     expect(getComputedStyle(svg).zIndex).toBe('2147483647');
   });
@@ -94,13 +95,10 @@ describe('host element', () => {
     const l = mkLayer();
     l.drawNote(note('n1', [boxStroke('s1')]), { origin: { x: 50, y: 60 }, scale: 1 });
     const cs = getComputedStyle(l.host);
-    expect(cs.display).toBe('block');
-    expect(cs.position).toBe('absolute');
-    expect(cs.transform).toBe('none');
-    expect(cs.opacity).toBe('1');
+    expect(cs.display).toBe('contents');
+    expect(l.host.getClientRects().length).toBe(0);
     expect(cs.pointerEvents).toBe('none');
-    expect(cs.width).toBe('0px');
-    expect(cs.marginTop).toBe('0px');
+    expect(cs.visibility).toBe('visible');
     expect(getComputedStyle(l.host, '::before').content).toBe('none');
     const r = pathRect(l, 's1');
     expect(r.left).toBeCloseTo(50, 0);
@@ -141,11 +139,11 @@ describe('host element', () => {
     const l = mkLayer();
     l.drawNote(note('n1', [boxStroke('s1')]), { origin: { x: 100, y: 100 }, scale: 1 });
     const svg = l.root.querySelector('[data-stroke="s1"]')!.closest('svg')!;
-    expect(getComputedStyle(svg).display).toBe('none');
+    expect(getComputedStyle(svg).visibility).toBe('hidden');
     addStyle('html { transform: translate(5px, 7px) !important; }');
     l.measure();
     l.flush();
-    expect(getComputedStyle(svg).display).not.toBe('none');
+    expect(getComputedStyle(svg).visibility).toBe('visible');
     const r = pathRect(l, 's1');
     expect(r.left).toBeCloseTo(100, 0);
     expect(r.top).toBeCloseTo(100, 0);
@@ -435,6 +433,49 @@ describe('blending', () => {
     expect(onPaper[2]!).toBeLessThan(150);
     void block;
   });
+
+  // WebKit gives a part of the page a layer of its own when it moves, is pinned, or lies over
+  // such a part. A surface that needs a layer only for the last reason is painted into the
+  // layer of an ancestor that has one. The host must never be that ancestor: it holds nothing
+  // but ink, so the highlighter would have no page under it to blend with and would paint
+  // solid. A screenshot does not show this, so the test reads what is on screen.
+  const UNDER: [string, string][] = [
+    ['a bar pinned to the top', 'position:fixed;left:0;top:0;width:100%;height:4px;background:#dde'],
+    [
+      'a moving part in the corner',
+      'position:absolute;left:0;top:0;width:2px;height:2px;will-change:transform',
+    ],
+    [
+      'a moving part under the words',
+      'position:absolute;left:30px;top:22px;width:4px;height:4px;will-change:transform',
+    ],
+  ];
+  for (const order of ['before', 'after'] as const) {
+    test.each(UNDER)(
+      `the words show through the highlighter on a page with %s, made ${order} the layer`,
+      async (_, css) => {
+        addStyle('html, body { background: #fff !important; margin: 0 !important; }');
+        addEl('div', 'position:absolute;left:20px;top:20px;width:60px;height:30px;background:#000');
+        const l = order === 'after' ? mkLayer() : null;
+        addEl('div', css, document.documentElement);
+        const layer = l ?? mkLayer();
+        layer.drawMark(note('m', [], { kind: 'textmark', mark: { style: 'highlight', color: 'hi-1' } }), [
+          { x: 0, y: 10, w: 120, h: 50 },
+        ]);
+        await frame();
+        await frame();
+        const at = await shown();
+        const onText = at(50, 38);
+        const onPaper = at(100, 38);
+        expect(
+          onText.every((v) => v < 60),
+          `words under the highlighter: rgb(${onText})`,
+        ).toBe(true);
+        expect(onPaper[0]).toBeGreaterThan(200);
+        expect(onPaper[2]).toBeLessThan(150);
+      },
+    );
+  }
 });
 
 /** Base64 PNG to a Blob. */
@@ -557,7 +598,7 @@ describe('strict style-src', () => {
     expect(l.root.querySelectorAll('style').length).toBe(0);
     expect(l.root.adoptedStyleSheets.length).toBe(2);
     // The host style was written through the CSSOM. A blocked attribute would leave it empty.
-    expect(l.host.style.getPropertyValue('position')).toBe('absolute');
+    expect(l.host.style.getPropertyValue('display')).toBe('contents');
     expect(l.host.style.getPropertyPriority('pointer-events')).toBe('important');
   });
 

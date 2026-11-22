@@ -14,7 +14,7 @@ const Z_MAX = 2147483647;
  * use them still get correct output, because the layer then measures lazily.
  */
 export interface InkLayer extends Layer {
-  /** Read the host offset and window scroll. Read phase only. */
+  /** Read the offset of the surfaces and the window scroll. Read phase only. */
   measure(): void;
   /** Read the page theme when the theme is auto. Applied on the next write or flush. */
   readTheme(): void;
@@ -60,39 +60,28 @@ const MARK_H = 22;
 
 // Inline !important beats any page rule, including `* { all: unset !important }`.
 // Set through the CSSOM, which a strict style-src allows, never as an attribute.
-const HOST_DECLS = [
-  'all: initial',
-  'display: block',
-  'position: absolute',
-  'left: 0',
-  'top: 0',
-  'width: 0',
-  'height: 0',
-  'min-width: 0',
-  'min-height: 0',
-  'max-width: none',
-  'max-height: none',
-  'margin: 0',
-  'padding: 0',
-  'border: 0 none',
-  'overflow: visible',
-  'pointer-events: none',
-  // The host must not form a stacking context, or the highlighter could only
-  // blend with the layer itself and never with the page under it. Every
-  // surface inside carries the highest z-index instead.
-  'z-index: auto',
-  'transform: none',
-  'filter: none',
-  'opacity: 1',
-  'visibility: visible',
-  'contain: none',
-  'isolation: auto',
-  'mix-blend-mode: normal',
-  'print-color-adjust: exact',
-].map((d) => `${d} !important`);
+//
+// The host has no box (`display: contents`). WebKit paints a surface that needs a layer of
+// its own only because it lies over another layer into the layer of an ancestor that has
+// one. A host with a box becomes that ancestor when a pinned or moving part of the page lies
+// under its corner. It holds nothing but ink, so the highlighter would blend with nothing
+// and paint solid over the words. With no box the host can never have a layer, and neither
+// can it form a stacking context: the highlighter always blends with the page under it.
+// Every surface inside carries the highest z-index instead.
+// The host of the top layer is a popover, which needs a box.
+const hostDecls = (top: boolean): string[] =>
+  [
+    'all: initial',
+    ...(top
+      ? ['display: block', 'position: absolute', 'left: 0', 'top: 0', 'width: 0', 'height: 0']
+      : ['display: contents']),
+    'pointer-events: none',
+    'print-color-adjust: exact',
+  ].map((d) => `${d} !important`);
 
 const SHADOW_CSS = `
-:host{all:initial !important;display:block !important;position:absolute !important;left:0 !important;top:0 !important;width:0 !important;height:0 !important;overflow:visible !important;pointer-events:none !important;z-index:auto !important;print-color-adjust:exact !important;-webkit-print-color-adjust:exact !important}
+:host{all:initial !important;display:contents !important;pointer-events:none !important;print-color-adjust:exact !important;-webkit-print-color-adjust:exact !important}
+:host([popover]){display:block !important;position:absolute !important;left:0 !important;top:0 !important;width:0 !important;height:0 !important}
 :host::before,:host::after{content:none !important;display:none !important}
 .s{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;z-index:${Z_MAX};pointer-events:none;display:block;margin:0;padding:0;border:0}
 .f{position:fixed}
@@ -136,7 +125,7 @@ interface Plane {
   penFix: { svg: SVGSVGElement; g: SVGGElement };
   defs: SVGDefsElement;
   view: { set(css: string): void; remove(): void };
-  /** Host offset in document space, from measure(). */
+  /** Offset of the document surfaces in document space, from measure(). */
   off: Point;
   top: boolean;
 }
@@ -198,7 +187,7 @@ export const createLayer: CreateLayer = (doc, opts) => {
 
   const makePlane = (top: boolean): Plane => {
     const h = doc.createElement(LAYER_TAG);
-    setDecls(h, HOST_DECLS);
+    setDecls(h, hostDecls(top));
     const r = h.attachShadow({ mode: 'closed' });
     addSheet(r, css);
     // Rules that follow the page: zoom and transforms on <html>. Kept apart so the base sheet never changes.
@@ -364,7 +353,7 @@ export const createLayer: CreateLayer = (doc, opts) => {
     if (tf && tf !== 'none') {
       const m = /^matrix\(([^)]+)\)$/.exec(tf);
       const n = m ? (m[1] ?? '').split(',').map(Number) : [];
-      // A pure translation is cancelled by the host offset. Anything else is not.
+      // A pure translation is cancelled by the offset of the surfaces. Anything else is not.
       warpNext = !(n.length === 6 && n[0] === 1 && n[1] === 0 && n[2] === 0 && n[3] === 1);
     }
     if (zNext !== zoom || warpNext !== warped) viewDirty = true;
@@ -374,7 +363,8 @@ export const createLayer: CreateLayer = (doc, opts) => {
 
   const measure = (): void => {
     readView();
-    const r = host.getBoundingClientRect();
+    // The host has no box. A document surface sits where the host's box would.
+    const r = main.hiDoc.svg.getBoundingClientRect();
     scroll.x = win.scrollX;
     scroll.y = win.scrollY;
     const html = doc.documentElement;
@@ -413,13 +403,14 @@ export const createLayer: CreateLayer = (doc, opts) => {
     if (viewDirty) {
       const css =
         (zoom !== 1 ? `:host{zoom:${1 / zoom} !important}` : '') +
-        (warped ? '.s{display:none !important}' : '');
+        // Hidden, not removed: measure() reads the place of a surface.
+        (warped ? '.s{visibility:hidden !important}' : '');
       if (css !== viewCss) {
         viewCss = css;
         main.view.set(css);
         topPlane?.view.set(css);
       }
-      // Document surfaces cancel any offset of the host, for pages that
+      // Document surfaces cancel their own offset, for pages that
       // position <html> or give it a margin.
       for (const pl of topPlane ? [main, topPlane] : [main]) {
         const t = `translate(${n1(-pl.off.x)} ${n1(-pl.off.y)})`;

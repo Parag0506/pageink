@@ -116,6 +116,39 @@ export async function until(cond: () => boolean, label = 'condition', ms = WAIT_
   }
 }
 
+declare module 'vitest/browser' {
+  interface BrowserCommands {
+    shown(): Promise<{ jpeg: string; viewportWidth: number; x: number; y: number; width: number }>;
+  }
+}
+
+/**
+ * What the browser shows on screen right now, as a function from a client point of the test
+ * frame to its colour. Read from a screencast frame (the shown command in vitest.commands.ts),
+ * not from a screenshot: a screenshot paints the page again in one pass and so hides a fault
+ * in how the browser puts its layers together. The frame is a JPEG, so colours are close, not
+ * exact.
+ */
+export async function shown(): Promise<(x: number, y: number) => [number, number, number]> {
+  const f = await commands.shown();
+  const bin = atob(f.jpeg);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const bmp = await createImageBitmap(new Blob([bytes], { type: 'image/jpeg' }));
+  const c = document.createElement('canvas');
+  c.width = bmp.width;
+  c.height = bmp.height;
+  const ctx = c.getContext('2d', { willReadFrequently: true })!;
+  ctx.drawImage(bmp, 0, 0);
+  // Picture pixels per CSS pixel of the page, and CSS pixels of the page per one of the frame.
+  const k = bmp.width / f.viewportWidth;
+  const s = f.width / window.innerWidth;
+  return (x, y) => {
+    const d = ctx.getImageData(Math.round((f.x + x * s) * k), Math.round((f.y + y * s) * k), 1, 1).data;
+    return [d[0]!, d[1]!, d[2]!];
+  };
+}
+
 /** A clock the test moves by hand, for the `now` option of the placer, the viewer and the resolver. */
 export function manualClock(start = 1000): { now: () => number; advance(ms: number): void } {
   let t = start;

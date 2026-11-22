@@ -113,10 +113,13 @@ returns undefined when only the full ladder can decide. `prepare(ms)` builds the
 createLayer: CreateLayer    svgToPng: SvgToPng
 ```
 One host element `<ink-layer>` appended to `<html>`, closed shadow root, `pointer-events: none`,
-`position: absolute`, no size, `z-index: auto`. The surfaces inside it carry the highest z-index, so the
-highlighter can blend with the page under it. `customElements` is not available to content scripts,
-so the host is a plain unknown element. The highlighter blends so text stays readable. The layer prints
-with the page. Colours are CSS variables switched by theme. `auto` reads the page background.
+no box (`display: contents`). The surfaces inside it are positioned from the document and carry the
+highest z-index, so the highlighter can blend with the page under it. The host must stay without a box:
+with one, WebKit can give it a layer of its own when a pinned or moving part of the page lies under its
+corner, paint the highlighter into that layer, and the highlight then covers the words (a test reads
+the screen for this, `shown()` in `src/testkit.ts`). `customElements` is not available to content
+scripts, so the host is a plain unknown element. The highlighter blends so text stays readable. The
+layer prints with the page. Colours are CSS variables switched by theme. `auto` reads the page background.
 Styles are constructed style sheets adopted on the shadow root, and dynamic values are set through the
 CSSOM, so the layer works on pages and extension pages with a strict `style-src`.
 
