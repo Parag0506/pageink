@@ -286,8 +286,14 @@ From the repository root. Commands use `corepack pnpm` so everyone runs the pinn
 | Home page and privacy page                         | `node site/build.mjs`                                                                                     |
 | Safari app, unsigned build                         | `corepack pnpm apple`                                                                                     |
 | Safari app unit tests                              | `corepack pnpm apple test`                                                                                |
+| Soak: run suites many times, part under CPU load   | `node scripts/soak.mjs fast e2e --build --runs 20 --load 22 --out /tmp/soak`                              |
 
 Without `--out`, the test set and the bench write over the committed results in `results/latest`.
+
+The soak finds tests that fail now and then. It runs each suite `--runs` times with retries off, half
+of them while `--load` busy workers keep the CPU full, as on a slow shared runner, and writes
+`soak.md`: every test that failed at least once, how often, loaded or not, and what it said.
+`node scripts/soak.mjs --list` names the suites. `-- <file>` after the options soaks one test file.
 
 Playwright needs its browsers once: `corepack pnpm exec playwright install chromium firefox webkit`. On
 Linux, add `--with-deps`. The extension's `test` and `test:e2e` scripts build first. `install` and the
