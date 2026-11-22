@@ -319,8 +319,8 @@ function synthTouch(type: 'touchStart' | 'touchMove' | 'touchEnd', points: Touch
 
 /**
  * One touch event, CDP style: real in Chromium, synthetic pointer and touch events elsewhere.
- * `gap` is as for mouseInput. A gesture the browser itself must read (a scroll, two fingers)
- * goes through touchGesture, which the load of the machine cannot stretch.
+ * `gap` is as for mouseInput. A gesture the browser itself must read (a scroll, two fingers,
+ * a tap) goes through touchGesture, which a busy machine cannot turn into a long press.
  */
 export async function touchInput(type: TouchType, touchPoints: TouchPoint[], gap?: number): Promise<void> {
   const at = stamp(gap);
@@ -339,36 +339,64 @@ export interface TouchStep {
   gap?: number;
 }
 
+/** A finger this far from where it landed has left the browser's slop: the gesture is a move, not a press. */
+const HEAD_PX = 24;
+
 /**
- * A whole touch gesture in one piece. The browser reads a gesture from real time too: a finger
- * that lands and waits is a long press, and the speed of the last moves decides how far the
- * page coasts. Sent event by event, each with a round trip, a busy machine turns a swipe into a
- * long press that scrolls nothing. Here Chromium gets every event at once, each with its time
- * on the input clock, the last one now. Other engines get the synthetic events touchInput
- * makes, with the same times.
+ * A touch gesture, step by step on the input clock. The browser reads a gesture from real
+ * time too: a finger that lands and waits half a second is a long press, and a long press
+ * scrolls nothing. Sent event by event, each with a round trip, a busy machine put that wait
+ * between the touch and its first move. So the head of the gesture goes to Chromium at once:
+ * the touch and every step up to the first one that takes a finger HEAD_PX from where it
+ * landed, or the whole gesture when no finger gets that far (a tap). Their times are dated back
+ * from now by their gaps. The steps after that go one by one, each after a real wait of its
+ * gap and stamped that gap after the one before. Once the fingers move, a wait between two
+ * steps changes nothing: a slow machine only makes the gesture slower.
+ * (All of a long gesture at once is no way out: dated back, its touch is a long press before
+ * its first move is read, dated ahead, the browser holds the scroll back, and two fingers
+ * whose moves come in one piece do not scroll at all.)
+ * Other engines get the synthetic events touchInput makes, with the same times.
  */
 export async function touchGesture(steps: TouchStep[]): Promise<void> {
-  const gaps = steps.map((s, i) => (i ? (s.gap ?? STEP_MS) : 0));
-  const total = gaps.reduce((a, b) => a + b, 0);
-  // The gesture ends now, so it starts in the past. It still starts after the last event made.
-  const short = lastInput + 1 - (Date.now() - total);
-  if (short > 0) await new Promise((r) => setTimeout(r, short));
-  let at = Date.now() - total;
-  const timed = steps.map((s, i) => {
-    at += gaps[i]!;
-    return { type: s.type, touchPoints: s.points, at };
-  });
-  lastInput = at;
-  if (!isChromium) {
-    for (const s of timed) {
+  const landed = new Map<number, TouchPoint>();
+  let head = steps.length;
+  for (let i = 0; i < steps.length && head === steps.length; i++) {
+    for (const p of steps[i]!.points) {
+      const o = landed.get(p.id);
+      if (!o) landed.set(p.id, p);
+      else if (Math.hypot(p.x - o.x, p.y - o.y) >= HEAD_PX) head = i + 1;
+    }
+  }
+  const gap = (i: number): number => (i ? (steps[i]!.gap ?? STEP_MS) : 0);
+  const send = async (batch: { type: TouchType; touchPoints: TouchPoint[]; at: number }[]): Promise<void> => {
+    if (isChromium) {
+      await commands.touches(
+        batch.map((s) => ({ type: s.type, touchPoints: s.touchPoints, timestamp: s.at / 1000 })),
+      );
+      return;
+    }
+    for (const s of batch) {
       stamped(s.at, () => synthTouch(s.type, s.touchPoints));
       await tick();
     }
-    return;
+  };
+  // The head ends now, so it starts a little in the past, but after the last event made.
+  let span = 0;
+  for (let i = 1; i < head; i++) span += gap(i);
+  const short = lastInput + 1 - (Date.now() - span);
+  if (short > 0) await new Promise((r) => setTimeout(r, short));
+  let at = Date.now() - span;
+  const first = steps.slice(0, head).map((s, i) => {
+    at += gap(i);
+    return { type: s.type, touchPoints: s.points, at };
+  });
+  lastInput = at;
+  await send(first);
+  for (let i = head; i < steps.length; i++) {
+    // The real wait keeps the input clock from running ahead of the real one.
+    await new Promise((r) => setTimeout(r, gap(i)));
+    await send([{ type: steps[i]!.type, touchPoints: steps[i]!.points, at: stamp(gap(i)) }]);
   }
-  await commands.touches(
-    timed.map((s) => ({ type: s.type, touchPoints: s.touchPoints, timestamp: s.at / 1000 })),
-  );
 }
 
 /**

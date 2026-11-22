@@ -51,6 +51,22 @@ const realMouse: BrowserCommand<[type: MouseStep, x: number, y: number, modifier
   }
 };
 
+type PwPage = Parameters<BrowserCommand<[]>>[0]['page'];
+type PwSession = Awaited<ReturnType<ReturnType<PwPage['context']>['newCDPSession']>>;
+/**
+ * One CDP session per page for touch input, kept for the life of the page. The browser keeps
+ * the fingers that are down per session, so a gesture sent in several calls needs the same one.
+ */
+const touchSessions = new WeakMap<PwPage, Promise<PwSession>>();
+function touchSession(page: PwPage): Promise<PwSession> {
+  let s = touchSessions.get(page);
+  if (!s) {
+    s = page.context().newCDPSession(page);
+    touchSessions.set(page, s);
+  }
+  return s;
+}
+
 type TouchStep = {
   type: 'touchStart' | 'touchMove' | 'touchEnd';
   touchPoints: { x: number; y: number; id: number }[];
@@ -58,30 +74,26 @@ type TouchStep = {
 };
 
 /**
- * A whole touch gesture at client points of the test frame, through CDP. Chromium only. Every
- * event is written to the browser in the same turn, each with its own time, so the browser
- * reads the gesture from those times and not from how fast this machine sends events
- * (touchGesture in src/capture/testkit.ts). It ends when the page has handled the last one.
+ * Touch events at client points of the test frame, through CDP. Chromium only. All of them are
+ * written to the browser in the same turn, each with its own time, so the browser reads them
+ * as one piece of a gesture and no round trip falls between them (touchGesture in
+ * src/capture/testkit.ts). It ends when the page has handled the last one.
  */
 const touches: BrowserCommand<[steps: TouchStep[]]> = async (ctx, steps) => {
   const frame = await ctx.frame();
   const box = await (await frame.frameElement()).boundingBox();
   const dx = box?.x ?? 0;
   const dy = box?.y ?? 0;
-  const cdp = await ctx.page.context().newCDPSession(ctx.page);
-  try {
-    await Promise.all(
-      steps.map((s) =>
-        cdp.send('Input.dispatchTouchEvent', {
-          type: s.type,
-          touchPoints: s.touchPoints.map((p) => ({ ...p, x: p.x + dx, y: p.y + dy })),
-          timestamp: s.timestamp,
-        }),
-      ),
-    );
-  } finally {
-    await cdp.detach().catch(() => {});
-  }
+  const cdp = await touchSession(ctx.page);
+  await Promise.all(
+    steps.map((s) =>
+      cdp.send('Input.dispatchTouchEvent', {
+        type: s.type,
+        touchPoints: s.touchPoints.map((p) => ({ ...p, x: p.x + dx, y: p.y + dy })),
+        timestamp: s.timestamp,
+      }),
+    ),
+  );
 };
 
 /**

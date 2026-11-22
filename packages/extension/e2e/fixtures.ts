@@ -392,35 +392,50 @@ export async function tap(page: Page, p: Pt, kind: Kind = 'pen'): Promise<void> 
 /** How long fingers rest before they lift. The browser takes a finger still for 80 ms as stopped. */
 const REST_MS = 120;
 
+/** A finger this far from where it landed has left the browser's slop: the gesture is a move, not a press. */
+const HEAD_PX = 24;
+
 /**
- * Fingers moving together, as one gesture. Each path is one finger; all paths have the same
- * length. The browser reads a touch gesture from real time too: a finger that lands and waits
- * is a long press, and the speed of the last moves decides how far the page coasts. So the
- * browser gets every event at once, each with its time on the input clock: moves `stepMs`
- * apart, then a rest before the lift, the lift now. A busy machine cannot stretch the gesture,
- * and the page does not coast on: a page that scrolled is where it stays when this returns.
+ * Fingers moving together. Each path is one finger; all paths have the same length. The moves
+ * are `stepMs` apart on the input clock, and the fingers rest before they lift, so the page
+ * does not coast on: a page that scrolled is where it stays when this returns.
+ *
+ * The browser reads a touch gesture from real time too: a finger that lands and waits half a
+ * second is a long press, and a long press scrolls nothing. So the touch and its moves up to
+ * the first one HEAD_PX from where a finger landed go to the browser at once, dated back from
+ * now, and no round trip falls between them. The moves after that go one by one. Once the
+ * fingers move, a wait between two moves changes nothing: a slow machine only makes the
+ * gesture slower.
  */
 export async function touch(page: Page, paths: Pt[][], stepMs = 16): Promise<void> {
   const cdp = await session(page);
+  const n = paths[0]!.length;
   const at = (i: number) =>
     paths.map((p, id) => ({ x: p[i]!.x, y: p[i]!.y, id, radiusX: 4, radiusY: 4, force: 1 }));
-  const n = paths[0]!.length;
-  const total = (n - 1) * stepMs + REST_MS;
-  // The gesture ends now, so it starts in the past. It still starts after the last event made.
-  const short = lastInput + 1 - (Date.now() - total);
-  if (short > 0) await new Promise((r) => setTimeout(r, short));
-  let t = Date.now() - total;
-  const send = (type: string, touchPoints: object[]) =>
+  const far = (i: number) => paths.some((p) => Math.hypot(p[i]!.x - p[0]!.x, p[i]!.y - p[0]!.y) >= HEAD_PX);
+  let head = 1;
+  while (head < n && !far(head - 1)) head++;
+  const send = (type: string, touchPoints: object[], t: number) =>
     cdp.send('Input.dispatchTouchEvent', { type, touchPoints, timestamp: t / 1000 } as never);
-  const sent = [send('touchStart', at(0))];
-  for (let i = 1; i < n; i++) {
+  // The head ends now, so it starts a little in the past, but after the last event made.
+  const span = (head - 1) * stepMs;
+  const short = lastInput + 1 - (Date.now() - span);
+  if (short > 0) await new Promise((r) => setTimeout(r, short));
+  let t = Date.now() - span;
+  const first = [send('touchStart', at(0), t)];
+  for (let i = 1; i < head; i++) {
     t += stepMs;
-    sent.push(send('touchMove', at(i)));
+    first.push(send('touchMove', at(i), t));
   }
-  t += REST_MS;
-  sent.push(send('touchEnd', []));
   lastInput = t;
-  await Promise.all(sent);
+  await Promise.all(first);
+  for (let i = head; i < n; i++) {
+    // The real wait keeps the input clock from running ahead of the real one.
+    await new Promise((r) => setTimeout(r, stepMs));
+    await send('touchMove', at(i), stamp(stepMs) * 1000);
+  }
+  await new Promise((r) => setTimeout(r, REST_MS));
+  await send('touchEnd', [], stamp(REST_MS) * 1000);
   await cdp.detach();
 }
 
