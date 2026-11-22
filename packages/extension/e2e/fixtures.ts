@@ -18,7 +18,7 @@ import {
   type Page,
   type Worker,
 } from '@playwright/test';
-import { freeCores, isBusy, judge, TRIES, type Try } from '../../core/src/budget-rule';
+import { freeCores, isBusy, judge, minFreeCores, TRIES, type Try } from '../../core/src/budget-rule';
 import { forbidden, record, unpackedId } from './netlog';
 
 export { extensionRequests } from './netlog';
@@ -862,10 +862,19 @@ export async function withinBudget<K extends string>(
     await new Promise((r) => setTimeout(r, 300));
     return freeCores(at, cpus());
   };
+  /**
+   * The same, once the machine has the cores a judged measure needs, or after three seconds.
+   * The start of this test's own browser is work too, and it is over in a moment.
+   */
+  const freeWhenQuiet = async (): Promise<number> => {
+    let f = await free();
+    for (let i = 0; i < 9 && f < minFreeCores(cores); i++) f = await free();
+    return f;
+  };
   const tries: Try[] = [];
   let verdict = judge(tries, budgets, ref);
   for (let i = 0; i < TRIES && verdict.verdict !== 'pass'; i++) {
-    const freeBefore = await free();
+    const freeBefore = await freeWhenQuiet();
     const before = await calibrateMs(probe());
     const values = await measure();
     const after = await calibrateMs(probe());
