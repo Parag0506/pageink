@@ -18,7 +18,9 @@ The cloud client ids come from `cloud-ids.json`, which holds the release ids (em
 `cloud-ids.local.json` when it exists (it is not in the repository). With empty ids the
 Google Drive and OneDrive buttons show "Not set up in this build." To build with ids, put the
 same `cloud-ids.local.json` next to `cloud-ids.json` first. Builds for the tests leave the
-local file out: `INK_NO_LOCAL_IDS=1` does that, `test:e2e` sets it, and the fake cloud build
-(`INK_CLOUD_FAKE=1`) always does it. So the tests give the same result on every machine.
-`test` makes the release builds, the bench build (`wxt build --mode bench`, with
-`INK_NO_LOCAL_IDS=1`) and the fake cloud build, because its no-network scan checks all of them.
+local file out: `INK_NO_LOCAL_IDS=1` does that, `test` and `test:e2e` set it, and the fake cloud
+build (`INK_CLOUD_FAKE=1`) always does it. So the tests give the same result on every machine.
+`test` makes the four browser builds, the bench build (`wxt build --mode bench`) and the fake
+cloud build, because its no-network scan checks all of them. After `test` the builds in
+`.output` hold no local ids, so run `wxt build` again before you try a sign-in by hand. The
+end-to-end run stops before its first test, and says so, when a build carries the local ids.

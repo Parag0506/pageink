@@ -58,7 +58,8 @@ const browser = (cwd, engine, budgets) => ({
 });
 const EMBED_BUILD = 'vite build && vite build -c vite.iife.config.ts && node scripts/types.mjs';
 const EXT_BUILD =
-  'wxt build && wxt build -b edge && wxt build -b firefox && wxt build -b safari && ' +
+  'INK_NO_LOCAL_IDS=1 wxt build && INK_NO_LOCAL_IDS=1 wxt build -b edge && ' +
+  'INK_NO_LOCAL_IDS=1 wxt build -b firefox && wxt build -b safari && ' +
   'INK_NO_LOCAL_IDS=1 wxt build --mode bench && INK_CLOUD_FAKE=1 wxt build';
 
 const SUITES = {

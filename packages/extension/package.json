@@ -24,7 +24,7 @@
     "icons": "node scripts/icons.mjs",
     "typecheck": "wxt prepare && tsc -p tsconfig.json",
     "lint:firefox": "wxt build -b firefox && npx -y -p node@22 -- node node_modules/web-ext/bin/web-ext.js lint --source-dir .output/firefox-mv3",
-    "test": "wxt build && wxt build -b edge && wxt build -b firefox && wxt build -b safari && INK_NO_LOCAL_IDS=1 wxt build --mode bench && INK_CLOUD_FAKE=1 wxt build && vitest run",
+    "test": "INK_NO_LOCAL_IDS=1 wxt build && INK_NO_LOCAL_IDS=1 wxt build -b edge && INK_NO_LOCAL_IDS=1 wxt build -b firefox && wxt build -b safari && INK_NO_LOCAL_IDS=1 wxt build --mode bench && INK_CLOUD_FAKE=1 wxt build && vitest run",
     "test:unit": "vitest run",
     "build:test": "INK_CLOUD_FAKE=1 wxt build",
     "test:e2e": "INK_NO_LOCAL_IDS=1 wxt build && INK_NO_LOCAL_IDS=1 wxt build --mode bench && INK_CLOUD_FAKE=1 wxt build && playwright test",

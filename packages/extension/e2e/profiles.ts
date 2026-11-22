@@ -3,10 +3,13 @@
  * here and removed when the run ends, whether its tests passed, failed or timed out. A run that
  * was killed before its teardown leaves its folder behind: the next run removes it, once the
  * process that made it is gone.
+ *
+ * It also refuses to start on a build that carries the local client ids (build-check.ts).
  */
 import { mkdtempSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
+import { localIdsMessage } from './build-check';
 
 const PREFIX = 'ink-e2e-run-';
 
@@ -24,6 +27,12 @@ const drop = (dir: string): void =>
   rmSync(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
 
 export default function setup(): () => void {
+  const out = resolve(import.meta.dirname, `../.output/${process.env.INK_TARGET ?? 'chrome'}-mv3`);
+  const said = localIdsMessage(resolve(import.meta.dirname, '../cloud-ids.local.json'), [
+    out,
+    `${out}-bench`,
+  ]);
+  if (said) throw new Error(said);
   const root = tmpdir();
   for (const name of readdirSync(root)) {
     if (!name.startsWith(PREFIX)) continue;
