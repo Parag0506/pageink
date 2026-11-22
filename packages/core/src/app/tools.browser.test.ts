@@ -137,6 +137,10 @@ describe('writing', () => {
     await stroke(line([r.left + 2, r.top + r.height / 2], [r.right - 2, r.top + r.height / 2], 16));
 
     await until(() => rig.notes().length === 1, 'mark');
+    // The eraser removes what is placed. A mark is placed a moment after it is made, and
+    // outside Chromium the whole eraser stroke can pass before that.
+    const mark = rig.notes()[0]!.id;
+    await until(() => !!rig.placed(mark), 'mark placed');
     cmd.setTool('eraser');
     await stroke(line([r.left + 20, r.top - 10], [r.left + 24, r.bottom + 10], 10));
     await until(() => rig.notes().length === 0, 'mark erased');
