@@ -1,5 +1,5 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest';
-import { quiet } from '../testkit';
+import { quiet, until } from '../testkit';
 import type { Capture, CaptureHost, Front, Gesture, StrokeProbe, Tool } from '../types';
 import { createCapture, createProbe } from './index';
 import {
@@ -192,7 +192,15 @@ afterEach(async () => {
   rig.layer.remove();
   document.adoptedStyleSheets = [];
   await settle();
-  window.scrollTo(0, 0);
+  // A page with nothing to scroll: the browser itself puts the scroll offset at 0. After a
+  // finger scrolled the page, scrollTo(0, 0) alone is not enough. Chromium's compositor can
+  // hold a fraction of a pixel that the page never saw, keeps it through scrollTo, and hands
+  // it over later as scrollY 1, in the middle of another test.
+  document.body.innerHTML = '';
+  await until(() => document.documentElement.scrollHeight <= window.innerHeight, 'an empty page');
+  await frame();
+  await frame();
+  expect(window.scrollY).toBe(0);
 });
 
 describe('pen', () => {
