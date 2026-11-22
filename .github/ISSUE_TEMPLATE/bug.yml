@@ -42,7 +42,7 @@ body:
     id: version
     attributes:
       label: Browser version and PageInk version
-      placeholder: Chrome 159, PageInk 0.1.0
+      placeholder: Chrome 159, PageInk 0.1.1
     validations:
       required: true
   - type: input

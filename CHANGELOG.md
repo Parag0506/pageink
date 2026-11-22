@@ -3,9 +3,26 @@
 All notable changes are listed here. Versions follow [Semantic Versioning](https://semver.org).
 The record format has its own version (`v` in each record, see [docs/FORMAT.md](docs/FORMAT.md)).
 
-## 0.1.0 (not released yet)
+## 0.1.1 (2026-11-22)
 
-The first version. It has not been released yet.
+Fixes found while the first version was in review.
+
+- The bar no longer covers the last lines of a page: the page gets room at its end, and the bar stays
+  on screen.
+- The highlighter keeps the words readable in Safari and other WebKit browsers, and blends with a
+  modal dialog or popover under it.
+- Underlines and highlights: a word at an end of the stroke is marked only when most of the stroke is
+  under it.
+- A shape drawn round the words of one table cell is anchored to those words.
+- A note written beside a block is found again from that same block.
+- The first-run guide opens once per install and never over a page in use.
+- The small picture of a note on a blank part of a page is asked for again when the browser refuses
+  the first try.
+- The Safari app's notes list draws highlights and underlines in its small pictures.
+
+## 0.1.0 (2026-11-22)
+
+The first version, in the Chrome Web Store and Microsoft Edge Add-ons.
 
 - Browser extension for Chrome, Edge, Firefox and Safari: write with a pen, or with a mouse or finger
   through the draw toggle (Alt+Shift+D). Pen in two colours, highlighter, eraser, lasso to move, split
