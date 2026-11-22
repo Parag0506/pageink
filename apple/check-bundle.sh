@@ -110,6 +110,10 @@ try {
 
 // The manifest.
 if (m.manifest_version !== 3) fail(`manifest_version is ${m.manifest_version}, expected 3`);
+// The App Store refuses the upload when the description is missing or over 112 characters.
+if (typeof m.description !== 'string' || m.description.length === 0 || m.description.length > 112) {
+  fail(`description must be 1 to 112 characters for the App Store, it has ${String(m.description ?? '').length}`);
+}
 const perms = m.permissions || [];
 if (!perms.includes('nativeMessaging')) fail('nativeMessaging is missing from permissions: this is not the Safari build');
 const safariPerms = new Set([

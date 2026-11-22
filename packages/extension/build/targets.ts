@@ -6,7 +6,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DESCRIPTION, FIREFOX_ID, NAME } from '../src/brand.ts';
+import { DESCRIPTION, DESCRIPTION_SAFARI, FIREFOX_ID, NAME } from '../src/brand.ts';
 import { toolbarIcons } from './icons.ts';
 
 export type Target = 'chrome' | 'edge' | 'firefox' | 'safari';
@@ -196,7 +196,7 @@ export function manifestFor(t: Target): Record<string, unknown> {
   const perms = permissionsFor(t);
   const m: Record<string, unknown> = {
     name: isFake() ? `${NAME} (test build)` : NAME,
-    description: DESCRIPTION,
+    description: t === 'safari' ? DESCRIPTION_SAFARI : DESCRIPTION,
     permissions: perms.permissions,
     ...(perms.optional ? { optional_permissions: perms.optional } : {}),
     host_permissions: ['<all_urls>'],
