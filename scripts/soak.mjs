@@ -258,13 +258,23 @@ const plain = (s) => s.replace(/\u001b\[[0-9;]*[A-Za-z]/g, '');
 const table = new Map();
 const passes = [];
 
-function note(suite, key, loaded, failed, messages = [], notJudged = false) {
+/**
+ * Notes a passing test may carry that must not pass unseen: a time budget that was not judged
+ * because the machine was busy, and a browser that had to be started twice.
+ */
+const NOTES = ['not judged', 'started again'];
+const notesIn = (texts) => NOTES.filter((n) => texts.some((t) => String(t).includes(n)));
+
+function note(suite, key, loaded, failed, messages = [], notes = []) {
   const tests = table.get(suite) ?? new Map();
   table.set(suite, tests);
-  const t = tests.get(key) ?? { runs: 0, unloaded: 0, loaded: 0, messages: new Map(), notJudged: [0, 0] };
+  const t = tests.get(key) ?? { runs: 0, unloaded: 0, loaded: 0, messages: new Map(), notes: {} };
   tests.set(key, t);
   t.runs++;
-  if (notJudged) t.notJudged[loaded ? 1 : 0]++;
+  for (const n of notes) {
+    t.notes[n] ??= [0, 0];
+    t.notes[n][loaded ? 1 : 0]++;
+  }
   if (!failed) return;
   t[loaded ? 'loaded' : 'unloaded']++;
   for (const m of messages.length ? messages : ['(no message)']) {
@@ -283,8 +293,7 @@ function readVitest(suite, file, loaded) {
     const key = `${t.project ? `[${t.project}] ` : ''}${t.file} > ${t.name}`;
     if (t.state !== 'passed') failures++;
     // A test that passed only on a retry failed once. Retries are off, so this guards the flag.
-    const notJudged = (t.notes ?? []).some((n) => n.includes('not judged'));
-    note(suite, key, loaded, t.state !== 'passed' || t.retries > 0, t.messages, notJudged);
+    note(suite, key, loaded, t.state !== 'passed' || t.retries > 0, t.messages, notesIn(t.notes ?? []));
   }
   for (const e of r.errors) {
     const at = e.file ? `${e.project ? `[${e.project}] ` : ''}${e.file}` : 'no file';
@@ -304,10 +313,8 @@ function readPlaywright(suite, file, loaded) {
         for (const res of t.results ?? []) {
           if (res.status === 'skipped') continue;
           const msgs = (res.errors ?? []).map((e) => e.message ?? String(e));
-          const notJudged = [...(t.annotations ?? []), ...(res.annotations ?? [])].some((a) =>
-            String(a.type).includes('not judged'),
-          );
-          note(suite, [...here, spec.title].join(' > '), loaded, res.status !== 'passed', msgs, notJudged);
+          const notes = notesIn([...(t.annotations ?? []), ...(res.annotations ?? [])].map((a) => a.type));
+          note(suite, [...here, spec.title].join(' > '), loaded, res.status !== 'passed', msgs, notes);
         }
       }
     }
@@ -406,22 +413,20 @@ function report() {
       }
     }
   }
-  // A time budget is not judged while other work has the machine. It must not pass for a pass.
-  const unjudged = [];
+  // What passed with a note: it must not pass for a plain pass.
+  const noted = [];
   for (const name of names)
     for (const [key, t] of table.get(name) ?? [])
-      if (t.notJudged[0] + t.notJudged[1])
-        unjudged.push(
-          `| ${name} | ${key.replaceAll('|', '\\|')} | ${t.runs} | ${t.notJudged[0]} | ${t.notJudged[1]} |`,
-        );
-  if (unjudged.length)
+      for (const [n, [calm, busy]] of Object.entries(t.notes))
+        noted.push(`| ${name} | ${key.replaceAll('|', '\\|')} | ${n} | ${t.runs} | ${calm} | ${busy} |`);
+  if (noted.length)
     lines.push(
       '',
-      'Time budgets that passed without being judged, because the machine was busy or changed pace:',
+      'Tests that passed with a note. "not judged": a time budget was not judged, because other work had the machine or it changed pace. "started again": the browser did not start and was started once more.',
       '',
-      '| suite | test | runs | not judged, unloaded | not judged, loaded |',
-      '|---|---|---|---|---|',
-      ...unjudged,
+      '| suite | test | note | runs | unloaded | loaded |',
+      '|---|---|---|---|---|---|',
+      ...noted,
     );
   lines.push('', '| suite | pass | loaded | minutes | load average at the start |', '|---|---|---|---|---|');
   for (const p of passes)

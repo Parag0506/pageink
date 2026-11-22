@@ -3,7 +3,7 @@
  * with the real Chrome build of the extension loaded (.output/chrome-mv3).
  * The layer lives in a closed shadow root, so tests read it through CDP.
  */
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { createServer, type Server, type ServerResponse } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { availableParallelism, cpus, tmpdir } from 'node:os';
@@ -13,6 +13,7 @@ import {
   test as base,
   type CDPSession,
   chromium,
+  errors,
   type Frame,
   type Page,
   type Worker,
@@ -143,6 +144,40 @@ async function guideOpened(ctx: BrowserContext): Promise<void> {
   }
 }
 
+/** The bound for starting a browser and closing it: what Playwright itself allows a launch. */
+const LAUNCH_MS = 180_000;
+/**
+ * A browser that has not started in this long never will. On a busy machine one start in
+ * about four hundred hung: over two minutes with no browser, where a start takes seconds.
+ */
+const START_MS = 60_000;
+
+/**
+ * Start Chromium on a profile. A start that hangs is given up and made once more, on the
+ * profile as it was. That is a fault of the browser's start on a loaded machine, before any
+ * page or extension code of a test runs, so it does not fail the test. It is never silent: the
+ * test carries a note with what Playwright saw, and the soak lists every test that has one.
+ */
+async function start(
+  profile: string,
+  unused: boolean,
+  options: Parameters<typeof chromium.launchPersistentContext>[1],
+): Promise<BrowserContext> {
+  try {
+    return await chromium.launchPersistentContext(profile, { ...options, timeout: START_MS });
+  } catch (e) {
+    if (!(e instanceof errors.TimeoutError)) throw e;
+    const said = String(e.message).slice(0, 1500);
+    console.warn(`the browser did not start in ${START_MS / 1000} s and is started again: ${said}`);
+    base.info().annotations.push({ type: 'browser started again', description: said });
+    if (unused) {
+      rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+      mkdirSync(profile, { recursive: true });
+    }
+    return chromium.launchPersistentContext(profile, { ...options, timeout: START_MS });
+  }
+}
+
 /**
  * Chromium with the extension loaded, in a fresh profile unless one is given. A fresh profile
  * is removed when the context closes. A given one is the caller's to remove. On a profile that
@@ -163,7 +198,7 @@ export async function launch(given?: string, more: string[] = [], dir = extDir):
   const unused = readdirSync(profile).length === 0;
   let ctx: BrowserContext;
   try {
-    ctx = await chromium.launchPersistentContext(profile, {
+    ctx = await start(profile, unused, {
       channel: 'chromium',
       headless: true,
       viewport: { width: 1000, height: 800 },
@@ -248,16 +283,21 @@ export const test = base.extend<Fixtures, { origin: { a: string; b: string } }>(
     { scope: 'worker' },
   ],
   build: ['release', { option: true }],
-  context: async ({ build }, use) => {
-    const profile = newProfile();
-    const context = await launch(profile, [], build === 'bench' ? benchDir : extDir);
-    try {
-      await use(context);
-      await context.close();
-    } finally {
-      dropProfile(profile);
-    }
-  },
+  context: [
+    async ({ build }, use) => {
+      const profile = newProfile();
+      const context = await launch(profile, [], build === 'bench' ? benchDir : extDir);
+      try {
+        await use(context);
+        await context.close();
+      } finally {
+        dropProfile(profile);
+      }
+    },
+    // Starting a browser is not part of the test, so it has a bound of its own, the one
+    // Playwright gives a launch, and its time is not taken from the test's.
+    { scope: 'test', timeout: LAUNCH_MS },
+  ],
   sw: async ({ context }, use) => {
     await use(await workerOf(context));
   },
