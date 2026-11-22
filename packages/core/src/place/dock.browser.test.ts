@@ -5,7 +5,7 @@ import { page, userEvent } from 'vitest/browser';
 import { isChromium, mouseInput, STEP_MS, touchEmulation, touchGesture } from '../capture/testkit';
 import type { InkLayer } from '../render/layer';
 import { createLayer } from '../render/layer';
-import { budget } from '../testkit';
+import { withinBudget } from '../testkit';
 import type { Note, Placed, Placer, Rect } from '../types';
 import { createPlacer } from './placer';
 import { blob, type FakeResolver, fakeResolver, frame, inkNote, margin, quiet } from './testkit';
@@ -53,6 +53,8 @@ interface Rig {
   layer: InkLayer;
   resolver: FakeResolver;
   timings: { name: string; ms: number }[];
+  /** Destroys the placer and its layer. The test's clean-up does it too. */
+  destroy(): void;
 }
 
 function rig(): Rig {
@@ -65,11 +67,15 @@ function rig(): Rig {
     layer,
     onTiming: (name, ms) => timings.push({ name, ms }),
   });
-  cleanups.push(() => {
+  let gone = false;
+  const destroy = (): void => {
+    if (gone) return;
+    gone = true;
     placer.destroy();
     layer.destroy();
-  });
-  return { placer, layer, resolver, timings };
+  };
+  cleanups.push(destroy);
+  return { placer, layer, resolver, timings, destroy };
 }
 
 const until = (cond: () => boolean, timeout = 15_000): Promise<void> =>
@@ -491,35 +497,36 @@ describe('stability', () => {
 describe('cost', () => {
   // The Long Tasks API exists only in Chromium, so WebKit and Firefox cannot measure this.
   const longTasks = PerformanceObserver.supportedEntryTypes?.includes('longtask') ?? false;
-  // A budget test: the limit grows with work measured in the same run (testkit.budget).
+  // A budget test, judged by the rule in budget-rule.ts.
   test.runIf(longTasks)('budget: 200 margin notes on a phone layout, no long task over 50 ms', async () => {
     await viewport(390);
     const ps = phoneArticle(200);
     const notes = ps.map((_, i) => margin(`p${i}`, i % 2 ? 'left' : 'right', i % 3 ? 'yes' : 'star'));
     window.scrollTo(0, 4000);
-    // Before the observer starts: the calibration is one long task itself.
-    const limit = budget(50);
-    // Its long task ends before the observer starts.
-    await frame();
-    const long: number[] = [];
-    const po = new PerformanceObserver((list) => {
-      for (const e of list.getEntries()) long.push(e.duration);
+    let r: Rig | null = null;
+    await withinBudget({ pass: 50, 'long task': 50 }, async () => {
+      r?.destroy();
+      await quiet();
+      const long: number[] = [];
+      const po = new PerformanceObserver((list) => {
+        for (const e of list.getEntries()) long.push(e.duration);
+      });
+      po.observe({ type: 'longtask', buffered: false });
+      try {
+        await frame();
+        const now = rig();
+        r = now;
+        now.placer.setNotes(notes);
+        await until(() => now.timings.some((t) => t.name === 'place.all'));
+        await quiet();
+        const passes = now.timings.filter((t) => t.name === 'place.pass').map((t) => t.ms);
+        expect(passes.length).toBeGreaterThan(0);
+        return { pass: Math.max(0, ...passes), 'long task': Math.max(0, ...long) };
+      } finally {
+        po.disconnect();
+      }
     });
-    po.observe({ type: 'longtask', buffered: false });
-    cleanups.push(() => po.disconnect());
-    await frame();
-    const r = rig();
-    r.placer.setNotes(notes);
-    await until(() => r.timings.some((t) => t.name === 'place.all'));
-    await quiet();
-    const passes = r.timings.filter((t) => t.name === 'place.pass').map((t) => t.ms);
-    const reads = r.timings.filter((t) => t.name === 'place.read').map((t) => Math.round(t.ms * 10) / 10);
-    console.log(
-      `TIMING 200 margin notes at 390 px ${JSON.stringify({ reads, passes: passes.length, maxPass: Math.round(Math.max(...passes) * 10) / 10, longTasks: long.map(Math.round) })}`,
-    );
-    expect(r.layer.drawn().length).toBe(200);
-    expect(Math.max(...passes)).toBeLessThan(limit);
-    expect(long.filter((d) => d > limit)).toEqual([]);
-    expectClear(r.placer.all(), textLines());
+    expect(r!.layer.drawn().length).toBe(200);
+    expectClear(r!.placer.all(), textLines());
   });
 });

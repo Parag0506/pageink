@@ -7,7 +7,7 @@ import { memoryKV } from '../store/memory';
 import { emptyRecord, erasePatch } from '../store/patch';
 import { createStore } from '../store/store';
 import { makeStroke } from '../strokes/stroke';
-import { budget, quiet } from '../testkit';
+import { quiet, withinBudget } from '../testkit';
 import type { KV, Note, PageRecord } from '../types';
 import {
   articleHtml,
@@ -162,7 +162,7 @@ describe('quiet pages', () => {
     expect(cfg.device).toBe(rig.v!.config.device);
   });
 
-  // A budget test: the median of a batch, against a limit scaled by work measured in the same run.
+  // A budget test: the median of a batch of loads, judged by the rule in budget-rule.ts.
   test('budget: first ink is on screen within 50 ms on a page with 50 notes', async () => {
     const paras: string[] = [];
     for (let i = 0; i < 50; i++) paras.push(`<p id="q${i}">Note ${i} sits on ${filler(i + 3, 18)}.</p>`);
@@ -172,27 +172,24 @@ describe('quiet pages', () => {
     const notes = paras.map((_, i) => noteAt(toDocRect(textRect(el(`q${i}`), `Note ${i} sits`))));
     window.scrollTo(0, 0);
     const kv = await seed(notes);
-    const runs: number[] = [];
     let last: Awaited<ReturnType<typeof openViewer>> | null = null;
-    for (let i = 0; i < 5; i++) {
-      last?.viewer.destroy();
-      const timings: Record<string, number> = {};
-      const rig = await openViewer(kv, {
-        hooks: { onTiming: (n, ms) => Object.assign(timings, { [n]: ms }) },
-      });
-      await rig.viewer.ready;
-      await until(() => timings['view.first-ink'] !== undefined, 'first ink timing');
-      await until(() => timings['view.placed'] !== undefined, 'placed timing');
-      runs.push(timings['view.first-ink']!);
-      last = rig;
-    }
-    runs.sort((a, b) => a - b);
-    const ms = runs[2]!;
-    const limit = budget(50);
-    console.info(
-      `first ink: median ${ms.toFixed(1)} ms of ${runs.map((r) => r.toFixed(1)).join(', ')}, limit ${limit.toFixed(0)}`,
-    );
-    expect(ms).toBeLessThan(limit);
+    await withinBudget({ 'first ink': 50 }, async () => {
+      const runs: number[] = [];
+      for (let i = 0; i < 5; i++) {
+        last?.viewer.destroy();
+        const timings: Record<string, number> = {};
+        const rig = await openViewer(kv, {
+          hooks: { onTiming: (n, ms) => Object.assign(timings, { [n]: ms }) },
+        });
+        await rig.viewer.ready;
+        await until(() => timings['view.first-ink'] !== undefined, 'first ink timing');
+        await until(() => timings['view.placed'] !== undefined, 'placed timing');
+        runs.push(timings['view.first-ink']!);
+        last = rig;
+      }
+      runs.sort((a, b) => a - b);
+      return { 'first ink': runs[2]! };
+    });
     await last!.cmd();
     expect(last!.v!.placer.all()).toHaveLength(50);
   });

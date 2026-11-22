@@ -2,7 +2,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vi
 import { page } from 'vitest/browser';
 import type { InkLayer } from '../render/layer';
 import { createLayer } from '../render/layer';
-import { budget } from '../testkit';
+import { until, withinBudget } from '../testkit';
 import type { Note, Placed, Placer, PlacerHost } from '../types';
 import { createPlacer } from './placer';
 import {
@@ -56,6 +56,8 @@ interface Rig {
   log: string[];
   timings: { name: string; ms: number }[];
   changes: { placed: Placed[]; unplaced: Note[] }[];
+  /** Destroys the placer and its layer. The test's clean-up does it too. */
+  destroy(): void;
 }
 
 function rig(opts: { spyLayer?: boolean; log?: string[]; now?: () => number } = {}): Rig {
@@ -77,11 +79,15 @@ function rig(opts: { spyLayer?: boolean; log?: string[]; now?: () => number } = 
   };
   if (opts.now) host.now = opts.now;
   const placer = createPlacer(host);
-  cleanups.push(() => {
+  let gone = false;
+  const destroy = (): void => {
+    if (gone) return;
+    gone = true;
     placer.destroy();
     real.destroy();
-  });
-  return { placer, layer, resolver, log, timings, changes };
+  };
+  cleanups.push(destroy);
+  return { placer, layer, resolver, log, timings, changes, destroy };
 }
 
 const settle = async (r: Rig, cond: () => boolean = () => true, timeout = 15_000): Promise<void> => {
@@ -811,7 +817,7 @@ describe('docking', () => {
 describe('cost', () => {
   // The Long Tasks API exists only in Chromium, so WebKit and Firefox cannot measure this.
   const longTasks = PerformanceObserver.supportedEntryTypes?.includes('longtask') ?? false;
-  // A budget test: the limit grows with a workload measured in the same run (testkit.budget).
+  // A budget test, judged by the rule in budget-rule.ts.
   test.runIf(longTasks)(
     'budget: 200 notes, no long task over 50 ms, and timing marks are reported',
     async () => {
@@ -830,58 +836,57 @@ describe('cost', () => {
         );
       }
       window.scrollTo(0, 3000);
-      // Measured before the long task observer starts: the calibration is one long task itself.
-      const limit = budget(50);
-      // Its long task ends before the observer starts.
-      await frame();
-      const long: number[] = [];
-      const po = new PerformanceObserver((list) => {
-        for (const e of list.getEntries()) long.push(e.duration);
-      });
-      po.observe({ type: 'longtask', buffered: false });
-      cleanups.push(() => po.disconnect());
-      // Prove the observer sees long tasks in this frame before trusting an empty list.
-      await new Promise<void>((done) =>
-        setTimeout(() => {
-          const t = performance.now();
-          while (performance.now() - t < 70) {}
-          done();
-        }, 0),
-      );
-      await vi.waitFor(() => expect(long.some((d) => d >= 60)).toBe(true), { timeout: 2000 });
-      long.length = 0;
-      await frame();
-      const r = rig();
-      r.placer.setNotes(notes);
-      await settle(r, () => r.timings.some((t) => t.name === 'place.all'));
-      await quiet();
-      const passes = r.timings.filter((t) => t.name === 'place.pass').map((t) => t.ms);
-      const first = r.timings.find((t) => t.name === 'place.first')!.ms;
-      const all = r.timings.find((t) => t.name === 'place.all')!.ms;
-      const report = {
-        first: Math.round(first * 10) / 10,
-        all: Math.round(all * 10) / 10,
-        passes: passes.length,
-        maxPass: Math.round(Math.max(...passes) * 10) / 10,
-        longTasks: long.map((d) => Math.round(d)),
-      };
-      console.log(`TIMING 200 notes ${JSON.stringify(report)}`);
-      expect(r.layer.drawn().length).toBe(200);
-      expect(Math.max(...passes)).toBeLessThan(limit);
-      expect(long.filter((d) => d > limit)).toEqual([]);
+      const width = stage.style.width;
+      let r: Rig | null = null;
+      const max = (xs: number[]): number => Math.max(0, ...xs);
+      await withinBudget(
+        { pass: 50, 'long task': 50, 'pass after a resize': 50, 'long task after a resize': 50 },
+        async () => {
+          r?.destroy();
+          stage.style.width = width;
+          await quiet();
+          const long: number[] = [];
+          const po = new PerformanceObserver((list) => {
+            for (const e of list.getEntries()) long.push(e.duration);
+          });
+          po.observe({ type: 'longtask', buffered: false });
+          try {
+            // Prove the observer sees long tasks in this frame before trusting an empty list.
+            await new Promise<void>((done) =>
+              setTimeout(() => {
+                const t = performance.now();
+                while (performance.now() - t < 70) {}
+                done();
+              }, 0),
+            );
+            await until(() => long.some((d) => d >= 60), 'the probe task seen');
+            long.length = 0;
+            await frame();
+            const now = rig();
+            r = now;
+            now.placer.setNotes(notes);
+            await settle(now, () => now.timings.some((t) => t.name === 'place.all'));
+            await quiet();
+            const passes = now.timings.filter((t) => t.name === 'place.pass').map((t) => t.ms);
+            const first = { pass: max(passes), 'long task': max(long) };
+            // The timing marks are reported.
+            expect(passes.length).toBeGreaterThan(0);
+            expect(now.timings.some((t) => t.name === 'place.first')).toBe(true);
+            expect(now.layer.drawn().length).toBe(200);
 
-      // A resize that moves every note stays chunked too.
-      long.length = 0;
-      r.timings.length = 0;
-      stage.style.width = '80%';
-      await settle(r, () => r.timings.some((t) => t.name === 'place.pass'));
-      await quiet();
-      const rp = r.timings.filter((t) => t.name === 'place.pass').map((t) => t.ms);
-      console.log(
-        `TIMING 200 notes resize ${JSON.stringify({ passes: rp.length, maxPass: Math.round(Math.max(...rp) * 10) / 10, longTasks: long.map(Math.round) })}`,
+            // A resize that moves every note stays chunked too.
+            long.length = 0;
+            now.timings.length = 0;
+            stage.style.width = '80%';
+            await settle(now, () => now.timings.some((t) => t.name === 'place.pass'));
+            await quiet();
+            const again = now.timings.filter((t) => t.name === 'place.pass').map((t) => t.ms);
+            return { ...first, 'pass after a resize': max(again), 'long task after a resize': max(long) };
+          } finally {
+            po.disconnect();
+          }
+        },
       );
-      expect(Math.max(...rp)).toBeLessThan(limit);
-      expect(long.filter((d) => d > limit)).toEqual([]);
     },
   );
 

@@ -70,9 +70,18 @@ The README has the full list of commands.
   `packages/extension/e2e/`.
 - Every public function has a test. Every mechanism in DESIGN that a folder owns has a test that would fail
   if the mechanism were removed.
-- A test that measures time takes its limit from `budget()` in `packages/core/src/testkit.ts` and has
-  `budget: ` in its name. The library test script runs those tests on their own after the others, one
-  file at a time, so no other test shares the machine while they measure.
+- A test that measures time hands the measure to `withinBudget()` in `packages/core/src/testkit.ts` and
+  has `budget: ` in its name. The library test script runs those tests on their own after the others,
+  one file at a time, so no other test shares the machine while they measure. The rule is in
+  `packages/core/src/budget-rule.ts`: a limit grows with work timed right before and after the measure, a
+  measure taken while the machine changed pace is not judged, and a measure over its limit is taken again,
+  up to three times. Slower code fails every time. Other work on the machine does not fail the test.
+- A test never waits a fixed time for something to happen and never compares two readings of the clock
+  outside `withinBudget()`. It waits on the condition (`until`, `quiet`, `expect.poll`), counts, or uses a
+  clock it moves by hand. Pen, mouse and touch input in tests carries its own event times (the input
+  clock in `packages/core/src/capture/testkit.ts` and `packages/extension/e2e/fixtures.ts`).
+- `node scripts/soak.mjs` runs a suite many times, part of the runs under CPU load, and lists every test
+  that failed at least once. Run it on a new or changed test that waits, times or draws.
 - A test that depends on layout must not depend on the font. Fonts differ between macOS, Linux and
   Windows, so measure the text in the test and derive sizes from it.
 - A change to anchoring must not lower the test set result. Run

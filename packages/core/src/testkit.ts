@@ -6,6 +6,7 @@
 
 import { beforeAll, expect } from 'vitest';
 import { commands } from 'vitest/browser';
+import { judge, TRIES, type Try } from './budget-rule';
 
 /** Timers up to this long count as pending work. Longer ones are timeouts a test waits on itself. */
 export const SHORT_TIMER_MS = 300;
@@ -193,7 +194,7 @@ export function manualClock(start = 1000): { now: () => number; advance(ms: numb
 
 /**
  * Median time of a fixed piece of script and layout work, in ms, measured now. Budget tests
- * compare against it, so a machine that is slow or busy for the whole run does not fail them,
+ * are judged against it (withinBudget below), so a slow or busy machine does not fail them,
  * while code that got slower still does.
  */
 export function calibrate(runs = 7): number {
@@ -233,17 +234,41 @@ const engine = (): keyof typeof CALIBRATE_REF_MS => {
 export const BUDGET_TEST = 'budget: ';
 
 /**
- * A time limit for a budget test: `ms` on a quiet machine, scaled up by how much slower the
- * calibration work ran in this same run. Never below `ms`. Only a test named "budget: ..." may
- * call it, so it is never measured while other test files run beside it.
+ * Judge times measured with the wall clock against budgets: `budgets` are the limits by name,
+ * in ms on a quiet laptop, and `measure` runs the work from scratch and returns the times
+ * under the same names. The rule is in budget-rule.ts: the calibration work is timed right
+ * before and right after each measure, a limit grows with how much slower than a laptop it
+ * ran, a measure taken while the machine changed pace is not judged, and the measure is taken
+ * up to three times. Code that got slower fails. Other work on the machine does not.
+ *
+ * `measure` gets the scale of its limits (1 on a quiet laptop), for waits that grow with the
+ * machine. It must start from scratch each time it is called. Only a test named "budget: ..."
+ * may call this, so nothing is measured while other test files run beside it.
  */
-export function budget(ms: number): number {
+export async function withinBudget<K extends string>(
+  budgets: Record<K, number>,
+  measure: (scale: number) => Promise<Record<K, number>> | Record<K, number>,
+): Promise<void> {
   const name = expect.getState().currentTestName ?? '';
   if (!name.includes(BUDGET_TEST)) {
-    throw new Error(`budget() is for tests named "${BUDGET_TEST}...", which run alone: ${name}`);
+    throw new Error(`withinBudget() is for tests named "${BUDGET_TEST}...", which run alone: ${name}`);
   }
-  const scale = Math.max(1, calibrate() / CALIBRATE_REF_MS[engine()]);
-  return ms * scale;
+  const ref = CALIBRATE_REF_MS[engine()];
+  const tries: Try[] = [];
+  let verdict = judge(tries, budgets, ref);
+  for (let i = 0; i < TRIES && verdict.verdict !== 'pass'; i++) {
+    const before = calibrate(5);
+    // The calibration is a long task of its own. It is over before the measure starts.
+    await frame();
+    const values = await measure(Math.max(1, before / ref));
+    tries.push({ values, before, after: calibrate(5) });
+    verdict = judge(tries, budgets, ref);
+  }
+  const line = `${name.slice(name.indexOf(BUDGET_TEST))}: ${verdict.note}`;
+  if (verdict.verdict === 'fail') throw new Error(line);
+  // A budget that was not judged must not look like one that was kept.
+  if (verdict.verdict === 'not judged') console.warn(line);
+  else console.info(line);
 }
 
 if (typeof window !== 'undefined') {

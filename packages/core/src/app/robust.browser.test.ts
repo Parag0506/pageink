@@ -9,7 +9,7 @@ import { memoryKV } from '../store/memory';
 import { emptyRecord } from '../store/patch';
 import { createStore } from '../store/store';
 import { makeStroke } from '../strokes/stroke';
-import { budget, frame, quiet } from '../testkit';
+import { frame, quiet, withinBudget } from '../testkit';
 import type { InkWarning, KV, Note, PageRecord } from '../types';
 import {
   articleHtml,
@@ -250,62 +250,62 @@ describe('big pages', () => {
     const kv = memoryKV();
     const id = pageIdentity(location.href, document);
     await createStore(kv).save({ ...emptyRecord(id, 't'), notes, updatedAt: 1 }, id);
-    // Before the measures start: the calibration is one long task itself.
-    const limit = budget(50);
-    await quiet();
-
-    const long: number[] = [];
     const longTasks = PerformanceObserver.supportedEntryTypes?.includes('longtask') ?? false;
-    const po = new PerformanceObserver((l) => {
-      for (const e of l.getEntries()) long.push(e.duration);
-    });
-    if (longTasks) po.observe({ type: 'longtask', buffered: false });
-    // Frame gaps, read with frames the test kit does not count, so quiet() still ends.
-    const gaps: number[] = [];
-    let watching = true;
-    const watch = (async () => {
-      let last = performance.now();
-      while (watching) {
+    let rig: Awaited<ReturnType<typeof openViewer>> | null = null;
+    // A frame gap holds one frame of the browser's own work besides ours, so it gets twice the time.
+    await withinBudget({ 'long task': 50, 'frame gap': 100 }, async (scale) => {
+      rig?.viewer.destroy();
+      const limit = 50 * scale;
+      await quiet();
+      const long: number[] = [];
+      const po = new PerformanceObserver((l) => {
+        for (const e of l.getEntries()) long.push(e.duration);
+      });
+      if (longTasks) po.observe({ type: 'longtask', buffered: false });
+      // Frame gaps, read with frames the test kit does not count, so quiet() still ends.
+      const gaps: number[] = [];
+      let watching = true;
+      const watch = (async () => {
+        let last = performance.now();
+        while (watching) {
+          await frame();
+          const t = performance.now();
+          gaps.push(t - last);
+          last = t;
+        }
+      })();
+      try {
+        // Prove both measures see a task as long as the limit before trusting them.
         await frame();
-        const t = performance.now();
-        gaps.push(t - last);
-        last = t;
-      }
-    })();
-    // Prove both measures see a task as long as the limit before trusting them.
-    await frame();
-    const t1 = performance.now();
-    while (performance.now() - t1 < limit + 20) {}
-    await frame();
-    await frame();
-    expect(Math.max(...gaps)).toBeGreaterThan(limit);
-    if (longTasks) await until(() => long.some((d) => d > limit), 'the probe task seen');
-    gaps.length = 0;
-    long.length = 0;
+        const t1 = performance.now();
+        while (performance.now() - t1 < limit + 20) {}
+        await frame();
+        await frame();
+        expect(Math.max(...gaps)).toBeGreaterThan(limit);
+        if (longTasks) await until(() => long.some((d) => d > limit), 'the probe task seen');
+        gaps.length = 0;
+        long.length = 0;
 
-    let placedAll = -1;
-    const t0 = performance.now();
-    const rig = await openViewer(kv, {
-      hooks: {
-        onTiming: (name) => {
-          if (name === 'view.placed') placedAll = performance.now() - t0;
-        },
-      },
+        let placedAll = -1;
+        const t0 = performance.now();
+        rig = await openViewer(kv, {
+          hooks: {
+            onTiming: (name) => {
+              if (name === 'view.placed') placedAll = performance.now() - t0;
+            },
+          },
+        });
+        await rig.viewer.ready;
+        // Placing all of them takes many idle slices: the bound grows with the machine's slowdown.
+        await until(() => placedAll >= 0, 'all placed', 30_000 * scale);
+        await quiet();
+      } finally {
+        watching = false;
+        await watch;
+        po.disconnect();
+      }
+      return { 'long task': Math.max(0, ...long), 'frame gap': Math.max(...gaps) };
     });
-    await rig.viewer.ready;
-    // Placing all of them takes many idle slices: the bound grows with the machine's slowdown.
-    await until(() => placedAll >= 0, 'all placed', 30_000 * (limit / 50));
-    await quiet();
-    watching = false;
-    await watch;
-    po.disconnect();
-    const worst = Math.max(...gaps);
-    console.info(
-      `1,000 notes on 100,000 px: all placed in ${placedAll.toFixed(0)} ms, longest frame gap ${worst.toFixed(0)} ms against a limit of ${limit.toFixed(0)} ms, long tasks ${long.map((d) => d.toFixed(0)).join(', ') || 'none'}`,
-    );
-    expect(rig.viewer.state().notes).toBe(1000);
-    expect(long.filter((d) => d > limit)).toEqual([]);
-    // A gap holds one frame of the browser's own work besides ours.
-    expect(worst).toBeLessThan(limit + 50);
+    expect(rig!.viewer.state().notes).toBe(1000);
   }, 300_000);
 });
