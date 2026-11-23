@@ -465,6 +465,33 @@ How it is kept that way:
 - On the Mac the sandbox has `network.client` (outgoing only), which a sandboxed app needs to
   reach a cloud at all. The iPad needs nothing for it.
 
+### A film of first use
+
+App Review asks a new app for a screen recording on a real device. `device/walk.sh` makes
+one without a hand on the iPad:
+
+```
+apple/device/walk.sh        # on the paired iPad
+apple/device/walk.sh sim    # on a new iPad simulator, to try it first
+```
+
+It builds and installs the app, then runs the UI test `SimTests/J_WalkThrough` with the screen
+recorded: open the app, turn the extension on in Settings and set All Websites to Allow, write
+on a web page in Safari with one finger and Draw on, reload, and find the page in the app's
+Notes. The film is `apple/build/walk/<date and time>/walk.mp4`. XCTest has no pen, so the
+strokes are a finger's.
+
+- The film shows whatever is on the iPad's screen, the list of apps in Settings included.
+  Watch it before you share it.
+- `INK_WALK_RESET=1` turns the extension off first, for a second take. It also turns off any
+  other copy of the extension on the iPad, such as the one a device check installed under
+  another bundle id. Two copies both write on a page, and each keeps its notes for its own app.
+- `INK_WALK_EXTENSION=<folder>` films a build of the extension made elsewhere, such as the one
+  of a release that is in review.
+- If the Mac lists the iPad as unavailable although it is unlocked and on the cable, look for
+  a VPN on the Mac. One that takes local traffic stops the connection Xcode needs. Disconnect
+  it for the run.
+
 ## (g) Google Drive and OneDrive
 
 Under **Sync** the app offers the same three choices as the extension: Google Drive, OneDrive,
