@@ -137,7 +137,18 @@ the rest follow in idle time. Notes near the screen are placed first, judged by 
 their path points at.
 
 **Docking.** A margin note stays where it was written while that spot is inside the page and on no
-content. When it is not, it docks into free space near its block, in this order: the same side, when
+content. Two rules say when it is on content. The first: in the layout the note was written in, it
+never is. The reader put it there, on whatever was there. The layout is the one it was written in
+when the anchor block has the width and height stored with the note, its text has the stored size, and
+the window has the stored width (`asWritten` in `place/geom.ts`). The second, for every other layout:
+the ink is measured, not the box around it. The box of handwriting is mostly empty, so a word with a
+long tail has a box that reaches the next button or the next line while no ink is on it. The placer
+walks along the strokes and takes the share of their length that lies on a text line, image or control
+(`inkOn`). Up to a fifth, the note stays: a tail or a loop may cross a line. Over a fifth, the note
+would lie on the content, and it docks. A note that would reach past a side of the page docks in any
+layout.
+
+When it has to leave, it docks into free space near its block, in this order: the same side, when
 the gutter beside the text is wide enough for at least three quarters of the ink's size; the other
 side; the gap above the block; the gap below it; the nearest gap between blocks further away, within
 about a screen; then either side down to half size. Free means no line of text, image, control or

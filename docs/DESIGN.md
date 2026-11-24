@@ -149,7 +149,12 @@ For each note, in order, stopping at the first that passes a quote check:
 Then place the note: anchor box now, plus the stored offset, times the scale factor. If a margin note would
 fall off the page or over content, dock it into free space: the same side, the other side, the gap above
 its block, the gap below, then the nearest gap within about a screen. Free means no text line, image,
-control or other ink under it, read from the line boxes near the anchor. Scale it to fit, never below
+control or other ink under it, read from the line boxes near the anchor. A note is over content when
+more than a fifth of its ink, measured along the strokes, lies on a text line, image or control. The
+box around the ink does not decide it: the box of handwriting is mostly empty, and a long tail makes
+it reach a button the ink never touches. In the layout a note was written in, it is where the reader
+put it, on whatever the reader put it, and it leaves only when it would fall off the page. Scale a
+docked note to fit, never below
 half size, and draw a thin leader to the nearest edge of its line, round the text, left out when the note
 sits by its line. With no free space, fold it into a small marker beside its line that shows the note on
 hover, tap or key, and unfold it when there is room again. A docked note holds its place on small layout
