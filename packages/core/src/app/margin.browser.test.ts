@@ -19,6 +19,7 @@ import {
   settle,
   stroke,
   textRect,
+  toDocRect,
   until,
   wait,
 } from './testkit';
@@ -382,5 +383,255 @@ describe('a note beside a formula centred in its column', () => {
       const want = boxOfPoints([strokes[i]!]);
       expect(drawnAt(rig, n.id, want), `stroke ${i} ${JSON.stringify([drawn(rig, n.id), want])}`).toBe(true);
     });
+  });
+});
+
+/**
+ * The top of an article: a search row, the title with a button at the far end of its row, two
+ * groups of tabs, one line of words under them, and a notice. The space right of the title is
+ * free, and the lines under it are close.
+ */
+const TITLE = `
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #fff; color: #202122; font: 16px/1.6 Arial, Helvetica, sans-serif; }
+    .top { height: 64px; padding: 16px 24px; }
+    main { display: block; margin: 0 44px 60px 200px; }
+    .bar { display: flex; align-items: center; border-bottom: 1px solid #a2a9b1; }
+    h1 { flex: 1; margin: 0; font: 400 29px/1.375 Georgia, serif; }
+    #lang button { font: 700 14px/1.4 Arial, Helvetica, sans-serif; padding: 5px 12px; border: 0; background: none; color: #36c; }
+    .tabs { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #a2a9b1; font-size: 14px; }
+    #sub { margin: 8px 0 28px; font-size: 14px; white-space: nowrap; overflow: hidden; }
+    .notice { padding: 24px 28px; border-radius: 12px; background: #f1d9c9; font-weight: 700; }
+    p { margin: 0 0 14px; }
+    #clock { position: fixed; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden; font: 1px/1px monospace; color: transparent; pointer-events: none; }
+  </style>
+  <div class="top"><input type="search" aria-label="Search" style="width:420px;height:32px"></div>
+  <main>
+    <header class="bar"><h1 id="firstHeading">India</h1><div id="lang"><button type="button">311 languages</button></div></header>
+    <div class="tabs"><nav><a href="#a">Article</a> <a href="#t">Talk</a></nav><nav><a href="#r">Read</a> <a href="#h">View history</a></nav></div>
+    <div id="sub">From the free encyclopedia. ${filler(5, 60)}.</div>
+    <div class="notice"><p>The internet is changing. ${filler(6, 30)}.</p><button type="button">Donate now</button></div>
+    <p>${filler(7, 80)}.</p>
+  </main>
+  <div id="clock">0</div>`;
+
+/** One stroke through client points, with points every few px between them. */
+const through = (...at: [number, number][]): Pts =>
+  at.flatMap((p, i) => (i ? line(at[i - 1]!, p, 8).slice(1) : [p]));
+
+const meets = (a: Rect, b: Rect): boolean =>
+  a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+
+describe('a word written in the free space right of a page title', () => {
+  let clock = 0;
+  /** A live page changes all the time. Every change places the notes again from their anchors. */
+  const pageChanges = async (times: number): Promise<void> => {
+    const el = document.getElementById('clock')!;
+    let n = Number(el.textContent);
+    const want = n + times;
+    clock = window.setInterval(() => {
+      el.textContent = String(++n);
+    }, 150);
+    await until(() => Number(el.textContent) >= want, `${times} changes of the page`);
+    window.clearInterval(clock);
+    await settle();
+  };
+  afterEach(async () => {
+    window.clearInterval(clock);
+    await page.viewport(1280, 800);
+  });
+
+  /** The markers of folded notes on the layer. */
+  const markers = (rig: Rig): number => rig.v!.layer.root.querySelectorAll('button.dk').length;
+
+  /** Client boxes the strokes are measured from: the title row, the button, the line under the tabs. */
+  const measure = () => {
+    const row = document.querySelector('.bar')!.getBoundingClientRect();
+    const btn = document.querySelector('#lang button')!.getBoundingClientRect();
+    const range = document.createRange();
+    range.selectNodeContents(document.getElementById('sub')!);
+    return { row, btn, sub: range.getBoundingClientRect() };
+  };
+
+  /**
+   * "Hey" in a running hand, right of the title: three strokes, and the tail of the y comes down
+   * through the tabs row and the line of words under it, as a hand does.
+   */
+  const heyWithTail = (): Pts[] => {
+    const { row, sub } = measure();
+    const x = Math.round(row.left + row.width * 0.4);
+    const t = row.top;
+    const b = row.bottom;
+    return [
+      through(
+        [x, t - 10],
+        [x - 4, b - 4],
+        [x + 26, b - 6],
+        [x + 22, t - 6],
+        [x + 30, t + 18],
+        [x + 44, t + 22],
+      ),
+      through([x + 50, t + 22], [x + 68, t + 14], [x + 56, t + 10], [x + 52, b - 8], [x + 72, b - 6]),
+      through(
+        [x + 78, t + 4],
+        [x + 92, b - 8],
+        [x + 118, t + 2],
+        [x + 74, sub.bottom + 6],
+        [x + 108, sub.bottom + 12],
+        [x + 124, sub.bottom + 2],
+        [x + 100, b + 6],
+      ),
+    ];
+  };
+
+  /**
+   * "Hey" higher up, left of the button, with a long stroke that ends above the button. No ink
+   * is on the button, but the box around the ink reaches over it.
+   */
+  const heyByButton = (): Pts[] => {
+    const { row, btn } = measure();
+    const x = Math.round(btn.left - 150);
+    const t = row.top;
+    const b = row.bottom;
+    return [
+      through([x, t - 40], [x + 4, b - 6], [x + 10, t - 10], [x + 34, t + 6]),
+      through([x + 40, t], [x + 56, t - 10], [x + 44, t + 8], [x + 70, t + 4], [x + 90, b - 6]),
+      through([x + 80, t - 30], [btn.left + 60, t - 46]),
+    ];
+  };
+
+  /** Write strokes as one note: each close to the last on the input clock. */
+  const write = async (strokes: Pts[]): Promise<void> => {
+    for (const [i, pts] of strokes.entries()) await stroke(pts, 'pen', 0, i ? { after: 200 } : {});
+  };
+
+  /** The edge of its anchor block a note is measured from, in document space. */
+  const anchorEdge = (n: Note): number => {
+    const r = document.querySelector(n.anchor.path.css)!.getBoundingClientRect();
+    return (n.anchor.place === 'right' ? r.right : r.left) + scrollX;
+  };
+
+  test('both words stay where they were written: on every change of the page, after a reload, and in a window of another width', async () => {
+    await page.viewport(1280, 800);
+    document.body.innerHTML = TITLE;
+    await settle();
+    const rig = await openViewer();
+    await rig.cmd();
+
+    const first = heyWithTail();
+    await write(first);
+    await until(() => rig.notes().length === 1 && rig.notes()[0]!.strokes.length === 3, 'the first word');
+    await pageChanges(3);
+    const second = heyByButton();
+    await write(second);
+    await until(() => rig.notes().length === 2 && rig.notes()[1]!.strokes.length === 3, 'the second word');
+    await pageChanges(3);
+
+    const [a, b] = rig.notes() as [Note, Note];
+    // Both are notes beside a block, the kind that docks when it no longer fits.
+    for (const n of [a, b]) {
+      expect(n.anchor.type).toBe('block');
+      expect(n.anchor.place).not.toBe('on');
+    }
+    // The page is the case meant: the tail of the first word crosses the line of words, and the
+    // box of the second reaches the button while its ink stays off it.
+    const { sub, btn } = measure();
+    const boxA = boxOfPoints(first);
+    const boxB = boxOfPoints(second);
+    expect(boxA.y + boxA.h).toBeGreaterThan(sub.bottom + scrollY);
+    expect(boxA.x).toBeGreaterThan(sub.left + scrollX);
+    expect(boxA.x + boxA.w).toBeLessThan(sub.right + scrollX);
+    expect(meets(boxB, toDocRect(btn))).toBe(true);
+    const onButton = second.flat().filter(([x, y]) => x >= btn.left && y >= btn.top && y <= btn.bottom);
+    expect(onButton).toEqual([]);
+
+    const check = (r: Rig, tag: string): void => {
+      for (const [n, want] of [
+        [a, boxA],
+        [b, boxB],
+      ] as const) {
+        const p = r.placed(n.id)!;
+        expect(p.docked, `${tag} ${n.id} docked`).toBe(false);
+        expect(p.collapsed, `${tag} ${n.id} folded`).toBeFalsy();
+        expect(drawnAt(r, n.id, want), `${tag} ${JSON.stringify([drawn(r, n.id), want])}`).toBe(true);
+      }
+      expect(markers(r), `${tag} markers`).toBe(0);
+    };
+    check(rig, 'written');
+
+    // After a reload, from the stored record alone, and through more changes of the page.
+    const kv = rig.kv;
+    rig.viewer.destroy();
+    const again = await openViewer(kv);
+    await again.viewer.ready;
+    await again.cmd();
+    await until(() => !!again.placed(a.id) && !!again.placed(b.id), 'placed after reload');
+    await pageChanges(2);
+    check(again, 'reloaded');
+    const edges = [anchorEdge(a), anchorEdge(b)];
+    again.viewer.destroy();
+
+    // A window 100 px narrower. The title row is laid out as before with its far end 100 px
+    // nearer, so each word keeps its distance from the edge of the block it was written beside.
+    await page.viewport(1180, 800);
+    const narrow = await openViewer(kv);
+    await narrow.viewer.ready;
+    await narrow.cmd();
+    await until(() => !!narrow.placed(a.id) && !!narrow.placed(b.id), 'placed in the narrower window');
+    await pageChanges(2);
+    for (const [i, [n, was]] of (
+      [
+        [a, boxA],
+        [b, boxB],
+      ] as const
+    ).entries()) {
+      const p = narrow.placed(n.id)!;
+      expect(p.docked, `narrower ${n.id} docked`).toBe(false);
+      expect(p.collapsed, `narrower ${n.id} folded`).toBeFalsy();
+      const want = { ...was, x: was.x + anchorEdge(n) - edges[i]! };
+      expect(drawnAt(narrow, n.id, want), `narrower ${JSON.stringify([drawn(narrow, n.id), want])}`).toBe(
+        true,
+      );
+    }
+    expect(markers(narrow)).toBe(0);
+  });
+
+  test('a word the reader ran from the free space over the words stays on them in that layout', async () => {
+    await page.viewport(1280, 800);
+    document.body.innerHTML = TITLE;
+    await settle();
+    const rig = await openViewer();
+    await rig.cmd();
+    // The first stroke is right of the title. The second runs to and fro along the line of
+    // words under the tabs: most of the ink is on that line.
+    const { row, sub } = measure();
+    const x = Math.round(row.left + row.width * 0.4);
+    const y = sub.top + sub.height / 2;
+    const strokes = [
+      through([x, row.top + 4], [x + 6, row.bottom - 6], [x + 30, row.top + 8]),
+      through([x + 30, row.bottom], [x + 10, y], [x + 150, y + 2], [x + 20, y - 2], [x + 160, y]),
+    ];
+    await write(strokes);
+    await until(() => rig.notes().length === 1 && rig.notes()[0]!.strokes.length === 2, 'the word');
+    await pageChanges(3);
+    const n = rig.notes()[0]!;
+    expect(n.anchor.type).toBe('block');
+    expect(n.anchor.place).not.toBe('on');
+    const want = boxOfPoints(strokes);
+    const check = (r: Rig, tag: string): void => {
+      expect(r.placed(n.id)!.docked, `${tag} docked`).toBe(false);
+      expect(drawnAt(r, n.id, want), `${tag} ${JSON.stringify([drawn(r, n.id), want])}`).toBe(true);
+      expect(markers(r), `${tag} markers`).toBe(0);
+    };
+    check(rig, 'written');
+    const kv = rig.kv;
+    rig.viewer.destroy();
+    const again = await openViewer(kv);
+    await again.viewer.ready;
+    await again.cmd();
+    await until(() => !!again.placed(n.id), 'placed after reload');
+    await pageChanges(2);
+    check(again, 'reloaded');
   });
 });

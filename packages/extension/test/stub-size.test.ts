@@ -139,9 +139,11 @@ describe.each(lazy.map((b) => [b.name, b] as const))('%s view path', (_n, b) => 
   // from smaller blocks that repeat. The tools are 84,997 B since text marks leave out a word the
   // stroke only touches at an end, a shape round the words of one table cell is anchored to
   // those words, and a refused picture of the page is asked for again. Both limits rose by the
-  // growth.
+  // growth. The viewer grew by 720 B to 119,574 B when the placer learnt to measure the ink of a
+  // margin note where its box reaches content, and to leave a note alone in the layout it was
+  // written in; the limit rose by the same.
   test('the viewer and the tools fit their budgets', () => {
-    expect(Buffer.byteLength(loader)).toBeLessThan(118_960);
+    expect(Buffer.byteLength(loader)).toBeLessThan(119_680);
     expect(Buffer.byteLength(tools)).toBeLessThan(85_100);
   });
 });

@@ -11,7 +11,21 @@ import type {
   Resolved,
   ResolveMethod,
 } from '../types';
-import { type DockKind, dock, fits, inkBox, lineAt, lineRects, needsDock, placeBox, union } from './geom';
+import {
+  asWritten,
+  type DockKind,
+  dock,
+  fits,
+  inkBox,
+  inkOn,
+  lineAt,
+  lineRects,
+  needsDock,
+  ON_CONTENT,
+  offDoc,
+  placeBox,
+  union,
+} from './geom';
 import { shapeCut } from './shape';
 
 /** Layout reads in one pass stop after this long; the rest go to idle time. */
@@ -936,6 +950,28 @@ export const createPlacer: CreatePlacer = (host) => {
     return out;
   };
 
+  /**
+   * True when a margin note may stay where its anchor puts it: inside the page, with its ink on
+   * no content to speak of. The box only tells that the ink may be on content, so where the box
+   * reaches content the ink itself is measured.
+   */
+  const stays = (
+    note: Note,
+    box: Rect,
+    origin: Point,
+    scale: number,
+    docW: number,
+    obstacles: Rect[],
+  ): boolean =>
+    fits(box, docW, obstacles) ||
+    (!offDoc(box, docW) &&
+      inkOn(
+        note.strokes,
+        origin,
+        scale,
+        obstacles.filter((o) => overlaps(box, o)),
+      ) <= ON_CONTENT);
+
   const placedOf = (
     e: Entry,
     origin: Point,
@@ -1003,6 +1039,7 @@ export const createPlacer: CreatePlacer = (host) => {
     // While the parser runs, an anchor not in the page yet is further down, not near.
     const loading = doc.readyState === 'loading';
     const docW = doc.documentElement.clientWidth || win.innerWidth;
+    const winW = win.innerWidth;
     const docH = doc.documentElement.scrollHeight || vh;
     const bandTop = sy - NEAR_SCREENS * vh;
     const bandBot = sy + vh + NEAR_SCREENS * vh;
@@ -1219,7 +1256,10 @@ export const createPlacer: CreatePlacer = (host) => {
             e.local &&
             !e.known &&
             !r.scroller &&
-            !r.pinned
+            !r.pinned &&
+            // In the layout it was written in, a note is where the reader put it: nothing to read.
+            (!asWritten(e.note.frame, r.box, r.scale, winW) ||
+              offDoc(placeBox(e.local, r.origin, r.scale), docW))
           ) {
             // The first note of a slice reads all it needs; later ones stop when the slice ends.
             readEnd = tried > 1 ? t0 + budget : Number.POSITIVE_INFINITY;
@@ -1320,9 +1360,12 @@ export const createPlacer: CreatePlacer = (host) => {
       const scale = k?.scale ?? r.scale;
       const pose: NotePose = { origin, scale, ...base };
       if (room && e.local) {
-        // Where it was written, as long as that is inside the page and on no content.
+        // Where it was written, as long as that is inside the page and its ink is on no content.
         const box = placeBox(e.local, origin, scale);
-        if (needsDock(box, docW, room.blocks) && !(room.obstacles && fits(box, docW, room.obstacles))) {
+        if (
+          needsDock(box, docW, room.blocks) &&
+          !(room.obstacles && stays(e.note, box, origin, scale, docW, room.obstacles))
+        ) {
           later.push({ e, r, room, pose });
           continue;
         }

@@ -35,11 +35,13 @@ const here = (p: string) => fileURLToPath(new URL(p, import.meta.url));
  * 110,581 B, split view 115,161 B. Both limits rose by that. They stood at 110,607 B and
  * 115,186 B before the resolver learnt to end at the block a margin note was described on, when
  * that block is built from smaller blocks that repeat: view 110,894 B, split view 115,481 B.
- * The limits rose by 287 B and 295 B.
+ * The limits rose by 287 B and 295 B. Measuring the ink of a margin note where its box reaches
+ * content, and leaving a note alone in the layout it was written in: view 111,372 B, split view
+ * 115,965 B. The limits rose by the growth, 478 B and 484 B.
  */
-export const VIEW_BUDGET = 111_058;
+export const VIEW_BUDGET = 111_536;
 /** The view as the browser loads it from a split build: the entry and the shared chunks it imports. */
-export const VIEW_SPLIT_BUDGET = 115_660;
+export const VIEW_SPLIT_BUDGET = 116_144;
 /**
  * Measured at 79,969 B once capture gained its optional stroke probe calls. Room at the end of
  * the page for a bar at the bottom edge, a grip drag held inside the screen, and a bar that

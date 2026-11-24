@@ -6,7 +6,7 @@ import { isChromium, mouseInput, STEP_MS, touchEmulation, touchGesture } from '.
 import type { InkLayer } from '../render/layer';
 import { createLayer } from '../render/layer';
 import { withinBudget } from '../testkit';
-import type { Note, Placed, Placer, Rect } from '../types';
+import type { Note, Placed, Placer, Rect, Stroke } from '../types';
 import { createPlacer } from './placer';
 import { blob, type FakeResolver, fakeResolver, frame, inkNote, margin, quiet } from './testkit';
 
@@ -281,6 +281,59 @@ describe('docking on narrow layouts', () => {
     await until(() => r.placer.all().length === 4);
     expectClear(r.placer.all(), textLines());
     expectApart(r.placer.all());
+  });
+});
+
+/** A pen stroke through note-local points, with an outline a pen's width wide. */
+function penLine(...at: [number, number][]): Stroke {
+  const pts: number[] = [];
+  let px = 0;
+  let py = 0;
+  for (const [x, y] of at) {
+    pts.push(Math.round(x * 10) - px, Math.round(y * 10) - py, 50);
+    px = Math.round(x * 10);
+    py = Math.round(y * 10);
+  }
+  const there = at.map(([x, y]) => `${x} ${y}`);
+  const back = [...at].reverse().map(([x, y]) => `${x + 1.5} ${y + 1.5}`);
+  return {
+    id: `pl${at.join('-')}`,
+    t: 1,
+    tool: 'pen',
+    color: 'ink-1',
+    w: 3,
+    pts,
+    d: `M${[...there, ...back].join('L')}Z`,
+  };
+}
+
+describe('a neighbour that moves in beside the block', () => {
+  test('ink that would lie on its words docks, and ink whose box only reaches them stays', async () => {
+    await viewport(1100, 800);
+    stage.style.cssText = 'display:flex;padding:0 20px';
+    block('p', 'a', 'flex:none;width:300px;margin:0');
+    const aside = block('p', 'b', 'flex:none;width:420px;margin:40px 0 0 220px', `${TEXT} ${TEXT}`);
+    const r = rig();
+    // Two notes right of the first block, in the wide gap. The second is a hook: an upright
+    // beside the block, and a long tail to the right that runs above where the neighbour starts.
+    const blot = inkNote('a', { place: 'right', strokes: [blob(14, 44, 64, 30)] });
+    const hook = inkNote('a', { place: 'right', strokes: [penLine([200, 10], [14, 10], [14, 84])] });
+    r.placer.setNotes([blot, hook]);
+    await until(() => r.placer.all().length === 2);
+    expect(r.placer.all().every((p) => !p.docked)).toBe(true);
+    const was = { ...r.placer.get(hook.id)!.bbox };
+    // The neighbour moves in. Its words are now under the first note, and inside the box of the
+    // second, beside the upright and under the tail, where there is no ink.
+    aside.style.marginLeft = '24px';
+    await until(() => r.placer.get(blot.id)?.docked === true);
+    await quiet('placed');
+    const lines = textLines();
+    expect(lines.some((l) => meets(was, l))).toBe(true);
+    expectClear([r.placer.get(blot.id)!], lines);
+    const p = r.placer.get(hook.id)!;
+    expect(p.docked).toBe(false);
+    expect(p.bbox).toEqual(was);
+    expect(markerOf(r, hook.id)).toBeNull();
   });
 });
 

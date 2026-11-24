@@ -1,5 +1,5 @@
 import { unionRects } from '../render/geom';
-import type { Place, Point, Rect } from '../types';
+import type { NoteFrame, Place, Point, Rect, Stroke } from '../types';
 
 // One copy of these pure helpers serves both folders. render/ owns them.
 export { inkBox, unionRects as union } from '../render/geom';
@@ -136,10 +136,74 @@ function hits(box: Rect, rects: readonly Rect[], frac: number): boolean {
   return rects.some((r) => overlapArea(box, r) > area * frac);
 }
 
+/** True when the box reaches past a side of the document. */
+export function offDoc(box: Rect, docW: number): boolean {
+  return box.x < -1 || box.x + box.w > docW + 1;
+}
+
 /** True when a margin note at its anchored place falls off the document or over content. */
 export function needsDock(box: Rect, docW: number, obstacles: readonly Rect[]): boolean {
-  if (box.x < -1 || box.x + box.w > docW + 1) return true;
-  return hits(box, obstacles, 0.2);
+  return offDoc(box, docW) || hits(box, obstacles, 0.2);
+}
+
+/**
+ * True when the page around the anchor is laid out as it was when the note was written: the
+ * anchor block has the size it had, its text has the size it had, and the window has the width
+ * it had. The note then sits where the reader put it, on whatever the reader put it.
+ */
+export function asWritten(frame: NoteFrame, anchorBox: Rect, scale: number, viewportW: number): boolean {
+  return (
+    Math.abs(scale - 1) < 0.005 &&
+    Math.abs(anchorBox.w - frame.w) < 1 &&
+    Math.abs(anchorBox.h - frame.h) < 1 &&
+    Math.abs(viewportW - frame.viewportW) < 1
+  );
+}
+
+/** A margin note lies on content when more than this share of its ink does. */
+export const ON_CONTENT = 0.2;
+/** The ink is checked every so many CSS px along each stroke. */
+const INK_STEP = 3;
+
+/**
+ * The share of a note's ink that lies on the rects, at a pose, measured along the strokes from
+ * their stored points. The box around handwriting is mostly empty, so the box says little: a long
+ * tail makes it reach a button the ink never touches. The start of each stroke counts by the
+ * pen's width, so a dot counts. Strokes with no points cannot be measured: the answer is then 1,
+ * and the box decides.
+ */
+export function inkOn(
+  strokes: readonly Stroke[],
+  origin: Point,
+  scale: number,
+  rects: readonly Rect[],
+): number {
+  const on = (x: number, y: number): boolean =>
+    rects.some((r) => x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h);
+  let all = 0;
+  let hit = 0;
+  for (const s of strokes) {
+    let x = 0;
+    let y = 0;
+    let ax = 0;
+    let ay = 0;
+    for (let i = 0; i + 1 < s.pts.length; i += 3) {
+      x += s.pts[i]!;
+      y += s.pts[i + 1]!;
+      const bx = origin.x + (x / 10) * scale;
+      const by = origin.y + (y / 10) * scale;
+      const len = i ? Math.hypot(bx - ax, by - ay) : (s.w || 1) * scale;
+      const n = i ? Math.ceil(len / INK_STEP) : 1;
+      for (let k = 0; k < n; k++) {
+        const t = i ? (k + 0.5) / n : 1;
+        if (on(ax + (bx - ax) * t, ay + (by - ay) * t)) hit += len / n;
+      }
+      all += len;
+      ax = bx;
+      ay = by;
+    }
+  }
+  return all > 0 ? hit / all : 1;
 }
 
 /** True when no rect comes within `pad` of the box. A negative pad lets edges touch. */

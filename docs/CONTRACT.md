@@ -135,6 +135,9 @@ A pass runs from a resize observation right after the browser's layout, never fr
 Until the document text is built, notes near the screen use the resolver's `quick()`; the others, and
 any note `quick()` cannot decide, wait for the text, built in idle slices. `waiting()` counts them.
 Once the text is ready, every quick placement is checked with `resolve()`.
+A margin note leaves the place it was written in only when it would reach past a side of the page, or
+when the layout is another one than it was written in and more than a fifth of its ink would lie on
+text, media or controls. The ink is measured along the strokes. The box around it only says when to measure.
 Each note is cut to the box its anchor's clipping ancestors leave (`Resolved.clips`, `NotePose.clip`).
 A note whose content is closed, hidden or transparent is hidden with it: it is listed by `hidden()`,
 never by `unplaced()`, and returns when the content shows. It counts as hidden only while
@@ -371,7 +374,7 @@ code is not public, so this is read from WebKit and from what the simulator show
 | Stub main-thread time on a page with no ink | under 5 ms                                                                                                                        | `docs/RESULTS.md`                                                       |
 | Stub size, minified, every browser          | at most 3,072 B (`test/stub-size.test.ts`)                                                                                        | 3,051 B in Chrome, Edge and Firefox, 3,066 B in Safari                  |
 | First read (`content/boot.js`)              | under 7,300 B (`test/stub-size.test.ts`)                                                                                          | 7,169 B, every browser                                                  |
-| Viewer (`content/loader.js`), minified      | under 118,960 B (`test/stub-size.test.ts`)                                                                                        | 118,854 B (43,865 B gzip), every browser                                |
+| Viewer (`content/loader.js`), minified      | under 119,680 B (`test/stub-size.test.ts`)                                                                                        | 119,574 B (44,179 B gzip), every browser                                |
 | Tools (`content/tools.js`), minified        | under 85,100 B (`test/stub-size.test.ts`)                                                                                         | 84,997 B (32,531 B gzip), every browser                                 |
 | Ink visible after its anchor content exists | within 50 ms, when the page's first layout allows                                                                                 | `docs/RESULTS.md`, with the page's own time to first paint it           |
 | Ink visible after its content's first paint | same frame, or within one frame (16.7 ms), in every case                                                                          | `docs/RESULTS.md`                                                       |

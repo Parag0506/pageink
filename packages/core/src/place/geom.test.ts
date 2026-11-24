@@ -1,15 +1,19 @@
 import { describe, expect, test } from 'vitest';
-import type { Rect } from '../types';
+import type { Rect, Stroke } from '../types';
 import {
+  asWritten,
   dock,
   fits,
   inkBox,
+  inkOn,
   leader,
   lineAt,
   lineRects,
   MIN_DOCK,
   MIN_SIDE,
   needsDock,
+  ON_CONTENT,
+  offDoc,
   placeBox,
   union,
 } from './geom';
@@ -27,6 +31,68 @@ describe('inkBox', () => {
     const b = inkBox([{ id: 'a', t: 0, tool: 'pen', color: 'ink-1', w: 2, pts: [], d: 'M0 0L40 0L40 10Z' }]);
     expect(b).toEqual({ x: 0, y: 0, w: 40, h: 10 });
     expect(inkBox([])).toBeNull();
+  });
+});
+
+describe('ink on content', () => {
+  const pen = (pts: number[], d = ''): Stroke => ({
+    id: 'a',
+    t: 0,
+    tool: 'pen',
+    color: 'ink-1',
+    w: 2,
+    pts,
+    d,
+  });
+  /** A word with a long tail: an upright of 30, then a tail of 90 to the right along its foot. */
+  const hook = [pen([0, 0, 50, 0, 300, 0, 900, 0, 0])];
+  const at = { x: 100, y: 200 };
+
+  test('the share is measured along the strokes, at the pose the note has', () => {
+    const lines = hook;
+    // The box of the hook is 90 by 30. A button in its empty corner touches no ink.
+    const button = { x: 150, y: 190, w: 80, h: 30 };
+    expect(fits({ x: 100, y: 200, w: 90, h: 30 }, 700, [button])).toBe(false);
+    expect(inkOn(lines, at, 1, [button])).toBe(0);
+    expect(inkOn(lines, at, 1, [])).toBe(0);
+    // A line of words under the last 30 px of the tail: 30 of 122, the pen's width at the start counted.
+    const words = { x: 160, y: 222, w: 300, h: 18 };
+    expect(inkOn(lines, at, 1, [words])).toBeCloseTo(30 / 122, 5);
+    expect(30 / 122).toBeGreaterThan(ON_CONTENT);
+    // The whole hook on a picture.
+    expect(inkOn(lines, at, 1, [{ x: 0, y: 0, w: 600, h: 600 }])).toBe(1);
+    // Two rects over the same ink count it once.
+    expect(inkOn(lines, at, 1, [words, { x: 151, y: 220, w: 300, h: 22 }])).toBeCloseTo(39 / 122, 5);
+    // At half size the tail ends at x 145 and no longer reaches the words.
+    expect(inkOn(lines, at, 0.5, [{ x: 160, y: 207, w: 300, h: 18 }])).toBe(0);
+  });
+
+  test('a dot counts, by the width of the pen', () => {
+    const dot = [pen([30, 30, 50])];
+    expect(inkOn(dot, at, 1, [{ x: 100, y: 200, w: 10, h: 10 }])).toBe(1);
+    expect(inkOn(dot, at, 1, [{ x: 120, y: 200, w: 10, h: 10 }])).toBe(0);
+  });
+
+  test('strokes with no stored points cannot be measured, so the box decides', () => {
+    expect(inkOn([pen([], 'M0 0L40 0L40 10Z')], at, 1, [{ x: 500, y: 500, w: 10, h: 10 }])).toBe(1);
+  });
+
+  test('the layout is as written when the anchor block, its text and the window have the sizes stored', () => {
+    const frame = { w: 300, h: 80, fontPx: 16, viewportW: 1280 };
+    const box = { x: 40, y: 900, w: 300.4, h: 79.8 };
+    expect(asWritten(frame, box, 1, 1280)).toBe(true);
+    // The block moved, and nothing else: still as written.
+    expect(asWritten(frame, { ...box, x: 400, y: 20 }, 1, 1280)).toBe(true);
+    expect(asWritten(frame, { ...box, w: 260 }, 1, 1280)).toBe(false);
+    expect(asWritten(frame, { ...box, h: 104 }, 1, 1280)).toBe(false);
+    expect(asWritten(frame, box, 1.25, 1280)).toBe(false);
+    expect(asWritten(frame, box, 1, 1180)).toBe(false);
+  });
+
+  test('off the document on either side', () => {
+    expect(offDoc({ x: 10, y: 0, w: 100, h: 20 }, 400)).toBe(false);
+    expect(offDoc({ x: -5, y: 0, w: 100, h: 20 }, 400)).toBe(true);
+    expect(offDoc({ x: 320, y: 0, w: 100, h: 20 }, 400)).toBe(true);
   });
 });
 
