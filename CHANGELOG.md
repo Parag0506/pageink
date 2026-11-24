@@ -3,7 +3,7 @@
 All notable changes are listed here. Versions follow [Semantic Versioning](https://semver.org).
 The record format has its own version (`v` in each record, see [docs/FORMAT.md](docs/FORMAT.md)).
 
-## Unreleased
+## 0.1.2 (2026-11-24)
 
 - A note written in free space stays where it was written. Before, a word with a long tail could
   fold into a small dot a moment after it was written, because the box around its ink reached a

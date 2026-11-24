@@ -26,10 +26,14 @@ const STORES = [
     name: 'Microsoft Edge Add-ons',
     url: 'https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo',
   },
+  {
+    name: 'App Store, for Safari on iPad',
+    url: 'https://apps.apple.com/app/id6837846057',
+  },
 ];
 
 /** What is still on its way to a store, as one sentence. An empty string leaves it out. */
-const IN_REVIEW = 'The Firefox add-on and the Safari app for iPad and Mac are in review.';
+const IN_REVIEW = 'The Firefox add-on and the Safari app for Mac are in review.';
 
 /** The one-minute film of the product in use. An empty string leaves the link out. */
 const FILM = 'https://www.youtube.com/watch?v=7c85j0Y0f2Q';

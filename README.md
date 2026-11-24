@@ -9,9 +9,10 @@ reading an open PDF once more for its viewer, the extension talks to nobody unle
 cloud, and then only to that cloud. [PRIVACY.md](PRIVACY.md) lists each privacy fact and the test or
 check behind it.
 
-Get PageInk from the [Chrome Web Store](https://chromewebstore.google.com/detail/pageink/okegfngejejaddeaobgpamojcdddlmgf)
-or from [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo).
-The Firefox add-on and the Safari app for iPad and Mac are in review. [Install from source](#install-from-source)
+Get PageInk from the [Chrome Web Store](https://chromewebstore.google.com/detail/pageink/okegfngejejaddeaobgpamojcdddlmgf),
+from [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo),
+or from the [App Store](https://apps.apple.com/app/id6837846057) for Safari on iPad.
+The Firefox add-on and the Safari app for Mac are in review. [Install from source](#install-from-source)
 shows how to build it and load it into any of the four.
 
 ![PageInk in use: handwriting on an article, a highlight that follows the words, and the ink coming back after a reload](docs/media/preview.webp)
@@ -307,7 +308,7 @@ has the rules.
 
 ## Status and known limits
 
-Version 0.1.1. Tests run in all three browser engines: Chromium, Firefox and WebKit. The Safari app has
+Version 0.1.2. Tests run in all three browser engines: Chromium, Firefox and WebKit. The Safari app has
 unit tests on macOS and on an iPad simulator, and an end-to-end run drives the extension in Mobile Safari
 on an iPad simulator. Some things still need checking or doing:
 

@@ -1,6 +1,6 @@
 {
   "name": "pageink-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Handwriting on any web page: capture, anchoring, placement, rendering and storage.",
   "keywords": [
     "handwriting",
