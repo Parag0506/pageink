@@ -3,6 +3,13 @@
 All notable changes are listed here. Versions follow [Semantic Versioning](https://semver.org).
 The record format has its own version (`v` in each record, see [docs/FORMAT.md](docs/FORMAT.md)).
 
+## Unreleased
+
+- A note written in free space stays where it was written. Before, a word with a long tail could
+  fold into a small dot a moment after it was written, because the box around its ink reached a
+  button or a line of text that the ink itself did not touch. Now the ink is measured, not the box,
+  and in the layout a note was written in it is never moved. Notes that folded this way show again.
+
 ## 0.1.1 (2026-11-22)
 
 Fixes found while the first version was in review.
