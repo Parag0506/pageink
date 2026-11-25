@@ -262,10 +262,11 @@ Start with [docs/DESIGN.md](docs/DESIGN.md) for what the product does and why,
 [docs/FORMAT.md](docs/FORMAT.md) for the record format, and [docs/CONTRACT.md](docs/CONTRACT.md) for the
 architecture and module contract.
 
-`site/` is the project's web site: a start page, the privacy policy and a page for addresses that do
-not exist. Each page is one entry in the `PAGES` list in `site/build.mjs`, and the nav, `sitemap.xml`
-and the canonical and share tags follow from that list. The privacy page is made from `PRIVACY.md` at
-build time, so the two cannot differ. Build it with `node site/build.mjs` and open
+`site/` is the project's web site: a start page, short guides written in `site/pages/`, the privacy
+policy and a page for addresses that do not exist. Each page is one entry in the `PAGES` list in
+`site/build.mjs`, and the nav, `sitemap.xml` and the canonical and share tags follow from that list.
+The privacy page is made from `PRIVACY.md` at build time, so the two cannot differ. Build it with
+`node site/build.mjs` and open
 `site/dist/index.html`. It needs no install. `.github/workflows/pages.yml` publishes it with GitHub Pages.
 
 ## Development

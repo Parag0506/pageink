@@ -86,7 +86,28 @@ function facts() {
   const owner = /^Copyright \(c\) (.+)$/m.exec(readFileSync(join(repo, 'LICENSE'), 'utf8'))?.[1];
   if (!owner) throw new Error('No copyright line in LICENSE');
 
-  return { name: esc(name), plainName: name, repoUrl, copyright: `Copyright &copy; ${esc(owner)}` };
+  // The version people install is the extension's.
+  const version = JSON.parse(readFileSync(join(repo, 'packages/extension/package.json'), 'utf8')).version;
+  if (!/^\d+\.\d+\.\d+$/.test(version ?? ''))
+    throw new Error('No version in packages/extension/package.json');
+
+  return { name: esc(name), plainName: name, repoUrl, version, copyright: `Copyright &copy; ${esc(owner)}` };
+}
+
+/** The width and height of a PNG or WebP picture, read from its first bytes. */
+function imageSize(file) {
+  const b = readFileSync(file);
+  if (b.toString('latin1', 1, 4) === 'PNG') return [b.readUInt32BE(16), b.readUInt32BE(20)];
+  if (b.toString('latin1', 0, 4) === 'RIFF' && b.toString('latin1', 8, 12) === 'WEBP') {
+    const chunk = b.toString('latin1', 12, 16);
+    if (chunk === 'VP8 ') return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff];
+    if (chunk === 'VP8L') {
+      const bits = b.readUInt32LE(21);
+      return [(bits & 0x3fff) + 1, ((bits >> 14) & 0x3fff) + 1];
+    }
+    if (chunk === 'VP8X') return [b.readUIntLE(24, 3) + 1, b.readUIntLE(27, 3) + 1];
+  }
+  throw new Error(`Cannot read the size of ${relative(repo, file)}`);
 }
 
 // ---- Markdown ----------------------------------------------------------------------------
@@ -342,18 +363,63 @@ function markdown(text, file, link) {
  * index        false keeps the page out of search: a noindex tag, no canonical, not in the sitemap.
  * jsonld       (f, page) => [objects] for the page's structured data. Without it, an indexed page
  *              that is not home gets a WebPage and a BreadcrumbList.
+ * guide        The words of the link to this page in the home page's "Guides" list. A guide ends
+ *              with one line that links the stores, and with the applies line below.
+ * applies      true ends a page that is not a guide with the line "Applies to <name> <version>.
+ *              Last checked <lastmod>." The version is the extension's. Set lastmod to the day
+ *              someone checked the page against the product, not only the day its words changed.
+ * figures      [{ src, alt, caption, before }]: real screenshots for a Markdown body, which has no
+ *              pictures of its own. Each goes just before the heading whose id is `before`. `src`
+ *              must be in ASSETS. Its width and height are read from the file.
  */
 const PAGES = (n) => [
   {
     path: '',
     name: 'Home',
     nav: true,
-    title: `${n}: write and draw by hand on any web page`,
+    title: `${n} browser extension: write by hand on any web page`,
     description: `Free, open source browser extension. Write and draw by hand on any web page with Apple Pencil, a finger or a mouse. Your notes come back on the same words.`,
     h1: `${n} lets you write and draw by hand on any web page, with Apple Pencil, a finger or a mouse.`,
     body: { html: home },
     lastmod: '2026-11-25',
+    applies: true,
     jsonld: homeData,
+  },
+  {
+    path: 'notes-stay-after-reload/',
+    name: 'Notes after a reload',
+    title: `How ${n} keeps handwritten notes after a reload`,
+    description: `${n} ties each handwritten note to the words under it, so it comes back after a reload or a reflow. How it works, the test results, and where it fails.`,
+    body: { md: 'site/pages/notes-stay-after-reload.md' },
+    lastmod: '2026-11-25',
+    guide: 'How handwritten notes stay on the same words after a reload',
+    figures: [
+      {
+        src: 'docs/media/3-reload.webp',
+        alt: 'A demo article after a reload, with its ink back on the same words: an underline, two circles, a star in the margin and a highlight',
+        caption:
+          'After a reload, the ink is back on the words it was written on. The article is a demo page.',
+        before: 'why-do-drawings-on-a-web-page-disappear-when-i-refresh',
+      },
+    ],
+  },
+  {
+    path: 'apple-pencil-safari/',
+    name: 'Apple Pencil in Safari',
+    title: 'Write on web pages in Safari on iPad with Apple Pencil',
+    description: `Write on a live web page in Safari on iPad with Apple Pencil or a finger. How to turn on the extension, fixes when the page scrolls, and limits.`,
+    body: { md: 'site/pages/apple-pencil-safari.md' },
+    lastmod: '2026-11-25',
+    guide: 'How to write on a web page in Safari on iPad with Apple Pencil',
+  },
+  {
+    path: 'edge-web-notes-alternative/',
+    name: 'Edge after Web Notes',
+    title: `Write on web pages in Edge after Web Notes: ${n}`,
+    description: `Microsoft Edge no longer supports Web Notes. ${n} is a free extension for writing and drawing on the live page with a mouse, a pen or a finger.`,
+    body: { md: 'site/pages/edge-web-notes-alternative.md' },
+    lastmod: '2026-11-25',
+    guide: 'What to use in Microsoft Edge now that Web Notes is gone',
   },
   {
     path: 'privacy/',
@@ -525,7 +591,7 @@ function render(f, p, all, meta) {
           fail(line, `a link to "${to}", which is not a file in the repository`);
         return `${f.repoUrl}/blob/main/${to}`;
       })
-    : p.body.html(f, p, href);
+    : p.body.html(f, p, href, all);
   // The Markdown converter already holds a file to one "# " heading.
   const h1s = [...main.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
   if (!p.body.md && (h1s.length !== 1 || h1s[0][1] !== esc(p.h1)))
@@ -579,7 +645,7 @@ ${list(nav)}
 </nav>
 </header>
 <main>
-${main}
+${[withFigures(p, main), p.guide ? storeLine(f) : '', p.guide || p.applies ? applies(f, p) : ''].filter(Boolean).join('\n')}
 </main>
 <footer class="foot">
 <nav aria-label="More">
@@ -612,6 +678,42 @@ const logo = (f, root, width) => `<picture>
 <img src="${root}assets/pageink-logo.svg" alt="${f.name}" width="${width}" height="${Math.round((width * 170) / 552)}">
 </picture>`;
 
+/** A page's screenshots, each put just before the heading it names. */
+function withFigures(p, main) {
+  let html = main;
+  for (const fig of p.figures ?? []) {
+    if (!ASSETS.includes(fig.src))
+      throw new Error(`Page "${p.path}" shows ${fig.src}, which is not in ASSETS`);
+    if (!fig.alt?.trim() || !fig.caption?.trim())
+      throw new Error(`Page "${p.path}": ${fig.src} needs an alt and a caption`);
+    const at = `<h2 id="${fig.before}">`;
+    if (!html.includes(at)) throw new Error(`Page "${p.path}" has no heading "${fig.before}" for ${fig.src}`);
+    const [w, h] = imageSize(join(repo, fig.src));
+    const figure = `<figure class="shot">
+<img src="${p.root}assets/${basename(fig.src)}" alt="${esc(fig.alt)}" width="${w}" height="${h}" loading="lazy" decoding="async">
+<figcaption>${esc(fig.caption)}</figcaption>
+</figure>`;
+    html = html.replace(at, `${figure}\n${at}`);
+  }
+  return html;
+}
+
+/** One line with every store, for the end of a guide. The home page has the full list. */
+function storeLine(f) {
+  const links = STORES.map((s) => `<a href="${esc(s.url)}">${esc(s.name)}</a>`);
+  if (!links.length)
+    return `<p class="get"><a href="${esc(f.repoUrl)}#install-from-source">Install ${f.name} from source</a>.</p>`;
+  const list = links.length > 1 ? `${links.slice(0, -1).join(', ')} or ${links.at(-1)}` : links[0];
+  const soon = IN_REVIEW ? ` ${esc(IN_REVIEW)}` : '';
+  return `<p class="get">Get ${f.name} free from ${list}.${soon}</p>`;
+}
+
+/** Which version a page describes, and the day it was last checked against it. */
+function applies(f, p) {
+  const [y, m, d] = p.lastmod.split('-').map(Number);
+  return `<p class="applies">Applies to ${f.name} ${esc(f.version)}. Last checked ${d} ${MONTHS[m - 1]} ${y}.</p>`;
+}
+
 function getIt(f) {
   const source = `<a href="${esc(f.repoUrl)}#install-from-source">Install from source</a>`;
   if (!STORES.length)
@@ -626,11 +728,29 @@ function getIt(f) {
 }
 
 /** Every sentence here restates README.md or PRIVACY.md. Change those first, then this. */
-function home(f, p, href) {
+function home(f, p, href, all) {
   const n = f.name;
+  const guides = all
+    .filter((q) => q.guide)
+    .map((q) => `<li><a href="${href(q.path)}">${esc(q.guide)}</a></li>`);
+  const reload = all.find((q) => q.path === 'notes-stay-after-reload/');
+  const sameWords = 'stays on the same words when the page changes or reflows';
   return `<h1 class="lead">${esc(p.h1)}</h1>
-<p>Your ink loads with the page, stays for good, and stays on the same words when the page changes or reflows. It is a browser extension for Chrome, Edge, Firefox and Safari, and a library any site can add to its own pages.</p>
-<p>${n} is free and open source under the MIT licence. There is no account with us and no server of ours. Apart from reading an open PDF once more for its viewer, the extension talks to nobody unless you connect your own cloud, and then only to that cloud.</p>
+<p>The ${n} browser extension keeps your ink on your device. The ink loads with the page and ${reload ? `<a href="${href(reload.path)}">${sameWords}</a>` : sameWords}. The extension runs in Chrome and Edge, and an app brings it to Safari on iPad. ${n} is also a library any site can add to its own pages.</p>
+<section>
+<h2>How to write on a web page with the extension</h2>
+<ol>
+<li>Add ${n} to Chrome or Edge from ${
+    STORES.filter((s) => /Chrome|Edge/.test(s.name))
+      .map((s) => `<a href="${esc(s.url)}">${esc(s.name)}</a>`)
+      .join(' or ') || 'its store'
+  }. Chrome or Edge 119 or later is needed.</li>
+<li>Open any web page. Click the ${n} button in the toolbar, then <strong>Draw on this page</strong>. The button then reads <strong>Drawing on</strong>. You can also press Alt+Shift+D, the suggested shortcut.</li>
+<li>Write with the mouse, the trackpad or a finger. A bar with the tools shows on the page.</li>
+<li>Press Esc to stop. Open the page another day, and the ink loads with it.</li>
+</ol>
+<p>For a quick mark, hold Alt and drag with the mouse, with no need to turn on Draw. With a pen, touch the page and write. No switch is needed, and a finger still scrolls.</p>
+</section>
 <div class="shots">
 <figure>
 <img src="assets/1-writing.webp" alt="Writing on an article with a pen" width="1280" height="800">
@@ -642,20 +762,22 @@ function home(f, p, href) {
 </figure>
 </div>
 ${FILM ? `<p><a href="${esc(FILM)}">Watch the one-minute film</a> of it in use. The link opens YouTube.</p>` : ''}
+<p>${n} is free and open source under the MIT licence. There is no account with us and no server of ours. Apart from reading an open PDF once more for its viewer, the extension talks to nobody unless you connect your own cloud, and then only to that cloud.</p>
 <section>
 <h2>Get ${n}</h2>
 ${getIt(f)}
 </section>
+${guides.length ? `<section>\n<h2>Guides</h2>\n<ul>\n${guides.join('\n')}\n</ul>\n</section>` : ''}
 <section>
 <h2>What you can do with it</h2>
 <ul>
-<li>Write and draw by hand on any web page. On an iPad, Apple Pencil writes and a finger still scrolls. A stylus on a Windows or Android device writes the same way.</li>
+<li>Write and draw by hand on any web page. On an iPad, Apple Pencil writes and a finger still scrolls. A pen on a Windows touch screen writes the same way. So far, pen input has been tested only with simulated input, not on a real iPad or a real Windows pen.</li>
 <li>With a mouse, a trackpad or a finger, switch on Draw and write.</li>
 <li>Highlight and underline words. A straight highlighter or pen line over text becomes a mark on those words, and it is redrawn on them at any width.</li>
 <li>Annotate PDFs in the extension's own viewer. In Chrome and Edge a PDF opens there by itself. In Safari, you pick the file.</li>
 <li>Come back later and your notes are on the same words. If a passage is gone, its note waits in a tray with its words.</li>
-<li>Save a page with its ink as a picture, copy your notes as Markdown, or print the page with its ink.</li>
-<li>Keep a copy in your own Google Drive, OneDrive or a folder, and see the same notes on another device.</li>
+<li>Save a page with its ink as a picture, save your notes as a Markdown file, or print the page with its ink.</li>
+<li>Keep a copy in a folder you choose, or in your own Google Drive or OneDrive, and see the same notes on another device. So far, Google Drive and OneDrive have been tested only against local stand-ins for the services, and some points still need a check with the real ones.</li>
 </ul>
 </section>
 <section class="panel">

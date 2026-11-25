@@ -52,7 +52,14 @@ const withoutLd = (html: string) => html.replace(LD, '');
 
 /** Where the site is published, read from the build script so the test follows it. */
 const SITE = /const SITE = '([^']+)'/.exec(read(repo, 'site/build.mjs'))?.[1] as string;
-const indexed = ['index.html', 'privacy/index.html'];
+const indexed = [
+  'index.html',
+  'notes-stay-after-reload/index.html',
+  'apple-pencil-safari/index.html',
+  'edge-web-notes-alternative/index.html',
+  'privacy/index.html',
+];
+const guides = indexed.filter((f) => !['index.html', 'privacy/index.html'].includes(f));
 
 /** A piece of Markdown without its marks: links keep their words, bold and code lose their signs. */
 const unmarked = (md: string) =>
@@ -84,7 +91,7 @@ test('the build writes the pages, the sitemap, the stylesheet and the pictures',
   expect(files(join(out, 'assets')).length).toBeGreaterThan(2);
 });
 
-test.each(['index.html', 'privacy/index.html', '404.html'])('%s is a whole page with one h1', (f) => {
+test.each([...indexed, '404.html'])('%s is a whole page with one h1', (f) => {
   const html = withoutLd(read(out, f));
   expect(html).toMatch(/^<!doctype html>\n<html lang="en">/);
   expect(html).toMatch(/<meta name="viewport"/);
@@ -109,6 +116,32 @@ test('the home page names the product and links to the policy, the source and th
   const source = pkg.repository.url.replace(/^git\+/, '').replace(/\.git$/, '');
   expect(html).toContain(`<a href="${source}">`);
   expect(html).toContain(`<a href="${source}/issues">`);
+});
+
+describe('the guides', () => {
+  const version = (JSON.parse(read(repo, 'packages/extension/package.json')) as { version: string }).version;
+
+  test('the home page links every guide', () => {
+    const html = read(out, 'index.html');
+    for (const f of guides) expect(html).toContain(`<a href="${f.replace(/index\.html$/, '')}">`);
+  });
+
+  test.each(guides)('%s links the stores and says which version it was checked against', (f) => {
+    const html = read(out, f);
+    expect(html).toMatch(/<p class="get">[^\n]*chromewebstore\.google\.com[^\n]*apps\.apple\.com/);
+    const applies = /Applies to (\S+) (\S+)\. Last checked \d{1,2} [A-Z][a-z]+ \d{4}\./.exec(seen(html));
+    expect(applies?.slice(1)).toEqual([NAME, version]);
+    // The footer links the source, the issues, the changelog, the licence and the policy.
+    for (const end of ['/issues', '/blob/main/CHANGELOG.md', '/blob/main/LICENSE', '../privacy/'])
+      expect(html).toMatch(new RegExp(`<a href="[^"]*${end.replace(/\./g, '\\.')}"`));
+  });
+
+  test('a screenshot in a guide is a file of the site, with its size and alt text', () => {
+    const html = read(out, 'notes-stay-after-reload/index.html');
+    const img = /<img src="\.\.\/assets\/([^"]+\.webp)" alt="[^"]+" width="(\d+)" height="(\d+)"/.exec(html);
+    expect(img?.slice(1)).toEqual(['3-reload.webp', '1280', '800']);
+    expect(existsSync(join(out, 'assets', img?.[1] as string))).toBe(true);
+  });
 });
 
 describe('the privacy page says what PRIVACY.md says', () => {

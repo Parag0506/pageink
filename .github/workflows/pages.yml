@@ -1,7 +1,8 @@
 name: Pages
 
-# The home page and the privacy page in site/, published with GitHub Pages. The privacy page is
-# made from PRIVACY.md. The build uses no packages, so nothing is installed.
+# The pages in site/, published with GitHub Pages. The privacy page is made from PRIVACY.md, and
+# the guides say which version of the extension they describe. The build uses no packages, so
+# nothing is installed.
 on:
   push:
     branches: [main]
@@ -10,6 +11,7 @@ on:
       - "PRIVACY.md"
       - "brand/**"
       - "docs/media/**"
+      - "packages/extension/package.json"
       - ".github/workflows/pages.yml"
       # The build also reads the product name and the copyright line.
       - "packages/core/src/brand.ts"

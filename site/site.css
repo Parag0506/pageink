@@ -72,11 +72,13 @@ h2 {
 
 p,
 ul,
+ol,
 table {
   margin: 0 0 1.1rem;
 }
 
-ul {
+ul,
+ol {
   padding-left: 1.25rem;
 }
 
@@ -242,6 +244,28 @@ main {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 10px;
+}
+
+/* A screenshot inside a guide. */
+.shot {
+  margin-block: 2rem;
+}
+
+.shot img {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+/* The end of a guide: where to get it, and which version the page describes. */
+.get {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.applies {
+  font-size: 0.9375rem;
 }
 
 .panel {
