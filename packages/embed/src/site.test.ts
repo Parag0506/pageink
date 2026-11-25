@@ -1,5 +1,5 @@
 /**
- * The home page and the privacy page that site/build.mjs makes. Google reads both before it lets
+ * The pages that site/build.mjs makes, among them the home page and the privacy page. Google reads both before it lets
  * the sign-in leave testing, so the privacy page must say all that PRIVACY.md says, and neither
  * page may load anything from another server. The site has no package of its own. The test sits
  * here so it runs with this package's tests, in `corepack pnpm test` and on CI.
@@ -45,6 +45,15 @@ function seen(html: string): string {
 
 const fold = (s: string) => s.replace(/\s+/g, ' ').trim();
 
+/** The JSON-LD blocks of a page, and the page without them. They are data the browser does not run. */
+const LD = /<script type="application\/ld\+json">\n([\s\S]*?)\n<\/script>/g;
+const ld = (html: string) => [...html.matchAll(LD)].map((m) => JSON.parse(m[1] as string));
+const withoutLd = (html: string) => html.replace(LD, '');
+
+/** Where the site is published, read from the build script so the test follows it. */
+const SITE = /const SITE = '([^']+)'/.exec(read(repo, 'site/build.mjs'))?.[1] as string;
+const indexed = ['index.html', 'privacy/index.html'];
+
 /** A piece of Markdown without its marks: links keep their words, bold and code lose their signs. */
 const unmarked = (md: string) =>
   fold(
@@ -62,14 +71,21 @@ beforeAll(() => {
 
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
 
-test('the build writes both pages, the stylesheet and the pictures', () => {
-  for (const f of ['index.html', 'privacy/index.html', 'site.css'])
+test('the build writes the pages, the sitemap, the stylesheet and the pictures', () => {
+  for (const f of [
+    'index.html',
+    'privacy/index.html',
+    '404.html',
+    'sitemap.xml',
+    'site.css',
+    'assets/og.png',
+  ])
     expect(existsSync(join(out, f)), f).toBe(true);
   expect(files(join(out, 'assets')).length).toBeGreaterThan(2);
 });
 
-test.each(['index.html', 'privacy/index.html'])('%s is a whole page with one h1', (f) => {
-  const html = read(out, f);
+test.each(['index.html', 'privacy/index.html', '404.html'])('%s is a whole page with one h1', (f) => {
+  const html = withoutLd(read(out, f));
   expect(html).toMatch(/^<!doctype html>\n<html lang="en">/);
   expect(html).toMatch(/<meta name="viewport"/);
   expect(html).toMatch(/<title>[^<]+<\/title>/);
@@ -84,7 +100,9 @@ test.each(['index.html', 'privacy/index.html'])('%s is a whole page with one h1'
 test('the home page names the product and links to the policy, the source and the issues', () => {
   const html = read(out, 'index.html');
   expect(html).toContain(`<title>${NAME}`);
-  expect(html).toMatch(new RegExp(`<h1[^>]*>[\\s\\S]*alt="${NAME}"[\\s\\S]*</h1>`));
+  // The h1 is a sentence about the product. The logo is a link home, not the heading.
+  expect(html).toMatch(new RegExp(`<h1[^>]*>${NAME} [^<]+</h1>`));
+  expect(html).toMatch(new RegExp(`<a class="logo" href="\\./">[\\s\\S]*?alt="${NAME}"`));
   expect(seen(html)).toContain(`Why ${NAME} asks for Google Drive or OneDrive access`);
   expect(html).toContain('<a href="privacy/">');
   const pkg = JSON.parse(read(repo, 'package.json')) as { repository: { url: string } };
@@ -145,20 +163,66 @@ test('no page, stylesheet or picture loads anything from another server', () => 
   ];
   const all = files(out);
   expect(all.length).toBeGreaterThan(5);
+  const base = new URL(SITE).pathname;
   for (const f of all) {
     if (!/\.(html|css|svg)$/.test(f)) continue;
-    const text = read(f);
+    // The canonical link names the page's own public address. It loads nothing.
+    const text = withoutLd(read(f)).replace(/<link rel="canonical" href="https:\/\/[^"]+">/, '');
     for (const re of remote) expect(re.exec(text)?.[0], `${relative(out, f)} ${re}`).toBeUndefined();
-    // What a page does load is a file of the site.
+    // What a page does load is a file of the site. 404.html links from the site's root.
     for (const m of text.matchAll(/\b(?:src|srcset)="([^"]+)"|<link\b[^>]*\bhref="([^"]+)"/g)) {
       const ref = (m[1] ?? m[2]) as string;
-      expect(existsSync(resolve(dirname(f), ref)), `${relative(out, f)} loads ${ref}`).toBe(true);
+      const file = ref.startsWith(base) ? join(out, ref.slice(base.length)) : resolve(dirname(f), ref);
+      expect(existsSync(file), `${relative(out, f)} loads ${ref}`).toBe(true);
     }
   }
 });
 
+describe('what search engines and shared links read', () => {
+  test.each(indexed)('%s names one address, the same in the canonical tag, og:url and the sitemap', (f) => {
+    const html = read(out, f);
+    const url = SITE + f.replace(/index\.html$/, '');
+    expect(html.match(/<link rel="canonical" href="([^"]+)">/g)).toEqual([
+      `<link rel="canonical" href="${url}">`,
+    ]);
+    expect(html).toContain(`<meta property="og:url" content="${url}">`);
+    expect(read(out, 'sitemap.xml')).toContain(`<loc>${url}</loc>`);
+    for (const tag of ['og:title', 'og:description', 'og:image', 'twitter:card', 'twitter:image'])
+      expect(html, tag).toMatch(new RegExp(`(property|name)="${tag}" content="[^"]+"`));
+  });
+
+  test('the sitemap lists the indexed pages, each with a date, and nothing else', () => {
+    const xml = read(out, 'sitemap.xml');
+    const locs = [...xml.matchAll(/<url><loc>([^<]+)<\/loc><lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod><\/url>/g)];
+    expect(locs.map((m) => m[1])).toEqual(indexed.map((f) => SITE + f.replace(/index\.html$/, '')));
+    expect(xml.match(/<url>/g)).toHaveLength(locs.length);
+  });
+
+  test('the page that is not found is kept out of search', () => {
+    const html = read(out, '404.html');
+    expect(html).toContain('<meta name="robots" content="noindex">');
+    expect(html).not.toMatch(/rel="canonical"|og:url|ld\+json/);
+  });
+
+  test('the structured data parses and says only what is so', () => {
+    const [home] = ld(read(out, 'index.html'));
+    const types = home['@graph'].map((o: { '@type': string }) => o['@type']);
+    expect(types).toEqual(['WebSite', 'SoftwareApplication']);
+    const app = home['@graph'][1];
+    expect(app).toMatchObject({ name: NAME, applicationCategory: 'BrowserApplication' });
+    expect(app.offers).toMatchObject({ price: '0', priceCurrency: 'USD' });
+    for (const k of ['aggregateRating', 'review']) expect(app[k]).toBeUndefined();
+    const [privacy] = ld(read(out, 'privacy/index.html'));
+    expect(privacy['@graph'].map((o: { '@type': string }) => o['@type'])).toEqual([
+      'WebPage',
+      'BreadcrumbList',
+    ]);
+  });
+});
+
 describe('the Markdown converter', () => {
-  const good = '# Title\n\nSome **bold** text with `code`, a [link](LICENSE)\nand https://example.org/a.\n';
+  const good =
+    '# Title\n\nLast updated: 1 January 2026.\n\nSome **bold** text with `code`, a [link](LICENSE)\nand https://example.org/a.\n';
   const convert = (name: string, md: string) => {
     const file = join(tmp, `${name}.md`);
     const dir = join(tmp, name);
@@ -181,6 +245,13 @@ describe('the Markdown converter', () => {
     );
     expect(html).toContain('<tr><td data-label="A">1</td><td data-label="B">2</td></tr>');
     expect(html).toMatch(/<a href="https:\/\/[^"]+\/blob\/main\/LICENSE">link<\/a>/);
+  });
+
+  test('links to a page of the site by its path', () => {
+    const { r, dir } = convert('site-link', `${good}\nGo [home](/).\n`);
+    expect(r.status, r.stderr).toBe(0);
+    expect(read(dir, 'privacy/index.html')).toContain('<p>Go <a href="../">home</a>.</p>');
+    expect(convert('no-page', `${good}\nGo [there](/nowhere/).\n`).r.status).toBe(1);
   });
 
   test.each([
@@ -250,6 +321,15 @@ describe('the Search Console value', () => {
     const file = join(tmp, 'bad-verification.txt');
     writeFileSync(file, '"><script>x</script>\n');
     expect(build(join(tmp, 'unverified'), '--verification', file).status).toBe(1);
+  });
+
+  test('for Bing is read from its own file', () => {
+    const file = join(tmp, 'bing.txt');
+    writeFileSync(file, 'ABC123\n');
+    const dir = join(tmp, 'bing');
+    expect(build(dir, '--bing', file).status).toBe(0);
+    expect(read(dir, 'index.html')).toContain('<meta name="msvalidate.01" content="ABC123">');
+    expect(read(dir, 'privacy/index.html')).not.toContain('msvalidate.01');
   });
 });
 

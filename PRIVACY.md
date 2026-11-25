@@ -1,5 +1,7 @@
 # Privacy
 
+Last updated: 21 November 2026.
+
 **The extension talks to nobody unless you connect a cloud. Then it talks only to that provider,
 and only to its sign-in and file addresses.** The one exception is a PDF you open: the extension
 reads it once more from the same address, for its viewer ("The one other request", below).

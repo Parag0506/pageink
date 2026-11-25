@@ -1,5 +1,5 @@
 /*
- * One stylesheet for both pages. Colours are the brand colours in brand/README.md.
+ * One stylesheet for every page. Colours are the brand colours in brand/README.md.
  * No fonts, pictures or styles are loaded from another server.
  */
 :root {
@@ -175,10 +175,48 @@ main,
 .links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 1.5rem;
+  gap: 0 1.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.links li {
+  margin: 0;
+}
+
+/* A finger needs a target at least 48 pixels tall, not one line of text. */
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+}
+
+.stores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.stores li {
+  margin: 0;
+}
+
+.stores a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0.5rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.stores a:hover {
+  border-color: var(--accent);
 }
 
 main {
@@ -186,8 +224,10 @@ main {
 }
 
 .lead {
+  margin: 1rem 0 1.5rem;
   font-family: var(--serif);
   font-size: 1.75rem;
+  font-weight: 400;
   line-height: 1.3;
   text-wrap: balance;
 }

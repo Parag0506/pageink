@@ -1,16 +1,24 @@
-// Builds the project's home page and its privacy page as plain files. It uses no packages and
-// the pages load nothing from another server.
+// Builds the project's web site as plain files. It uses no packages and the pages load nothing
+// from another server. They have no JavaScript and no web fonts.
 //
-// Usage: node site/build.mjs [out folder] [--privacy <file>] [--verification <file>]
+// Usage: node site/build.mjs [out folder] [--privacy <file>] [--verification <file>] [--bing <file>]
 //
-// The out folder defaults to site/dist. The privacy page is made from PRIVACY.md at build time,
-// so the two cannot differ. The converter below knows only the Markdown that file uses. On
-// anything else it stops the build and names the line, so nothing is ever printed wrong.
+// The out folder defaults to site/dist. Every page is an entry in PAGES below. The nav, the
+// footer, sitemap.xml, the canonical tags, the share tags and the structured data all follow
+// from that list. The privacy page is made from PRIVACY.md at build time, so the two cannot
+// differ. The converter below knows only the Markdown that file uses. On anything else it stops
+// the build and names the line, so nothing is ever printed wrong.
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 
 const here = import.meta.dirname;
 const repo = resolve(here, '..');
+
+/** The public address of the site, with its end slash. Canonical, sitemap and share addresses start here. */
+const SITE = 'https://parag0506.github.io/pageink/';
+
+/** The path part of SITE. A page that can be served at any depth, such as 404.html, links from here. */
+const BASE = new URL(SITE).pathname;
 
 /**
  * Store listings. Add one entry per store once the extension is published there, for example
@@ -46,7 +54,16 @@ const ASSETS = [
   'brand/png/pageink-mark-32-transparent.png',
   'docs/media/1-writing.webp',
   'docs/media/3-reload.webp',
+  'docs/media/og.png',
 ];
+
+/** The picture a link shows when it is shared. It is made from the logo and a real screenshot. */
+const SHARE = {
+  file: 'og.png',
+  width: 1200,
+  height: 630,
+  alt: 'The logo, and handwriting on a web page article',
+};
 
 const esc = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -69,7 +86,7 @@ function facts() {
   const owner = /^Copyright \(c\) (.+)$/m.exec(readFileSync(join(repo, 'LICENSE'), 'utf8'))?.[1];
   if (!owner) throw new Error('No copyright line in LICENSE');
 
-  return { name: esc(name), repoUrl, copyright: `Copyright &copy; ${esc(owner)}` };
+  return { name: esc(name), plainName: name, repoUrl, copyright: `Copyright &copy; ${esc(owner)}` };
 }
 
 // ---- Markdown ----------------------------------------------------------------------------
@@ -101,7 +118,8 @@ const UNKNOWN_MARKS = [
 /**
  * Turns Markdown into HTML. It knows headings, paragraphs, "- " lists, tables, links, bare
  * https addresses, **bold** and `code`, which is what PRIVACY.md uses. `link` turns the target
- * of a link into an address.
+ * of a link into an address: a file in the repository, or a page of this site written as
+ * "/" (home) or "/name/".
  */
 function markdown(text, file, link) {
   const fail = (line, what) => {
@@ -198,6 +216,7 @@ function markdown(text, file, link) {
       fragments.push([to.slice(1), line]);
       return to;
     }
+    if (/^\/([\w-]+\/)*$/.test(to)) return link(to, line, fail);
     if (/^[\w.-]+(\/[\w.-]+)*(#[\w-]+)?$/.test(to) && !to.split('/').includes('..'))
       return link(to, line, fail);
     return fail(line, `a link to "${to}"`);
@@ -301,32 +320,242 @@ function markdown(text, file, link) {
 
 // ---- Pages -------------------------------------------------------------------------------
 
-/** The Search Console value, as a meta tag for the home page. Nothing when there is no file. */
-function verification(file, asked) {
+/**
+ * Every page of the site, in the order of the nav. To add a page, add an entry here. The nav,
+ * the footer, sitemap.xml, the canonical tag, the share tags and the structured data follow.
+ * `n` is the product name as plain text.
+ *
+ * path         Where the page lives under SITE: '' for home, 'name/' for a page (written to
+ *              name/index.html), or a file name such as '404.html'.
+ * name         A few words for the nav, the footer and the breadcrumb.
+ * nav          true lists the page in the top nav and the footer.
+ * title        The <title>, and the title a shared link shows.
+ * description  The meta description, and the text a shared link shows. Aim for 120 to 160 characters.
+ * h1           The page's one main heading, as plain text. An HTML body must hold exactly one <h1>
+ *              with these words. A Markdown body takes it from the file's one "# " line instead.
+ * body         { md: 'FILE.md' }: a Markdown file in the repository, made into HTML by markdown()
+ *              above. Links in it may go to files in the repository or to pages here ("/privacy/").
+ *              Or { html: (f, page, href) => '...' }: HTML written here. `href('privacy/')` gives
+ *              the address of another page from this one.
+ * lastmod      'YYYY-MM-DD', the day the page's words last changed, for the sitemap. A Markdown body
+ *              may leave it out and hold a line such as "Last updated: 21 November 2026." instead.
+ * index        false keeps the page out of search: a noindex tag, no canonical, not in the sitemap.
+ * jsonld       (f, page) => [objects] for the page's structured data. Without it, an indexed page
+ *              that is not home gets a WebPage and a BreadcrumbList.
+ */
+const PAGES = (n) => [
+  {
+    path: '',
+    name: 'Home',
+    nav: true,
+    title: `${n}: write and draw by hand on any web page`,
+    description: `Free, open source browser extension. Write and draw by hand on any web page with Apple Pencil, a finger or a mouse. Your notes come back on the same words.`,
+    h1: `${n} lets you write and draw by hand on any web page, with Apple Pencil, a finger or a mouse.`,
+    body: { html: home },
+    lastmod: '2026-11-25',
+    jsonld: homeData,
+  },
+  {
+    path: 'privacy/',
+    name: 'Privacy policy',
+    nav: true,
+    title: `Privacy policy: ${n}`,
+    description: `${n} has no account, no server and no analytics. This page lists what it stores, what leaves your device, and how to check each fact.`,
+    body: { md: 'PRIVACY.md' },
+  },
+  {
+    path: '404.html',
+    name: 'Page not found',
+    title: `Page not found: ${n}`,
+    description: `This address has no page on the ${n} site.`,
+    h1: 'Page not found',
+    body: { html: notFound },
+    index: false,
+  },
+];
+
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+/** The date of a "Last updated: 21 November 2026." line, as 2026-11-21. */
+function lastUpdated(text, file) {
+  const m = /^Last updated: (\d{1,2}) (\w+) (\d{4})\.$/m.exec(text);
+  const month = MONTHS.indexOf(m?.[2] ?? '') + 1;
+  if (!m || !month) throw new Error(`${file} has no line such as "Last updated: 21 November 2026."`);
+  return `${m[3]}-${String(month).padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+}
+
+/** Checks the list and adds what each page needs to know about itself. */
+function plan(f, opt) {
+  const seen = new Set();
+  return PAGES(f.plainName).map((p) => {
+    for (const k of ['name', 'title', 'description', ...(p.body?.md ? [] : ['h1'])])
+      if (typeof p[k] !== 'string' || !p[k].trim()) throw new Error(`Page "${p.path}" has no ${k}`);
+    if (!/^(([\w-]+\/)*|[\w-]+\.html)$/.test(p.path))
+      throw new Error(`Page path "${p.path}" is not '', 'name/' or 'name.html'`);
+    if (seen.has(p.path)) throw new Error(`Two pages at "${p.path}"`);
+    seen.add(p.path);
+    const index = p.index !== false;
+    const file = p.path === '' || p.path.endsWith('/') ? `${p.path}index.html` : p.path;
+    // A page that is not indexed may be served at any address, so it links from the site's root.
+    const root = index ? '../'.repeat(p.path.split('/').length - 1) : BASE;
+    let source = '';
+    let lastmod = p.lastmod;
+    if (p.body?.md) {
+      const path = p.body.md === 'PRIVACY.md' ? opt.privacy : join(repo, p.body.md);
+      source = readFileSync(path, 'utf8');
+      p.mdName = relative(repo, path).startsWith('..') ? basename(path) : relative(repo, path);
+      lastmod ??= lastUpdated(source, p.mdName);
+    } else if (typeof p.body?.html !== 'function') throw new Error(`Page "${p.path}" has no body`);
+    if (index && !/^\d{4}-\d{2}-\d{2}$/.test(lastmod ?? ''))
+      throw new Error(`Page "${p.path}" needs a lastmod such as 2026-11-25`);
+    return { ...p, index, file, root, source, lastmod, url: `${SITE}${p.path}` };
+  });
+}
+
+/** A value from a verification file, as a meta tag for the home page. Nothing when there is no file. */
+function verification(file, asked, meta, who) {
   if (!existsSync(file)) {
     if (asked) throw new Error(`No verification file at ${file}`);
     return '';
   }
   const raw = readFileSync(file, 'utf8').trim();
   const value = /content="([^"]*)"/.exec(raw)?.[1] ?? raw;
-  if (!/^[\w-]+$/.test(value))
-    throw new Error(`${file} must hold only the value Search Console gives for google-site-verification`);
-  return `<meta name="google-site-verification" content="${value}">`;
+  if (!/^[\w-]+$/.test(value)) throw new Error(`${file} must hold only the value ${who} gives for ${meta}`);
+  return `<meta name="${meta}" content="${value}">`;
 }
 
-function page({ f, root, title, description, head, top, main }) {
-  const nav = [
-    root ? [root, 'Home'] : ['privacy/', 'Privacy policy'],
+/** Structured data as a JSON-LD block. It is data the browser does not run. */
+const jsonld = (graph) =>
+  `<script type="application/ld+json">\n${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2).replace(/</g, '\\u003c')}\n</script>`;
+
+/** The structured data of a page that is not home: what the page is, and where it sits. */
+function pageData(f, p) {
+  return [
+    {
+      '@type': 'WebPage',
+      '@id': `${p.url}#page`,
+      url: p.url,
+      name: p.title,
+      description: p.description,
+      isPartOf: { '@id': `${SITE}#website` },
+      about: { '@id': `${SITE}#app` },
+      inLanguage: 'en',
+      dateModified: p.lastmod,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: f.plainName, item: SITE },
+        { '@type': 'ListItem', position: 2, name: p.name, item: p.url },
+      ],
+    },
+  ];
+}
+
+/** The site and the product. Only stores where it is published are named. */
+function homeData(f, p) {
+  return [
+    { '@type': 'WebSite', '@id': `${SITE}#website`, url: SITE, name: f.plainName, inLanguage: 'en' },
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${SITE}#app`,
+      name: f.plainName,
+      url: SITE,
+      description: p.description,
+      applicationCategory: 'BrowserApplication',
+      // Chrome and Edge run the extension on these systems. The App Store has it for iPad.
+      operatingSystem: 'Windows, macOS, Linux, ChromeOS, iPadOS 17 or later',
+      downloadUrl: STORES[0].url,
+      installUrl: STORES[0].url,
+      isAccessibleForFree: true,
+      license: 'https://opensource.org/licenses/MIT',
+      inLanguage: 'en',
+      image: `${SITE}assets/${SHARE.file}`,
+      screenshot: [`${SITE}assets/1-writing.webp`, `${SITE}assets/3-reload.webp`],
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      sameAs: [f.repoUrl, ...STORES.map((s) => s.url)],
+    },
+  ];
+}
+
+/** One whole page. */
+function render(f, p, all, meta) {
+  const href = (path) => `${p.root}${path}` || './';
+  const toPage = all.filter((q) => q.nav).map((q) => [href(q.path), q.name, q === p]);
+  const repoLinks = [
     [f.repoUrl, 'Source code'],
     [`${f.repoUrl}/issues`, 'Issues'],
   ];
+  const nav = [...toPage, ...repoLinks];
   const foot = [
-    [`${root}privacy/`, 'Privacy policy'],
-    [f.repoUrl, 'Source code'],
-    [`${f.repoUrl}/issues`, 'Issues'],
+    ...toPage,
+    ...repoLinks,
+    [`${f.repoUrl}/blob/main/CHANGELOG.md`, 'Changelog'],
     [`${f.repoUrl}/blob/main/LICENSE`, 'MIT licence'],
   ];
-  const list = (links) => links.map(([to, text]) => `<li><a href="${esc(to)}">${text}</a></li>`).join('\n');
+  const list = (links) =>
+    links
+      .map(
+        ([to, text, here]) =>
+          `<li><a href="${esc(to)}"${here ? ' aria-current="page"' : ''}>${esc(text)}</a></li>`,
+      )
+      .join('\n');
+
+  const main = p.body.md
+    ? markdown(p.source, p.mdName, (to, line, fail) => {
+        if (to.startsWith('/')) {
+          if (!all.some((q) => q.index && `/${q.path}` === to))
+            fail(line, `a link to "${to}", which is not a page here`);
+          return href(to.slice(1));
+        }
+        if (!existsSync(join(repo, to.split('#')[0])))
+          fail(line, `a link to "${to}", which is not a file in the repository`);
+        return `${f.repoUrl}/blob/main/${to}`;
+      })
+    : p.body.html(f, p, href);
+  // The Markdown converter already holds a file to one "# " heading.
+  const h1s = [...main.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
+  if (!p.body.md && (h1s.length !== 1 || h1s[0][1] !== esc(p.h1)))
+    throw new Error(`Page "${p.path}" must have one <h1> that reads "${p.h1}"`);
+
+  const title = esc(p.title);
+  const description = esc(p.description);
+  const share = `${SITE}assets/${SHARE.file}`;
+  const head = p.index
+    ? [
+        `<link rel="canonical" href="${p.url}">`,
+        '<meta property="og:type" content="website">',
+        `<meta property="og:site_name" content="${f.name}">`,
+        `<meta property="og:title" content="${title}">`,
+        `<meta property="og:description" content="${description}">`,
+        `<meta property="og:url" content="${p.url}">`,
+        `<meta property="og:image" content="${share}">`,
+        `<meta property="og:image:width" content="${SHARE.width}">`,
+        `<meta property="og:image:height" content="${SHARE.height}">`,
+        `<meta property="og:image:alt" content="${esc(SHARE.alt)}">`,
+        '<meta name="twitter:card" content="summary_large_image">',
+        `<meta name="twitter:title" content="${title}">`,
+        `<meta name="twitter:description" content="${description}">`,
+        `<meta name="twitter:image" content="${share}">`,
+        `<meta name="twitter:image:alt" content="${esc(SHARE.alt)}">`,
+        ...(p.path === '' ? meta : []),
+        jsonld((p.jsonld ?? pageData)(f, p)),
+      ]
+    : ['<meta name="robots" content="noindex">'];
+  const home = p.path === '';
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -335,13 +564,14 @@ function page({ f, root, title, description, head, top, main }) {
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'">
 <title>${title}</title>
 <meta name="description" content="${description}">
-${head ? `${head}\n` : ''}<link rel="icon" type="image/png" sizes="32x32" href="${root}assets/pageink-mark-32-transparent.png">
-<link rel="icon" type="image/svg+xml" href="${root}assets/pageink-mark-small.svg">
-<link rel="stylesheet" href="${root}site.css">
+${head.filter(Boolean).join('\n')}
+<link rel="icon" type="image/png" sizes="32x32" href="${p.root}assets/pageink-mark-32-transparent.png">
+<link rel="icon" type="image/svg+xml" href="${p.root}assets/pageink-mark-small.svg">
+<link rel="stylesheet" href="${p.root}site.css">
 </head>
 <body>
 <header class="top">
-${top}
+<a class="logo" href="${href('')}">${logo(f, p.root, home ? 276 : 166)}</a>
 <nav aria-label="Pages">
 <ul class="links">
 ${list(nav)}
@@ -364,6 +594,18 @@ ${list(foot)}
 `;
 }
 
+/** The sitemap: every indexed page, with the day its words last changed. */
+function sitemap(pages) {
+  const urls = pages
+    .filter((p) => p.index)
+    .map((p) => `<url><loc>${p.url}</loc><lastmod>${p.lastmod}</lastmod></url>`);
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.join('\n')}
+</urlset>
+`;
+}
+
 /** The logo, in the dark form where the reader's system is dark. Letters are outlines, so alt names it. */
 const logo = (f, root, width) => `<picture>
 <source media="(prefers-color-scheme: dark)" srcset="${root}assets/pageink-logo-dark.svg">
@@ -380,21 +622,13 @@ function getIt(f) {
     return `<li><a href="${esc(s.url)}">${esc(s.name)}</a></li>`;
   });
   const soon = IN_REVIEW ? `${esc(IN_REVIEW)} ` : '';
-  return `<ul>\n${items.join('\n')}\n</ul>\n<p>${soon}${source} shows how to build it yourself.</p>`;
+  return `<ul class="stores">\n${items.join('\n')}\n</ul>\n<p>${soon}${source} shows how to build it yourself.</p>`;
 }
 
 /** Every sentence here restates README.md or PRIVACY.md. Change those first, then this. */
-function home(f, meta) {
+function home(f, p, href) {
   const n = f.name;
-  const lead = `${n} lets you write and draw by hand on any web page, with a pen, a finger or a mouse.`;
-  return page({
-    f,
-    root: '',
-    title: `${n}: write and draw by hand on any web page`,
-    description: lead,
-    head: meta,
-    top: `<h1 class="logo">${logo(f, '', 276)}</h1>`,
-    main: `<p class="lead">${lead}</p>
+  return `<h1 class="lead">${esc(p.h1)}</h1>
 <p>Your ink loads with the page, stays for good, and stays on the same words when the page changes or reflows. It is a browser extension for Chrome, Edge, Firefox and Safari, and a library any site can add to its own pages.</p>
 <p>${n} is free and open source under the MIT licence. There is no account with us and no server of ours. Apart from reading an open PDF once more for its viewer, the extension talks to nobody unless you connect your own cloud, and then only to that cloud.</p>
 <div class="shots">
@@ -403,7 +637,7 @@ function home(f, meta) {
 <figcaption>Write on any page with a pen, a finger or a mouse.</figcaption>
 </figure>
 <figure>
-<img src="assets/3-reload.webp" alt="The same ink back on the page after a reload" width="1280" height="800">
+<img src="assets/3-reload.webp" alt="The same ink back on the page after a reload" width="1280" height="800" loading="lazy" decoding="async">
 <figcaption>The same ink is back on the page after a reload.</figcaption>
 </figure>
 </div>
@@ -411,6 +645,18 @@ ${FILM ? `<p><a href="${esc(FILM)}">Watch the one-minute film</a> of it in use. 
 <section>
 <h2>Get ${n}</h2>
 ${getIt(f)}
+</section>
+<section>
+<h2>What you can do with it</h2>
+<ul>
+<li>Write and draw by hand on any web page. On an iPad, Apple Pencil writes and a finger still scrolls. A stylus on a Windows or Android device writes the same way.</li>
+<li>With a mouse, a trackpad or a finger, switch on Draw and write.</li>
+<li>Highlight and underline words. A straight highlighter or pen line over text becomes a mark on those words, and it is redrawn on them at any width.</li>
+<li>Annotate PDFs in the extension's own viewer. In Chrome and Edge a PDF opens there by itself. In Safari, you pick the file.</li>
+<li>Come back later and your notes are on the same words. If a passage is gone, its note waits in a tray with its words.</li>
+<li>Save a page with its ink as a picture, copy your notes as Markdown, or print the page with its ink.</li>
+<li>Keep a copy in your own Google Drive, OneDrive or a folder, and see the same notes on another device.</li>
+</ul>
 </section>
 <section class="panel">
 <h2>Why ${n} asks for Google Drive or OneDrive access</h2>
@@ -426,27 +672,18 @@ ${getIt(f)}
 <li>Your data is not sold and is not used for advertising.</li>
 <li>You can disconnect at any time. ${n} then asks whether to keep the files or delete them.</li>
 </ul>
-<p>The <a href="privacy/">privacy policy</a> has every detail and says how to check each one.</p>
-</section>`,
-  });
+<p>The <a href="${href('privacy/')}">privacy policy</a> has every detail and says how to check each one.</p>
+</section>
+<section>
+<h2>About ${n}</h2>
+<p>${n} is an open source project on GitHub. You can read the code, build it and change it. To report a problem or ask a question, <a href="${esc(f.repoUrl)}/issues">open an issue on GitHub</a>.</p>
+<p>The <a href="${esc(f.repoUrl)}/blob/main/CHANGELOG.md">changelog</a> lists what changed in each version.</p>
+</section>`;
 }
 
-function privacy(f, file) {
-  const link = (to, line, fail) => {
-    const path = to.split('#')[0];
-    if (!existsSync(join(repo, path))) fail(line, `a link to "${to}", which is not a file in the repository`);
-    return `${f.repoUrl}/blob/main/${to}`;
-  };
-  const name = relative(repo, file).startsWith('..') ? basename(file) : relative(repo, file);
-  return page({
-    f,
-    root: '../',
-    title: `Privacy policy: ${f.name}`,
-    description: `How ${f.name} uses, keeps and shares your data.`,
-    head: '',
-    top: `<a class="logo" href="../">${logo(f, '../', 166)}</a>`,
-    main: markdown(readFileSync(file, 'utf8'), name, link),
-  });
+function notFound(f, p, href) {
+  return `<h1>${esc(p.h1)}</h1>
+<p>There is no page at this address. Go to the <a href="${href('')}">${f.name} home page</a>, or read the <a href="${href('privacy/')}">privacy policy</a>.</p>`;
 }
 
 // ---- Main --------------------------------------------------------------------------------
@@ -456,26 +693,33 @@ function options(argv) {
     out: join(here, 'dist'),
     privacy: join(repo, 'PRIVACY.md'),
     verification: join(here, 'verification.txt'),
+    bing: join(here, 'bing-verification.txt'),
   };
+  const named = ['--privacy', '--verification', '--bing'];
   const given = new Set();
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    const key = a === '--privacy' || a === '--verification' ? a.slice(2) : a.startsWith('-') ? '' : 'out';
+    const key = named.includes(a) ? a.slice(2) : a.startsWith('-') ? '' : 'out';
     const value = key === 'out' ? a : argv[++i];
     if (!key || !value || given.has(key)) throw new Error(`Cannot read the argument "${a}"`);
     o[key] = resolve(value);
     given.add(key);
   }
-  return { ...o, verificationAsked: given.has('verification') };
+  return { ...o, given };
 }
 
 try {
   const o = options(process.argv.slice(2));
   const f = facts();
-  // Both pages are made before anything is written, so a failed build leaves no half site.
+  const meta = [
+    verification(o.verification, o.given.has('verification'), 'google-site-verification', 'Search Console'),
+    verification(o.bing, o.given.has('bing'), 'msvalidate.01', 'Bing Webmaster Tools'),
+  ];
+  const pages = plan(f, o);
+  // Every page is made before anything is written, so a failed build leaves no half site.
   const files = {
-    'index.html': home(f, verification(o.verification, o.verificationAsked)),
-    'privacy/index.html': privacy(f, o.privacy),
+    ...Object.fromEntries(pages.map((p) => [p.file, render(f, p, pages, meta)])),
+    'sitemap.xml': sitemap(pages),
     'site.css': readFileSync(join(here, 'site.css'), 'utf8'),
   };
   for (const [name, text] of Object.entries(files)) {

@@ -1,19 +1,22 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="brand/pageink-logo-dark.svg"><img src="brand/pageink-logo.svg" alt="PageInk" width="276" height="85"></picture>
 
-PageInk lets you write and draw by hand on any web page, with a pen, a finger or a mouse.
+PageInk is a free, open source browser extension for handwriting on web pages.
+Write, draw and highlight on any page with Apple Pencil, a finger or a mouse.
 Your ink loads with the page, stays for good, and stays on the same words when the page changes or reflows.
-It is a browser extension for Chrome, Edge, Firefox and Safari, and a library any site can add to its own pages.
-
-PageInk is free and open source under the MIT licence. There is no account with us and no server of ours. Apart from
-reading an open PDF once more for its viewer, the extension talks to nobody unless you connect your own
-cloud, and then only to that cloud. [PRIVACY.md](PRIVACY.md) lists each privacy fact and the test or
-check behind it.
+It is also a library any site can add to its own pages.
 
 Get PageInk from the [Chrome Web Store](https://chromewebstore.google.com/detail/pageink/okegfngejejaddeaobgpamojcdddlmgf),
 from [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo),
 or from the [App Store](https://apps.apple.com/app/id6837846057) for Safari on iPad.
 The Firefox add-on and the Safari app for Mac are in review. [Install from source](#install-from-source)
-shows how to build it and load it into any of the four.
+shows how to build it and load it into Chrome, Edge, Firefox or Safari.
+
+Website: https://parag0506.github.io/pageink/
+
+PageInk is free and open source under the MIT licence. There is no account with us and no server of ours. Apart from
+reading an open PDF once more for its viewer, the extension talks to nobody unless you connect your own
+cloud, and then only to that cloud. [PRIVACY.md](PRIVACY.md) lists each privacy fact and the test or
+check behind it.
 
 ![PageInk in use: handwriting on an article, a highlight that follows the words, and the ink coming back after a reload](docs/media/preview.webp)
 
@@ -252,15 +255,17 @@ backup. Neither package is on npm yet.
 | `testset/`            | The anchor test set: page pairs, note generator, scorer and results.                        |
 | `bench/`              | The speed bench: load cost, time to ink, scroll and stress.                                 |
 | `docs/`               | Design, record format, architecture and module contract, results.                           |
-| `site/`               | The home page and the privacy page, as plain files made by `site/build.mjs`.                |
+| `site/`               | The project's web site, as plain files made by `site/build.mjs`.                            |
 | `scripts/`            | Results pages, the NOTICE check, the network scan, the CI test summary, a typecheck helper. |
 
 Start with [docs/DESIGN.md](docs/DESIGN.md) for what the product does and why,
 [docs/FORMAT.md](docs/FORMAT.md) for the record format, and [docs/CONTRACT.md](docs/CONTRACT.md) for the
 architecture and module contract.
 
-`site/` is the project's home page: a start page and the privacy policy. The privacy page is made from
-`PRIVACY.md` at build time, so the two cannot differ. Build it with `node site/build.mjs` and open
+`site/` is the project's web site: a start page, the privacy policy and a page for addresses that do
+not exist. Each page is one entry in the `PAGES` list in `site/build.mjs`, and the nav, `sitemap.xml`
+and the canonical and share tags follow from that list. The privacy page is made from `PRIVACY.md` at
+build time, so the two cannot differ. Build it with `node site/build.mjs` and open
 `site/dist/index.html`. It needs no install. `.github/workflows/pages.yml` publishes it with GitHub Pages.
 
 ## Development
@@ -286,7 +291,7 @@ From the repository root. Commands use `corepack pnpm` so everyone runs the pinn
 | Speed bench, quick gate, real extension            | `corepack pnpm --filter pageink-bench run bench --ext real --anchor core --quick --gate --out /tmp/bench` |
 | Refresh the results pages                          | `corepack pnpm results`                                                                                   |
 | Check NOTICE against the bundles                   | `node scripts/check-notice.mjs`                                                                           |
-| Home page and privacy page                         | `node site/build.mjs`                                                                                     |
+| Web site                                           | `node site/build.mjs`                                                                                     |
 | Safari app, unsigned build                         | `corepack pnpm apple`                                                                                     |
 | Safari app unit tests                              | `corepack pnpm apple test`                                                                                |
 | Soak: run suites many times, part under CPU load   | `node scripts/soak.mjs fast e2e --build --runs 20 --load 22 --out /tmp/soak`                              |
