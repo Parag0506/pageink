@@ -68,6 +68,27 @@ a {
 .attention p {
   margin: 0 0 8px;
 }
+.rate {
+  display: grid;
+  gap: 6px;
+}
+.rate[hidden],
+.about[hidden] {
+  display: none;
+}
+.rate button {
+  padding: 2px 8px;
+}
+.about {
+  margin-top: -4px;
+}
+button.link {
+  padding: 0;
+  border: 0;
+  font-size: inherit;
+  color: var(--accent);
+  text-decoration: underline;
+}
 .access button {
   width: 100%;
   text-align: left;

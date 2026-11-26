@@ -21,6 +21,9 @@ enum AppInfo {
     static var extensionID: String {
         Bundle.main.object(forInfoDictionaryKey: "InkExtensionID") as? String ?? ""
     }
+    /// The App Store's page for writing a review of the app. Opened only from the plain link in
+    /// About. Apple's own prompt is the only ask (ReviewRule).
+    static let writeReview = URL(string: "https://apps.apple.com/app/id6837846057?action=write-review")!
     /// A plain article page to try the pen on.
     static let testPage = URL(string: "https://en.wikipedia.org/wiki/Handwriting")!
 }

@@ -1,3 +1,5 @@
+import { createStore } from 'pageink-core/store';
+import { localKV } from '../../src/adapters/kv';
 import { pickApi } from '../../src/api';
 import type { Attention } from '../../src/background/attention';
 import { folderKind } from '../../src/background/folder';
@@ -6,6 +8,7 @@ import { hostOf, readCfg, setSite } from '../../src/cfg';
 import type { StateReply, ToBackground, ToContent } from '../../src/messages';
 import { showAccess } from '../../src/ui/access';
 import { showAttention } from '../../src/ui/attention';
+import { showRate } from '../../src/ui/rate';
 
 const api = pickApi();
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -45,7 +48,7 @@ $('settings').addEventListener('click', openOptions('settings'));
 
 // Opening the popup is a moment to sync both ways, and to say what needs the reader.
 void api.runtime.sendMessage({ ink: 'sync' } satisfies ToBackground).catch(() => {});
-void (api.runtime.sendMessage({ ink: 'attention' } satisfies ToBackground) as Promise<Attention>)
+const attention = (api.runtime.sendMessage({ ink: 'attention' } satisfies ToBackground) as Promise<Attention>)
   .catch(() => undefined)
   .then((a) =>
     showAttention(
@@ -63,6 +66,28 @@ void (api.runtime.sendMessage({ ink: 'attention' } satisfies ToBackground) as Pr
       },
     ),
   );
+
+// The rating line asks only when nothing else is asked, so it waits for the line above.
+void attention.then(() =>
+  showRate(
+    {
+      line: $('rate'),
+      text: $('rate-text'),
+      go: $<HTMLButtonElement>('rate-go'),
+      no: $<HTMLButtonElement>('rate-no'),
+      link: $<HTMLButtonElement>('rate-link'),
+      foot: $('about'),
+    },
+    {
+      area: api.storage.local,
+      url: __INK_RATE_URL__,
+      pages: () => createStore(localKV(api)).list(),
+      open: (url) => api.tabs.create({ url }),
+      close: () => window.close(),
+      busy: () => !$('attention').hidden,
+    },
+  ),
+);
 
 async function main() {
   const tab = await currentTab();

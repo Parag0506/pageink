@@ -12,6 +12,7 @@ import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { type Hit, scanFile } from '../../../scripts/netscan';
 import { NO_NET_TEXT } from '../build/pdfjs';
+import { RATE_URL } from '../build/targets';
 import { builds, diagBuild, files, globToRegExp, manifest, pkg, read } from './builds';
 
 type Allow = {
@@ -21,6 +22,8 @@ type Allow = {
   count: number;
   pin?: 'own-address';
   targets?: string[];
+  /** A store page the popup opens in a new tab when the reader clicks Rate. Never fetched. */
+  kind?: 'store-link';
   reason: string;
 };
 const allow: Allow[] = JSON.parse(readFileSync(join(pkg, 'network-allow.json'), 'utf8')).entries;
@@ -203,11 +206,50 @@ test('the allow-list holds the PDF read, two PDF.js file loads, and the cloud fi
     'background.js importScripts',
     'cloud.js fetch',
   ]);
-  // Every remote address is in cloud.js, never on Safari, and on a pinned host.
-  const remote = allow.filter((a) => a.rule === 'remote-string');
+  // Every remote address the extension uses is in cloud.js, never on Safari, and on a pinned host.
+  const links = allow.filter((a) => a.kind === 'store-link');
+  const remote = allow.filter((a) => a.rule === 'remote-string' && a.kind !== 'store-link');
   expect(remote.every((a) => a.file === 'cloud.js' && !a.targets?.includes('safari'))).toBe(true);
   expect(new Set(remote.map((a) => new URL(a.detail).host))).toEqual(new Set(PINNED));
-  expect(allow.length).toBe(3 + 2 + remote.length);
+  // The store links: one per browser with a store page, each once, in the popup only.
+  expect(links.map((a) => [a.targets, a.detail])).toEqual(
+    Object.entries(STORE_LINKS).map(([t, u]) => [[t], u]),
+  );
+  for (const a of links)
+    expect(a).toMatchObject({ file: 'chunks/popup-*.js', rule: 'remote-string', count: 1 });
+  expect(allow.length).toBe(3 + 2 + remote.length + links.length);
+});
+
+/**
+ * The store page each build may name, written out again so a change to RATE_URL in
+ * build/targets.ts must be made twice. Safari has none: Apple allows only its own review prompt.
+ */
+const STORE_LINKS = {
+  chrome: 'https://chromewebstore.google.com/detail/pageink/okegfngejejaddeaobgpamojcdddlmgf/reviews',
+  edge: 'https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo',
+  firefox: 'https://addons.mozilla.org/firefox/addon/pageink/reviews/',
+} as const;
+const STORE_HOSTS =
+  /chromewebstore\.google\.com|chrome\.google\.com\/webstore|microsoftedge\.microsoft\.com|addons\.mozilla\.org|apps\.apple\.com/;
+
+test('the build settings name the same store pages', () => {
+  expect(RATE_URL).toEqual({ ...STORE_LINKS, safari: '' });
+});
+
+describe.each(all.map((b) => [b.name, b] as const))('%s store link', (_name, b) => {
+  test('names only its own store, and only where the popup opens it', () => {
+    const own = (STORE_LINKS as Record<string, string>)[b.target];
+    for (const f of files(b.dir)) {
+      const text = read(b.dir, f);
+      const hosts = [...text.matchAll(new RegExp(STORE_HOSTS, 'g'))].map((m) => m[0]);
+      if (own && /^chunks\/popup-[^/]+\.js$/.test(f)) {
+        expect(hosts, f).toEqual([new URL(own).host]);
+        // It goes to tabs.create, never to a request.
+        expect(text, f).toMatch(/tabs\.create\(\{url:/);
+      } else expect(hosts, f).toEqual([]);
+    }
+    expect(JSON.stringify(manifest(b))).not.toMatch(STORE_HOSTS);
+  });
 });
 
 describe.each(prod.filter((b) => b.target !== 'safari').map((b) => [b.name, b] as const))(

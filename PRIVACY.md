@@ -1,6 +1,6 @@
 # Privacy
 
-Last updated: 21 November 2026.
+Last updated: 26 November 2026.
 
 **The extension talks to nobody unless you connect a cloud. Then it talks only to that provider,
 and only to its sign-in and file addresses.** The one exception is a PDF you open: the extension
@@ -168,7 +168,9 @@ makes no network requests.
 
 Syncing with the place you chose sends your notes there. Exporting an image, Markdown or an
 archive writes a file where you choose. "Copy for chat" puts text on your clipboard. Opening a
-link from a note opens it in your browser like any other link.
+link from a note opens it in your browser like any other link. "Rate PageInk" opens the store's
+page in a new tab the same way; to ask only once, the extension keeps when it first saw ink and
+your answer in its own storage on this device, and sends them nowhere.
 
 ## The one other request
 

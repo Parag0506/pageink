@@ -183,10 +183,25 @@ export function storeName(t: Target): string {
   return t === 'firefox' ? STORE_NAME_FIREFOX : STORE_NAME;
 }
 
+/**
+ * Where "Rate PageInk" in the popup goes: this browser's own store page for the extension,
+ * opened in a new tab when the reader clicks. Nothing is fetched, and the page opens only from
+ * that click. Each build carries only its own address, and the no-network test pins it.
+ * Safari has none: Apple allows only its own review prompt (App Store Review Guideline 5.6.1),
+ * so the app asks through StoreKit instead (apple/Shared/ReviewRule.swift).
+ */
+export const RATE_URL: Record<Target, string> = {
+  chrome: 'https://chromewebstore.google.com/detail/pageink/okegfngejejaddeaobgpamojcdddlmgf/reviews',
+  edge: 'https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo',
+  firefox: 'https://addons.mozilla.org/firefox/addon/pageink/reviews/',
+  safari: '',
+};
+
 export function defines(t: Target, mode?: string): Record<string, string> {
   const diag = diagOrigin(t);
   return {
     __INK_TARGET__: JSON.stringify(t),
+    __INK_RATE_URL__: JSON.stringify(RATE_URL[t]),
     __INK_PEN_READY__: JSON.stringify(penReadyDefault(t)),
     __INK_BENCH__: JSON.stringify(isBench(mode)),
     __INK_CLOUD_IDS__: JSON.stringify(t === 'safari' ? { google: '', microsoft: '' } : cloudIds()),

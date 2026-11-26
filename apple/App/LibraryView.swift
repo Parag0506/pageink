@@ -1,7 +1,11 @@
+import StoreKit
 import SwiftUI
 
 struct LibraryView: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.requestReview) private var requestReview
+    /// The app version that last asked for a rating (ReviewRule). Kept on this device only.
+    @AppStorage("reviewAskedVersion") private var reviewAskedVersion = ""
     @State private var query = ""
     @State private var pendingDelete: PageSummary?
 
@@ -66,6 +70,7 @@ struct LibraryView: View {
             }
         }
         .refreshable { await model.refresh() }
+        .task(id: model.pages.count) { await askForRating() }
         .confirmationDialog(
             "Delete the notes on this page?",
             isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
@@ -79,6 +84,17 @@ struct LibraryView: View {
         } message: { page in
             Text("The notes on “\(page.title)” go away here, in Safari and in the place you chose.")
         }
+    }
+
+    /// Apple's own review prompt, after real use (ReviewRule), once per version. It comes only
+    /// after the list has been on screen for a moment and nothing else is going on, so it never
+    /// interrupts a task. Leaving the list cancels the wait.
+    private func askForRating() async {
+        guard model.loaded, ReviewRule.due(model.pages, askedVersion: reviewAskedVersion, version: AppInfo.version, now: Date()) else { return }
+        try? await Task.sleep(for: ReviewRule.settle)
+        guard !Task.isCancelled, query.isEmpty, pendingDelete == nil, !model.syncing else { return }
+        reviewAskedVersion = AppInfo.version
+        requestReview()
     }
 
     private func open(_ page: PageSummary) {

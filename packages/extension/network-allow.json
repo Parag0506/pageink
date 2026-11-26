@@ -1,5 +1,5 @@
 {
-  "about": "Findings the no-network test accepts. Each entry names the file (a glob relative to a build folder), the rule and the exact finding, how many times it must appear (exactly), the build targets it applies to (all when absent), and why. CONTRACT section 6 allows one network read outside the cloud: the PDF chunk re-reads the PDF address. The cloud code is cloud.js alone, built from src/cloud, and its addresses are pinned to the hosts in PRIVACY.md. Any other address or network call fails the build.",
+  "about": "Findings the no-network test accepts. Each entry names the file (a glob relative to a build folder), the rule and the exact finding, how many times it must appear (exactly), the build targets it applies to (all when absent), and why. CONTRACT section 6 allows one network read outside the cloud: the PDF chunk re-reads the PDF address. The cloud code is cloud.js alone, built from src/cloud, and its addresses are pinned to the hosts in PRIVACY.md. The popup also names one store page per browser (kind store-link), which it opens in a new tab only when the reader clicks Rate. Any other address or network call fails the build.",
   "entries": [
     {
       "file": "content/pdf.js",
@@ -102,6 +102,33 @@
       "count": 1,
       "targets": ["chrome", "edge", "firefox"],
       "reason": "Microsoft Graph, OneDrive's file address, for the app folder only."
+    },
+    {
+      "file": "chunks/popup-*.js",
+      "rule": "remote-string",
+      "detail": "https://chromewebstore.google.com/detail/pageink/okegfngejejaddeaobgpamojcdddlmgf/reviews",
+      "count": 1,
+      "targets": ["chrome"],
+      "kind": "store-link",
+      "reason": "This browser's store page for a rating (build/targets.ts RATE_URL). The popup opens it in a new tab, only when the reader clicks Rate. The extension fetches nothing from it."
+    },
+    {
+      "file": "chunks/popup-*.js",
+      "rule": "remote-string",
+      "detail": "https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo",
+      "count": 1,
+      "targets": ["edge"],
+      "kind": "store-link",
+      "reason": "This browser's store page for a rating (build/targets.ts RATE_URL). The popup opens it in a new tab, only when the reader clicks Rate. The extension fetches nothing from it."
+    },
+    {
+      "file": "chunks/popup-*.js",
+      "rule": "remote-string",
+      "detail": "https://addons.mozilla.org/firefox/addon/pageink/reviews/",
+      "count": 1,
+      "targets": ["firefox"],
+      "kind": "store-link",
+      "reason": "This browser's store page for a rating (build/targets.ts RATE_URL). The popup opens it in a new tab, only when the reader clicks Rate. The extension fetches nothing from it."
     }
   ]
 }

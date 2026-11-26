@@ -2,6 +2,8 @@
 
 /** Set per build in build/targets.ts. */
 declare const __INK_TARGET__: 'chrome' | 'edge' | 'firefox' | 'safari';
+/** This browser's store page for a rating. Empty on Safari (build/targets.ts RATE_URL). */
+declare const __INK_RATE_URL__: string;
 /** Default for cfg.penReady in this build. */
 declare const __INK_PEN_READY__: boolean;
 /** True only in the bench build, which keeps performance marks and measures. */

@@ -120,6 +120,7 @@ struct AboutView: View {
 
             Section {
                 LabeledContent("Version", value: AppInfo.version)
+                Link("Rate on the App Store", destination: AppInfo.writeReview)
             }
         }
         .formStyle(.grouped)
