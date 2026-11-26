@@ -6,7 +6,14 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DESCRIPTION, DESCRIPTION_SAFARI, FIREFOX_ID, NAME } from '../src/brand.ts';
+import {
+  DESCRIPTION,
+  DESCRIPTION_SAFARI,
+  FIREFOX_ID,
+  NAME,
+  STORE_NAME,
+  STORE_NAME_FIREFOX,
+} from '../src/brand.ts';
 import { toolbarIcons } from './icons.ts';
 
 export type Target = 'chrome' | 'edge' | 'firefox' | 'safari';
@@ -165,6 +172,17 @@ export function diagOrigin(t: Target, env: Record<string, string | undefined> = 
   return u.origin;
 }
 
+/**
+ * The manifest name per store. Store search matches on the name, so Chrome, Edge and Firefox
+ * get one that says what the extension does. Safari keeps the plain name: the app, Safari's
+ * extension list, Settings and the app's UI tests all show it. Every build has NAME as its
+ * `short_name` and toolbar title, and the extension's own pages say NAME.
+ */
+export function storeName(t: Target): string {
+  if (t === 'safari') return NAME;
+  return t === 'firefox' ? STORE_NAME_FIREFOX : STORE_NAME;
+}
+
 export function defines(t: Target, mode?: string): Record<string, string> {
   const diag = diagOrigin(t);
   return {
@@ -195,7 +213,8 @@ export function manifestFor(t: Target): Record<string, unknown> {
   const war = webAccessible(t);
   const perms = permissionsFor(t);
   const m: Record<string, unknown> = {
-    name: isFake() ? `${NAME} (test build)` : NAME,
+    name: isFake() ? `${storeName(t)} (test build)` : storeName(t),
+    short_name: NAME,
     description: t === 'safari' ? DESCRIPTION_SAFARI : DESCRIPTION,
     permissions: perms.permissions,
     ...(perms.optional ? { optional_permissions: perms.optional } : {}),

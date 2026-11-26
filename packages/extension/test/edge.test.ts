@@ -4,6 +4,7 @@
  * checks that can be made offline against the built Edge manifest.
  */
 import { describe, expect, test } from 'vitest';
+import { NAME } from '../src/brand';
 import { builds, manifest } from './builds';
 
 const edge = builds().filter((b) => b.target === 'edge' && !b.test);
@@ -12,6 +13,7 @@ const edge = builds().filter((b) => b.target === 'edge' && !b.test);
 const KEYS = [
   'manifest_version',
   'name',
+  'short_name',
   'description',
   'version',
   'icons',
@@ -85,7 +87,9 @@ describe.each(edge.map((b) => [b.name, b] as const))('%s manifest', (_n, b) => {
     expect(Object.keys(m.icons as object)).toEqual(expect.arrayContaining(['16', '48', '128']));
     // Placeholders from the pages never reach the manifest.
     expect(JSON.stringify(m)).not.toMatch(/%[A-Z]+%/);
-    expect((m.action as { default_title: string }).default_title).toBe(name);
+    // The toolbar shows the short name, not the longer store name.
+    expect(m.short_name).toBe(NAME);
+    expect((m.action as { default_title: string }).default_title).toBe(NAME);
   });
 
   test('no address points at the Chrome Web Store or a Chrome page', () => {
