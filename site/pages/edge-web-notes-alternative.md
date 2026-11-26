@@ -15,7 +15,7 @@ PageInk is a free extension for Edge that does a similar job. You write or draw 
 
 For a quick mark, hold Alt and drag with the mouse. You do not need to turn on Draw. In the settings you can change Alt to Control or Meta, or turn this off.
 
-With a pen on a touch screen, touch the page and write. No switch is needed. Pens on Windows have been tested only with simulated input so far.
+With a pen on a touch screen, touch the page and write. No switch is needed.
 
 ## Where are my old Web Notes?
 

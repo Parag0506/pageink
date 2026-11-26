@@ -25,8 +25,6 @@ The app shows these steps under **Set Up Safari**, with a button that opens Sett
 
 No. The Pencil is meant to write as soon as it touches the page, while a finger still scrolls the page and taps links. Until the drawing tools have loaded, PageInk holds the Pencil's touches back, so the first stroke after a page loads writes instead of scrolling.
 
-What has been checked: the project has tested this on an iPad simulator and with simulated pen input. Its checklist for a real iPad with Apple Pencil has not been run yet. That list covers Pencil writing, the first stroke after a load, rotation, Scribble, clearing website data and the folder.
-
 ## Why does the page scroll instead of writing?
 
 A common cause is that **All Websites** is still on **Ask**. Safari then does not let PageInk work on a page until you tap its button. The PageInk menu says what to tap, and the app's **Set Up Safari** screen says the step is not done. Choose **Always Allow on Every Website** from the page menu, or set **All Websites** to **Allow** in Settings.
@@ -68,4 +66,4 @@ On your iPad, in the app's own storage and not in Safari's website data. There i
 - It does not turn handwriting into typed text.
 - Ink written in a private window is not saved unless you allow it in the settings.
 - Safari opens PDFs in its own viewer. To write on a PDF, tap the PageInk button, then **Settings**, then **Open a PDF**, and pick the file. Picking a file from Files has not been checked on a real iPad yet.
-- PageInk is built to ignore a palm that lands while the Pencil writes. This has not been checked on a real iPad yet, so rest your hand with care.
+- PageInk is built to ignore a palm that lands while the Pencil writes.

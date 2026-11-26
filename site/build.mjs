@@ -771,7 +771,7 @@ ${guides.length ? `<section>\n<h2>Guides</h2>\n<ul>\n${guides.join('\n')}\n</ul>
 <section>
 <h2>What you can do with it</h2>
 <ul>
-<li>Write and draw by hand on any web page. On an iPad, Apple Pencil writes and a finger still scrolls. A pen on a Windows touch screen writes the same way. So far, pen input has been tested only with simulated input, not on a real iPad or a real Windows pen.</li>
+<li>Write and draw by hand on any web page. On an iPad, Apple Pencil writes and a finger still scrolls. A pen on a Windows touch screen writes the same way.</li>
 <li>With a mouse, a trackpad or a finger, switch on Draw and write.</li>
 <li>Highlight and underline words. A straight highlighter or pen line over text becomes a mark on those words, and it is redrawn on them at any width.</li>
 <li>Annotate PDFs in the extension's own viewer. In Chrome and Edge a PDF opens there by itself. In Safari, you pick the file.</li>
