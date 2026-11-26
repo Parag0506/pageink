@@ -118,6 +118,26 @@ test('the home page names the product and links to the policy, the source and th
   expect(html).toContain(`<a href="${source}/issues">`);
 });
 
+test('the home page says what installing changes and how to remove it in each browser', () => {
+  const html = read(out, 'index.html');
+  const section = /<section>\n<h2>Installing and removing<\/h2>[\s\S]*?<\/section>/.exec(html)?.[0] ?? '';
+  expect(section).not.toBe('');
+  const pkg = JSON.parse(read(repo, 'package.json')) as { repository: { url: string } };
+  const source = pkg.repository.url.replace(/^git\+/, '').replace(/\.git$/, '');
+  expect(section).toContain(`<a href="${source}/blob/main/LICENSE">MIT licence</a>`);
+  expect(section).toContain('<a href="privacy/">');
+  expect(section).toContain(`<a href="${source}">`);
+  const text = seen(`<body>${section}`);
+  expect(text).toContain('Open PDFs with ink');
+  expect(text).toContain('does not change your search engine, your home page or your new tab page');
+  expect(text).toContain('Chrome: open the More menu, then Extensions, then Manage extensions.');
+  expect(text).toContain('Remove from Microsoft Edge');
+  expect(text).toContain('Firefox: open the menu, click Extensions and themes, then Extensions.');
+  expect(text).toContain(`Safari on iPad: tap the Manage Extensions button`);
+  expect(text).toContain('Delete app');
+  expect(text).toContain('Removing the extension deletes its storage on that device');
+});
+
 describe('the guides', () => {
   const version = (JSON.parse(read(repo, 'packages/extension/package.json')) as { version: string }).version;
 

@@ -385,7 +385,7 @@ const PAGES = (n) => [
     description: `Free, open source browser extension. Write and draw by hand on any web page with Apple Pencil, a finger or a mouse. Your notes come back on the same words.`,
     h1: `${n} lets you write and draw by hand on any web page, with Apple Pencil, a finger or a mouse.`,
     body: { html: home },
-    lastmod: '2026-11-25',
+    lastmod: '2026-11-26',
     applies: true,
     jsonld: homeData,
   },
@@ -799,6 +799,31 @@ ${guides.length ? `<section>\n<h2>Guides</h2>\n<ul>\n${guides.join('\n')}\n</ul>
 <li>You can disconnect at any time. ${n} then asks whether to keep the files or delete them.</li>
 </ul>
 <p>The <a href="${href('privacy/')}">privacy policy</a> has every detail and says how to check each one.</p>
+</section>
+<section>
+<h2>Installing and removing</h2>
+<p>${n} is a browser extension. It is free and open source under the <a href="${esc(f.repoUrl)}/blob/main/LICENSE">MIT licence</a>. It comes with no other software. It shows no ads and has no analytics. There is no account with us.</p>
+<h3>What installing changes</h3>
+<p>The extension asks for these permissions:</p>
+<ul>
+<li>Access to all websites, so you can write on any page and your ink comes back by itself when you return.</li>
+<li><code>storage</code> and <code>unlimitedStorage</code>, to keep your notes on your device.</li>
+<li><code>scripting</code>, so the drawing code goes only into pages that have your ink or where you start to write.</li>
+<li><code>identity</code>, for the sign-in window of Google Drive or OneDrive, used only if you turn on a cloud copy. Chrome and Edge ask for it only when you click to connect. Firefox lists it at install because it cannot ask later, and it shows no warning for it.</li>
+<li><code>nativeMessaging</code> in Safari only, to reach the app on the same device.</li>
+</ul>
+<p>After you add it, a short guide opens once in a tab. The extension also suggests a shortcut, Alt+Shift+D, to turn on Draw. Holding Alt while you drag the mouse makes a quick mark. You can pick another key, or none, in its settings.</p>
+<p>In Chrome and Edge, a PDF you open in the browser shows in the extension's own viewer, so you can write on it. To keep the browser's own PDF viewer, turn off <strong>Open PDFs with ink</strong> in the extension's settings. A button on the PDF then opens the extension's viewer when you want it. Firefox and Safari keep their own PDF viewer.</p>
+<p>${n} does not change your search engine, your home page or your new tab page.</p>
+<h3>How to turn it off or remove it</h3>
+<ul>
+<li>Chrome: open the <strong>More</strong> menu, then <strong>Extensions</strong>, then <strong>Manage extensions</strong>. Use the switch to turn ${n} off, or click <strong>Remove</strong>.</li>
+<li>Edge: select <strong>Extensions</strong> to the right of the address bar, then <strong>Manage extensions</strong>, and use the switch to turn ${n} off. To remove it, select <strong>Extensions</strong>, then <strong>More actions</strong> next to ${n}, then <strong>Remove from Microsoft Edge</strong>.</li>
+<li>Firefox: open the menu, click <strong>Extensions and themes</strong>, then <strong>Extensions</strong>. Use the switch to turn ${n} off, or click the three dots next to it and choose <strong>Remove</strong>.</li>
+<li>Safari on iPad: tap the <strong>Manage Extensions</strong> button at the right of the search field, then <strong>Manage Extensions</strong>, and turn ${n} off. On iPadOS 18 or later you can also do this in <strong>Settings</strong>, <strong>Apps</strong>, <strong>Safari</strong>, <strong>Extensions</strong>. To remove it, delete the ${n} app: touch and hold its icon and tap <strong>Delete app</strong>.</li>
+</ul>
+<p>Removing the extension deletes its storage on that device: your notes, settings and sign-in tokens. It does not delete files in your cloud or your folder, and it does not take back the access you gave a cloud. So disconnect first. Deleting the Safari app deletes the notes kept in it, so keep a copy first and disconnect in the app.</p>
+<p>The <a href="${href('privacy/')}">privacy policy</a> says what is stored and where. The <a href="${esc(f.repoUrl)}">source code</a> is on GitHub.</p>
 </section>
 <section>
 <h2>About ${n}</h2>
