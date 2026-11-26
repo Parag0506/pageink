@@ -126,9 +126,17 @@ describe('the guides', () => {
     for (const f of guides) expect(html).toContain(`<a href="${f.replace(/index\.html$/, '')}">`);
   });
 
+  test('the home page links the Firefox add-on and does not call it in review', () => {
+    const html = read(out, 'index.html');
+    expect(html).toContain('<a href="https://addons.mozilla.org/firefox/addon/pageink/">');
+    for (const said of html.match(/[^>.]*in review/g) ?? []) expect(said).not.toContain('Firefox');
+  });
+
   test.each(guides)('%s links the stores and says which version it was checked against', (f) => {
     const html = read(out, f);
     expect(html).toMatch(/<p class="get">[^\n]*chromewebstore\.google\.com[^\n]*apps\.apple\.com/);
+    expect(html).toMatch(/<p class="get">[^\n]*addons\.mozilla\.org\/firefox\/addon\/pageink\//);
+    for (const said of html.match(/[^>.]*in review/g) ?? []) expect(said).not.toContain('Firefox');
     const applies = /Applies to (\S+) (\S+)\. Last checked \d{1,2} [A-Z][a-z]+ \d{4}\./.exec(seen(html));
     expect(applies?.slice(1)).toEqual([NAME, version]);
     // The footer links the source, the issues, the changelog, the licence and the policy.

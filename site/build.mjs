@@ -35,13 +35,17 @@ const STORES = [
     url: 'https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo',
   },
   {
+    name: 'Firefox Add-ons',
+    url: 'https://addons.mozilla.org/firefox/addon/pageink/',
+  },
+  {
     name: 'App Store, for Safari on iPad',
     url: 'https://apps.apple.com/app/id6837846057',
   },
 ];
 
 /** What is still on its way to a store, as one sentence. An empty string leaves it out. */
-const IN_REVIEW = 'The Firefox add-on and the Safari app for Mac are in review.';
+const IN_REVIEW = 'The Safari app for Mac is in review.';
 
 /** The one-minute film of the product in use. An empty string leaves the link out. */
 const FILM = 'https://www.youtube.com/watch?v=7c85j0Y0f2Q';
@@ -736,7 +740,7 @@ function home(f, p, href, all) {
   const reload = all.find((q) => q.path === 'notes-stay-after-reload/');
   const sameWords = 'stays on the same words when the page changes or reflows';
   return `<h1 class="lead">${esc(p.h1)}</h1>
-<p>The ${n} browser extension keeps your ink on your device. The ink loads with the page and ${reload ? `<a href="${href(reload.path)}">${sameWords}</a>` : sameWords}. The extension runs in Chrome and Edge, and an app brings it to Safari on iPad. ${n} is also a library any site can add to its own pages.</p>
+<p>The ${n} browser extension keeps your ink on your device. The ink loads with the page and ${reload ? `<a href="${href(reload.path)}">${sameWords}</a>` : sameWords}. The extension runs in Chrome, Edge and Firefox, and an app brings it to Safari on iPad. ${n} is also a library any site can add to its own pages.</p>
 <section>
 <h2>How to write on a web page with the extension</h2>
 <ol>

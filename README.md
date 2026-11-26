@@ -7,8 +7,9 @@ It is also a library any site can add to its own pages.
 
 Get PageInk from the [Chrome Web Store](https://chromewebstore.google.com/detail/pageink/okegfngejejaddeaobgpamojcdddlmgf),
 from [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pageink/nocfjhikfelnnjakadlpchhppdihamdo),
+from [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/pageink/),
 or from the [App Store](https://apps.apple.com/app/id6837846057) for Safari on iPad.
-The Firefox add-on and the Safari app for Mac are in review. [Install from source](#install-from-source)
+The Safari app for Mac is in review. [Install from source](#install-from-source)
 shows how to build it and load it into Chrome, Edge, Firefox or Safari.
 
 Website: https://parag0506.github.io/pageink/
