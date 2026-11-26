@@ -22,15 +22,31 @@ function view(): RateView {
   };
 }
 
-function setup(o: { pages?: number; age?: number; state?: object; url?: string; busy?: boolean } = {}) {
+function setup(
+  o: {
+    pages?: number;
+    age?: number;
+    state?: object;
+    url?: string;
+    busy?: boolean;
+    /** Make the storage read or write reject. */
+    fail?: { get?: boolean; set?: boolean };
+  } = {},
+) {
   const data: Record<string, unknown> = o.state ? { [RATE_KEY]: o.state } : {};
   const opened: string[] = [];
   let closed = 0;
   let listed = 0;
   const deps: RateDeps = {
     area: {
-      get: async (k: string) => (k in data ? { [k]: data[k] } : {}),
-      set: async (x: Record<string, unknown>) => void Object.assign(data, x),
+      get: async (k: string) => {
+        if (o.fail?.get) throw new Error('storage read failed');
+        return k in data ? { [k]: data[k] } : {};
+      },
+      set: async (x: Record<string, unknown>) => {
+        if (o.fail?.set) throw new Error('storage write failed');
+        Object.assign(data, x);
+      },
     } as unknown as RateDeps['area'],
     url: o.url ?? URL_,
     pages: async () => {
@@ -123,5 +139,33 @@ test('a build without a store page shows neither the line nor the link', async (
   expect(v.line.hidden).toBe(true);
   expect(v.foot.hidden).toBe(true);
   expect(s.listed()).toBe(0);
+  expect(s.data).toEqual({});
+});
+
+test('when the stored state cannot be read, the line stays hidden', async () => {
+  const v = view();
+  const s = setup({ fail: { get: true } });
+  expect(await showRate(v, s.deps)).toBe(false);
+  expect(v.line.hidden).toBe(true);
+  // The plain link is still there, and the pages are not even read.
+  expect(v.foot.hidden).toBe(false);
+  expect(s.listed()).toBe(0);
+});
+
+test('when the stored state cannot be written, nothing throws', async () => {
+  const v = view();
+  const s = setup({ pages: 5, fail: { set: true } });
+  // The first page with ink tries to start the clock, and that write fails.
+  await expect(showRate(v, s.deps)).resolves.toBe(true);
+  expect(s.data).toEqual({});
+  // No thanks still hides the line, and its failed write is swallowed.
+  v.no.click();
+  expect(v.line.hidden).toBe(true);
+  // Rate still opens the store page and closes the popup.
+  const again = view();
+  await showRate(again, s.deps);
+  again.go.click();
+  await expect.poll(() => s.opened).toEqual([URL_]);
+  expect(s.closed()).toBe(1);
   expect(s.data).toEqual({});
 });
