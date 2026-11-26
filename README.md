@@ -314,7 +314,7 @@ has the rules.
 
 ## Status and known limits
 
-Version 0.1.2. Tests run in all three browser engines: Chromium, Firefox and WebKit. The Safari app has
+Version 0.1.3. Tests run in all three browser engines: Chromium, Firefox and WebKit. The Safari app has
 unit tests on macOS and on an iPad simulator, and an end-to-end run drives the extension in Mobile Safari
 on an iPad simulator. Some things still need checking or doing:
 

@@ -3,6 +3,21 @@
 All notable changes are listed here. Versions follow [Semantic Versioning](https://semver.org).
 The record format has its own version (`v` in each record, see [docs/FORMAT.md](docs/FORMAT.md)).
 
+## 0.1.3 (2026-11-26)
+
+- Store names that say what PageInk does, so a search in the store finds it: "PageInk: Handwrite
+  and Annotate Web Pages" in Chrome and Edge, "PageInk: Handwrite on Web Pages" in Firefox, with a
+  new description. Safari keeps "PageInk". The toolbar button, the popup and the pages still say
+  just PageInk in every browser.
+- A quiet way to rate PageInk. After real use (ink on five pages, and three days since the first
+  use) the popup shows one line that says where you can rate it. It stays until you choose
+  "Rate PageInk" or "No thanks", and then never shows again. A plain "Rate PageInk" link sits at
+  the foot of the popup. Both open this browser's own store page in a new tab. The counts and
+  your answer stay in the extension's storage on this device and are sent nowhere.
+- Safari has no line of its own, because Apple allows only its own review prompt. The app asks
+  through that prompt instead, under the same rule, at most once per version, after the Notes
+  list has been on screen for a while. Its About screen has a plain "Rate on the App Store" link.
+
 ## 0.1.2 (2026-11-24)
 
 - A note written in free space stays where it was written. Before, a word with a long tail could
